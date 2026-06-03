@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+  Uttar Pradesh Government Media Monitoring Dashboard
+  Design system: clean white government dashboard with UP saffron/maroon palette.
+*/
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-saffron: var(--saffron);
+  --color-maroon: var(--maroon);
+  --color-govt-green: var(--govt-green);
+
+  --color-sentiment-positive: var(--sentiment-positive);
+  --color-sentiment-negative: var(--sentiment-negative);
+  --color-sentiment-neutral: var(--sentiment-neutral);
+
+  --color-media-youtube: var(--media-youtube);
+  --color-media-x: var(--media-x);
+  --color-media-online: var(--media-online);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --radius: 0.625rem;
+
+  --background: #f7f8fa;
+  --foreground: #1a1c23;
+
+  --card: #ffffff;
+  --card-foreground: #1a1c23;
+
+  --popover: #ffffff;
+  --popover-foreground: #1a1c23;
+
+  /* UP Government maroon primary */
+  --primary: #8c1d18;
+  --primary-foreground: #ffffff;
+
+  --secondary: #f1f3f7;
+  --secondary-foreground: #1a1c23;
+
+  --muted: #f1f3f7;
+  --muted-foreground: #6b7280;
+
+  --accent: #fff1e6;
+  --accent-foreground: #8c1d18;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #8c1d18;
+
+  /* Brand */
+  --saffron: #ff7722;
+  --maroon: #8c1d18;
+  --govt-green: #138808;
+
+  /* Sentiment */
+  --sentiment-positive: #16a34a;
+  --sentiment-negative: #dc2626;
+  --sentiment-neutral: #f59e0b;
+
+  /* Media sources */
+  --media-youtube: #ff0000;
+  --media-x: #1d1d1f;
+  --media-online: #2563eb;
 }
 
+* {
+  border-color: var(--border);
+}
+
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Thin custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd0d8;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #aab0ba;
+  background-clip: padding-box;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.35s ease-out both;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
