@@ -1,21 +1,25 @@
 import { NextRequest } from "next/server";
-import { getMLADirectory } from "@/services/representatives";
+import { getMPDirectory } from "@/services/representatives";
 import { jsonError } from "@/lib/api-helpers";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
-    const mlas = getMLADirectory();
+    const all = getMPDirectory();
     const id = req.nextUrl.searchParams.get("id");
     if (id) {
-      const mla = mlas.find((m) => m.id === id);
-      if (!mla)
-        return Response.json({ error: "MLA not found" }, { status: 404 });
-      return Response.json(mla);
+      const mp = all.find((m) => m.id === id);
+      if (!mp) return Response.json({ error: "MP not found" }, { status: 404 });
+      return Response.json(mp);
     }
+    const house = req.nextUrl.searchParams.get("house");
+    const mps =
+      house && house !== "All"
+        ? all.filter((m) => m.house === house)
+        : all;
     return Response.json(
-      { total: mlas.length, mlas },
+      { total: mps.length, mps },
       {
         headers: { "Cache-Control": "s-maxage=60, stale-while-revalidate=300" },
       },

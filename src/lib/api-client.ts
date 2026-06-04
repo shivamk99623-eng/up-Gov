@@ -5,6 +5,7 @@ import type {
   MediaQueryResponse,
   MediaType,
   MLA,
+  MP,
 } from "./types";
 import { buildFilterQuery, useFilterStore, type FilterState } from "@/store/filters";
 
@@ -63,6 +64,40 @@ export function useMedia(district: string | null, mediaType: MediaType | "All") 
   });
 }
 
+/**
+ * Media query scoped to either a district (respecting global filters) or a
+ * linked person/entity (matched exactly on the Keyword column, ignoring the
+ * global filter drawer which is hidden on the MLA/MP pages).
+ */
+export function useScopedMedia(
+  scope: { district?: string | null; entity?: string | null },
+  mediaType: MediaType | "All",
+) {
+  const state = useFilterStore();
+  const { district = null, entity = null } = scope;
+  let finalQs: string;
+  if (entity) {
+    const params = new URLSearchParams();
+    params.set("entity", entity);
+    if (mediaType && mediaType !== "All") params.set("mediaType", mediaType);
+    finalQs = params.toString();
+  } else {
+    const base = buildFilterQuery({
+      ...state,
+      district,
+      mediaType: undefined as never,
+    });
+    const params = new URLSearchParams(base);
+    if (mediaType && mediaType !== "All") params.set("mediaType", mediaType);
+    finalQs = params.toString();
+  }
+  return useQuery({
+    queryKey: ["scoped-media", district, entity, mediaType, finalQs],
+    queryFn: () => fetchJson<MediaQueryResponse>(`/api/media?${finalQs}`),
+    enabled: !!(entity || district),
+  });
+}
+
 export function useFilterOptions() {
   return useQuery({
     queryKey: ["filter-options"],
@@ -76,6 +111,14 @@ export function useMLAs() {
   return useQuery({
     queryKey: ["mlas"],
     queryFn: () => fetchJson<{ total: number; mlas: MLA[] }>(`/api/mla`),
+    staleTime: 10 * 60 * 1000,
+  });
+}
+
+export function useMPs() {
+  return useQuery({
+    queryKey: ["mps"],
+    queryFn: () => fetchJson<{ total: number; mps: MP[] }>(`/api/mp`),
     staleTime: 10 * 60 * 1000,
   });
 }

@@ -11,7 +11,8 @@ import {
   Award,
   TrendingUp,
   MessageSquare,
-  Users,
+  Landmark,
+  Newspaper,
 } from "lucide-react";
 import { FaXTwitter, FaFacebookF, FaInstagram } from "react-icons/fa6";
 import { Header } from "@/components/layout/header";
@@ -21,16 +22,18 @@ import {
   MediaCountChart,
   SentimentDonut,
 } from "@/components/charts/district-charts";
+import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState, ErrorState } from "@/components/common/states";
-import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
-import { Newspaper } from "lucide-react";
-import { useMLAs } from "@/lib/api-client";
+import { useMPs } from "@/lib/api-client";
 import { cn, formatNumber } from "@/lib/utils";
-import type { MLA } from "@/lib/types";
+import type { MP, House } from "@/lib/types";
+
+type HouseFilter = "All" | House;
 
 function StatTile({
   label,
@@ -113,27 +116,36 @@ function SocialLink({
   );
 }
 
-function MLADetails({ mla }: { mla: MLA }) {
+function HouseBadge({ house }: { house: House }) {
+  return (
+    <Badge variant={house === "Lok Sabha" ? "default" : "online"}>
+      {house}
+    </Badge>
+  );
+}
+
+function MPDetails({ mp }: { mp: MP }) {
   return (
     <div className="space-y-6">
       {/* Profile & biography cards are temporarily hidden. */}
       <div className="flex flex-wrap items-center gap-2">
-        <h2 className="mr-2 text-lg font-bold text-foreground">{mla.name}</h2>
-        <Badge variant="secondary">{mla.constituency}</Badge>
-        <Badge variant="outline">{mla.district}</Badge>
-        <Badge>{mla.party}</Badge>
+        <h2 className="mr-2 text-lg font-bold text-foreground">{mp.name}</h2>
+        <HouseBadge house={mp.house} />
+        <Badge variant="secondary">{mp.constituency}</Badge>
+        <Badge variant="outline">{mp.district}</Badge>
+        <Badge>{mp.party}</Badge>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:max-w-md">
         <StatTile
           label="Total Engagement"
-          value={mla.totalEngagement}
+          value={mp.totalEngagement}
           icon={<TrendingUp className="h-4 w-4" />}
           accent="#2563eb"
         />
         <StatTile
           label="Media Mentions"
-          value={mla.mediaMentions}
+          value={mp.mediaMentions}
           icon={<MessageSquare className="h-4 w-4" />}
           accent="#ff7722"
         />
@@ -144,13 +156,13 @@ function MLADetails({ mla }: { mla: MLA }) {
           title="Media-wise Coverage"
           description="Linked mentions by media type"
         >
-          <MediaCountChart data={mla.media} />
+          <MediaCountChart data={mp.media} />
         </ChartCard>
         <ChartCard
           title="Media Sentiment Breakdown"
-          description={`${formatNumber(mla.mediaMentions)} total mentions`}
+          description={`${formatNumber(mp.mediaMentions)} total mentions`}
         >
-          <SentimentDonut data={mla.sentiment} height={300} />
+          <SentimentDonut data={mp.sentiment} height={300} />
         </ChartCard>
       </div>
 
@@ -163,50 +175,108 @@ function MLADetails({ mla }: { mla: MLA }) {
                 Related Media Coverage
               </h3>
               <p className="text-xs text-muted-foreground">
-                Original mentions linked to {mla.name} in the source data.
+                Original mentions linked to {mp.name} in the source data.
               </p>
             </div>
           </div>
-          <DistrictMediaTabs entity={mla.name} exportName={mla.name} />
+          <DistrictMediaTabs entity={mp.name} exportName={mp.name} />
         </CardContent>
       </Card>
     </div>
   );
 }
 
-export default function MLAPage() {
-  const { data, isLoading, isError } = useMLAs();
+const HOUSE_TABS: { id: HouseFilter; label: string }[] = [
+  { id: "All", label: "All Members" },
+  { id: "Lok Sabha", label: "Lok Sabha" },
+  { id: "Rajya Sabha", label: "Rajya Sabha" },
+];
+
+export default function MPPage() {
+  const { data, isLoading, isError } = useMPs();
+  const [house, setHouse] = React.useState<HouseFilter>("All");
   const [selectedId, setSelectedId] = React.useState<string | null>(null);
 
-  const mlas = data?.mlas ?? [];
-  const selected = mlas.find((m) => m.id === selectedId) ?? null;
+  const allMps = React.useMemo(() => data?.mps ?? [], [data]);
+  const mps = React.useMemo(
+    () => (house === "All" ? allMps : allMps.filter((m) => m.house === house)),
+    [allMps, house],
+  );
+  const selected = allMps.find((m) => m.id === selectedId) ?? null;
+
+  // Reset selection if it no longer matches the active house filter.
+  React.useEffect(() => {
+    if (selected && house !== "All" && selected.house !== house) {
+      setSelectedId(null);
+    }
+  }, [house, selected]);
+
+  const counts = React.useMemo(
+    () => ({
+      lok: allMps.filter((m) => m.house === "Lok Sabha").length,
+      rajya: allMps.filter((m) => m.house === "Rajya Sabha").length,
+    }),
+    [allMps],
+  );
 
   return (
     <>
       <Header
-        title="MLA Directory"
-        subtitle="Profiles, contact details and performance analytics of legislators"
+        title="MP Directory"
+        subtitle="Members of Parliament from Uttar Pradesh — Lok Sabha & Rajya Sabha"
         showGlobalFilters={false}
       />
       <main className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
         <Card>
-          <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-              <Users className="h-4 w-4 text-primary" />
-              Select MLA
+          <CardContent className="space-y-4 p-4">
+            {/* House selector */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="mr-1 flex items-center gap-2 text-sm font-medium text-foreground">
+                <Landmark className="h-4 w-4 text-primary" />
+                House
+              </span>
+              {HOUSE_TABS.map((t) => (
+                <Button
+                  key={t.id}
+                  size="sm"
+                  variant={house === t.id ? "default" : "outline"}
+                  onClick={() => setHouse(t.id)}
+                  className="gap-2"
+                >
+                  {t.label}
+                  {t.id === "Lok Sabha" && (
+                    <Badge variant="secondary" className="ml-0.5">
+                      {counts.lok}
+                    </Badge>
+                  )}
+                  {t.id === "Rajya Sabha" && (
+                    <Badge variant="secondary" className="ml-0.5">
+                      {counts.rajya}
+                    </Badge>
+                  )}
+                </Button>
+              ))}
             </div>
-            <div className="sm:w-96">
-              <SearchableSelect
-                options={mlas.map((m) => ({
-                  label: `${m.name} — ${m.constituency}`,
-                  value: m.id,
-                }))}
-                value={selectedId}
-                onChange={setSelectedId}
-                placeholder="Choose an MLA…"
-                searchPlaceholder="Search by name or constituency…"
-                disabled={isLoading}
-              />
+
+            {/* MP selector */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                <User className="h-4 w-4 text-primary" />
+                Select MP
+              </div>
+              <div className="sm:w-[26rem]">
+                <SearchableSelect
+                  options={mps.map((m) => ({
+                    label: `${m.name} — ${m.constituency}`,
+                    value: m.id,
+                  }))}
+                  value={selectedId}
+                  onChange={setSelectedId}
+                  placeholder={`Choose an MP${house === "All" ? "" : ` (${house})`}…`}
+                  searchPlaceholder="Search by name or constituency…"
+                  disabled={isLoading}
+                />
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -224,18 +294,18 @@ export default function MLAPage() {
           </div>
         ) : selected ? (
           <div className="animate-fade-in">
-            <MLADetails mla={selected} />
+            <MPDetails mp={selected} />
           </div>
         ) : (
           <>
             <EmptyState
-              icon={<Users className="h-6 w-6" />}
-              title="Select an MLA to view their profile"
-              description="Choose a legislator from the dropdown to see their details, contact information, social media and performance analytics."
+              icon={<Landmark className="h-6 w-6" />}
+              title="Select an MP to view their profile"
+              description="Choose a Member of Parliament to see their details, contact information, social media, performance analytics and related media coverage."
             />
             {/* Quick pick grid */}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {mlas.map((m) => (
+              {mps.map((m) => (
                 <button
                   key={m.id}
                   onClick={() => setSelectedId(m.id)}
@@ -249,12 +319,13 @@ export default function MLAPage() {
                     alt={m.name}
                     className="h-12 w-12 rounded-full ring-1 ring-border"
                   />
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <p className="truncate font-semibold text-foreground">{m.name}</p>
                     <p className="truncate text-xs text-muted-foreground">
                       {m.constituency} · {m.party}
                     </p>
                   </div>
+                  <HouseBadge house={m.house} />
                 </button>
               ))}
             </div>

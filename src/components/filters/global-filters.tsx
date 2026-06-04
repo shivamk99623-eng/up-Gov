@@ -25,12 +25,16 @@ import { useFilterStore } from "@/store/filters";
 import { useFilterOptions } from "@/lib/api-client";
 import { MEDIA_TYPES, SENTIMENTS } from "@/lib/types";
 
-export function GlobalFilters() {
+export function GlobalFilters({
+  hideDistrict = false,
+}: {
+  hideDistrict?: boolean;
+}) {
   const f = useFilterStore();
   const { data: options } = useFilterOptions();
 
   const activeCount = [
-    f.district,
+    hideDistrict ? null : f.district,
     f.mediaType !== "All" ? f.mediaType : null,
     f.sentiment !== "All" ? f.sentiment : null,
     f.language,
@@ -64,18 +68,20 @@ export function GlobalFilters() {
             />
           </div>
 
-          <div className="space-y-1.5">
-            <Label>District</Label>
-            <SearchableSelect
-              options={(options?.districts ?? []).map((d) => ({
-                label: d,
-                value: d,
-              }))}
-              value={f.district}
-              onChange={f.setDistrict}
-              placeholder="All districts"
-            />
-          </div>
+          {!hideDistrict && (
+            <div className="space-y-1.5">
+              <Label>District</Label>
+              <SearchableSelect
+                options={(options?.districts ?? []).map((d) => ({
+                  label: d,
+                  value: d,
+                }))}
+                value={f.district}
+                onChange={f.setDistrict}
+                placeholder="All districts"
+              />
+            </div>
+          )}
 
           <div className="space-y-1.5">
             <Label>Media Type</Label>

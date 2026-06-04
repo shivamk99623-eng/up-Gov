@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Calendar } from "lucide-react";
 import { format, subDays } from "date-fns";
+import { formatDisplayDateLong } from "@/lib/dates";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,14 +37,11 @@ export function DateRangePicker({
 
   const label =
     from && to
-      ? `${format(new Date(from), "dd MMM yyyy")} – ${format(
-          new Date(to),
-          "dd MMM yyyy",
-        )}`
+      ? `${formatDisplayDateLong(from)} – ${formatDisplayDateLong(to)}`
       : from
-        ? `From ${format(new Date(from), "dd MMM yyyy")}`
+        ? `From ${formatDisplayDateLong(from)}`
         : to
-          ? `Until ${format(new Date(to), "dd MMM yyyy")}`
+          ? `Until ${formatDisplayDateLong(to)}`
           : "All dates";
 
   return (

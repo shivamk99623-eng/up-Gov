@@ -16,28 +16,35 @@ interface UpMapProps {
 
 export function UpMap({ districtSummary, onDistrictClick }: UpMapProps) {
   const [ready, setReady] = React.useState(mapRegistered);
+  /** Every region name from GeoJSON — used so all districts appear on the map. */
+  const [geoNames, setGeoNames] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    if (mapRegistered) {
-      setReady(true);
-      return;
-    }
     let cancelled = false;
     (async () => {
       const echarts = await import("echarts");
       const res = await fetch("/geo/up-districts.geojson");
       const geo = await res.json();
+      const names: string[] = [];
       // ECharts binds series data to regions via `properties.name`. This
       // GeoJSON only has `properties.district`, so copy it across before
       // registering, otherwise no district matches the data.
       for (const f of geo.features ?? []) {
-        if (f.properties && f.properties.district && !f.properties.name) {
-          f.properties.name = f.properties.district;
+        if (f.properties?.district) {
+          if (!f.properties.name) {
+            f.properties.name = f.properties.district;
+          }
+          names.push(f.properties.district);
         }
       }
-      echarts.registerMap("UP", geo);
-      mapRegistered = true;
-      if (!cancelled) setReady(true);
+      if (!mapRegistered) {
+        echarts.registerMap("UP", geo);
+        mapRegistered = true;
+      }
+      if (!cancelled) {
+        setGeoNames(names);
+        setReady(true);
+      }
     })();
     return () => {
       cancelled = true;
@@ -45,18 +52,25 @@ export function UpMap({ districtSummary, onDistrictClick }: UpMapProps) {
   }, []);
 
   const { data, maxVal } = React.useMemo(() => {
-    const byGeo = new Map(districtSummary.map((d) => [d.geoName, d]));
+    const byRegion = new Map<string, DistrictSummary>();
+    for (const d of districtSummary) {
+      byRegion.set(d.geoName, d);
+      byRegion.set(d.district, d);
+    }
     const max = districtSummary.reduce((m, d) => Math.max(m, d.total), 0);
+    const regions = geoNames.length > 0 ? geoNames : [...byRegion.keys()];
     return {
       maxVal: max,
-      data: districtSummary.map((d) => ({
-        name: d.geoName,
-        value: d.total,
-        summary: d,
-      })),
-      byGeoMap: byGeo,
+      data: regions.map((name) => {
+        const s = byRegion.get(name);
+        return {
+          name,
+          value: s?.total ?? 0,
+          summary: s,
+        };
+      }),
     };
-  }, [districtSummary]);
+  }, [districtSummary, geoNames]);
 
   const option = React.useMemo<EChartsOption>(
     () => ({

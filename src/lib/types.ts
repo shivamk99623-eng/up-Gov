@@ -6,6 +6,9 @@ export type MediaType = "YouTube" | "X" | "Online";
 
 export type Sentiment = "Positive" | "Negative" | "Neutral";
 
+/** Political entity a mention can be linked to (derived from the Keyword column). */
+export type RepType = "MLA" | "Lok Sabha MP" | "Rajya Sabha MP";
+
 /** A single normalized media mention record. */
 export interface MediaRecord {
   id: string;
@@ -38,6 +41,10 @@ export interface MediaRecord {
   district: string;
   keyword: string;
   url: string;
+  /** Linked person name (from Keyword), or null for general state/district news. */
+  entityName: string | null;
+  /** Linked person type, or null for general news. */
+  entityType: RepType | null;
 }
 
 export interface SentimentBreakdown {
@@ -78,6 +85,19 @@ export interface NameCount {
   count: number;
 }
 
+/** A single ranked news item (used by the Top Positive / Negative charts). */
+export interface NewsItem {
+  id: string;
+  headline: string;
+  url: string;
+  mediaType: MediaType;
+  district: string;
+  sentiment: Sentiment;
+  engagement: number;
+  views: number;
+  date: string | null;
+}
+
 export interface DashboardResponse {
   totalNews: number;
   youtubeCount: number;
@@ -88,6 +108,8 @@ export interface DashboardResponse {
   neutralCount: number;
   districtSummary: DistrictSummary[];
   topDistricts: NameCount[];
+  topPositiveNews: NewsItem[];
+  topNegativeNews: NewsItem[];
   mediaDistribution: MediaBreakdown;
   dailyTrend: TrendPoint[];
   topProfiles: NameCount[];
@@ -143,6 +165,48 @@ export interface MLA {
   attendance: number;
   publicEngagement: number;
   mediaMentions: number;
+  /** Total real engagement (likes + comments + shares) across linked mentions. */
+  totalEngagement: number;
+  /** Media-wise count (YouTube / X / Online) of linked mentions. */
+  media: MediaBreakdown;
+  sentiment: SentimentBreakdown;
+}
+
+export type House = "Lok Sabha" | "Rajya Sabha";
+
+/** Member of Parliament — same shape as an MLA plus the house of Parliament. */
+export interface MP {
+  id: string;
+  name: string;
+  house: House;
+  /** Lok Sabha constituency, or state representation for Rajya Sabha. */
+  constituency: string;
+  district: string;
+  party: string;
+  designation: string;
+  email: string;
+  phone: string;
+  image: string;
+  education: string;
+  age: number;
+  gender: string;
+  bio: string;
+  /** Year first elected / nominated to the current term. */
+  termSince: number;
+  socialMedia: {
+    twitter: string;
+    facebook: string;
+    instagram: string;
+    website: string;
+  };
+  performanceScore: number;
+  attendance: number;
+  publicEngagement: number;
+  mediaMentions: number;
+  /** Total real engagement (likes + comments + shares) across linked mentions. */
+  totalEngagement: number;
+  /** Media-wise count (YouTube / X / Online) of linked mentions. */
+  media: MediaBreakdown;
   sentiment: SentimentBreakdown;
 }
 
@@ -155,6 +219,8 @@ export interface GlobalFilters {
   search?: string | null;
   dateFrom?: string | null;
   dateTo?: string | null;
+  /** Filter to a specific linked person (exact match on entityName). */
+  entity?: string | null;
 }
 
 export const MEDIA_TYPES: MediaType[] = ["YouTube", "X", "Online"];

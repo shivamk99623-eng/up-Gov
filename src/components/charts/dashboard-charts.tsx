@@ -3,7 +3,14 @@
 import * as React from "react";
 import type { EChartsOption } from "echarts";
 import { EChart, CHART_COLORS, baseTooltip } from "./echart";
-import type { NameCount, TrendPoint, MediaBreakdown } from "@/lib/types";
+import type {
+  NameCount,
+  TrendPoint,
+  MediaBreakdown,
+  NewsItem,
+} from "@/lib/types";
+import { formatDisplayDate } from "@/lib/dates";
+import { formatCompact } from "@/lib/utils";
 
 const gridBase = { left: 8, right: 16, top: 24, bottom: 8, containLabel: true };
 
@@ -94,9 +101,9 @@ export function DailyTrendChart({ data }: { data: TrendPoint[] }) {
       xAxis: {
         type: "category",
         boundaryGap: false,
-        data: data.map((d) => d.date),
+        data: data.map((d) => formatDisplayDate(d.date)),
         axisLine: { lineStyle: { color: "#d1d5db" } },
-        axisLabel: { color: "#6b7280", fontSize: 10 },
+        axisLabel: { color: "#6b7280", fontSize: 10, rotate: 35 },
       },
       yAxis: {
         type: "value",
@@ -154,6 +161,201 @@ export function DailyTrendChart({ data }: { data: TrendPoint[] }) {
     [data],
   );
   return <EChart option={option} height={320} />;
+}
+
+/** Truncates a headline for use as a chart axis label. */
+function shortHeadline(text: string, max = 46): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  return clean.length > max ? `${clean.slice(0, max - 1)}…` : clean;
+}
+
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Opens a news URL in a new tab (adds https:// when the sheet omits the scheme). */
+function openNewsUrl(url: string) {
+  const trimmed = url.trim();
+  if (!trimmed) return;
+  const href = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  window.open(href, "_blank", "noopener,noreferrer");
+}
+
+type EChartsClickParams = {
+  componentType?: string;
+  dataIndex?: number;
+  value?: string | number;
+  data?: { url?: string; value?: number };
+};
+
+function newsIndexFromClick(params: EChartsClickParams): number | undefined {
+  if (params.componentType === "series" && typeof params.dataIndex === "number") {
+    return params.dataIndex;
+  }
+  if (params.componentType === "yAxis" && params.value != null) {
+    const v = String(params.value);
+    const pipe = v.indexOf("|");
+    if (pipe >= 0) {
+      const n = Number.parseInt(v.slice(0, pipe), 10);
+      if (Number.isFinite(n)) return n;
+    }
+  }
+  return undefined;
+}
+
+const newsTooltipCss =
+  "max-width:min(420px,92vw)!important;white-space:normal!important;word-break:break-word!important;overflow-wrap:anywhere!important;line-height:1.45!important;";
+
+/**
+ * Top news ranked by engagement. Each bar is a single news item; clicking it
+ * opens the original source link in a new tab.
+ */
+export function TopNewsChart({
+  items,
+  tone,
+}: {
+  items: NewsItem[];
+  tone: "positive" | "negative";
+}) {
+  const color = tone === "positive" ? CHART_COLORS.positive : CHART_COLORS.negative;
+  const gradTo = tone === "positive" ? "#15803d" : "#b91c1c";
+
+  // Sort ascending so the most-engaging item appears at the top of the chart.
+  const sorted = React.useMemo(
+    () => [...items].sort((a, b) => a.engagement - b.engagement),
+    [items],
+  );
+
+  const sortedRef = React.useRef(sorted);
+  sortedRef.current = sorted;
+
+  const chartRef = React.useRef<{
+    off: (event: string) => void;
+    on: (event: string, handler: (params: unknown) => void) => void;
+  } | null>(null);
+
+  const bindNewsClick = React.useCallback(() => {
+    const chart = chartRef.current;
+    if (!chart) return;
+
+    const handler = (params: unknown) => {
+      const p = params as EChartsClickParams;
+      const idx = newsIndexFromClick(p);
+      const fromData =
+        p.data && typeof p.data === "object" ? p.data.url : undefined;
+      const it = idx != null ? sortedRef.current[idx] : undefined;
+      const url = fromData ?? it?.url;
+      if (url) openNewsUrl(url);
+    };
+
+    chart.off("click");
+    chart.on("click", handler);
+  }, []);
+
+  React.useEffect(() => {
+    bindNewsClick();
+  }, [bindNewsClick, sorted]);
+
+  const handleChartReady = React.useCallback(
+    (instance: unknown) => {
+      chartRef.current = instance as typeof chartRef.current;
+      bindNewsClick();
+    },
+    [bindNewsClick],
+  );
+
+  const option = React.useMemo<EChartsOption>(
+    () => ({
+      grid: { left: 4, right: 48, top: 8, bottom: 8, containLabel: true },
+      tooltip: {
+        ...baseTooltip,
+        trigger: "item",
+        confine: true,
+        appendToBody: true,
+        extraCssText: newsTooltipCss,
+        formatter: (p: unknown) => {
+          const idx = (p as { dataIndex: number }).dataIndex;
+          const it = sorted[idx];
+          if (!it) return "";
+          const media = it.mediaType === "X" ? "Twitter / X" : it.mediaType;
+          const headline = escapeHtml(it.headline || "(No headline)");
+          return [
+            `<div style="font-weight:600;margin-bottom:6px">${headline}</div>`,
+            `<div style="opacity:.85;font-size:11px">${escapeHtml(media)} · ${escapeHtml(it.district)} · ${escapeHtml(it.date ? formatDisplayDate(it.date) : "")}</div>`,
+            `<div style="margin-top:6px;font-size:11px">Engagement: <b>${formatCompact(it.engagement)}</b> · Views: <b>${formatCompact(it.views)}</b></div>`,
+            `<div style="margin-top:6px;font-size:11px;color:#93c5fd">Click bar or headline to open source ↗</div>`,
+          ].join("");
+        },
+      },
+      xAxis: {
+        type: "value",
+        splitLine: { lineStyle: { color: "#eef0f4" } },
+        axisLabel: { color: "#6b7280", formatter: (v: number) => formatCompact(v) },
+      },
+      yAxis: {
+        type: "category",
+        data: sorted.map((it, i) => `${i}|${shortHeadline(it.headline)}`),
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: {
+          color: "#374151",
+          fontSize: 11,
+          width: 220,
+          overflow: "truncate",
+          formatter: (val: string) => val.split("|").slice(1).join("|"),
+        },
+        triggerEvent: true,
+      },
+      series: [
+        {
+          type: "bar",
+          cursor: "pointer",
+          data: sorted.map((it) => ({
+            value: it.engagement,
+            url: it.url,
+          })),
+          barWidth: "60%",
+          itemStyle: {
+            color: {
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 1,
+              y2: 0,
+              colorStops: [
+                { offset: 0, color: gradTo },
+                { offset: 1, color },
+              ],
+            },
+            borderRadius: [0, 5, 5, 0],
+          },
+          label: {
+            show: true,
+            position: "right",
+            color: "#6b7280",
+            fontSize: 11,
+            formatter: (p: unknown) => {
+              const param = p as { value?: number; data?: { value?: number } };
+              const v =
+                typeof param.value === "number"
+                  ? param.value
+                  : (param.data?.value ?? 0);
+              return formatCompact(v);
+            },
+          },
+        },
+      ],
+    }),
+    [sorted, color, gradTo],
+  );
+
+  return (
+    <EChart option={option} height={380} onChartReady={handleChartReady} />
+  );
 }
 
 export function HorizontalCountChart({

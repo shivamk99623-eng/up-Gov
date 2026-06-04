@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, MapPinned, Users } from "lucide-react";
+import { LayoutDashboard, MapPinned, Users, Landmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/", label: "Overview", icon: LayoutDashboard },
   { href: "/district", label: "District Analytics", icon: MapPinned },
   { href: "/mla", label: "MLA Directory", icon: Users },
+  { href: "/mp", label: "MP Directory", icon: Landmark },
 ];
 
 export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {

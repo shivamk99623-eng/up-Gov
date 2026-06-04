@@ -19,9 +19,18 @@ import { useFilterStore } from "@/store/filters";
 interface HeaderProps {
   title: string;
   subtitle?: string;
+  /** Show the global filter controls (Filters button, search, date range). */
+  showGlobalFilters?: boolean;
+  /** Hide the redundant District field inside the filter drawer. */
+  hideDistrictFilter?: boolean;
 }
 
-export function Header({ title, subtitle }: HeaderProps) {
+export function Header({
+  title,
+  subtitle,
+  showGlobalFilters = true,
+  hideDistrictFilter = false,
+}: HeaderProps) {
   const { search, setSearch, dateFrom, dateTo, setDateRange } =
     useFilterStore();
   const [local, setLocal] = React.useState(search);
@@ -68,37 +77,43 @@ export function Header({ title, subtitle }: HeaderProps) {
           )}
         </div>
 
-        <div className="hidden items-center gap-2 md:flex">
+        {showGlobalFilters && (
+          <div className="hidden items-center gap-2 md:flex">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={local}
+                onChange={(e) => setLocal(e.target.value)}
+                placeholder="Search mentions…"
+                className="w-56 pl-8 lg:w-64"
+              />
+            </div>
+            <DateRangePicker
+              from={dateFrom}
+              to={dateTo}
+              onChange={setDateRange}
+            />
+          </div>
+        )}
+
+        {showGlobalFilters && (
+          <GlobalFilters hideDistrict={hideDistrictFilter} />
+        )}
+      </div>
+
+      {showGlobalFilters && (
+        <div className="px-4 pb-3 md:hidden">
           <div className="relative">
             <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={local}
               onChange={(e) => setLocal(e.target.value)}
               placeholder="Search mentions…"
-              className="w-56 pl-8 lg:w-64"
+              className="w-full pl-8"
             />
           </div>
-          <DateRangePicker
-            from={dateFrom}
-            to={dateTo}
-            onChange={setDateRange}
-          />
         </div>
-
-        <GlobalFilters />
-      </div>
-
-      <div className="px-4 pb-3 md:hidden">
-        <div className="relative">
-          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            value={local}
-            onChange={(e) => setLocal(e.target.value)}
-            placeholder="Search mentions…"
-            className="w-full pl-8"
-          />
-        </div>
-      </div>
+      )}
     </header>
   );
 }

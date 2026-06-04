@@ -32,8 +32,10 @@ export interface DataTableColumn<T> {
   header: string;
   /** Rendered cell content. */
   cell: (row: T) => React.ReactNode;
-  /** Plain value used for sorting / searching / export. */
+  /** Plain value used for sorting / searching. */
   value?: (row: T) => string | number | null | undefined;
+  /** Optional export-only value (e.g. formatted dates); falls back to `value`. */
+  exportValue?: (row: T) => string | number | null | undefined;
   enableSorting?: boolean;
   defaultHidden?: boolean;
   className?: string;
@@ -48,6 +50,8 @@ interface DataTableProps<T> {
   renderExpanded?: (row: T) => React.ReactNode;
   exportFileName?: string;
   pageSize?: number;
+  /** Max height of the scrollable table body (px). */
+  maxHeight?: number;
   /** Toolbar slot rendered on the left (e.g. extra filters). */
   toolbarStart?: React.ReactNode;
 }
@@ -60,7 +64,8 @@ export function DataTable<T>({
   getRowId,
   renderExpanded,
   exportFileName = "export",
-  pageSize: initialPageSize = 25,
+  pageSize: initialPageSize = 50,
+  maxHeight = 800,
   toolbarStart,
 }: DataTableProps<T>) {
   const [search, setSearch] = React.useState("");
@@ -125,8 +130,8 @@ export function DataTable<T>({
   const rowVirtualizer = useVirtualizer({
     count: pageRows.length,
     getScrollElement: () => scrollRef.current,
-    estimateSize: () => 49,
-    overscan: 12,
+    estimateSize: () => 56,
+    overscan: 20,
   });
 
   const toggleSort = (id: string) => {
@@ -151,7 +156,7 @@ export function DataTable<T>({
     return sorted.map((row) => {
       const obj: Record<string, string | number> = {};
       for (const c of cols) {
-        const v = c.value?.(row);
+        const v = c.exportValue?.(row) ?? c.value?.(row);
         obj[c.header] = v == null ? "" : v;
       }
       return obj;
@@ -246,7 +251,11 @@ export function DataTable<T>({
 
       {/* Table */}
       <div className="overflow-hidden rounded-xl border border-border bg-card">
-        <div ref={scrollRef} className="max-h-[600px] overflow-auto">
+        <div
+          ref={scrollRef}
+          className="overflow-auto overscroll-contain [contain:layout]"
+          style={{ maxHeight }}
+        >
           <table className="w-full text-sm">
             <thead className="sticky top-0 z-10 bg-secondary/80 backdrop-blur">
               <tr className="border-b border-border">
@@ -395,7 +404,7 @@ export function DataTable<T>({
             onChange={(e) => setPageSize(Number(e.target.value))}
             className="h-8 rounded-md border border-input bg-card px-2 text-sm"
           >
-            {[10, 25, 50, 100].map((n) => (
+            {[25, 50, 100, 200, 500].map((n) => (
               <option key={n} value={n}>
                 {n} / page
               </option>

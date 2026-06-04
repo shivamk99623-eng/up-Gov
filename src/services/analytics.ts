@@ -3,7 +3,9 @@ import {
   loadRecords,
   filterRecords,
   toGeoName,
+  isKnownDistrict,
 } from "@/lib/excel-parser";
+import { formatCalendarDate } from "@/lib/dates";
 import type {
   DashboardResponse,
   DistrictAnalyticsResponse,
@@ -13,6 +15,7 @@ import type {
   MediaRecord,
   MediaType,
   NameCount,
+  NewsItem,
   Sentiment,
   TrendPoint,
 } from "@/lib/types";
@@ -61,9 +64,44 @@ function buildDailyTrend(records: MediaRecord[]): TrendPoint[] {
   return [...map.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
 
+/** Engagement score used to rank individual news items. */
+function engagementScore(r: MediaRecord): number {
+  const interactions = r.likes + r.comments + r.shares;
+  return Math.max(r.totalEngagement, interactions);
+}
+
+/** Top-N most engaging news items for a given sentiment, with a valid link. */
+function topNewsBySentiment(
+  records: MediaRecord[],
+  sentiment: Sentiment,
+  limit: number,
+): NewsItem[] {
+  return records
+    .filter((r) => r.sentiment === sentiment && !!r.url)
+    .map((r) => ({
+      id: r.id,
+      headline: r.headline,
+      url: r.url,
+      mediaType: r.mediaType,
+      district: r.district,
+      sentiment: r.sentiment,
+      engagement: engagementScore(r),
+      views: r.views,
+      date: r.date,
+    }))
+    .sort(
+      (a, b) =>
+        b.engagement - a.engagement ||
+        b.views - a.views ||
+        (b.date ?? "").localeCompare(a.date ?? ""),
+    )
+    .slice(0, limit);
+}
+
 function buildDistrictSummary(records: MediaRecord[]): DistrictSummary[] {
   const map = new Map<string, DistrictSummary>();
   for (const r of records) {
+    if (!isKnownDistrict(r.district)) continue;
     let d = map.get(r.district);
     if (!d) {
       d = {
@@ -130,14 +168,16 @@ export function getDashboard(filters: GlobalFilters = {}): DashboardResponse {
     topDistricts: districtSummary
       .slice(0, 10)
       .map((d) => ({ name: d.district, count: d.total })),
+    topPositiveNews: topNewsBySentiment(records, "Positive", 10),
+    topNegativeNews: topNewsBySentiment(records, "Negative", 10),
     mediaDistribution: { youtube: youtubeCount, x: xCount, online: onlineCount },
     dailyTrend: buildDailyTrend(records),
     topProfiles: topCounts(records, (r) => r.profile, 10),
     topChannels: topCounts(records, (r) => r.rawChannel, 10),
     languageDistribution: topCounts(records, (r) => r.language, 12),
     dateRange: {
-      min: minTs ? new Date(minTs).toISOString().slice(0, 10) : null,
-      max: maxTs ? new Date(maxTs).toISOString().slice(0, 10) : null,
+      min: minTs ? formatCalendarDate(minTs) : null,
+      max: maxTs ? formatCalendarDate(maxTs) : null,
     },
     lastUpdated: new Date().toISOString(),
   };
@@ -207,7 +247,7 @@ export function getFilterOptions() {
   const districts = new Set<string>();
   const languages = new Set<string>();
   for (const r of records) {
-    districts.add(r.district);
+    if (isKnownDistrict(r.district)) districts.add(r.district);
     languages.add(r.language);
   }
   return {

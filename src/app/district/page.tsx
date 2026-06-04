@@ -18,58 +18,13 @@ import {
   MediaCountChart,
   MediaSentimentChart,
 } from "@/components/charts/district-charts";
-import { MediaTabTable } from "@/components/tables/media-tables";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState, ErrorState } from "@/components/common/states";
 import { CHART_COLORS } from "@/components/charts/echart";
-import {
-  useDistrictAnalytics,
-  useFilterOptions,
-  useMedia,
-} from "@/lib/api-client";
+import { useDistrictAnalytics, useFilterOptions } from "@/lib/api-client";
 import { useFilterStore } from "@/store/filters";
-import type { MediaType } from "@/lib/types";
-
-function MediaTab({
-  district,
-  mediaType,
-}: {
-  district: string;
-  mediaType: MediaType;
-}) {
-  const { data, isLoading, isError } = useMedia(district, mediaType);
-  if (isLoading) {
-    return (
-      <div className="space-y-3">
-        <Skeleton className="h-9 w-full" />
-        <Skeleton className="h-[400px] w-full rounded-xl" />
-      </div>
-    );
-  }
-  if (isError) return <ErrorState />;
-  if (!data || data.records.length === 0) {
-    return (
-      <EmptyState
-        title={`No ${mediaType === "X" ? "Twitter/X" : mediaType} mentions`}
-        description="There are no records for this media type in the selected district and filters."
-      />
-    );
-  }
-  return (
-    <MediaTabTable
-      records={data.records}
-      mediaType={mediaType}
-      district={district}
-    />
-  );
-}
 
 export default function DistrictPage() {
   const district = useFilterStore((s) => s.district);
@@ -85,6 +40,7 @@ export default function DistrictPage() {
       <Header
         title="District Analytics"
         subtitle="Media performance and sentiment breakdown by district"
+        hideDistrictFilter
       />
       <main className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
         {/* District selector */}
@@ -212,28 +168,7 @@ export default function DistrictPage() {
             {district ? (
               <Card>
                 <CardContent className="p-4 lg:p-5">
-                  <Tabs defaultValue="YouTube">
-                    <TabsList>
-                      <TabsTrigger value="YouTube" className="gap-2">
-                        <FaYoutube className="h-4 w-4" /> YouTube
-                      </TabsTrigger>
-                      <TabsTrigger value="Online" className="gap-2">
-                        <Globe className="h-4 w-4" /> Online
-                      </TabsTrigger>
-                      <TabsTrigger value="X" className="gap-2">
-                        <FaXTwitter className="h-3.5 w-3.5" /> Twitter / X
-                      </TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="YouTube">
-                      <MediaTab district={district} mediaType="YouTube" />
-                    </TabsContent>
-                    <TabsContent value="Online">
-                      <MediaTab district={district} mediaType="Online" />
-                    </TabsContent>
-                    <TabsContent value="X">
-                      <MediaTab district={district} mediaType="X" />
-                    </TabsContent>
-                  </Tabs>
+                  <DistrictMediaTabs district={district} />
                 </CardContent>
               </Card>
             ) : (

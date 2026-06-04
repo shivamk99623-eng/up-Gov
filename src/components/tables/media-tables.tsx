@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { ExternalLink } from "lucide-react";
-import { format } from "date-fns";
 import { DataTable, type DataTableColumn } from "./data-table";
+import { formatDisplayDate } from "@/lib/dates";
 import { SentimentBadge } from "@/components/common/sentiment-badge";
 import {
   Select,
@@ -19,7 +19,7 @@ function DateCell({ value }: { value: string | null }) {
   if (!value) return <span className="text-muted-foreground">—</span>;
   return (
     <span className="whitespace-nowrap text-muted-foreground">
-      {format(new Date(value), "dd MMM yyyy")}
+      {formatDisplayDate(value)}
     </span>
   );
 }
@@ -51,6 +51,7 @@ const dateCol = (): DataTableColumn<MediaRecord> => ({
   header: "Date",
   enableSorting: true,
   value: (r) => r.timestamp ?? 0,
+  exportValue: (r) => (r.date ? formatDisplayDate(r.date) : ""),
   cell: (r) => <DateCell value={r.date} />,
 });
 
@@ -212,13 +213,20 @@ const COLUMN_BUILDERS: Record<MediaType, () => DataTableColumn<MediaRecord>[]> =
 interface MediaTabTableProps {
   records: MediaRecord[];
   mediaType: MediaType;
-  district: string;
+  district?: string;
+  /** Extra columns prepended to the table (e.g. linked-person columns). */
+  extraColumns?: DataTableColumn<MediaRecord>[];
+  exportName?: string;
+  maxHeight?: number;
 }
 
 export function MediaTabTable({
   records,
   mediaType,
   district,
+  extraColumns,
+  exportName,
+  maxHeight,
 }: MediaTabTableProps) {
   const [sentiment, setSentiment] = React.useState<string>("All");
   const [language, setLanguage] = React.useState<string>("All");
@@ -239,8 +247,8 @@ export function MediaTabTable({
   );
 
   const columns = React.useMemo(
-    () => COLUMN_BUILDERS[mediaType](),
-    [mediaType],
+    () => [...(extraColumns ?? []), ...COLUMN_BUILDERS[mediaType]()],
+    [mediaType, extraColumns],
   );
 
   return (
@@ -248,7 +256,10 @@ export function MediaTabTable({
       data={filtered}
       columns={columns}
       getRowId={(r) => r.id}
-      exportFileName={`${district}-${mediaType}`.toLowerCase().replace(/\s+/g, "-")}
+      maxHeight={maxHeight}
+      exportFileName={`${exportName ?? district ?? "media"}-${mediaType}`
+        .toLowerCase()
+        .replace(/\s+/g, "-")}
       renderExpanded={(r) => (
         <div className="space-y-2 text-sm">
           <p className="font-medium text-foreground">{r.headline}</p>

@@ -14,6 +14,7 @@ export function parseFilters(searchParams: URLSearchParams): GlobalFilters {
     search: get("search"),
     dateFrom: get("dateFrom"),
     dateTo: get("dateTo"),
+    entity: get("entity"),
   };
 }
 
