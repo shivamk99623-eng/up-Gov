@@ -2,12 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, MapPinned, Users, Landmark } from "lucide-react";
+import {
+  LayoutDashboard,
+  MapPinned,
+  Users,
+  Landmark,
+  Vote,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/", label: "Overview", icon: LayoutDashboard },
   { href: "/district", label: "District Analytics", icon: MapPinned },
+  { href: "/constituency", label: "Constituency", icon: Vote },
   { href: "/mla", label: "MLA Directory", icon: Users },
   { href: "/mp", label: "MP Directory", icon: Landmark },
 ];

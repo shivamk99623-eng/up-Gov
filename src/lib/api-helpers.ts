@@ -8,6 +8,7 @@ export function parseFilters(searchParams: URLSearchParams): GlobalFilters {
   };
   return {
     district: get("district"),
+    constituency: get("constituency"),
     mediaType: (get("mediaType") as MediaType | null) ?? null,
     sentiment: (get("sentiment") as Sentiment | null) ?? null,
     language: get("language"),
@@ -15,6 +16,10 @@ export function parseFilters(searchParams: URLSearchParams): GlobalFilters {
     dateFrom: get("dateFrom"),
     dateTo: get("dateTo"),
     entity: get("entity"),
+    printSource: (() => {
+      const v = searchParams.get("printSource");
+      return v === "district" || v === "mla" || v === "mp" ? v : null;
+    })(),
   };
 }
 

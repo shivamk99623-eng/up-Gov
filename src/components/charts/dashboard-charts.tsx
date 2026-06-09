@@ -75,6 +75,7 @@ export function MediaDistributionChart({ data }: { data: MediaBreakdown }) {
             label: { show: true, fontSize: 16, fontWeight: "bold" },
           },
           data: [
+            { name: "Print", value: data.print, itemStyle: { color: CHART_COLORS.saffron } },
             { name: "YouTube", value: data.youtube, itemStyle: { color: CHART_COLORS.youtube } },
             { name: "Twitter / X", value: data.x, itemStyle: { color: CHART_COLORS.x } },
             { name: "Online", value: data.online, itemStyle: { color: CHART_COLORS.online } },
@@ -131,6 +132,14 @@ export function DailyTrendChart({ data }: { data: TrendPoint[] }) {
               ],
             },
           },
+        },
+        {
+          name: "Print",
+          type: "line",
+          smooth: true,
+          showSymbol: false,
+          data: data.map((d) => d.print),
+          lineStyle: { width: 2, color: CHART_COLORS.saffron },
         },
         {
           name: "YouTube",

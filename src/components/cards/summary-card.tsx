@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn, formatNumber, percent } from "@/lib/utils";
+import { formatNumber, percent } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -31,14 +31,14 @@ export function SummaryCard({
   }
 
   return (
-    <Card className="group relative overflow-hidden p-4 transition-shadow hover:shadow-md">
+    <Card className="group relative min-w-[9.5rem] overflow-hidden p-4 transition-shadow hover:shadow-md">
       <div
         className="absolute inset-x-0 top-0 h-1"
         style={{ background: accent }}
       />
       <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className=" text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             {label}
           </p>
           <p className="mt-1.5 text-2xl font-bold tabular-nums text-foreground">
@@ -52,7 +52,10 @@ export function SummaryCard({
         </div>
         <div
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
-          style={{ background: `color-mix(in srgb, ${accent} 12%, white)`, color: accent }}
+          style={{
+            background: `color-mix(in srgb, ${accent} 12%, white)`,
+            color: accent,
+          }}
         >
           {icon}
         </div>

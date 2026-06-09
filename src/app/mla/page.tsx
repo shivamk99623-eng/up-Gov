@@ -27,6 +27,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState, ErrorState } from "@/components/common/states";
 import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
+import { GovernmentMemberDetails } from "@/components/representatives/government-member-details";
 import { Newspaper } from "lucide-react";
 import { useMLAs } from "@/lib/api-client";
 import { cn, formatNumber } from "@/lib/utils";
@@ -124,6 +125,11 @@ function MLADetails({ mla }: { mla: MLA }) {
         <Badge>{mla.party}</Badge>
       </div>
 
+      <GovernmentMemberDetails
+        profile={mla.governmentProfile}
+        fallbackName={mla.name}
+      />
+
       <div className="grid grid-cols-2 gap-3 sm:max-w-md">
         <StatTile
           label="Total Engagement"
@@ -163,11 +169,15 @@ function MLADetails({ mla }: { mla: MLA }) {
                 Related Media Coverage
               </h3>
               <p className="text-xs text-muted-foreground">
-                Original mentions linked to {mla.name} in the source data.
+                Print and digital mentions linked to {mla.name}.
               </p>
             </div>
           </div>
-          <DistrictMediaTabs entity={mla.name} exportName={mla.name} />
+          <DistrictMediaTabs
+            entity={mla.name}
+            exportName={mla.name}
+            printSource="mla"
+          />
         </CardContent>
       </Card>
     </div>
@@ -185,7 +195,7 @@ export default function MLAPage() {
     <>
       <Header
         title="MLA Directory"
-        subtitle="Profiles, contact details and performance analytics of legislators"
+        subtitle="Members of the Legislative Assembly — digital media and print coverage"
         showGlobalFilters={false}
       />
       <main className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">

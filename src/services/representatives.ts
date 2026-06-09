@@ -1,5 +1,16 @@
 import "server-only";
 import { loadRecords } from "@/lib/excel-parser";
+import {
+  listGovernmentMlaMembers,
+  listGovernmentMpMembers,
+  lookupGovernmentMember,
+} from "@/lib/government-member-parser";
+import {
+  listMlaNames,
+  listMpNamesByHouse,
+  loadMlaPrintRecords,
+  loadMpPrintRecords,
+} from "@/lib/print-parser";
 import type {
   House,
   MediaBreakdown,
@@ -7,6 +18,7 @@ import type {
   MLA,
   MP,
   RepType,
+  Sentiment,
   SentimentBreakdown,
 } from "@/lib/types";
 
@@ -93,19 +105,47 @@ function engagementOf(records: MediaRecord[]): number {
   return sum;
 }
 
+function addSentiment(
+  acc: SentimentBreakdown,
+  sentiment: Sentiment,
+) {
+  if (sentiment === "Positive") acc.positive += 1;
+  else if (sentiment === "Negative") acc.negative += 1;
+  else acc.neutral += 1;
+}
+
 function sentimentOf(records: MediaRecord[]): SentimentBreakdown {
   const s = { positive: 0, negative: 0, neutral: 0 };
-  for (const r of records) {
-    if (r.sentiment === "Positive") s.positive += 1;
-    else if (r.sentiment === "Negative") s.negative += 1;
-    else s.neutral += 1;
-  }
+  for (const r of records) addSentiment(s, r.sentiment);
+  return s;
+}
+
+function mergeSentiment(
+  digital: SentimentBreakdown,
+  print: SentimentBreakdown,
+): SentimentBreakdown {
+  return {
+    positive: digital.positive + print.positive,
+    negative: digital.negative + print.negative,
+    neutral: digital.neutral + print.neutral,
+  };
+}
+
+function sentimentOfPrint(mpName: string): SentimentBreakdown {
+  const s = { positive: 0, negative: 0, neutral: 0 };
+  for (const r of loadMpPrintRecords(mpName)) addSentiment(s, r.sentiment);
+  return s;
+}
+
+function sentimentOfMlaPrint(mlaName: string): SentimentBreakdown {
+  const s = { positive: 0, negative: 0, neutral: 0 };
+  for (const r of loadMlaPrintRecords(mlaName)) addSentiment(s, r.sentiment);
   return s;
 }
 
 /** Media-wise count (YouTube / X / Online) across an entity's mentions. */
 function mediaOf(records: MediaRecord[]): MediaBreakdown {
-  const m = { youtube: 0, x: 0, online: 0 };
+  const m = { print: 0, youtube: 0, x: 0, online: 0 };
   for (const r of records) {
     if (r.mediaType === "YouTube") m.youtube += 1;
     else if (r.mediaType === "X") m.x += 1;
@@ -136,14 +176,168 @@ function primaryDistrict(name: string, records: MediaRecord[]): string | null {
   return best;
 }
 
+/* --------------------------- MLA union index --------------------------- */
+
+interface MlaUnionEntry {
+  name: string;
+  hasMedia: boolean;
+  records: MediaRecord[];
+}
+
+function normalizeMlaKey(name: string): string {
+  return name
+    .trim()
+    .replace(/,\s*$/g, "")
+    .replace(/[\[\]]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .replace(/^(?:shri|smt\.?)\s+/i, "")
+    .replace(/^dr\.?\s*/i, "")
+    .replace(/\./g, "")
+    .trim();
+}
+
+function collectMlaUnion(): MlaUnionEntry[] {
+  const map = new Map<string, MlaUnionEntry>();
+
+  const upsert = (rawName: string): MlaUnionEntry => {
+    const key = normalizeMlaKey(rawName);
+    let entry = map.get(key);
+    if (!entry) {
+      entry = {
+        name: rawName.trim().replace(/\s+/g, " "),
+        hasMedia: false,
+        records: [],
+      };
+      map.set(key, entry);
+    }
+    return entry;
+  };
+
+  for (const e of groupByEntity(["MLA"])) {
+    const entry = upsert(e.name);
+    entry.name = e.name;
+    entry.hasMedia = true;
+    entry.records = e.records;
+  }
+
+  for (const name of listMlaNames()) {
+    const entry = upsert(name);
+    if (!entry.hasMedia) entry.name = name;
+  }
+
+  for (const member of listGovernmentMlaMembers()) {
+    const entry = upsert(member.name);
+    if (!entry.hasMedia) entry.name = member.name;
+  }
+
+  return [...map.values()].sort((a, b) => {
+    const aMentions = a.records.length + loadMlaPrintRecords(a.name).length;
+    const bMentions = b.records.length + loadMlaPrintRecords(b.name).length;
+    return bMentions - aMentions || a.name.localeCompare(b.name);
+  });
+}
+
+/* --------------------------- MP union index --------------------------- */
+
+interface MpUnionEntry {
+  name: string;
+  mediaType: RepType | null;
+  houses: Set<House>;
+  records: MediaRecord[];
+}
+
+function normalizeMpKey(name: string): string {
+  return name
+    .trim()
+    .replace(/[\[\]]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+function collectMpUnion(): MpUnionEntry[] {
+  const map = new Map<string, MpUnionEntry>();
+
+  const upsert = (rawName: string): MpUnionEntry => {
+    const key = normalizeMpKey(rawName);
+    let entry = map.get(key);
+    if (!entry) {
+      entry = {
+        name: rawName.trim().replace(/\s+/g, " "),
+        mediaType: null,
+        houses: new Set<House>(),
+        records: [],
+      };
+      map.set(key, entry);
+    }
+    return entry;
+  };
+
+  for (const e of groupByEntity(["Lok Sabha MP", "Rajya Sabha MP"])) {
+    const entry = upsert(e.name);
+    entry.name = e.name;
+    entry.mediaType = e.type;
+    entry.records = e.records;
+    entry.houses.add(
+      e.type === "Rajya Sabha MP" ? "Rajya Sabha" : "Lok Sabha",
+    );
+  }
+
+  const { lokSabha, rajyaSabha } = listMpNamesByHouse();
+  for (const name of lokSabha) {
+    const entry = upsert(name);
+    if (!entry.mediaType) entry.name = name;
+    entry.houses.add("Lok Sabha");
+  }
+  for (const name of rajyaSabha) {
+    const entry = upsert(name);
+    if (!entry.mediaType) entry.name = name;
+    entry.houses.add("Rajya Sabha");
+  }
+
+  for (const member of listGovernmentMpMembers()) {
+    const entry = upsert(member.name);
+    if (!entry.mediaType) entry.name = member.name;
+    if (member.house) entry.houses.add(member.house);
+  }
+
+  return [...map.values()].sort((a, b) => {
+    const aMentions = a.records.length + loadMpPrintRecords(a.name).length;
+    const bMentions = b.records.length + loadMpPrintRecords(b.name).length;
+    return bMentions - aMentions || a.name.localeCompare(b.name);
+  });
+}
+
+function primaryHouse(entry: MpUnionEntry): House {
+  if (entry.mediaType === "Rajya Sabha MP") return "Rajya Sabha";
+  if (entry.mediaType === "Lok Sabha MP") return "Lok Sabha";
+  if (entry.houses.has("Rajya Sabha") && !entry.houses.has("Lok Sabha")) {
+    return "Rajya Sabha";
+  }
+  return "Lok Sabha";
+}
+
 /* --------------------------- Public directory --------------------------- */
 
 export function getMLADirectory(): MLA[] {
-  return groupByEntity(["MLA"]).map((e) => {
+  return collectMlaUnion().map((e) => {
     const district = primaryDistrict(e.name, e.records) ?? "Uttar Pradesh";
+    const printRecords = loadMlaPrintRecords(e.name);
+    const digitalMedia = mediaOf(e.records);
+    const media: MediaBreakdown = {
+      ...digitalMedia,
+      print: printRecords.length,
+    };
+    const sentiment = mergeSentiment(
+      sentimentOf(e.records),
+      sentimentOfMlaPrint(e.name),
+    );
+    const totalMentions = e.records.length + printRecords.length;
+    const gov = lookupGovernmentMember(e.name, "mla");
     return {
       id: `mla-${slug(e.name)}`,
       name: e.name,
+      governmentProfile: gov,
       district,
       constituency: district,
       party: "Bharatiya Janata Party",
@@ -151,10 +345,10 @@ export function getMLADirectory(): MLA[] {
       email: `${dotted(e.name)}@upvidhansabha.gov.in`,
       phone: `+91 ${pick(e.name, "p1", 70000, 99999)} ${pick(e.name, "p2", 10000, 99999)}`,
       image: avatar(e.name),
-      education: EDUCATIONS[hash(e.name) % EDUCATIONS.length],
+      education: gov?.highestQualification ?? "—",
       age: pick(e.name, "age", 40, 70),
       gender: FEMALE_NAMES.has(e.name) ? "Female" : "Male",
-      bio: `${e.name} is a Member of the Legislative Assembly associated with the ${district} region. This profile aggregates ${e.records.length} media mentions linked to them across YouTube, online news and X. Biographical and contact details below are placeholder values.`,
+      bio: `${e.name} is a Member of the Legislative Assembly associated with the ${district} region. This profile aggregates ${totalMentions} media mentions (including ${printRecords.length} print articles) across print, YouTube, online news and X.`,
       socialMedia: {
         twitter: `https://twitter.com/${slug(e.name)}`,
         facebook: `https://facebook.com/${slug(e.name)}`,
@@ -164,32 +358,46 @@ export function getMLADirectory(): MLA[] {
       performanceScore: pick(e.name, "perf", 72, 96),
       attendance: pick(e.name, "att", 80, 99),
       publicEngagement: pick(e.name, "eng", 65, 95),
-      mediaMentions: e.records.length,
+      mediaMentions: totalMentions,
       totalEngagement: engagementOf(e.records),
-      media: mediaOf(e.records),
-      sentiment: sentimentOf(e.records),
+      media,
+      sentiment,
     } satisfies MLA;
   });
 }
 
 export function getMPDirectory(): MP[] {
-  return groupByEntity(["Lok Sabha MP", "Rajya Sabha MP"]).map((e) => {
-    const house: House =
-      e.type === "Rajya Sabha MP" ? "Rajya Sabha" : "Lok Sabha";
+  return collectMpUnion().map((e) => {
+    const house = primaryHouse(e);
+    const houses = [...e.houses].sort((a, b) => a.localeCompare(b));
     const realDistrict = primaryDistrict(e.name, e.records);
     const district = realDistrict ?? "Uttar Pradesh";
     const constituency =
       house === "Rajya Sabha"
         ? "Rajya Sabha — Uttar Pradesh"
         : realDistrict ?? "Uttar Pradesh";
+    const printRecords = loadMpPrintRecords(e.name);
+    const digitalMedia = mediaOf(e.records);
+    const media: MediaBreakdown = {
+      ...digitalMedia,
+      print: printRecords.length,
+    };
+    const sentiment = mergeSentiment(
+      sentimentOf(e.records),
+      sentimentOfPrint(e.name),
+    );
+    const totalMentions = e.records.length + printRecords.length;
+    const gov = lookupGovernmentMember(e.name, "mp");
     const bio =
       house === "Rajya Sabha"
-        ? `${e.name} is a Member of the Rajya Sabha representing Uttar Pradesh. This profile aggregates ${e.records.length} linked media mentions across YouTube, online news and X. Biographical and contact details below are placeholder values.`
-        : `${e.name} is a Member of the Lok Sabha associated with the ${constituency} constituency. This profile aggregates ${e.records.length} linked media mentions across YouTube, online news and X. Biographical and contact details below are placeholder values.`;
+        ? `${e.name} is a Member of the Rajya Sabha representing Uttar Pradesh. This profile aggregates ${totalMentions} media mentions (including ${printRecords.length} print articles) across print, YouTube, online news and X.`
+        : `${e.name} is a Member of the Lok Sabha associated with the ${constituency} constituency. This profile aggregates ${totalMentions} media mentions (including ${printRecords.length} print articles) across print, YouTube, online news and X.`;
     return {
       id: `mp-${slug(e.name)}`,
       name: e.name,
+      governmentProfile: gov,
       house,
+      houses,
       constituency,
       district,
       party: "Bharatiya Janata Party",
@@ -197,7 +405,7 @@ export function getMPDirectory(): MP[] {
       email: `${dotted(e.name)}@sansad.nic.in`,
       phone: `+91 ${pick(e.name, "p1", 70000, 99999)} ${pick(e.name, "p2", 10000, 99999)}`,
       image: avatar(e.name),
-      education: EDUCATIONS[hash(e.name) % EDUCATIONS.length],
+      education: gov?.highestQualification ?? "—",
       age: pick(e.name, "age", 42, 74),
       gender: FEMALE_NAMES.has(e.name) ? "Female" : "Male",
       bio,
@@ -211,10 +419,10 @@ export function getMPDirectory(): MP[] {
       performanceScore: pick(e.name, "perf", 74, 97),
       attendance: pick(e.name, "att", 82, 99),
       publicEngagement: pick(e.name, "eng", 68, 96),
-      mediaMentions: e.records.length,
+      mediaMentions: totalMentions,
       totalEngagement: engagementOf(e.records),
-      media: mediaOf(e.records),
-      sentiment: sentimentOf(e.records),
+      media,
+      sentiment,
     } satisfies MP;
   });
 }

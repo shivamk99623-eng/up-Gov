@@ -1,7 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, Newspaper, Globe, ThumbsUp, ThumbsDown, Minus } from "lucide-react";
+import {
+  ArrowLeft,
+  Newspaper,
+  Globe,
+  ThumbsUp,
+  ThumbsDown,
+  Minus,
+  Printer,
+} from "lucide-react";
 import { FaXTwitter, FaYoutube } from "react-icons/fa6";
 import { Header } from "@/components/layout/header";
 import { SummaryCard } from "@/components/cards/summary-card";
@@ -10,6 +18,7 @@ import { UpMap } from "@/components/home/up-map";
 import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   TopDistrictsChart,
   MediaDistributionChart,
@@ -24,7 +33,7 @@ import { useDashboard } from "@/lib/api-client";
 import { cn, formatNumber } from "@/lib/utils";
 
 /** Fixed slot height for map / district drill-down (prevents layout jump). */
-const MAP_SLOT_HEIGHT = 520;
+const MAP_SLOT_HEIGHT = 820;
 
 export default function HomePage() {
   const { data, isLoading, isError, error } = useDashboard();
@@ -39,17 +48,25 @@ export default function HomePage() {
     <>
       <Header
         title="Media Monitoring Overview"
-        subtitle="Statewide media intelligence across YouTube, Twitter/X and online news"
+        subtitle="Statewide media intelligence across print, YouTube, Twitter/X and online news"
       />
       <main className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
         {/* Summary cards */}
-        <section className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-7">
+        <section className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
           <SummaryCard
             label="Total News"
             value={data?.totalNews ?? 0}
             loading={isLoading}
             icon={<Newspaper className="h-5 w-5" />}
             accent={CHART_COLORS.primary}
+          />
+          <SummaryCard
+            label="Print"
+            value={data?.printCount ?? 0}
+            total={data?.totalNews}
+            loading={isLoading}
+            icon={<Printer className="h-5 w-5" />}
+            accent={CHART_COLORS.saffron}
           />
           <SummaryCard
             label="YouTube"
@@ -108,8 +125,7 @@ export default function HomePage() {
             {/* Map + media distribution */}
             <section
               className={cn(
-                "grid grid-cols-1 gap-6",
-                mapDistrict ? "lg:grid-cols-2" : "lg:grid-cols-3",
+                "grid grid-cols-1 gap-6 lg:grid-cols-2" 
               )}
             >
               <ChartCard
@@ -120,11 +136,11 @@ export default function HomePage() {
                 }
                 description={
                   mapDistrict
-                    ? "YouTube, Online and Twitter/X mentions for the selected district"
+                    ? "Print, YouTube, Online and Twitter/X mentions for the selected district"
                     : "Colour intensity reflects total news volume. Hover for details, click a district to drill down."
                 }
                 className="lg:col-span-2"
-                contentClassName={mapDistrict ? "min-h-0" : "p-2"}
+                contentClassName={mapDistrict ? "min-h-0" : "p-1"}
                 action={
                   mapDistrict ? (
                     <Button
@@ -140,11 +156,11 @@ export default function HomePage() {
                 }
               >
                 {isLoading ? (
-                  <Skeleton className="h-[520px] w-full rounded-lg" />
+                  <Skeleton className="h-[720px] w-full rounded-lg" />
                 ) : (
                   <div
                     className="flex flex-col overflow-hidden"
-                    style={{ height: MAP_SLOT_HEIGHT }}
+                    // style={{ height: MAP_SLOT_HEIGHT }}
                   >
                     {mapDistrict ? (
                       <>
@@ -152,6 +168,9 @@ export default function HomePage() {
                           <div className="mb-3 flex shrink-0 flex-wrap items-center gap-2 text-xs">
                             <Badge variant="secondary">
                               Total {formatNumber(drilled.total)}
+                            </Badge>
+                            <Badge variant="outline">
+                              Print {formatNumber(drilled.print)}
                             </Badge>
                             <Badge variant="youtube">
                               YouTube {formatNumber(drilled.youtube)}
@@ -175,13 +194,14 @@ export default function HomePage() {
                       <UpMap
                         districtSummary={data!.districtSummary}
                         onDistrictClick={setMapDistrict}
+                        height={MAP_SLOT_HEIGHT}
                       />
                     )}
                   </div>
                 )}
               </ChartCard>
 
-              {!mapDistrict  && <ChartCard
+              {/* {!mapDistrict  && <ChartCard
                 title="Media Source Distribution"
                 description="Share of mentions by platform"
               >
@@ -190,8 +210,15 @@ export default function HomePage() {
                 ) : (
                   <MediaDistributionChart data={data!.mediaDistribution} />
                 )}
-              </ChartCard>}
+              </ChartCard>} */}
             </section>
+
+            {/* All media coverage */}
+            <Card>
+              <CardContent className="p-4 lg:p-5">
+                <DistrictMediaTabs exportName="overview-media" />
+              </CardContent>
+            </Card>
 
             {/* Top positive / negative news */}
             <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 [contain:paint]">

@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import type {
+  ConstituencyAnalyticsResponse,
+  ConstituencyPrintResponse,
   DashboardResponse,
+  PrintQueryResponse,
   DistrictAnalyticsResponse,
   MediaQueryResponse,
   MediaType,
@@ -69,12 +72,46 @@ export function useMedia(district: string | null, mediaType: MediaType | "All") 
  * linked person/entity (matched exactly on the Keyword column, ignoring the
  * global filter drawer which is hidden on the MLA/MP pages).
  */
+export function usePrint(scope?: {
+  district?: string | null;
+  constituency?: string | null;
+  entity?: string | null;
+  printSource?: "district" | "mla" | "mp" | null;
+}) {
+  const state = useFilterStore();
+  const params = new URLSearchParams(
+    buildFilterQuery({
+      ...state,
+      district: scope?.district ?? null,
+    }),
+  );
+  if (scope?.constituency) params.set("constituency", scope.constituency);
+  if (scope?.entity) params.set("entity", scope.entity);
+  if (scope?.printSource) params.set("printSource", scope.printSource);
+  const qs = params.toString();
+  return useQuery({
+    queryKey: [
+      "print",
+      scope?.district,
+      scope?.constituency,
+      scope?.entity,
+      scope?.printSource,
+      qs,
+    ],
+    queryFn: () => fetchJson<PrintQueryResponse>(`/api/print?${qs}`),
+  });
+}
+
 export function useScopedMedia(
-  scope: { district?: string | null; entity?: string | null },
+  scope: {
+    district?: string | null;
+    entity?: string | null;
+    constituency?: string | null;
+  },
   mediaType: MediaType | "All",
 ) {
   const state = useFilterStore();
-  const { district = null, entity = null } = scope;
+  const { district = null, entity = null, constituency = null } = scope;
   let finalQs: string;
   if (entity) {
     const params = new URLSearchParams();
@@ -88,13 +125,48 @@ export function useScopedMedia(
       mediaType: undefined as never,
     });
     const params = new URLSearchParams(base);
+    if (constituency && constituency !== "All") {
+      params.set("constituency", constituency);
+    }
     if (mediaType && mediaType !== "All") params.set("mediaType", mediaType);
     finalQs = params.toString();
   }
   return useQuery({
-    queryKey: ["scoped-media", district, entity, mediaType, finalQs],
+    queryKey: ["scoped-media", district, entity, constituency, mediaType, finalQs],
     queryFn: () => fetchJson<MediaQueryResponse>(`/api/media?${finalQs}`),
-    enabled: !!(entity || district),
+    enabled: !!(entity || district || constituency !== undefined),
+  });
+}
+
+export function useConstituencyAnalytics(constituency: string) {
+  const qs = useGlobalFilterQuery();
+  return useQuery({
+    queryKey: ["constituency", constituency, qs],
+    queryFn: () =>
+      fetchJson<ConstituencyAnalyticsResponse>(
+        `/api/constituency?constituency=${encodeURIComponent(constituency)}&${qs}`,
+      ),
+  });
+}
+
+export function useConstituencyPrint(constituency: string | null) {
+  const param =
+    constituency && constituency !== "All"
+      ? `?constituency=${encodeURIComponent(constituency)}`
+      : "";
+  return useQuery({
+    queryKey: ["constituency-print", constituency ?? "All"],
+    queryFn: () =>
+      fetchJson<ConstituencyPrintResponse>(`/api/constituency/print${param}`),
+  });
+}
+
+export function useConstituencyOptions() {
+  return useQuery({
+    queryKey: ["constituency-options"],
+    queryFn: () =>
+      fetchJson<{ constituencies: string[] }>(`/api/constituency/filters`),
+    staleTime: 5 * 60 * 1000,
   });
 }
 

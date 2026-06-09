@@ -23,6 +23,7 @@ import {
   SentimentDonut,
 } from "@/components/charts/district-charts";
 import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
+import { GovernmentMemberDetails } from "@/components/representatives/government-member-details";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -136,6 +137,11 @@ function MPDetails({ mp }: { mp: MP }) {
         <Badge>{mp.party}</Badge>
       </div>
 
+      <GovernmentMemberDetails
+        profile={mp.governmentProfile}
+        fallbackName={mp.name}
+      />
+
       <div className="grid grid-cols-2 gap-3 sm:max-w-md">
         <StatTile
           label="Total Engagement"
@@ -175,11 +181,15 @@ function MPDetails({ mp }: { mp: MP }) {
                 Related Media Coverage
               </h3>
               <p className="text-xs text-muted-foreground">
-                Original mentions linked to {mp.name} in the source data.
+                Print and digital mentions linked to {mp.name}.
               </p>
             </div>
           </div>
-          <DistrictMediaTabs entity={mp.name} exportName={mp.name} />
+          <DistrictMediaTabs
+            entity={mp.name}
+            exportName={mp.name}
+            printSource="mp"
+          />
         </CardContent>
       </Card>
     </div>
@@ -199,22 +209,25 @@ export default function MPPage() {
 
   const allMps = React.useMemo(() => data?.mps ?? [], [data]);
   const mps = React.useMemo(
-    () => (house === "All" ? allMps : allMps.filter((m) => m.house === house)),
+    () =>
+      house === "All"
+        ? allMps
+        : allMps.filter((m) => m.houses.includes(house)),
     [allMps, house],
   );
   const selected = allMps.find((m) => m.id === selectedId) ?? null;
 
   // Reset selection if it no longer matches the active house filter.
   React.useEffect(() => {
-    if (selected && house !== "All" && selected.house !== house) {
+    if (selected && house !== "All" && !selected.houses.includes(house)) {
       setSelectedId(null);
     }
   }, [house, selected]);
 
   const counts = React.useMemo(
     () => ({
-      lok: allMps.filter((m) => m.house === "Lok Sabha").length,
-      rajya: allMps.filter((m) => m.house === "Rajya Sabha").length,
+      lok: allMps.filter((m) => m.houses.includes("Lok Sabha")).length,
+      rajya: allMps.filter((m) => m.houses.includes("Rajya Sabha")).length,
     }),
     [allMps],
   );

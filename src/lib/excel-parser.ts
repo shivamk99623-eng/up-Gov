@@ -8,6 +8,7 @@ import {
   formatCalendarDate,
   startOfCalendarDay,
 } from "./dates";
+import { resolveConstituencyToken } from "./print-parser";
 import type {
   MediaRecord,
   MediaType,
@@ -197,6 +198,13 @@ function classifyEntity(keyword: unknown): {
     : { entityName: null, entityType: null };
 }
 
+/** Resolves a raw district label to the canonical UP district name, if known. */
+export function resolveDistrictName(token: string): string {
+  const lookup = getDistrictLookup();
+  const resolved = resolveDistrictToken(token.trim(), lookup);
+  return resolved ?? token.trim().replace(/\s+/g, " ");
+}
+
 /** Resolves a token (lead or tag) to a canonical UP district name, if known. */
 function resolveDistrictToken(token: string, lookup: Map<string, string>): string | null {
   const t = token.trim();
@@ -213,6 +221,34 @@ function resolveDistrictToken(token: string, lookup: Map<string, string>): strin
  *   (never the person's name).
  * - Person-linked news without a district in tags -> empty (excluded from district views).
  */
+/**
+ * Resolves the Lok Sabha constituency for a mention.
+ * Prefers an explicit `constituency` column; otherwise derives from Keyword tags.
+ */
+function extractConstituency(
+  keyword: unknown,
+  explicit: unknown,
+): string {
+  const fromColumn = str(explicit);
+  if (fromColumn) {
+    return resolveConstituencyToken(fromColumn) ?? fromColumn;
+  }
+
+  const { lead, tags } = splitKeyword(keyword);
+  if (!lead) return "";
+
+  const entity = classifyEntity(keyword);
+  if (entity.entityType === "Lok Sabha MP") {
+    for (const tag of tags) {
+      const hit = resolveConstituencyToken(tag);
+      if (hit) return hit;
+    }
+    return "";
+  }
+
+  return resolveConstituencyToken(lead) ?? "";
+}
+
 function extractDistrict(keyword: unknown): string {
   const { lead, tags } = splitKeyword(keyword);
   if (!lead) return "";
@@ -332,10 +368,19 @@ function buildHeadline(title: unknown, content: unknown): string {
   return c.length > 120 ? `${c.slice(0, 117)}…` : c;
 }
 
+/* ------------------------------ Language --------------------------------- */
+
+/** Exclude rows with missing or placeholder language from all media views. */
+export function isKnownLanguage(language: string | null | undefined): boolean {
+  const v = language?.trim();
+  if (!v) return false;
+  return v.toLowerCase() !== "unknown";
+}
+
 /* ------------------------------ Cache layer ------------------------------ */
 
 /** Bump when district parsing / lookup logic changes to invalidate stale cache. */
-const PARSER_CACHE_VERSION = 6;
+const PARSER_CACHE_VERSION = 8;
 
 interface ParsedCache {
   mtimeMs: number;
@@ -391,10 +436,15 @@ export function loadRecords(): MediaRecord[] {
     raw: true,
   });
 
-  const records: MediaRecord[] = rows.map((row, idx) => {
+  const records: MediaRecord[] = rows
+    .map((row, idx) => {
     const dateRaw = formattedDates[idx]?.trim() || row["Date"];
     const ts = parseDate(dateRaw);
     const district = extractDistrict(row["Keyword"]);
+    const constituency = extractConstituency(
+      row["Keyword"],
+      row["constituency"] ?? row["Constituency"],
+    );
     const { entityName, entityType } = classifyEntity(row["Keyword"]);
     const language = str(row["Language"]) ?? "Unknown";
     return {
@@ -423,12 +473,14 @@ export function loadRecords(): MediaRecord[] {
       location: str(row["Location"]),
       tracker: str(row["Tracker"]),
       district,
+      constituency,
       keyword: str(row["Keyword"]) ?? "",
       url: str(row["Link"]) ?? "",
       entityName,
       entityType,
     };
-  });
+  })
+    .filter((r) => isKnownLanguage(r.language));
 
   cache = { mtimeMs: stat.mtimeMs, version: PARSER_CACHE_VERSION, records };
   return records;
@@ -442,6 +494,7 @@ export function filterRecords(
 ): MediaRecord[] {
   const {
     district,
+    constituency,
     mediaType,
     sentiment,
     language,
@@ -458,6 +511,11 @@ export function filterRecords(
   return records.filter((r) => {
     if (entity && r.entityName !== entity) return false;
     if (district && district !== "All" && r.district !== district) return false;
+    if (constituency && constituency !== "All") {
+      const resolved =
+        resolveConstituencyToken(constituency) ?? constituency;
+      if (r.constituency !== resolved) return false;
+    }
     if (mediaType && mediaType !== "All" && r.mediaType !== mediaType)
       return false;
     if (sentiment && sentiment !== "All" && r.sentiment !== sentiment)
