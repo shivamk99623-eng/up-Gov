@@ -13,7 +13,10 @@ import {
   isKnownLanguage,
   resolveDistrictName,
 } from "./excel-parser";
-import { mpNamesMatch } from "./mp-name-matching";
+import {
+  compactMpKey,
+  resolveMpBioKey,
+} from "./mp-name-matching";
 import type { GlobalFilters, PrintRecord, PrintSourceType, Sentiment } from "./types";
 
 const DATA_ROOT = path.join(process.cwd(), "data");
@@ -61,6 +64,10 @@ interface PrintCache {
   records: PrintRecord[];
   constituencies: string[];
   constituencyLookup: Map<string, string>;
+  /** MP print rows keyed by bio key / compact name for O(1) lookup. */
+  mpByKey: Map<string, PrintRecord[]>;
+  /** MLA print rows keyed by normalized MLA name. */
+  mlaByKey: Map<string, PrintRecord[]>;
 }
 
 let cache: PrintCache | null = null;
@@ -174,19 +181,75 @@ function normalizePersonName(name: string): string {
     .replace(/\s+/g, " ");
 }
 
-function matchesMpScope(record: PrintRecord, mpName: string): boolean {
-  return (
-    record.sourceType === "mp" &&
-    (mpNamesMatch(record.scope, mpName) ||
-      normalizePersonName(record.scope) === normalizePersonName(mpName))
-  );
-}
-
 function matchesMlaScope(record: PrintRecord, mlaName: string): boolean {
   return (
     record.sourceType === "mla" &&
     normalizeMlaName(record.scope) === normalizeMlaName(mlaName)
   );
+}
+
+/** Cheap keys derived from a print row scope (no fuzzy bio scan). */
+function mpIndexKeysFromScope(scope: string): string[] {
+  return [compactMpKey(scope), normalizePersonName(scope)];
+}
+
+/** Keys for resolving a user/bio name to indexed print rows. */
+function mpLookupKeys(name: string): string[] {
+  const keys = new Set<string>();
+  const bioKey = resolveMpBioKey(name);
+  if (bioKey) keys.add(bioKey);
+  keys.add(compactMpKey(name));
+  keys.add(normalizePersonName(name));
+  return [...keys];
+}
+
+function indexPrintRecords(records: PrintRecord[]): {
+  mpByKey: Map<string, PrintRecord[]>;
+  mlaByKey: Map<string, PrintRecord[]>;
+} {
+  const mpByKey = new Map<string, PrintRecord[]>();
+  const mlaByKey = new Map<string, PrintRecord[]>();
+
+  for (const record of records) {
+    if (record.sourceType === "mp") {
+      for (const key of mpIndexKeysFromScope(record.scope)) {
+        const bucket = mpByKey.get(key);
+        if (bucket) bucket.push(record);
+        else mpByKey.set(key, [record]);
+      }
+    } else if (record.sourceType === "mla") {
+      const key = normalizeMlaName(record.scope);
+      const bucket = mlaByKey.get(key);
+      if (bucket) bucket.push(record);
+      else mlaByKey.set(key, [record]);
+    }
+  }
+
+  return { mpByKey, mlaByKey };
+}
+
+function lookupMpPrint(
+  mpByKey: Map<string, PrintRecord[]>,
+  mpName: string,
+): PrintRecord[] {
+  for (const key of mpLookupKeys(mpName)) {
+    const hit = mpByKey.get(key);
+    if (hit?.length) return hit;
+  }
+  return [];
+}
+
+function lookupMlaPrint(
+  mlaByKey: Map<string, PrintRecord[]>,
+  mlaName: string,
+): PrintRecord[] {
+  return mlaByKey.get(normalizeMlaName(mlaName)) ?? [];
+}
+
+function matchesMpScope(record: PrintRecord, mpName: string): boolean {
+  if (record.sourceType !== "mp") return false;
+  const recordKeys = new Set(mpIndexKeysFromScope(record.scope));
+  return mpLookupKeys(mpName).some((key) => recordKeys.has(key));
 }
 
 function matchesEntityPrintScope(
@@ -307,12 +370,15 @@ function ensureCache(): PrintCache {
   }
 
   constituencies.sort((a, b) => a.localeCompare(b));
+  const { mpByKey, mlaByKey } = indexPrintRecords(records);
 
   cache = {
     mtimeMs,
     records,
     constituencies,
     constituencyLookup: buildLookup(constituencies),
+    mpByKey,
+    mlaByKey,
   };
   return cache;
 }
@@ -509,16 +575,16 @@ export function listMlaNames(): string[] {
 
 /** Print records for a single MP from `data/MP Data_News`. */
 export function loadMpPrintRecords(mpName?: string | null): PrintRecord[] {
-  const all = loadAllPrintRecords().filter((r) => r.sourceType === "mp");
-  if (!mpName) return all;
-  return all.filter((r) => matchesMpScope(r, mpName));
+  const { records, mpByKey } = ensureCache();
+  if (!mpName) return records.filter((r) => r.sourceType === "mp");
+  return lookupMpPrint(mpByKey, mpName);
 }
 
 /** Print records for a single MLA from `data/MLA Data_News`. */
 export function loadMlaPrintRecords(mlaName?: string | null): PrintRecord[] {
-  const all = loadAllPrintRecords().filter((r) => r.sourceType === "mla");
-  if (!mlaName) return all;
-  return all.filter((r) => matchesMlaScope(r, mlaName));
+  const { records, mlaByKey } = ensureCache();
+  if (!mlaName) return records.filter((r) => r.sourceType === "mla");
+  return lookupMlaPrint(mlaByKey, mlaName);
 }
 
 /** Constituency-only print (used by constituency page). */

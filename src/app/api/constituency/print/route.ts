@@ -1,11 +1,12 @@
 import { NextRequest } from "next/server";
 import { getConstituencyPrint } from "@/services/constituency";
-import { jsonError } from "@/lib/api-helpers";
+import { jsonError, warmDataCaches } from "@/lib/api-helpers";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
+    await warmDataCaches();
     const constituency = req.nextUrl.searchParams.get("constituency");
     const data = getConstituencyPrint(constituency);
     return Response.json(data, {

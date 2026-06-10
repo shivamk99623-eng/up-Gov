@@ -1,11 +1,12 @@
 import { NextRequest } from "next/server";
 import { getMLADirectory } from "@/services/representatives";
-import { jsonError } from "@/lib/api-helpers";
+import { jsonError, warmDataCaches } from "@/lib/api-helpers";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
+    await warmDataCaches();
     const mlas = getMLADirectory();
     const id = req.nextUrl.searchParams.get("id");
     if (id) {

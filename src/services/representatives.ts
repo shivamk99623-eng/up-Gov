@@ -135,15 +135,9 @@ function mergeSentiment(
   };
 }
 
-function sentimentOfPrint(mpName: string): SentimentBreakdown {
+function sentimentOfPrintRecords(records: { sentiment: Sentiment }[]): SentimentBreakdown {
   const s = { positive: 0, negative: 0, neutral: 0 };
-  for (const r of loadMpPrintRecords(mpName)) addSentiment(s, r.sentiment);
-  return s;
-}
-
-function sentimentOfMlaPrint(mlaName: string): SentimentBreakdown {
-  const s = { positive: 0, negative: 0, neutral: 0 };
-  for (const r of loadMlaPrintRecords(mlaName)) addSentiment(s, r.sentiment);
+  for (const r of records) addSentiment(s, r.sentiment);
   return s;
 }
 
@@ -235,9 +229,13 @@ function collectMlaUnion(): MlaUnionEntry[] {
     if (!entry.hasMedia) entry.name = member.name;
   }
 
-  return [...map.values()].sort((a, b) => {
-    const aMentions = a.records.length + loadMlaPrintRecords(a.name).length;
-    const bMentions = b.records.length + loadMlaPrintRecords(b.name).length;
+  const entries = [...map.values()];
+  const printCounts = new Map(
+    entries.map((e) => [e.name, loadMlaPrintRecords(e.name).length]),
+  );
+  return entries.sort((a, b) => {
+    const aMentions = a.records.length + (printCounts.get(a.name) ?? 0);
+    const bMentions = b.records.length + (printCounts.get(b.name) ?? 0);
     return bMentions - aMentions || a.name.localeCompare(b.name);
   });
 }
@@ -271,7 +269,7 @@ export function getMLADirectory(): MLA[] {
     };
     const sentiment = mergeSentiment(
       sentimentOf(e.records),
-      sentimentOfMlaPrint(e.name),
+      sentimentOfPrintRecords(printRecords),
     );
     const totalMentions = e.records.length + printRecords.length;
     const gov = lookupGovernmentMember(e.name, "mla");
@@ -331,7 +329,7 @@ export function getMPDirectory(): MP[] {
       };
       const sentiment = mergeSentiment(
         sentimentOf(records),
-        sentimentOfPrint(name),
+        sentimentOfPrintRecords(printRecords),
       );
       const totalMentions = records.length + printRecords.length;
       const bio =
