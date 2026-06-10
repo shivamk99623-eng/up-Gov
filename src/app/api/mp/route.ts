@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     const house = req.nextUrl.searchParams.get("house");
     const mps =
       house && house !== "All"
-        ? all.filter((m) => m.houses.includes(house as "Lok Sabha" | "Rajya Sabha"))
+        ? all.filter((m) => m.house === house)
         : all;
     return Response.json(
       { total: mps.length, mps },

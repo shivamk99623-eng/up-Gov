@@ -205,6 +205,22 @@ export interface GovernmentMemberProfile {
   highestQualification: string | null;
 }
 
+export interface CareerPosition {
+  period: string;
+  position: string;
+}
+
+/** MP bio fields from Lok Sabha / Rajya Sabha JSON files. */
+export interface MPBioProfile {
+  fullName: string;
+  constituency: string | null;
+  partyFname: string | null;
+  dateOfBirth: string | null;
+  education: string | null;
+  profession: string | null;
+  careerTimeline: CareerPosition[];
+}
+
 export interface MLA {
   id: string;
   name: string;
@@ -244,8 +260,8 @@ export type House = "Lok Sabha" | "Rajya Sabha";
 export interface MP {
   id: string;
   name: string;
-  /** Government member details when matched in UP Government Member Data. */
-  governmentProfile: GovernmentMemberProfile | null;
+  /** Bio details from Lok Sabha / Rajya Sabha JSON when matched. */
+  bioProfile: MPBioProfile | null;
   /** Primary house for display (from media-data when available). */
   house: House;
   /** All houses this MP is linked to across media-data and print folders. */

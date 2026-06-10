@@ -13,6 +13,7 @@ import {
   isKnownLanguage,
   resolveDistrictName,
 } from "./excel-parser";
+import { mpNamesMatch } from "./mp-name-matching";
 import type { GlobalFilters, PrintRecord, PrintSourceType, Sentiment } from "./types";
 
 const DATA_ROOT = path.join(process.cwd(), "data");
@@ -176,7 +177,8 @@ function normalizePersonName(name: string): string {
 function matchesMpScope(record: PrintRecord, mpName: string): boolean {
   return (
     record.sourceType === "mp" &&
-    normalizePersonName(record.scope) === normalizePersonName(mpName)
+    (mpNamesMatch(record.scope, mpName) ||
+      normalizePersonName(record.scope) === normalizePersonName(mpName))
   );
 }
 

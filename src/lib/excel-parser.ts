@@ -9,6 +9,7 @@ import {
   startOfCalendarDay,
 } from "./dates";
 import { resolveConstituencyToken } from "./print-parser";
+import { mpNamesMatch } from "./mp-name-matching";
 import type {
   MediaRecord,
   MediaType,
@@ -509,7 +510,13 @@ export function filterRecords(
   const q = search?.trim().toLowerCase() ?? "";
 
   return records.filter((r) => {
-    if (entity && r.entityName !== entity) return false;
+    if (entity) {
+      const entityMatch =
+        r.entityName === entity ||
+        ((r.entityType === "Lok Sabha MP" || r.entityType === "Rajya Sabha MP") &&
+          mpNamesMatch(r.entityName, entity));
+      if (!entityMatch) return false;
+    }
     if (district && district !== "All" && r.district !== district) return false;
     if (constituency && constituency !== "All") {
       const resolved =

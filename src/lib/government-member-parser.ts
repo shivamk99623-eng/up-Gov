@@ -27,7 +27,6 @@ interface SheetParseResult {
 
 interface GovCache {
   mtimeMs: number;
-  mp: SheetParseResult;
   mla: SheetParseResult;
 }
 
@@ -230,7 +229,6 @@ function ensureCache(): GovCache {
 
   cache = {
     mtimeMs,
-    mp: parseSheet("MP List"),
     mla: parseSheet("MLA List"),
   };
   return cache;
@@ -241,18 +239,13 @@ export function listGovernmentMlaMembers(): GovernmentMemberRecord[] {
   return [...ensureCache().mla.members];
 }
 
-/** All unique members from the government MP sheet. */
-export function listGovernmentMpMembers(): GovernmentMemberRecord[] {
-  return [...ensureCache().mp.members];
-}
-
-/** Looks up government member profile by name for MP or MLA sheets. */
+/** Looks up government member profile by name from the MLA sheet. */
 export function lookupGovernmentMember(
   name: string,
   kind: GovernmentMemberKind,
 ): GovernmentMemberRecord | null {
-  const map =
-    kind === "mp" ? ensureCache().mp.lookup : ensureCache().mla.lookup;
+  if (kind === "mp") return null;
+  const map = ensureCache().mla.lookup;
   for (const key of lookupKeys(name)) {
     const hit = map.get(key);
     if (hit) return hit;

@@ -23,7 +23,7 @@ import {
   SentimentDonut,
 } from "@/components/charts/district-charts";
 import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
-import { GovernmentMemberDetails } from "@/components/representatives/government-member-details";
+import { MPBioDetails } from "@/components/representatives/mp-bio-details";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -130,16 +130,17 @@ function MPDetails({ mp }: { mp: MP }) {
     <div className="space-y-6">
       {/* Profile & biography cards are temporarily hidden. */}
       <div className="flex flex-wrap items-center gap-2">
-        <h2 className="mr-2 text-lg font-bold text-foreground">{mp.name}</h2>
+        {/* <h2 className="mr-2 text-lg font-bold text-foreground">{mp.name}</h2> */}
         <HouseBadge house={mp.house} />
         <Badge variant="secondary">{mp.constituency}</Badge>
         <Badge variant="outline">{mp.district}</Badge>
         <Badge>{mp.party}</Badge>
       </div>
 
-      <GovernmentMemberDetails
-        profile={mp.governmentProfile}
+      <MPBioDetails
+        profile={mp.bioProfile}
         fallbackName={mp.name}
+        house={mp.house}
       />
 
       <div className="grid grid-cols-2 gap-3 sm:max-w-md">
@@ -210,24 +211,22 @@ export default function MPPage() {
   const allMps = React.useMemo(() => data?.mps ?? [], [data]);
   const mps = React.useMemo(
     () =>
-      house === "All"
-        ? allMps
-        : allMps.filter((m) => m.houses.includes(house)),
+      house === "All" ? allMps : allMps.filter((m) => m.house === house),
     [allMps, house],
   );
   const selected = allMps.find((m) => m.id === selectedId) ?? null;
 
   // Reset selection if it no longer matches the active house filter.
   React.useEffect(() => {
-    if (selected && house !== "All" && !selected.houses.includes(house)) {
+    if (selected && house !== "All" && selected.house !== house) {
       setSelectedId(null);
     }
   }, [house, selected]);
 
   const counts = React.useMemo(
     () => ({
-      lok: allMps.filter((m) => m.houses.includes("Lok Sabha")).length,
-      rajya: allMps.filter((m) => m.houses.includes("Rajya Sabha")).length,
+      lok: allMps.filter((m) => m.house === "Lok Sabha").length,
+      rajya: allMps.filter((m) => m.house === "Rajya Sabha").length,
     }),
     [allMps],
   );

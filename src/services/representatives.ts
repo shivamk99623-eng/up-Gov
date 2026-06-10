@@ -2,12 +2,16 @@ import "server-only";
 import { loadRecords } from "@/lib/excel-parser";
 import {
   listGovernmentMlaMembers,
-  listGovernmentMpMembers,
   lookupGovernmentMember,
 } from "@/lib/government-member-parser";
+import { listAllMpBioMembers } from "@/lib/mp-bio-parser";
+import {
+  compactMpKey,
+  getMpNameIndex,
+  resolveMpBioKey,
+} from "@/lib/mp-name-matching";
 import {
   listMlaNames,
-  listMpNamesByHouse,
   loadMlaPrintRecords,
   loadMpPrintRecords,
 } from "@/lib/print-parser";
@@ -238,83 +242,20 @@ function collectMlaUnion(): MlaUnionEntry[] {
   });
 }
 
-/* --------------------------- MP union index --------------------------- */
+/* --------------------------- MP media index --------------------------- */
 
-interface MpUnionEntry {
-  name: string;
-  mediaType: RepType | null;
-  houses: Set<House>;
-  records: MediaRecord[];
-}
-
-function normalizeMpKey(name: string): string {
-  return name
-    .trim()
-    .replace(/[\[\]]/g, "")
-    .toLowerCase()
-    .replace(/\s+/g, " ");
-}
-
-function collectMpUnion(): MpUnionEntry[] {
-  const map = new Map<string, MpUnionEntry>();
-
-  const upsert = (rawName: string): MpUnionEntry => {
-    const key = normalizeMpKey(rawName);
-    let entry = map.get(key);
-    if (!entry) {
-      entry = {
-        name: rawName.trim().replace(/\s+/g, " "),
-        mediaType: null,
-        houses: new Set<House>(),
-        records: [],
-      };
-      map.set(key, entry);
-    }
-    return entry;
-  };
-
+/** Media mentions keyed by canonical bio MP (joined onto JSON members). */
+function buildMpMediaIndex(): Map<string, MediaRecord[]> {
+  const index = getMpNameIndex();
+  const map = new Map<string, MediaRecord[]>();
   for (const e of groupByEntity(["Lok Sabha MP", "Rajya Sabha MP"])) {
-    const entry = upsert(e.name);
-    entry.name = e.name;
-    entry.mediaType = e.type;
-    entry.records = e.records;
-    entry.houses.add(
-      e.type === "Rajya Sabha MP" ? "Rajya Sabha" : "Lok Sabha",
-    );
+    const key = resolveMpBioKey(e.name, index);
+    if (!key) continue;
+    const existing = map.get(key) ?? [];
+    existing.push(...e.records);
+    map.set(key, existing);
   }
-
-  const { lokSabha, rajyaSabha } = listMpNamesByHouse();
-  for (const name of lokSabha) {
-    const entry = upsert(name);
-    if (!entry.mediaType) entry.name = name;
-    entry.houses.add("Lok Sabha");
-  }
-  for (const name of rajyaSabha) {
-    const entry = upsert(name);
-    if (!entry.mediaType) entry.name = name;
-    entry.houses.add("Rajya Sabha");
-  }
-
-  for (const member of listGovernmentMpMembers()) {
-    const entry = upsert(member.name);
-    if (!entry.mediaType) entry.name = member.name;
-    if (member.house) entry.houses.add(member.house);
-  }
-
-  return [...map.values()].sort((a, b) => {
-    const aMentions = a.records.length + loadMpPrintRecords(a.name).length;
-    const bMentions = b.records.length + loadMpPrintRecords(b.name).length;
-    return bMentions - aMentions || a.name.localeCompare(b.name);
-  });
-}
-
-function primaryHouse(entry: MpUnionEntry): House {
-  if (entry.mediaType === "Rajya Sabha MP") return "Rajya Sabha";
-  if (entry.mediaType === "Lok Sabha MP") return "Lok Sabha";
-  if (entry.houses.has("Rajya Sabha") && !entry.houses.has("Lok Sabha")) {
-    return "Rajya Sabha";
-  }
-  return "Lok Sabha";
+  return map;
 }
 
 /* --------------------------- Public directory --------------------------- */
@@ -367,62 +308,81 @@ export function getMLADirectory(): MLA[] {
 }
 
 export function getMPDirectory(): MP[] {
-  return collectMpUnion().map((e) => {
-    const house = primaryHouse(e);
-    const houses = [...e.houses].sort((a, b) => a.localeCompare(b));
-    const realDistrict = primaryDistrict(e.name, e.records);
-    const district = realDistrict ?? "Uttar Pradesh";
-    const constituency =
-      house === "Rajya Sabha"
-        ? "Rajya Sabha — Uttar Pradesh"
-        : realDistrict ?? "Uttar Pradesh";
-    const printRecords = loadMpPrintRecords(e.name);
-    const digitalMedia = mediaOf(e.records);
-    const media: MediaBreakdown = {
-      ...digitalMedia,
-      print: printRecords.length,
-    };
-    const sentiment = mergeSentiment(
-      sentimentOf(e.records),
-      sentimentOfPrint(e.name),
-    );
-    const totalMentions = e.records.length + printRecords.length;
-    const gov = lookupGovernmentMember(e.name, "mp");
-    const bio =
-      house === "Rajya Sabha"
-        ? `${e.name} is a Member of the Rajya Sabha representing Uttar Pradesh. This profile aggregates ${totalMentions} media mentions (including ${printRecords.length} print articles) across print, YouTube, online news and X.`
-        : `${e.name} is a Member of the Lok Sabha associated with the ${constituency} constituency. This profile aggregates ${totalMentions} media mentions (including ${printRecords.length} print articles) across print, YouTube, online news and X.`;
-    return {
-      id: `mp-${slug(e.name)}`,
-      name: e.name,
-      governmentProfile: gov,
-      house,
-      houses,
-      constituency,
-      district,
-      party: "Bharatiya Janata Party",
-      designation: `Member of ${house}`,
-      email: `${dotted(e.name)}@sansad.nic.in`,
-      phone: `+91 ${pick(e.name, "p1", 70000, 99999)} ${pick(e.name, "p2", 10000, 99999)}`,
-      image: avatar(e.name),
-      education: gov?.highestQualification ?? "—",
-      age: pick(e.name, "age", 42, 74),
-      gender: FEMALE_NAMES.has(e.name) ? "Female" : "Male",
-      bio,
-      termSince: pick(e.name, "term", 2014, 2024),
-      socialMedia: {
-        twitter: `https://twitter.com/${slug(e.name)}`,
-        facebook: `https://facebook.com/${slug(e.name)}`,
-        instagram: `https://instagram.com/${slug(e.name)}`,
-        website: `https://${slug(e.name)}.in`,
-      },
-      performanceScore: pick(e.name, "perf", 74, 97),
-      attendance: pick(e.name, "att", 82, 99),
-      publicEngagement: pick(e.name, "eng", 68, 96),
-      mediaMentions: totalMentions,
-      totalEngagement: engagementOf(e.records),
-      media,
-      sentiment,
-    } satisfies MP;
-  });
+  const mediaIndex = buildMpMediaIndex();
+
+  return listAllMpBioMembers()
+    .map((mpBio) => {
+      const name = mpBio.fullName;
+      const house = mpBio.house;
+      const houses: House[] = [house];
+      const records = mediaIndex.get(compactMpKey(name)) ?? [];
+      const realDistrict = primaryDistrict(name, records);
+      const district = realDistrict ?? "Uttar Pradesh";
+      const resolvedConstituency =
+        mpBio.constituency ??
+        (house === "Rajya Sabha"
+          ? "Rajya Sabha — Uttar Pradesh"
+          : realDistrict ?? "Uttar Pradesh");
+      const printRecords = loadMpPrintRecords(name);
+      const digitalMedia = mediaOf(records);
+      const media: MediaBreakdown = {
+        ...digitalMedia,
+        print: printRecords.length,
+      };
+      const sentiment = mergeSentiment(
+        sentimentOf(records),
+        sentimentOfPrint(name),
+      );
+      const totalMentions = records.length + printRecords.length;
+      const bio =
+        house === "Rajya Sabha"
+          ? `${name} is a Member of the Rajya Sabha representing Uttar Pradesh. This profile aggregates ${totalMentions} media mentions (including ${printRecords.length} print articles) across print, YouTube, online news and X.`
+          : `${name} is a Member of the Lok Sabha associated with the ${resolvedConstituency} constituency. This profile aggregates ${totalMentions} media mentions (including ${printRecords.length} print articles) across print, YouTube, online news and X.`;
+      const houseSlug = house === "Lok Sabha" ? "lok" : "raj";
+      return {
+        id: `mp-${houseSlug}-${slug(name)}`,
+        name,
+        bioProfile: {
+          fullName: mpBio.fullName,
+          constituency: mpBio.constituency,
+          partyFname: mpBio.partyFname,
+          dateOfBirth: mpBio.dateOfBirth,
+          education: mpBio.education,
+          profession: mpBio.profession,
+          careerTimeline: mpBio.careerTimeline,
+        },
+        house,
+        houses,
+        constituency: resolvedConstituency,
+        district,
+        party: mpBio.partyFname ?? "Bharatiya Janata Party",
+        designation: `Member of ${house}`,
+        email: `${dotted(name)}@sansad.nic.in`,
+        phone: `+91 ${pick(name, "p1", 70000, 99999)} ${pick(name, "p2", 10000, 99999)}`,
+        image: avatar(name),
+        education: mpBio.education ?? "—",
+        age: pick(name, "age", 42, 74),
+        gender: FEMALE_NAMES.has(name) ? "Female" : "Male",
+        bio,
+        termSince: pick(name, "term", 2014, 2024),
+        socialMedia: {
+          twitter: `https://twitter.com/${slug(name)}`,
+          facebook: `https://facebook.com/${slug(name)}`,
+          instagram: `https://instagram.com/${slug(name)}`,
+          website: `https://${slug(name)}.in`,
+        },
+        performanceScore: pick(name, "perf", 74, 97),
+        attendance: pick(name, "att", 82, 99),
+        publicEngagement: pick(name, "eng", 68, 96),
+        mediaMentions: totalMentions,
+        totalEngagement: engagementOf(records),
+        media,
+        sentiment,
+      } satisfies MP;
+    })
+    .sort((a, b) => {
+      const aMentions = a.mediaMentions;
+      const bMentions = b.mediaMentions;
+      return bMentions - aMentions || a.name.localeCompare(b.name);
+    });
 }
