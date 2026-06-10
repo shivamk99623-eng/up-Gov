@@ -1,6 +1,7 @@
 import "server-only";
 import { loadRecords, filterRecords } from "@/lib/excel-parser";
 import {
+  filterPrintRecords,
   listConstituenciesFromPrint as listConstituencies,
   loadConstituencyPrintRecords,
   resolveConstituencyToken,
@@ -97,8 +98,13 @@ export function getConstituencyAnalytics(
     constituency: resolved === "All" ? null : resolved,
     district: null,
   });
-  const printRecords = loadConstituencyPrintRecords(
-    resolved === "All" ? null : resolved,
+  const printRecords = filterPrintRecords(
+    loadConstituencyPrintRecords(resolved === "All" ? null : resolved),
+    {
+      ...filters,
+      constituency: resolved === "All" ? null : resolved,
+      district: null,
+    },
   );
 
   const sentiment = emptySentiment();
@@ -109,6 +115,7 @@ export function getConstituencyAnalytics(
     online: 0,
   };
   const mediaSentiment = {
+    print: emptySentiment(),
     youtube: emptySentiment(),
     x: emptySentiment(),
     online: emptySentiment(),
@@ -128,9 +135,14 @@ export function getConstituencyAnalytics(
     }
   }
 
+  for (const r of printRecords) {
+    addSentiment(sentiment, r.sentiment);
+    addSentiment(mediaSentiment.print, r.sentiment);
+  }
+
   return {
     constituency: resolved,
-    total: records.length,
+    total: records.length + printRecords.length,
     printTotal: printRecords.length,
     sentiment,
     media,

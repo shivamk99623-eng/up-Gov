@@ -9,7 +9,7 @@ import {
   startOfCalendarDay,
 } from "./dates";
 import { resolveConstituencyToken } from "./print-parser";
-import { mpNamesMatch } from "./mp-name-matching";
+import { mpNamesMatch, resolveMpBioRecord } from "./mp-name-matching";
 import type {
   MediaRecord,
   MediaType,
@@ -226,6 +226,14 @@ function resolveDistrictToken(token: string, lookup: Map<string, string>): strin
  * Resolves the Lok Sabha constituency for a mention.
  * Prefers an explicit `constituency` column; otherwise derives from Keyword tags.
  */
+function constituencyFromTags(tags: string[]): string {
+  for (const tag of tags) {
+    const hit = resolveConstituencyToken(tag);
+    if (hit) return hit;
+  }
+  return "";
+}
+
 function extractConstituency(
   keyword: unknown,
   explicit: unknown,
@@ -240,14 +248,25 @@ function extractConstituency(
 
   const entity = classifyEntity(keyword);
   if (entity.entityType === "Lok Sabha MP") {
-    for (const tag of tags) {
-      const hit = resolveConstituencyToken(tag);
-      if (hit) return hit;
-    }
-    return "";
+    const fromTags = constituencyFromTags(tags);
+    if (fromTags) return fromTags;
+    return resolveMpBioRecord(entity.entityName)?.constituency ?? "";
   }
 
-  return resolveConstituencyToken(lead) ?? "";
+  const fromLead = resolveConstituencyToken(lead);
+  if (fromLead) return fromLead;
+
+  const fromTags = constituencyFromTags(tags);
+  if (fromTags) return fromTags;
+
+  // District-named leads/tags that share a Lok Sabha constituency name (e.g. Agra).
+  const district = extractDistrict(keyword);
+  if (district) {
+    const hit = resolveConstituencyToken(district);
+    if (hit) return hit;
+  }
+
+  return "";
 }
 
 function extractDistrict(keyword: unknown): string {

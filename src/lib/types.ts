@@ -189,6 +189,7 @@ export interface ConstituencyAnalyticsResponse {
   sentiment: SentimentBreakdown;
   media: MediaBreakdown;
   mediaSentiment: {
+    print: SentimentBreakdown;
     youtube: SentimentBreakdown;
     x: SentimentBreakdown;
     online: SentimentBreakdown;
