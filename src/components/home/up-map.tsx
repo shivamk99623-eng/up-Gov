@@ -12,9 +12,14 @@ let mapRegistered = false;
 interface UpMapProps {
   districtSummary: DistrictSummary[];
   onDistrictClick?: (district: string) => void;
+  height?: number;
 }
 
-export function UpMap({ districtSummary, onDistrictClick }: UpMapProps) {
+export function UpMap({
+  districtSummary,
+  onDistrictClick,
+  height = 720,
+}: UpMapProps) {
   const [ready, setReady] = React.useState(mapRegistered);
   /** Every region name from GeoJSON — used so all districts appear on the map. */
   const [geoNames, setGeoNames] = React.useState<string[]>([]);
@@ -65,6 +70,7 @@ export function UpMap({ districtSummary, onDistrictClick }: UpMapProps) {
         const s = byRegion.get(name);
         return {
           name,
+          dt_name: name.slice(0, 3),
           value: s?.total ?? 0,
           summary: s,
         };
@@ -93,6 +99,7 @@ export function UpMap({ districtSummary, onDistrictClick }: UpMapProps) {
           return `<div style="padding:10px 14px;min-width:170px;font-size:12px;line-height:1.7">
             <div style="font-weight:700;font-size:14px;margin-bottom:4px">${s.district}</div>
             <div style="display:flex;justify-content:space-between"><span>Total</span><b>${formatNumber(s.total)}</b></div>
+            <div style="display:flex;justify-content:space-between;color:#ff7722"><span>Print</span><b>${formatNumber(s.print)}</b></div>
             <div style="display:flex;justify-content:space-between;color:#ff8a8a"><span>YouTube</span><b>${formatNumber(s.youtube)}</b></div>
             <div style="display:flex;justify-content:space-between;color:#d4d4d8"><span>Twitter / X</span><b>${formatNumber(s.x)}</b></div>
             <div style="display:flex;justify-content:space-between;color:#93c5fd"><span>Online</span><b>${formatNumber(s.online)}</b></div>
@@ -128,9 +135,9 @@ export function UpMap({ districtSummary, onDistrictClick }: UpMapProps) {
             fontSize: 10,
             fontWeight: "bold",
             formatter: (p: unknown) => {
-              const d = (p as { data?: { value?: number } }).data;
-              return d && typeof d.value === "number"
-                ? String(d.value)
+              const d = (p as { data?: { dt_name?: string } }).data;
+              return d && typeof d.dt_name === "string"
+                ? String(d.dt_name)
                 : "";
             },
           },
@@ -181,8 +188,13 @@ export function UpMap({ districtSummary, onDistrictClick }: UpMapProps) {
   );
 
   if (!ready) {
-    return <Skeleton className="h-[520px] w-full rounded-lg" />;
+    return (
+      <Skeleton
+        className="w-full rounded-lg"
+        style={{ height }}
+      />
+    );
   }
 
-  return <EChart option={option} height={520} onEvents={onEvents} />;
+  return <EChart option={option} height={height} onEvents={onEvents} />;
 }

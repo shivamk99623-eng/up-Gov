@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { ExternalLink } from "lucide-react";
-import { DataTable, type DataTableColumn } from "./data-table";
+import { DataTable, serialNumberColumn, type DataTableColumn } from "./data-table";
 import { formatDisplayDate } from "@/lib/dates";
 import { SentimentBadge } from "@/components/common/sentiment-badge";
 import {
@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { MediaRecordDetailModal } from "@/components/tables/media-record-detail";
 import type { MediaRecord, MediaType } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 
@@ -45,6 +46,14 @@ function Headline({ text }: { text: string }) {
     </span>
   );
 }
+
+const headlineCol = (): DataTableColumn<MediaRecord> => ({
+  id: "headline",
+  header: "Headline",
+  enableSorting: true,
+  value: (r) => r.headline,
+  cell: (r) => <Headline text={r.headline} />,
+});
 
 const dateCol = (): DataTableColumn<MediaRecord> => ({
   id: "date",
@@ -86,14 +95,8 @@ const numCol = (
 
 function youtubeColumns(): DataTableColumn<MediaRecord>[] {
   return [
-    dateCol(),
-    {
-      id: "headline",
-      header: "Headline",
-      enableSorting: true,
-      value: (r) => r.headline,
-      cell: (r) => <Headline text={r.headline} />,
-    },
+    serialNumberColumn<MediaRecord>(),
+    headlineCol(),
     {
       id: "channel",
       header: "Channel",
@@ -107,6 +110,7 @@ function youtubeColumns(): DataTableColumn<MediaRecord>[] {
       value: (r) => r.profile ?? "",
       cell: (r) => <span className="font-medium">{r.profile ?? "—"}</span>,
     },
+    dateCol(),
     numCol("views", "Views", (r) => r.views),
     numCol("likes", "Likes", (r) => r.likes),
     numCol("comments", "Comments", (r) => r.comments),
@@ -125,14 +129,8 @@ function youtubeColumns(): DataTableColumn<MediaRecord>[] {
 
 function onlineColumns(): DataTableColumn<MediaRecord>[] {
   return [
-    dateCol(),
-    {
-      id: "headline",
-      header: "Headline",
-      enableSorting: true,
-      value: (r) => r.headline,
-      cell: (r) => <Headline text={r.headline} />,
-    },
+    serialNumberColumn<MediaRecord>(),
+    headlineCol(),
     {
       id: "publisher",
       header: "Publisher",
@@ -146,6 +144,7 @@ function onlineColumns(): DataTableColumn<MediaRecord>[] {
       value: (r) => r.location ?? "",
       cell: (r) => <span>{r.location ?? "—"}</span>,
     },
+    dateCol(),
     {
       id: "language",
       header: "Language",
@@ -170,20 +169,14 @@ function onlineColumns(): DataTableColumn<MediaRecord>[] {
 
 function twitterColumns(): DataTableColumn<MediaRecord>[] {
   return [
-    dateCol(),
+    serialNumberColumn<MediaRecord>(),
+    headlineCol(),
     {
       id: "profile",
       header: "Profile",
       enableSorting: true,
       value: (r) => r.profile ?? "",
       cell: (r) => <span className="font-medium">{r.profile ?? "—"}</span>,
-    },
-    {
-      id: "headline",
-      header: "Headline",
-      enableSorting: true,
-      value: (r) => r.headline,
-      cell: (r) => <Headline text={r.headline} />,
     },
     {
       id: "content",
@@ -195,6 +188,7 @@ function twitterColumns(): DataTableColumn<MediaRecord>[] {
         </span>
       ),
     },
+    dateCol(),
     numCol("engagement", "Engagement", (r) => r.totalEngagement),
     numCol("likes", "Likes", (r) => r.likes),
     numCol("comments", "Comments", (r) => r.comments),
@@ -256,21 +250,17 @@ export function MediaTabTable({
       data={filtered}
       columns={columns}
       getRowId={(r) => r.id}
-      maxHeight={maxHeight}
+      {...(maxHeight != null ? { maxHeight } : {})}
       exportFileName={`${exportName ?? district ?? "media"}-${mediaType}`
         .toLowerCase()
         .replace(/\s+/g, "-")}
-      renderExpanded={(r) => (
-        <div className="space-y-2 text-sm">
-          <p className="font-medium text-foreground">{r.headline}</p>
-          <p className="text-muted-foreground">{r.content || "No content available."}</p>
-          <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
-            <span>Keyword: {r.keyword || "—"}</span>
-            <span>Country: {r.country || "—"}</span>
-            <span>Impressions: {formatNumber(r.impressions)}</span>
-            <span>Followers/Rank: {formatNumber(r.followersRank ?? 0)}</span>
-          </div>
-        </div>
+      detailTitle={(r) => r.headline}
+      renderDetail={({ row, open, onOpenChange }) => (
+        <MediaRecordDetailModal
+          record={row}
+          open={open}
+          onOpenChange={onOpenChange}
+        />
       )}
       toolbarStart={
         <>

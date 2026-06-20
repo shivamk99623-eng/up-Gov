@@ -27,8 +27,11 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState, ErrorState } from "@/components/common/states";
 import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
+import { GovernmentMemberDetails } from "@/components/representatives/government-member-details";
+import { MPBioDetails } from "@/components/representatives/mp-bio-details";
 import { Newspaper } from "lucide-react";
 import { useMLAs } from "@/lib/api-client";
+import { useRepresentativeSelection } from "@/lib/use-representative-selection";
 import { cn, formatNumber } from "@/lib/utils";
 import type { MLA } from "@/lib/types";
 
@@ -116,13 +119,20 @@ function SocialLink({
 function MLADetails({ mla }: { mla: MLA }) {
   return (
     <div className="space-y-6">
-      {/* Profile & biography cards are temporarily hidden. */}
       <div className="flex flex-wrap items-center gap-2">
-        <h2 className="mr-2 text-lg font-bold text-foreground">{mla.name}</h2>
         <Badge variant="secondary">{mla.constituency}</Badge>
         <Badge variant="outline">{mla.district}</Badge>
         <Badge>{mla.party}</Badge>
       </div>
+
+      {mla.bioProfile ? (
+        <MPBioDetails profile={mla.bioProfile} fallbackName={mla.name} />
+      ) : (
+        <GovernmentMemberDetails
+          profile={mla.governmentProfile}
+          fallbackName={mla.name}
+        />
+      )}
 
       <div className="grid grid-cols-2 gap-3 sm:max-w-md">
         <StatTile
@@ -163,11 +173,15 @@ function MLADetails({ mla }: { mla: MLA }) {
                 Related Media Coverage
               </h3>
               <p className="text-xs text-muted-foreground">
-                Original mentions linked to {mla.name} in the source data.
+                Print and digital mentions linked to {mla.name}.
               </p>
             </div>
           </div>
-          <DistrictMediaTabs entity={mla.name} exportName={mla.name} />
+          <DistrictMediaTabs
+            entity={mla.name}
+            exportName={mla.name}
+            printSource="mla"
+          />
         </CardContent>
       </Card>
     </div>
@@ -175,8 +189,23 @@ function MLADetails({ mla }: { mla: MLA }) {
 }
 
 export default function MLAPage() {
+  return (
+    <React.Suspense
+      fallback={
+        <div className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
+          <Skeleton className="h-24 w-full rounded-xl" />
+          <Skeleton className="h-[560px] w-full rounded-xl" />
+        </div>
+      }
+    >
+      <MLAPageContent />
+    </React.Suspense>
+  );
+}
+
+function MLAPageContent() {
   const { data, isLoading, isError } = useMLAs();
-  const [selectedId, setSelectedId] = React.useState<string | null>(null);
+  const { selectedId, setSelectedId } = useRepresentativeSelection();
 
   const mlas = data?.mlas ?? [];
   const selected = mlas.find((m) => m.id === selectedId) ?? null;
@@ -185,7 +214,7 @@ export default function MLAPage() {
     <>
       <Header
         title="MLA Directory"
-        subtitle="Profiles, contact details and performance analytics of legislators"
+        subtitle="Members of the Legislative Assembly from Uttar Pradesh — Vidhan Sabha"
         showGlobalFilters={false}
       />
       <main className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
@@ -231,7 +260,7 @@ export default function MLAPage() {
             <EmptyState
               icon={<Users className="h-6 w-6" />}
               title="Select an MLA to view their profile"
-              description="Choose a legislator from the dropdown to see their details, contact information, social media and performance analytics."
+              description="Choose a Member of the Legislative Assembly to see their details, career timeline, performance analytics and related media coverage."
             />
             {/* Quick pick grid */}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

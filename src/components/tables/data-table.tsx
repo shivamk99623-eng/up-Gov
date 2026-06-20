@@ -11,6 +11,7 @@ import {
   ChevronsUpDown,
   Columns3,
   Download,
+  Eye,
   FileSpreadsheet,
   Search,
 } from "lucide-react";
@@ -27,11 +28,34 @@ import {
 import { EmptyState } from "@/components/common/states";
 import { cn } from "@/lib/utils";
 
+export interface DataTableCellContext {
+  /** Index within the current page (0-based). */
+  rowIndex: number;
+  /** Serial number across paginated rows (1-based). */
+  globalIndex: number;
+}
+
+/** Sr. No. column using the table's own 1-based row index (not source data). */
+export function serialNumberColumn<T>(
+  className = "w-16 tabular-nums",
+): DataTableColumn<T> {
+  return {
+    id: "srNo",
+    header: "Sr. No.",
+    cell: (_row, ctx) => (
+      <span className="tabular-nums text-muted-foreground">
+        {ctx?.globalIndex ?? "—"}
+      </span>
+    ),
+    className,
+  };
+}
+
 export interface DataTableColumn<T> {
   id: string;
   header: string;
   /** Rendered cell content. */
-  cell: (row: T) => React.ReactNode;
+  cell: (row: T, ctx?: DataTableCellContext) => React.ReactNode;
   /** Plain value used for sorting / searching. */
   value?: (row: T) => string | number | null | undefined;
   /** Optional export-only value (e.g. formatted dates); falls back to `value`. */
@@ -48,9 +72,18 @@ interface DataTableProps<T> {
   getRowId: (row: T) => string;
   /** Optional expanded-row renderer. */
   renderExpanded?: (row: T) => React.ReactNode;
+  /** Opens a detail modal for the row (adds an Actions column). */
+  renderDetail?: (ctx: {
+    row: T;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+  }) => React.ReactNode;
+  /** Show the View action column (default: true when renderDetail is set). */
+  showActionColumn?: boolean;
+  detailTitle?: (row: T) => string;
   exportFileName?: string;
   pageSize?: number;
-  /** Max height of the scrollable table body (px). */
+  /** Caps table body height (px) and adds an inner scroll; omit for page-level scroll only. */
   maxHeight?: number;
   /** Toolbar slot rendered on the left (e.g. extra filters). */
   toolbarStart?: React.ReactNode;
@@ -58,14 +91,19 @@ interface DataTableProps<T> {
 
 type SortState = { id: string; dir: "asc" | "desc" } | null;
 
+const VIEW_COL_WIDTH = 72;
+
 export function DataTable<T>({
   data,
   columns,
   getRowId,
   renderExpanded,
+  renderDetail,
+  showActionColumn = true,
+  detailTitle,
   exportFileName = "export",
   pageSize: initialPageSize = 50,
-  maxHeight = 800,
+  maxHeight,
   toolbarStart,
 }: DataTableProps<T>) {
   const [search, setSearch] = React.useState("");
@@ -76,8 +114,12 @@ export function DataTable<T>({
   const [hidden, setHidden] = React.useState<Set<string>>(
     () => new Set(columns.filter((c) => c.defaultHidden).map((c) => c.id)),
   );
+  const [detailRow, setDetailRow] = React.useState<T | null>(null);
 
   const visibleColumns = columns.filter((c) => !hidden.has(c.id));
+  const showAction = !!(renderDetail && showActionColumn);
+  const tableColSpan =
+    visibleColumns.length + (renderExpanded ? 1 : 0) + (showAction ? 1 : 0);
 
   const valueOf = React.useCallback(
     (row: T, col: DataTableColumn<T>) => {
@@ -125,13 +167,14 @@ export function DataTable<T>({
     setPage(0);
   }, [search, sort, pageSize]);
 
-  // Virtualize the rows of the current page.
   const scrollRef = React.useRef<HTMLDivElement>(null);
+  const useVirtualization = maxHeight != null;
   const rowVirtualizer = useVirtualizer({
     count: pageRows.length,
+    enabled: useVirtualization,
     getScrollElement: () => scrollRef.current,
     estimateSize: () => 56,
-    overscan: 20,
+    overscan: 8,
   });
 
   const toggleSort = (id: string) => {
@@ -153,9 +196,13 @@ export function DataTable<T>({
 
   const buildExportRows = React.useCallback(() => {
     const cols = visibleColumns;
-    return sorted.map((row) => {
+    return sorted.map((row, rowIdx) => {
       const obj: Record<string, string | number> = {};
       for (const c of cols) {
+        if (c.id === "srNo") {
+          obj[c.header] = rowIdx + 1;
+          continue;
+        }
         const v = c.exportValue?.(row) ?? c.value?.(row);
         obj[c.header] = v == null ? "" : v;
       }
@@ -193,6 +240,16 @@ export function DataTable<T>({
 
   return (
     <div className="space-y-3">
+      {renderDetail && detailRow
+        ? renderDetail({
+            row: detailRow,
+            open: true,
+            onOpenChange: (open) => {
+              if (!open) setDetailRow(null);
+            },
+          })
+        : null}
+
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="relative min-w-[180px] flex-1">
@@ -249,141 +306,181 @@ export function DataTable<T>({
         </Button>
       </div>
 
-      {/* Table */}
       <div className="overflow-hidden rounded-xl border border-border bg-card">
         <div
           ref={scrollRef}
-          className="overflow-auto overscroll-contain [contain:layout]"
-          style={{ maxHeight }}
+          className={cn(
+            "overflow-x-auto",
+            maxHeight != null && "overflow-y-auto overscroll-contain",
+          )}
+          style={maxHeight != null ? { maxHeight } : undefined}
         >
-          <table className="w-full text-sm">
-            <thead className="sticky top-0 z-10 bg-secondary/80 backdrop-blur">
-              <tr className="border-b border-border">
-                {renderExpanded && <th className="w-10" />}
+          <table className="min-w-full border-separate border-spacing-0 text-sm">
+            <thead className="sticky top-0 z-10 bg-secondary shadow-[0_1px_0_0_hsl(var(--border))]">
+              <tr>
+                {renderExpanded && (
+                  <th className="w-10 border-b border-border bg-secondary" />
+                )}
                 {visibleColumns.map((c) => {
                   const active = sort?.id === c.id;
                   return (
                     <th
                       key={c.id}
                       className={cn(
-                        "h-11 px-3 text-left align-middle text-xs font-semibold uppercase tracking-wide text-muted-foreground",
+                        "h-11 border-b border-border bg-secondary px-3 text-left align-middle text-xs font-semibold uppercase tracking-wide text-muted-foreground",
                         c.headerClassName,
                       )}
                     >
-                      {c.enableSorting ? (
-                        <button
-                          className="inline-flex items-center gap-1 hover:text-foreground"
-                          onClick={() => toggleSort(c.id)}
-                        >
-                          {c.header}
-                          {active ? (
-                            sort!.dir === "asc" ? (
-                              <ArrowUp className="h-3.5 w-3.5" />
+                        {c.enableSorting ? (
+                          <button
+                            className="inline-flex items-center gap-1 hover:text-foreground"
+                            onClick={() => toggleSort(c.id)}
+                          >
+                            {c.header}
+                            {active ? (
+                              sort!.dir === "asc" ? (
+                                <ArrowUp className="h-3.5 w-3.5" />
+                              ) : (
+                                <ArrowDown className="h-3.5 w-3.5" />
+                              )
                             ) : (
-                              <ArrowDown className="h-3.5 w-3.5" />
-                            )
-                          ) : (
-                            <ChevronsUpDown className="h-3.5 w-3.5 opacity-40" />
-                          )}
-                        </button>
-                      ) : (
-                        c.header
-                      )}
-                    </th>
-                  );
+                              <ChevronsUpDown className="h-3.5 w-3.5 opacity-40" />
+                            )}
+                          </button>
+                        ) : (
+                          c.header
+                        )}
+                      </th>
+                    );
                 })}
+                {showAction && (
+                  <th
+                    className="h-11 border-b border-l border-border bg-secondary px-2 text-center align-middle text-xs font-semibold uppercase tracking-wide text-muted-foreground"
+                    style={{ width: VIEW_COL_WIDTH, minWidth: VIEW_COL_WIDTH }}
+                  >
+                    View
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
-              {pageRows.length === 0 ? (
-                <tr>
-                  <td colSpan={visibleColumns.length + (renderExpanded ? 1 : 0)}>
-                    <EmptyState
-                      title="No records"
-                      description="No rows match the current search and filters."
-                      className="border-0 bg-transparent"
-                    />
-                  </td>
-                </tr>
-              ) : (
-                (() => {
-                  const items = rowVirtualizer.getVirtualItems();
-                  const paddingTop = items.length ? items[0].start : 0;
-                  const paddingBottom = items.length
-                    ? rowVirtualizer.getTotalSize() -
-                      items[items.length - 1].end
-                    : 0;
-                  return (
-                    <>
-                      {paddingTop > 0 && (
-                        <tr>
-                          <td
-                            style={{ height: paddingTop }}
-                            colSpan={
-                              visibleColumns.length + (renderExpanded ? 1 : 0)
-                            }
-                          />
-                        </tr>
-                      )}
-                      {items.map((vi) => {
-                        const row = pageRows[vi.index];
-                        const id = getRowId(row);
-                        const isExpanded = expanded.has(id);
-                        return (
-                          <React.Fragment key={id}>
-                            <tr className="border-b border-border transition-colors hover:bg-secondary/50">
-                              {renderExpanded && (
-                                <td className="px-2 text-center">
-                                  <button
-                                    onClick={() => toggleExpand(id)}
-                                    className="rounded p-1 text-muted-foreground hover:bg-secondary"
-                                    aria-label="Expand row"
+                {pageRows.length === 0 ? (
+                  <tr>
+                    <td colSpan={tableColSpan}>
+                      <EmptyState
+                        title="No records"
+                        description="No rows match the current search and filters."
+                        className="border-0 bg-transparent"
+                      />
+                    </td>
+                  </tr>
+                ) : (
+                  (() => {
+                    const virtualItems = useVirtualization
+                      ? rowVirtualizer.getVirtualItems()
+                      : null;
+                    const rowIndices = virtualItems
+                      ? virtualItems.map((vi) => vi.index)
+                      : pageRows.map((_, i) => i);
+                    const paddingTop =
+                      virtualItems && virtualItems.length
+                        ? virtualItems[0].start
+                        : 0;
+                    const paddingBottom =
+                      virtualItems && virtualItems.length
+                        ? rowVirtualizer.getTotalSize() -
+                          virtualItems[virtualItems.length - 1].end
+                        : 0;
+
+                    return (
+                      <>
+                        {paddingTop > 0 && (
+                          <tr aria-hidden>
+                            <td
+                              style={{ height: paddingTop }}
+                              colSpan={tableColSpan}
+                            />
+                          </tr>
+                        )}
+                        {rowIndices.map((rowIndex) => {
+                          const row = pageRows[rowIndex];
+                          const id = getRowId(row);
+                          const isExpanded = expanded.has(id);
+                          return (
+                            <React.Fragment key={id}>
+                              <tr
+                                data-index={rowIndex}
+                                ref={
+                                  useVirtualization
+                                    ? rowVirtualizer.measureElement
+                                    : undefined
+                                }
+                                className="border-b border-border bg-card transition-colors hover:bg-secondary/50"
+                              >
+                                {renderExpanded && (
+                                  <td className="px-2 text-center align-middle">
+                                    <button
+                                      onClick={() => toggleExpand(id)}
+                                      className="rounded p-1 text-muted-foreground hover:bg-secondary"
+                                      aria-label="Expand row"
+                                    >
+                                      <ChevronDown
+                                        className={cn(
+                                          "h-4 w-4 transition-transform",
+                                          isExpanded && "rotate-180",
+                                        )}
+                                      />
+                                    </button>
+                                  </td>
+                                )}
+                                {visibleColumns.map((c) => (
+                                  <td
+                                    key={c.id}
+                                    className={cn(
+                                      "overflow-hidden px-3 py-2.5 align-middle",
+                                      c.className,
+                                    )}
                                   >
-                                    <ChevronDown
-                                      className={cn(
-                                        "h-4 w-4 transition-transform",
-                                        isExpanded && "rotate-180",
-                                      )}
-                                    />
-                                  </button>
-                                </td>
-                              )}
-                              {visibleColumns.map((c) => (
-                                <td
-                                  key={c.id}
-                                  className={cn("px-3 py-2.5 align-middle", c.className)}
-                                >
-                                  {c.cell(row)}
-                                </td>
-                              ))}
-                            </tr>
-                            {renderExpanded && isExpanded && (
-                              <tr className="bg-secondary/30">
-                                <td
-                                  colSpan={visibleColumns.length + 1}
-                                  className="px-4 py-3"
-                                >
-                                  {renderExpanded(row)}
-                                </td>
+                                    {c.cell(row, {
+                                      rowIndex,
+                                      globalIndex:
+                                        safePage * pageSize + rowIndex + 1,
+                                    })}
+                                  </td>
+                                ))}
+                                {showAction && (
+                                  <ViewActionCell
+                                    row={row}
+                                    detailTitle={detailTitle}
+                                    onView={setDetailRow}
+                                  />
+                                )}
                               </tr>
-                            )}
-                          </React.Fragment>
-                        );
-                      })}
-                      {paddingBottom > 0 && (
-                        <tr>
-                          <td
-                            style={{ height: paddingBottom }}
-                            colSpan={
-                              visibleColumns.length + (renderExpanded ? 1 : 0)
-                            }
-                          />
-                        </tr>
-                      )}
-                    </>
-                  );
-                })()
-              )}
+                              {renderExpanded && isExpanded && (
+                                <tr className="bg-secondary/30">
+                                  <td
+                                    colSpan={tableColSpan}
+                                    className="px-4 py-3"
+                                  >
+                                    {renderExpanded(row)}
+                                  </td>
+                                </tr>
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                        {paddingBottom > 0 && (
+                          <tr aria-hidden>
+                            <td
+                              style={{ height: paddingBottom }}
+                              colSpan={tableColSpan}
+                            />
+                          </tr>
+                        )}
+                      </>
+                    );
+                  })()
+                )}
             </tbody>
           </table>
         </div>
@@ -436,6 +533,34 @@ export function DataTable<T>({
         </div>
       </div>
     </div>
+  );
+}
+
+function ViewActionCell<T>({
+  row,
+  detailTitle,
+  onView,
+}: {
+  row: T;
+  detailTitle?: (row: T) => string;
+  onView: (row: T) => void;
+}) {
+  return (
+    <td
+      className="border-l border-border px-2 text-center align-middle"
+      style={{ width: VIEW_COL_WIDTH, minWidth: VIEW_COL_WIDTH }}
+    >
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-8 w-8 shrink-0 text-primary hover:bg-primary/10 hover:text-primary"
+        onClick={() => onView(row)}
+        title={detailTitle ? `View ${detailTitle(row)}` : "View details"}
+        aria-label={detailTitle ? `View ${detailTitle(row)}` : "View details"}
+      >
+        <Eye className="h-4 w-4" />
+      </Button>
+    </td>
   );
 }
 

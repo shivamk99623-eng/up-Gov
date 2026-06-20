@@ -1,107 +1,138 @@
-# Graph Report - .  (2026-06-04)
+# Graph Report - up  (2026-06-20)
 
 ## Corpus Check
-- Corpus is ~19,076 words - fits in a single context window. You may not need a graph.
+- 78 files · ~30,167 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 299 nodes · 791 edges · 9 communities
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
+- 522 nodes · 1539 edges · 14 communities
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 19 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
+## Graph Freshness
+- Built from commit: `1bb64de8`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
+
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Shared UI Primitives|Shared UI Primitives]]
-- [[_COMMUNITY_Representative Profile Pages|Representative Profile Pages]]
-- [[_COMMUNITY_Excel Data Pipeline|Excel Data Pipeline]]
-- [[_COMMUNITY_District Analytics UI|District Analytics UI]]
-- [[_COMMUNITY_REST API & Analytics|REST API & Analytics]]
-- [[_COMMUNITY_Home Dashboard Charts|Home Dashboard Charts]]
-- [[_COMMUNITY_App Shell & Navigation|App Shell & Navigation]]
-- [[_COMMUNITY_Media Tables & Dates|Media Tables & Dates]]
-- [[_COMMUNITY_Table UI Components|Table UI Components]]
+- [[_COMMUNITY_App Pages & Layout|App Pages & Layout]]
+- [[_COMMUNITY_Data Parsers|Data Parsers]]
+- [[_COMMUNITY_Community 2|Community 2]]
+- [[_COMMUNITY_Representatives|Representatives]]
+- [[_COMMUNITY_Tables & Modals|Tables & Modals]]
+- [[_COMMUNITY_Community 5|Community 5]]
+- [[_COMMUNITY_Filter UI|Filter UI]]
+- [[_COMMUNITY_Table Primitives|Table Primitives]]
+- [[_COMMUNITY_Community 8|Community 8]]
+- [[_COMMUNITY_Community 9|Community 9]]
+- [[_COMMUNITY_Community 10|Community 10]]
+- [[_COMMUNITY_Community 11|Community 11]]
+- [[_COMMUNITY_Community 12|Community 12]]
+- [[_COMMUNITY_Community 14|Community 14]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `cn()` - 43 edges
-2. `jsonError()` - 13 edges
-3. `formatNumber()` - 13 edges
-4. `MediaType` - 11 edges
-5. `Skeleton()` - 10 edges
-6. `getDashboard()` - 10 edges
-7. `useFilterStore` - 10 edges
-8. `Badge()` - 9 edges
-9. `Button` - 9 edges
-10. `loadRecords()` - 9 edges
+1. `cn()` - 51 edges
+2. `warmDataCaches()` - 22 edges
+3. `jsonError()` - 21 edges
+4. `Sentiment` - 16 edges
+5. `formatNumber()` - 15 edges
+6. `loadRecords()` - 14 edges
+7. `compactMpKey()` - 14 edges
+8. `ensureCache()` - 14 edges
+9. `loadPrintRecords()` - 14 edges
+10. `getConstituencyOptions()` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `StatTile()` --calls--> `formatNumber()`  [EXTRACTED]
-  src/app/mla/page.tsx → src/lib/utils.ts
-- `MLADetails()` --calls--> `formatNumber()`  [EXTRACTED]
-  src/app/mla/page.tsx → src/lib/utils.ts
-- `StatTile()` --calls--> `formatNumber()`  [EXTRACTED]
-  src/app/mp/page.tsx → src/lib/utils.ts
-- `MPDetails()` --calls--> `formatNumber()`  [EXTRACTED]
-  src/app/mp/page.tsx → src/lib/utils.ts
-- `HomePage()` --calls--> `cn()`  [EXTRACTED]
-  src/app/page.tsx → src/lib/utils.ts
+- `register()` --calls--> `listAllMpBioMembers()`  [INFERRED]
+  src/instrumentation.ts → src/lib/mp-bio-parser.ts
+- `register()` --calls--> `getMLADirectory()`  [INFERRED]
+  src/instrumentation.ts → src/services/representatives.ts
+- `GET()` --calls--> `getConstituencyOptions()`  [INFERRED]
+  src/app/api/constituency/filters/route.ts → src/services/constituency.ts
+- `GET()` --calls--> `getConstituencyPrint()`  [INFERRED]
+  src/app/api/constituency/print/route.ts → src/services/constituency.ts
+- `GET()` --calls--> `getFilterOptions()`  [INFERRED]
+  src/app/api/filters/route.ts → src/services/analytics.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (9 total, 0 thin omitted)
+## Communities (14 total, 0 thin omitted)
 
-### Community 0 - "Shared UI Primitives"
+### Community 0 - "App Pages & Layout"
+Cohesion: 0.07
+Nodes (42): DailyTrendChart(), EChartsClickParams, gridBase, HorizontalCountChart(), MediaDistributionChart(), TopDistrictsChart(), TopNewsChart(), MediaTab() (+34 more)
+
+### Community 1 - "Data Parsers"
+Cohesion: 0.21
+Nodes (16): GET(), GET(), GET(), jsonError(), parseFilters(), warmDataCaches(), GET(), GET() (+8 more)
+
+### Community 2 - "Community 2"
 Cohesion: 0.09
-Nodes (35): EmptyState(), ErrorState(), LoadingState(), DateRangePickerProps, presets, MultiSelect(), MultiSelectProps, Option (+27 more)
+Nodes (22): classifyEntity(), constituencyFromTags(), DATA_PATH, DISTRICT_ALIASES, DISTRICT_TO_GEO, extractConstituency(), extractDistrict(), GEO_PATH (+14 more)
 
-### Community 1 - "Representative Profile Pages"
-Cohesion: 0.09
-Nodes (28): ChartCard(), ChartCardProps, grid, MediaCountChart(), MediaSentimentChart(), SentimentDonut(), SearchableSelect(), useMLAs() (+20 more)
+### Community 3 - "Representatives"
+Cohesion: 0.08
+Nodes (43): DetailBody(), DetailField(), DetailGrid(), DetailSection(), RecordDetailModal(), RecordDetailModalProps, MediaBadge(), SentimentBadge() (+35 more)
 
-### Community 2 - "Excel Data Pipeline"
+### Community 4 - "Tables & Modals"
+Cohesion: 0.12
+Nodes (29): isKnownLanguage(), buildLookup(), canonicalizeMlaName(), canonicalizeMpName(), DATA_ROOT, dirLatestMtime(), ensureCache(), fileSlug() (+21 more)
+
+### Community 5 - "Community 5"
 Cohesion: 0.06
-Nodes (22): classifyEntity(), DATA_PATH, DISTRICT_ALIASES, DISTRICT_TO_GEO, extractDistrict(), GEO_PATH, getDistrictLookup(), parseDate() (+14 more)
+Nodes (58): BioCache, cleanText(), ensureCache(), listAllMlaBioMembers(), loadJson(), lookupMlaBio(), MLA_FILE, MLABioRecord (+50 more)
 
-### Community 3 - "District Analytics UI"
-Cohesion: 0.11
-Nodes (28): SentimentBadge(), DistrictMediaTabs(), MediaScope, MediaTab(), DistrictPage(), GlobalFilters(), Header(), useDistrictAnalytics() (+20 more)
+### Community 6 - "Filter UI"
+Cohesion: 0.09
+Nodes (33): DateRangePicker(), DateRangePickerProps, presets, MultiSelect(), MultiSelectProps, Option, SearchableSelectProps, HeaderProps (+25 more)
 
-### Community 4 - "REST API & Analytics"
-Cohesion: 0.14
-Nodes (26): GET(), GET(), GET(), jsonError(), parseFilters(), formatCalendarDate(), filterRecords(), isKnownDistrict() (+18 more)
+### Community 7 - "Table Primitives"
+Cohesion: 0.06
+Nodes (65): HomePage(), ChartCard(), ChartCardProps, SummaryCard(), SummaryCardProps, grid, MediaCountChart(), MediaSentimentChart() (+57 more)
 
-### Community 5 - "Home Dashboard Charts"
-Cohesion: 0.10
-Nodes (24): HomePage(), SummaryCard(), SummaryCardProps, DailyTrendChart(), EChartsClickParams, gridBase, HorizontalCountChart(), MediaDistributionChart() (+16 more)
+### Community 8 - "Community 8"
+Cohesion: 0.20
+Nodes (19): formatCalendarDate(), isKnownDistrict(), listDistrictNamesFromPrint(), loadAllPrintRecords(), loadDistrictPrintRecords(), loadPrintRecords(), parseDate(), parseIndianDateString() (+11 more)
 
-### Community 6 - "App Shell & Navigation"
-Cohesion: 0.10
-Nodes (22): inter, metadata, Providers(), DateRangePicker(), AppShell(), HeaderProps, Emblem(), links (+14 more)
+### Community 9 - "Community 9"
+Cohesion: 0.29
+Nodes (17): startOfCalendarDay(), filterRecords(), loadRecords(), filterPrintRecords(), isKnownConstituency(), loadConstituencyPrintRecords(), resolveConstituencyToken(), getMedia() (+9 more)
 
-### Community 7 - "Media Tables & Dates"
-Cohesion: 0.16
-Nodes (18): endOfCalendarDay(), formatDisplayDate(), formatDisplayDateLong(), parseCalendarDate(), startOfCalendarDay(), DataTable(), DataTableColumn, COLUMN_BUILDERS (+10 more)
+### Community 10 - "Community 10"
+Cohesion: 0.09
+Nodes (41): cleanText(), colIndex(), coreVariants(), DATA_FILE, ensureCache(), GovCache, GovernmentMemberKind, GovernmentMemberRecord (+33 more)
 
-### Community 8 - "Table UI Components"
+### Community 11 - "Community 11"
+Cohesion: 0.83
+Nodes (4): toGeoName(), districtMatchKeys(), matchesDistrict(), resolveDistrictScope()
+
+### Community 12 - "Community 12"
+Cohesion: 0.23
+Nodes (7): inter, metadata, Providers(), AppShell(), Emblem(), links, SidebarNav()
+
+### Community 14 - "Community 14"
 Cohesion: 0.29
 Nodes (6): Table, TableBody, TableCell, TableHead, TableHeader, TableRow
 
 ## Knowledge Gaps
-- **51 isolated node(s):** `inter`, `metadata`, `HouseFilter`, `HOUSE_TABS`, `ChartCardProps` (+46 more)
+- **70 isolated node(s):** `HouseFilter`, `HOUSE_TABS`, `MLA_FILE`, `RawMlaEntry`, `BioCache` (+65 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `Shared UI Primitives` to `Representative Profile Pages`, `District Analytics UI`, `Home Dashboard Charts`, `App Shell & Navigation`, `Table UI Components`?**
-  _High betweenness centrality (0.114) - this node is a cross-community bridge._
-- **Why does `MediaType` connect `District Analytics UI` to `Excel Data Pipeline`, `REST API & Analytics`, `Media Tables & Dates`?**
-  _High betweenness centrality (0.032) - this node is a cross-community bridge._
-- **Why does `MediaRecord` connect `Excel Data Pipeline` to `District Analytics UI`, `REST API & Analytics`, `Media Tables & Dates`?**
-  _High betweenness centrality (0.029) - this node is a cross-community bridge._
-- **What connects `inter`, `metadata`, `HouseFilter` to the rest of the system?**
-  _51 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Shared UI Primitives` be split into smaller, more focused modules?**
-  _Cohesion score 0.08897959183673469 - nodes in this community are weakly interconnected._
-- **Should `Representative Profile Pages` be split into smaller, more focused modules?**
-  _Cohesion score 0.08902439024390243 - nodes in this community are weakly interconnected._
-- **Should `Excel Data Pipeline` be split into smaller, more focused modules?**
-  _Cohesion score 0.06219512195121951 - nodes in this community are weakly interconnected._
+- **Why does `cn()` connect `Table Primitives` to `Representatives`, `Community 12`, `Filter UI`, `Community 14`?**
+  _High betweenness centrality (0.066) - this node is a cross-community bridge._
+- **Why does `Sentiment` connect `App Pages & Layout` to `Data Parsers`, `Community 2`, `Representatives`, `Tables & Modals`, `Community 5`, `Filter UI`, `Community 8`, `Community 9`?**
+  _High betweenness centrality (0.042) - this node is a cross-community bridge._
+- **Why does `House` connect `Community 10` to `App Pages & Layout`, `Community 5`, `Table Primitives`?**
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **Are the 5 inferred relationships involving `warmDataCaches()` (e.g. with `GET()` and `GET()`) actually correct?**
+  _`warmDataCaches()` has 5 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 4 inferred relationships involving `jsonError()` (e.g. with `GET()` and `GET()`) actually correct?**
+  _`jsonError()` has 4 INFERRED edges - model-reasoned connections that need verification._
+- **What connects `HouseFilter`, `HOUSE_TABS`, `MLA_FILE` to the rest of the system?**
+  _70 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `App Pages & Layout` be split into smaller, more focused modules?**
+  _Cohesion score 0.06588235294117648 - nodes in this community are weakly interconnected._

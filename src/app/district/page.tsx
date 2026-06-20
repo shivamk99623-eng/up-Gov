@@ -8,6 +8,7 @@ import {
   Minus,
   Globe,
   MapPinned,
+  Printer,
 } from "lucide-react";
 import { FaXTwitter, FaYoutube } from "react-icons/fa6";
 import { Header } from "@/components/layout/header";
@@ -77,7 +78,7 @@ export default function DistrictPage() {
           <>
             {/* Summary cards (only when a district is selected) */}
             {district && (
-              <section className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
+              <section className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
                 <SummaryCard
                   label="Total News"
                   value={a?.total ?? 0}
@@ -108,6 +109,14 @@ export default function DistrictPage() {
                   loading={analytics.isLoading}
                   icon={<Minus className="h-5 w-5" />}
                   accent={CHART_COLORS.neutral}
+                />
+                <SummaryCard
+                  label="Print"
+                  value={a?.media.print ?? 0}
+                  total={a?.total}
+                  loading={analytics.isLoading}
+                  icon={<Printer className="h-5 w-5" />}
+                  accent={CHART_COLORS.saffron}
                 />
                 <SummaryCard
                   label="YouTube"
@@ -168,14 +177,18 @@ export default function DistrictPage() {
             {district ? (
               <Card>
                 <CardContent className="p-4 lg:p-5">
-                  <DistrictMediaTabs district={district} />
+                  <DistrictMediaTabs
+                    district={district}
+                    exportName={district}
+                    printSource="district"
+                  />
                 </CardContent>
               </Card>
             ) : (
               <EmptyState
                 icon={<MapPinned className="h-6 w-6" />}
                 title="Select a district to explore mentions"
-                description="Choose a district above to view detailed YouTube, Online and Twitter/X media tables with search, sorting and export."
+                description="Choose a district above to view print, YouTube, Online and Twitter/X media tables with search, sorting and export."
               />
             )}
           </>

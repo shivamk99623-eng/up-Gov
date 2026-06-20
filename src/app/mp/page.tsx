@@ -23,6 +23,7 @@ import {
   SentimentDonut,
 } from "@/components/charts/district-charts";
 import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
+import { MPBioDetails } from "@/components/representatives/mp-bio-details";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState, ErrorState } from "@/components/common/states";
 import { useMPs } from "@/lib/api-client";
+import { useRepresentativeSelection } from "@/lib/use-representative-selection";
 import { cn, formatNumber } from "@/lib/utils";
 import type { MP, House } from "@/lib/types";
 
@@ -129,12 +131,19 @@ function MPDetails({ mp }: { mp: MP }) {
     <div className="space-y-6">
       {/* Profile & biography cards are temporarily hidden. */}
       <div className="flex flex-wrap items-center gap-2">
-        <h2 className="mr-2 text-lg font-bold text-foreground">{mp.name}</h2>
+        {/* <h2 className="mr-2 text-lg font-bold text-foreground">{mp.name}</h2> */}
         <HouseBadge house={mp.house} />
         <Badge variant="secondary">{mp.constituency}</Badge>
         <Badge variant="outline">{mp.district}</Badge>
         <Badge>{mp.party}</Badge>
       </div>
+
+      <MPBioDetails
+        profile={mp.bioProfile}
+        fallbackName={mp.name}
+        house={mp.house}
+        reverseTimeline
+      />
 
       <div className="grid grid-cols-2 gap-3 sm:max-w-md">
         <StatTile
@@ -175,11 +184,15 @@ function MPDetails({ mp }: { mp: MP }) {
                 Related Media Coverage
               </h3>
               <p className="text-xs text-muted-foreground">
-                Original mentions linked to {mp.name} in the source data.
+                Print and digital mentions linked to {mp.name}.
               </p>
             </div>
           </div>
-          <DistrictMediaTabs entity={mp.name} exportName={mp.name} />
+          <DistrictMediaTabs
+            entity={mp.name}
+            exportName={mp.name}
+            printSource="mp"
+          />
         </CardContent>
       </Card>
     </div>
@@ -193,13 +206,29 @@ const HOUSE_TABS: { id: HouseFilter; label: string }[] = [
 ];
 
 export default function MPPage() {
+  return (
+    <React.Suspense
+      fallback={
+        <div className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
+          <Skeleton className="h-24 w-full rounded-xl" />
+          <Skeleton className="h-[560px] w-full rounded-xl" />
+        </div>
+      }
+    >
+      <MPPageContent />
+    </React.Suspense>
+  );
+}
+
+function MPPageContent() {
   const { data, isLoading, isError } = useMPs();
+  const { selectedId, setSelectedId } = useRepresentativeSelection();
   const [house, setHouse] = React.useState<HouseFilter>("All");
-  const [selectedId, setSelectedId] = React.useState<string | null>(null);
 
   const allMps = React.useMemo(() => data?.mps ?? [], [data]);
   const mps = React.useMemo(
-    () => (house === "All" ? allMps : allMps.filter((m) => m.house === house)),
+    () =>
+      house === "All" ? allMps : allMps.filter((m) => m.house === house),
     [allMps, house],
   );
   const selected = allMps.find((m) => m.id === selectedId) ?? null;
@@ -209,7 +238,7 @@ export default function MPPage() {
     if (selected && house !== "All" && selected.house !== house) {
       setSelectedId(null);
     }
-  }, [house, selected]);
+  }, [house, selected, setSelectedId]);
 
   const counts = React.useMemo(
     () => ({

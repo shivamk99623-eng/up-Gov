@@ -4,6 +4,8 @@
 
 export type MediaType = "YouTube" | "X" | "Online";
 
+export type PrintSourceType = "constituency" | "district" | "mp" | "mla";
+
 export type Sentiment = "Positive" | "Negative" | "Neutral";
 
 /** Political entity a mention can be linked to (derived from the Keyword column). */
@@ -39,6 +41,8 @@ export interface MediaRecord {
   location: string | null;
   tracker: string | null;
   district: string;
+  /** Lok Sabha constituency (from Excel column or Keyword tags). */
+  constituency: string;
   keyword: string;
   url: string;
   /** Linked person name (from Keyword), or null for general state/district news. */
@@ -54,6 +58,7 @@ export interface SentimentBreakdown {
 }
 
 export interface MediaBreakdown {
+  print: number;
   youtube: number;
   x: number;
   online: number;
@@ -61,9 +66,11 @@ export interface MediaBreakdown {
 
 export interface DistrictSummary {
   district: string;
+  dt_name: string;
   /** Matching GeoJSON district name (for the map). */
   geoName: string;
   total: number;
+  print: number;
   youtube: number;
   x: number;
   online: number;
@@ -75,6 +82,7 @@ export interface DistrictSummary {
 export interface TrendPoint {
   date: string;
   total: number;
+  print: number;
   youtube: number;
   x: number;
   online: number;
@@ -100,6 +108,7 @@ export interface NewsItem {
 
 export interface DashboardResponse {
   totalNews: number;
+  printCount: number;
   youtubeCount: number;
   xCount: number;
   onlineCount: number;
@@ -125,6 +134,7 @@ export interface DistrictAnalyticsResponse {
   sentiment: SentimentBreakdown;
   media: MediaBreakdown;
   mediaSentiment: {
+    print: SentimentBreakdown;
     youtube: SentimentBreakdown;
     x: SentimentBreakdown;
     online: SentimentBreakdown;
@@ -136,14 +146,89 @@ export interface DistrictAnalyticsResponse {
 
 export interface MediaQueryResponse {
   district: string | null;
+  constituency: string | null;
   mediaType: MediaType | "All";
   total: number;
   records: MediaRecord[];
 }
 
+export interface PrintRecord {
+  id: string;
+  sourceType: PrintSourceType;
+  scope: string;
+  srNo: number | null;
+  headline: string;
+  publication: string;
+  author: string;
+  edition: string;
+  pageNo: string | number | null;
+  sentiment: Sentiment;
+  ccm: string | null;
+  language: string;
+  date: string | null;
+}
+
+export interface PrintQueryResponse {
+  district: string | null;
+  constituency: string | null;
+  entity: string | null;
+  total: number;
+  records: PrintRecord[];
+}
+
+export interface ConstituencyPrintResponse {
+  constituency: string | null;
+  total: number;
+  records: PrintRecord[];
+}
+
+export interface ConstituencyAnalyticsResponse {
+  constituency: string;
+  total: number;
+  printTotal: number;
+  sentiment: SentimentBreakdown;
+  media: MediaBreakdown;
+  mediaSentiment: {
+    print: SentimentBreakdown;
+    youtube: SentimentBreakdown;
+    x: SentimentBreakdown;
+    online: SentimentBreakdown;
+  };
+  dailyTrend: TrendPoint[];
+  topProfiles: NameCount[];
+  languageDistribution: NameCount[];
+}
+
+/** Profile fields from `UP Government Member Data.xlsx`. */
+export interface GovernmentMemberProfile {
+  name: string;
+  currentEmployment: string | null;
+  highestQualification: string | null;
+}
+
+export interface CareerPosition {
+  period: string;
+  position: string;
+}
+
+/** MP bio fields from Lok Sabha / Rajya Sabha JSON files. */
+export interface MPBioProfile {
+  fullName: string;
+  constituency: string | null;
+  partyFname: string | null;
+  dateOfBirth: string | null;
+  education: string | null;
+  profession: string | null;
+  careerTimeline: CareerPosition[];
+}
+
 export interface MLA {
   id: string;
   name: string;
+  /** Bio details from Vidhan Sabha JSON when matched. */
+  bioProfile: MPBioProfile | null;
+  /** Government member details when matched in UP Government Member Data. */
+  governmentProfile: GovernmentMemberProfile | null;
   district: string;
   constituency: string;
   party: string;
@@ -178,7 +263,12 @@ export type House = "Lok Sabha" | "Rajya Sabha";
 export interface MP {
   id: string;
   name: string;
+  /** Bio details from Lok Sabha / Rajya Sabha JSON when matched. */
+  bioProfile: MPBioProfile | null;
+  /** Primary house for display (from media-data when available). */
   house: House;
+  /** All houses this MP is linked to across media-data and print folders. */
+  houses: House[];
   /** Lok Sabha constituency, or state representation for Rajya Sabha. */
   constituency: string;
   district: string;
@@ -213,6 +303,7 @@ export interface MP {
 /** Shared filter params used across the API. */
 export interface GlobalFilters {
   district?: string | null;
+  constituency?: string | null;
   mediaType?: MediaType | "All" | null;
   sentiment?: Sentiment | "All" | null;
   language?: string | null;
@@ -221,6 +312,8 @@ export interface GlobalFilters {
   dateTo?: string | null;
   /** Filter to a specific linked person (exact match on entityName). */
   entity?: string | null;
+  /** Limits print to a specific folder (district / MLA / MP). */
+  printSource?: "district" | "mla" | "mp" | null;
 }
 
 export const MEDIA_TYPES: MediaType[] = ["YouTube", "X", "Online"];

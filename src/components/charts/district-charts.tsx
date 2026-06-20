@@ -15,7 +15,7 @@ export function MediaCountChart({ data }: { data: MediaBreakdown }) {
       tooltip: { ...baseTooltip, axisPointer: { type: "shadow" } },
       xAxis: {
         type: "category",
-        data: ["YouTube", "Online", "Twitter / X"],
+        data: ["Print", "YouTube", "Online", "Twitter / X"],
         axisLine: { lineStyle: { color: "#d1d5db" } },
         axisLabel: { color: "#4b5563", fontWeight: 600 },
       },
@@ -29,6 +29,7 @@ export function MediaCountChart({ data }: { data: MediaBreakdown }) {
           type: "bar",
           barWidth: "46%",
           data: [
+            { value: data.print, itemStyle: { color: CHART_COLORS.saffron } },
             { value: data.youtube, itemStyle: { color: CHART_COLORS.youtube } },
             { value: data.online, itemStyle: { color: CHART_COLORS.online } },
             { value: data.x, itemStyle: { color: CHART_COLORS.x } },
@@ -48,11 +49,13 @@ export function MediaSentimentChart({
   data,
 }: {
   data: {
+    print?: SentimentBreakdown;
     youtube: SentimentBreakdown;
     online: SentimentBreakdown;
     x: SentimentBreakdown;
   };
 }) {
+  const print = data.print ?? { positive: 0, negative: 0, neutral: 0 };
   const option = React.useMemo<EChartsOption>(
     () => ({
       grid: { ...grid, bottom: 24 },
@@ -60,7 +63,7 @@ export function MediaSentimentChart({
       legend: { top: 0, textStyle: { color: "#6b7280" }, icon: "roundRect" },
       xAxis: {
         type: "category",
-        data: ["YouTube", "Online", "Twitter / X"],
+        data: ["Print", "YouTube", "Online", "Twitter / X"],
         axisLine: { lineStyle: { color: "#d1d5db" } },
         axisLabel: { color: "#4b5563", fontWeight: 600 },
       },
@@ -73,24 +76,39 @@ export function MediaSentimentChart({
         {
           name: "Positive",
           type: "bar",
-          data: [data.youtube.positive, data.online.positive, data.x.positive],
+          data: [
+            print.positive,
+            data.youtube.positive,
+            data.online.positive,
+            data.x.positive,
+          ],
           itemStyle: { color: CHART_COLORS.positive, borderRadius: [4, 4, 0, 0] },
         },
         {
           name: "Negative",
           type: "bar",
-          data: [data.youtube.negative, data.online.negative, data.x.negative],
+          data: [
+            print.negative,
+            data.youtube.negative,
+            data.online.negative,
+            data.x.negative,
+          ],
           itemStyle: { color: CHART_COLORS.negative, borderRadius: [4, 4, 0, 0] },
         },
         {
           name: "Neutral",
           type: "bar",
-          data: [data.youtube.neutral, data.online.neutral, data.x.neutral],
+          data: [
+            print.neutral,
+            data.youtube.neutral,
+            data.online.neutral,
+            data.x.neutral,
+          ],
           itemStyle: { color: CHART_COLORS.neutral, borderRadius: [4, 4, 0, 0] },
         },
       ],
     }),
-    [data],
+    [data, print],
   );
   return <EChart option={option} height={340} />;
 }

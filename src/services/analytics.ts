@@ -5,6 +5,12 @@ import {
   toGeoName,
   isKnownDistrict,
 } from "@/lib/excel-parser";
+import {
+  loadDistrictPrintRecords,
+  loadPrintRecords,
+  listDistrictNamesFromPrint,
+  printCountsByDistrict,
+} from "@/lib/print-parser";
 import { formatCalendarDate } from "@/lib/dates";
 import type {
   DashboardResponse,
@@ -16,6 +22,8 @@ import type {
   MediaType,
   NameCount,
   NewsItem,
+  PrintQueryResponse,
+  PrintRecord,
   Sentiment,
   TrendPoint,
 } from "@/lib/types";
@@ -47,19 +55,35 @@ function topCounts(
     .slice(0, limit);
 }
 
-function buildDailyTrend(records: MediaRecord[]): TrendPoint[] {
+function bumpTrend(
+  map: Map<string, TrendPoint>,
+  date: string,
+  kind: "print" | MediaType,
+) {
+  let p = map.get(date);
+  if (!p) {
+    p = { date, total: 0, print: 0, youtube: 0, x: 0, online: 0 };
+    map.set(date, p);
+  }
+  p.total += 1;
+  if (kind === "print") p.print += 1;
+  else if (kind === "YouTube") p.youtube += 1;
+  else if (kind === "X") p.x += 1;
+  else p.online += 1;
+}
+
+function buildDailyTrend(
+  records: MediaRecord[],
+  printRecords: PrintRecord[] = [],
+): TrendPoint[] {
   const map = new Map<string, TrendPoint>();
   for (const r of records) {
     if (!r.date) continue;
-    let p = map.get(r.date);
-    if (!p) {
-      p = { date: r.date, total: 0, youtube: 0, x: 0, online: 0 };
-      map.set(r.date, p);
-    }
-    p.total += 1;
-    if (r.mediaType === "YouTube") p.youtube += 1;
-    else if (r.mediaType === "X") p.x += 1;
-    else p.online += 1;
+    bumpTrend(map, r.date, r.mediaType);
+  }
+  for (const r of printRecords) {
+    if (!r.date) continue;
+    bumpTrend(map, r.date, "print");
   }
   return [...map.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
@@ -98,7 +122,10 @@ function topNewsBySentiment(
     .slice(0, limit);
 }
 
-function buildDistrictSummary(records: MediaRecord[]): DistrictSummary[] {
+function buildDistrictSummary(
+  records: MediaRecord[],
+  printByDistrict: Map<string, number>,
+): DistrictSummary[] {
   const map = new Map<string, DistrictSummary>();
   for (const r of records) {
     if (!isKnownDistrict(r.district)) continue;
@@ -106,8 +133,10 @@ function buildDistrictSummary(records: MediaRecord[]): DistrictSummary[] {
     if (!d) {
       d = {
         district: r.district,
+        dt_name: r.district.slice(0, 3),
         geoName: toGeoName(r.district),
         total: 0,
+        print: printByDistrict.get(r.district) ?? 0,
         youtube: 0,
         x: 0,
         online: 0,
@@ -125,12 +154,34 @@ function buildDistrictSummary(records: MediaRecord[]): DistrictSummary[] {
     else if (r.sentiment === "Negative") d.negative += 1;
     else d.neutral += 1;
   }
+  for (const [district, printCount] of printByDistrict) {
+    if (!map.has(district)) {
+      map.set(district, {
+        district,
+        dt_name: district.slice(0, 3),
+        geoName: toGeoName(district),
+        total: printCount,
+        print: printCount,
+        youtube: 0,
+        x: 0,
+        online: 0,
+        positive: 0,
+        negative: 0,
+        neutral: 0,
+      });
+    } else {
+      const d = map.get(district)!;
+      d.print = printCount;
+      d.total += printCount;
+    }
+  }
   return [...map.values()].sort((a, b) => b.total - a.total);
 }
 
 export function getDashboard(filters: GlobalFilters = {}): DashboardResponse {
   const all = loadRecords();
   const records = filterRecords(all, filters);
+  const printRecords = loadPrintRecords(filters);
 
   let youtubeCount = 0;
   let xCount = 0;
@@ -154,10 +205,18 @@ export function getDashboard(filters: GlobalFilters = {}): DashboardResponse {
     }
   }
 
-  const districtSummary = buildDistrictSummary(records);
+  for (const r of printRecords) {
+    if (r.sentiment === "Positive") positiveCount += 1;
+    else if (r.sentiment === "Negative") negativeCount += 1;
+    else neutralCount += 1;
+  }
+
+  const printByDistrict = printCountsByDistrict();
+  const districtSummary = buildDistrictSummary(records, printByDistrict);
 
   return {
-    totalNews: records.length,
+    totalNews: records.length + printRecords.length,
+    printCount: printRecords.length,
     youtubeCount,
     xCount,
     onlineCount,
@@ -170,8 +229,13 @@ export function getDashboard(filters: GlobalFilters = {}): DashboardResponse {
       .map((d) => ({ name: d.district, count: d.total })),
     topPositiveNews: topNewsBySentiment(records, "Positive", 10),
     topNegativeNews: topNewsBySentiment(records, "Negative", 10),
-    mediaDistribution: { youtube: youtubeCount, x: xCount, online: onlineCount },
-    dailyTrend: buildDailyTrend(records),
+    mediaDistribution: {
+      print: printRecords.length,
+      youtube: youtubeCount,
+      x: xCount,
+      online: onlineCount,
+    },
+    dailyTrend: buildDailyTrend(records, printRecords),
     topProfiles: topCounts(records, (r) => r.profile, 10),
     topChannels: topCounts(records, (r) => r.rawChannel, 10),
     languageDistribution: topCounts(records, (r) => r.language, 12),
@@ -189,10 +253,15 @@ export function getDistrictAnalytics(
 ): DistrictAnalyticsResponse {
   const all = loadRecords();
   const records = filterRecords(all, { ...filters, district });
+  const printRecords =
+    district === "All"
+      ? loadDistrictPrintRecords()
+      : loadDistrictPrintRecords(district);
 
   const sentiment = emptySentiment();
-  const media = { youtube: 0, x: 0, online: 0 };
+  const media = { print: 0, youtube: 0, x: 0, online: 0 };
   const mediaSentiment = {
+    print: emptySentiment(),
     youtube: emptySentiment(),
     x: emptySentiment(),
     online: emptySentiment(),
@@ -212,9 +281,15 @@ export function getDistrictAnalytics(
     }
   }
 
+  for (const r of printRecords) {
+    media.print += 1;
+    addSentiment(sentiment, r.sentiment);
+    addSentiment(mediaSentiment.print, r.sentiment);
+  }
+
   return {
     district,
-    total: records.length,
+    total: records.length + printRecords.length,
     sentiment,
     media,
     mediaSentiment,
@@ -226,7 +301,6 @@ export function getDistrictAnalytics(
 
 export function getMedia(
   filters: GlobalFilters & { mediaType?: MediaType | "All" | null },
-  limit = 5000,
 ): MediaQueryResponse {
   const all = loadRecords();
   const records = filterRecords(all, filters);
@@ -235,13 +309,30 @@ export function getMedia(
   );
   return {
     district: filters.district ?? null,
+    constituency: filters.constituency ?? null,
     mediaType: filters.mediaType ?? "All",
     total: sorted.length,
-    records: sorted.slice(0, limit),
+    records: sorted,
   };
 }
 
 /** Distinct values for populating filter dropdowns. */
+export function getPrint(
+  filters: GlobalFilters = {},
+): PrintQueryResponse {
+  const records = loadPrintRecords(filters);
+  const sorted = [...records].sort((a, b) =>
+    (b.date ?? "").localeCompare(a.date ?? ""),
+  );
+  return {
+    district: filters.district ?? null,
+    constituency: filters.constituency ?? null,
+    entity: filters.entity ?? null,
+    total: sorted.length,
+    records: sorted,
+  };
+}
+
 export function getFilterOptions() {
   const records = loadRecords();
   const districts = new Set<string>();
@@ -249,6 +340,9 @@ export function getFilterOptions() {
   for (const r of records) {
     if (isKnownDistrict(r.district)) districts.add(r.district);
     languages.add(r.language);
+  }
+  for (const name of listDistrictNamesFromPrint()) {
+    districts.add(name);
   }
   return {
     districts: [...districts].sort(),
