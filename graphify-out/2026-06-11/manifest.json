@@ -65,15 +65,6 @@
     "semantic_hash": "cc8a10bc78a632ca39e10dc10950353a"
   },
   "src/app/mla/page.tsx": {
-<<<<<<< Updated upstream
-    "mtime": 1781948678.645463,
-    "ast_hash": "152436f90c15efaa1cd92c104458d87c",
-    "semantic_hash": "152436f90c15efaa1cd92c104458d87c"
-  },
-  "src/app/mp/page.tsx": {
-    "mtime": 1781948678.6458752,
-    "ast_hash": "bd26b714efc57c6c7ff1d6305eaa069f",
-=======
     "mtime": 1781129205.095986,
     "ast_hash": "bb052bc10b724a00a2403573fe010f8d",
     "semantic_hash": ""
@@ -81,7 +72,6 @@
   "src/app/mp/page.tsx": {
     "mtime": 1781129203.8035598,
     "ast_hash": "74e75c28cbf188f17176423c4fd84bce",
->>>>>>> Stashed changes
     "semantic_hash": ""
   },
   "src/app/page.tsx": {
@@ -100,7 +90,7 @@
     "semantic_hash": "24809806fa881659840b041354082d14"
   },
   "src/components/cards/summary-card.tsx": {
-    "mtime": 1781891496.1992354,
+    "mtime": 1781036684.9828856,
     "ast_hash": "875927f539ad40f77ca9f5e2df4e1f23",
     "semantic_hash": "875927f539ad40f77ca9f5e2df4e1f23"
   },
@@ -335,13 +325,8 @@
     "semantic_hash": "99a7e1f6cb347ccf19660c9871a2345e"
   },
   "src/lib/types.ts": {
-<<<<<<< Updated upstream
-    "mtime": 1781948678.64738,
-    "ast_hash": "1220723cbec618a752d053b8f68d6567",
-=======
     "mtime": 1781127618.5912533,
     "ast_hash": "32182dec2e0edce0a7dc96406bc5b5a6",
->>>>>>> Stashed changes
     "semantic_hash": ""
   },
   "src/lib/utils.ts": {
@@ -360,13 +345,8 @@
     "semantic_hash": "81a6de471520662a492eb977ce9a0efd"
   },
   "src/services/representatives.ts": {
-<<<<<<< Updated upstream
-    "mtime": 1781948678.6479433,
-    "ast_hash": "076303810bcb4d5b37e1caf256118f82",
-=======
     "mtime": 1781128352.6341982,
     "ast_hash": "778336d37b9e4329ae9dd3b8f8b47400",
->>>>>>> Stashed changes
     "semantic_hash": ""
   },
   "src/store/filters.ts": {
@@ -375,24 +355,14 @@
     "semantic_hash": "2971306bc89614282a83d2753d17579d"
   },
   "src/components/representatives/mp-bio-details.tsx": {
-<<<<<<< Updated upstream
-    "mtime": 1781948678.6462827,
-    "ast_hash": "af036f3ff49db797c084f80d06fa8dc8",
-    "semantic_hash": ""
-  },
-  "src/lib/mp-bio-parser.ts": {
-    "mtime": 1781948678.6466465,
-    "ast_hash": "faf09807b670cabbf2689874f2edcfca",
-=======
     "mtime": 1781129199.0844631,
     "ast_hash": "ef4b6fe4c9e3dca808baefddfc9ce514",
     "semantic_hash": ""
   },
   "src/lib/mp-bio-parser.ts": {
-    "mtime": 1781129444.1955633,
-    "ast_hash": "36ea356d596d5b03787546b1d84c4b82",
->>>>>>> Stashed changes
-    "semantic_hash": ""
+    "mtime": 1781126852.4415653,
+    "ast_hash": "faf09807b670cabbf2689874f2edcfca",
+    "semantic_hash": "faf09807b670cabbf2689874f2edcfca"
   },
   "src/lib/mp-name-matching.ts": {
     "mtime": 1781057218.439045,
