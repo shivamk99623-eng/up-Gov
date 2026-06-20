@@ -1,0 +1,22 @@
+[
+    {
+      "id": 1,
+      "name": "Amit",
+      "age": 30,
+      "gender": "Male",
+      "country": "India",
+      "status": "Active",
+      "category": "Gold",
+      "city": "Delhi"
+    },
+    {
+      "id": 2,
+      "name": "Rahul",
+      "country": "USA",
+      "age": 25,
+      "gender": "Female",
+      "status": "Inactive",
+      "category": "Silver",
+      "city": "New York"
+    }
+  ]

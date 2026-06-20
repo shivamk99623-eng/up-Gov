@@ -1,0 +1,18 @@
+[
+    {
+      "id": 1,
+      "name": "Amit",
+      "country": "India",
+      "status": "Active",
+      "category": "Gold",
+      "city": "Delhi"
+    },
+    {
+      "id": 2,
+      "name": "Rahul",
+      "country": "USA",
+      "status": "Inactive",
+      "category": "Silver",
+      "city": "New York"
+    }
+  ]
