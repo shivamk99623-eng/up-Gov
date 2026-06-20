@@ -135,7 +135,7 @@
       "source_file": "src/app/api/mla/route.ts",
       "source_location": "L1",
       "id": "mla_route",
-      "community": 3,
+      "community": 5,
       "norm_label": "route.ts"
     },
     {
@@ -144,7 +144,7 @@
       "source_file": "src/app/api/mla/route.ts",
       "source_location": "L7",
       "id": "mla_route_get",
-      "community": 3,
+      "community": 5,
       "norm_label": "get()"
     },
     {
@@ -153,7 +153,7 @@
       "source_file": "src/app/api/mp/route.ts",
       "source_location": "L1",
       "id": "mp_route",
-      "community": 3,
+      "community": 5,
       "norm_label": "route.ts"
     },
     {
@@ -162,7 +162,7 @@
       "source_file": "src/app/api/mp/route.ts",
       "source_location": "L7",
       "id": "mp_route_get",
-      "community": 3,
+      "community": 5,
       "norm_label": "get()"
     },
     {
@@ -486,7 +486,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L1",
       "id": "charts_dashboard_charts",
-      "community": 2,
+      "community": 0,
       "norm_label": "dashboard-charts.tsx"
     },
     {
@@ -495,7 +495,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L15",
       "id": "charts_dashboard_charts_gridbase",
-      "community": 2,
+      "community": 0,
       "norm_label": "gridbase"
     },
     {
@@ -504,7 +504,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L17",
       "id": "charts_dashboard_charts_topdistrictschart",
-      "community": 2,
+      "community": 0,
       "norm_label": "topdistrictschart()"
     },
     {
@@ -513,7 +513,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L57",
       "id": "charts_dashboard_charts_mediadistributionchart",
-      "community": 2,
+      "community": 0,
       "norm_label": "mediadistributionchart()"
     },
     {
@@ -522,7 +522,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L91",
       "id": "charts_dashboard_charts_dailytrendchart",
-      "community": 2,
+      "community": 0,
       "norm_label": "dailytrendchart()"
     },
     {
@@ -531,7 +531,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L176",
       "id": "charts_dashboard_charts_shortheadline",
-      "community": 2,
+      "community": 0,
       "norm_label": "shortheadline()"
     },
     {
@@ -540,7 +540,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L181",
       "id": "charts_dashboard_charts_escapehtml",
-      "community": 2,
+      "community": 0,
       "norm_label": "escapehtml()"
     },
     {
@@ -549,7 +549,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L190",
       "id": "charts_dashboard_charts_opennewsurl",
-      "community": 2,
+      "community": 0,
       "norm_label": "opennewsurl()"
     },
     {
@@ -558,7 +558,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L197",
       "id": "charts_dashboard_charts_echartsclickparams",
-      "community": 2,
+      "community": 0,
       "norm_label": "echartsclickparams"
     },
     {
@@ -567,7 +567,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L204",
       "id": "charts_dashboard_charts_newsindexfromclick",
-      "community": 2,
+      "community": 0,
       "norm_label": "newsindexfromclick()"
     },
     {
@@ -576,7 +576,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L226",
       "id": "charts_dashboard_charts_topnewschart",
-      "community": 2,
+      "community": 0,
       "norm_label": "topnewschart()"
     },
     {
@@ -585,7 +585,7 @@
       "source_file": "src/components/charts/dashboard-charts.tsx",
       "source_location": "L370",
       "id": "charts_dashboard_charts_horizontalcountchart",
-      "community": 2,
+      "community": 0,
       "norm_label": "horizontalcountchart()"
     },
     {
@@ -1089,7 +1089,7 @@
       "source_file": "src/components/home/up-map.tsx",
       "source_location": "L12",
       "id": "home_up_map_upmapprops",
-      "community": 0,
+      "community": 2,
       "norm_label": "upmapprops"
     },
     {
@@ -1341,7 +1341,7 @@
       "source_file": "src/components/tables/media-record-detail.tsx",
       "source_location": "L17",
       "id": "tables_media_record_detail_mediarecorddetailmodal",
-      "community": 4,
+      "community": 0,
       "norm_label": "mediarecorddetailmodal()"
     },
     {
@@ -1890,7 +1890,7 @@
       "source_file": "src/components/ui/select.tsx",
       "source_location": "L1",
       "id": "ui_select",
-      "community": 6,
+      "community": 4,
       "norm_label": "select.tsx"
     },
     {
@@ -1899,7 +1899,7 @@
       "source_file": "src/components/ui/select.tsx",
       "source_location": "L12",
       "id": "ui_select_selecttrigger",
-      "community": 6,
+      "community": 4,
       "norm_label": "selecttrigger"
     },
     {
@@ -1908,7 +1908,7 @@
       "source_file": "src/components/ui/select.tsx",
       "source_location": "L32",
       "id": "ui_select_selectcontent",
-      "community": 6,
+      "community": 4,
       "norm_label": "selectcontent"
     },
     {
@@ -1917,7 +1917,7 @@
       "source_file": "src/components/ui/select.tsx",
       "source_location": "L62",
       "id": "ui_select_selectitem",
-      "community": 6,
+      "community": 4,
       "norm_label": "selectitem"
     },
     {
@@ -2151,7 +2151,7 @@
       "source_file": "src/instrumentation.ts",
       "source_location": "L1",
       "id": "src_instrumentation",
-      "community": 1,
+      "community": 3,
       "norm_label": "instrumentation.ts"
     },
     {
@@ -2160,7 +2160,7 @@
       "source_file": "src/instrumentation.ts",
       "source_location": "L5",
       "id": "src_instrumentation_register",
-      "community": 1,
+      "community": 3,
       "norm_label": "register()"
     },
     {
@@ -2299,10 +2299,19 @@
       "norm_label": "api-helpers.ts"
     },
     {
+      "label": "warmDataCaches()",
+      "file_type": "code",
+      "source_file": "src/lib/api-helpers.ts",
+      "source_location": "L10",
+      "id": "lib_api_helpers_warmdatacaches",
+      "community": 5,
+      "norm_label": "warmdatacaches()"
+    },
+    {
       "label": "parseFilters()",
       "file_type": "code",
       "source_file": "src/lib/api-helpers.ts",
-      "source_location": "L4",
+      "source_location": "L28",
       "id": "lib_api_helpers_parsefilters",
       "community": 5,
       "norm_label": "parsefilters()"
@@ -2311,7 +2320,7 @@
       "label": "jsonError()",
       "file_type": "code",
       "source_file": "src/lib/api-helpers.ts",
-      "source_location": "L26",
+      "source_location": "L50",
       "id": "lib_api_helpers_jsonerror",
       "community": 5,
       "norm_label": "jsonerror()"
@@ -2448,7 +2457,7 @@
       "source_file": "src/lib/excel-parser.ts",
       "source_location": "L90",
       "id": "lib_excel_parser_isknowndistrict",
-      "community": 5,
+      "community": 1,
       "norm_label": "isknowndistrict()"
     },
     {
@@ -2862,7 +2871,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L1",
       "id": "lib_mp_bio_parser",
-      "community": 8,
+      "community": 3,
       "norm_label": "mp-bio-parser.ts"
     },
     {
@@ -2871,7 +2880,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L7",
       "id": "lib_mp_bio_parser_lok_file",
-      "community": 8,
+      "community": 3,
       "norm_label": "lok_file"
     },
     {
@@ -2880,7 +2889,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L12",
       "id": "lib_mp_bio_parser_raj_file",
-      "community": 8,
+      "community": 3,
       "norm_label": "raj_file"
     },
     {
@@ -2889,7 +2898,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L18",
       "id": "lib_mp_bio_parser_careerposition",
-      "community": 8,
+      "community": 3,
       "norm_label": "careerposition"
     },
     {
@@ -2907,7 +2916,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L34",
       "id": "lib_mp_bio_parser_rawlokentry",
-      "community": 8,
+      "community": 3,
       "norm_label": "rawlokentry"
     },
     {
@@ -2916,7 +2925,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L44",
       "id": "lib_mp_bio_parser_rawrajentry",
-      "community": 8,
+      "community": 3,
       "norm_label": "rawrajentry"
     },
     {
@@ -2925,7 +2934,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L53",
       "id": "lib_mp_bio_parser_biocache",
-      "community": 8,
+      "community": 3,
       "norm_label": "biocache"
     },
     {
@@ -2934,7 +2943,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L64",
       "id": "lib_mp_bio_parser_cleantext",
-      "community": 8,
+      "community": 3,
       "norm_label": "cleantext()"
     },
     {
@@ -2943,7 +2952,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L75",
       "id": "lib_mp_bio_parser_personkey",
-      "community": 8,
+      "community": 3,
       "norm_label": "personkey()"
     },
     {
@@ -2952,7 +2961,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L79",
       "id": "lib_mp_bio_parser_normalizeposition",
-      "community": 8,
+      "community": 3,
       "norm_label": "normalizeposition()"
     },
     {
@@ -2961,7 +2970,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L91",
       "id": "lib_mp_bio_parser_parselokentry",
-      "community": 8,
+      "community": 3,
       "norm_label": "parselokentry()"
     },
     {
@@ -2970,7 +2979,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L111",
       "id": "lib_mp_bio_parser_parserajentry",
-      "community": 8,
+      "community": 3,
       "norm_label": "parserajentry()"
     },
     {
@@ -2979,7 +2988,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L131",
       "id": "lib_mp_bio_parser_indexrecord",
-      "community": 8,
+      "community": 3,
       "norm_label": "indexrecord()"
     },
     {
@@ -2988,7 +2997,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L135",
       "id": "lib_mp_bio_parser_loadjson",
-      "community": 8,
+      "community": 3,
       "norm_label": "loadjson()"
     },
     {
@@ -2997,7 +3006,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L142",
       "id": "lib_mp_bio_parser_ensurecache",
-      "community": 8,
+      "community": 3,
       "norm_label": "ensurecache()"
     },
     {
@@ -3006,7 +3015,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L177",
       "id": "lib_mp_bio_parser_listloksabhabiomembers",
-      "community": 8,
+      "community": 3,
       "norm_label": "listloksabhabiomembers()"
     },
     {
@@ -3015,7 +3024,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L182",
       "id": "lib_mp_bio_parser_listrajyasabhabiomembers",
-      "community": 8,
+      "community": 3,
       "norm_label": "listrajyasabhabiomembers()"
     },
     {
@@ -3033,7 +3042,7 @@
       "source_file": "src/lib/mp-bio-parser.ts",
       "source_location": "L193",
       "id": "lib_mp_bio_parser_lookupmpbio",
-      "community": 8,
+      "community": 3,
       "norm_label": "lookupmpbio()"
     },
     {
@@ -3240,7 +3249,7 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L62",
       "id": "lib_print_parser_printcache",
-      "community": 4,
+      "community": 1,
       "norm_label": "printcache"
     },
     {
@@ -3352,10 +3361,19 @@
       "norm_label": "matchesmlascope()"
     },
     {
+      "label": "mpIndexKeysFromScope()",
+      "file_type": "code",
+      "source_file": "src/lib/print-parser.ts",
+      "source_location": "L192",
+      "id": "lib_print_parser_mpindexkeysfromscope",
+      "community": 1,
+      "norm_label": "mpindexkeysfromscope()"
+    },
+    {
       "label": "mpLookupKeys()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L191",
+      "source_location": "L197",
       "id": "lib_print_parser_mplookupkeys",
       "community": 1,
       "norm_label": "mplookupkeys()"
@@ -3364,7 +3382,7 @@
       "label": "indexPrintRecords()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L200",
+      "source_location": "L206",
       "id": "lib_print_parser_indexprintrecords",
       "community": 1,
       "norm_label": "indexprintrecords()"
@@ -3373,7 +3391,7 @@
       "label": "lookupMpPrint()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L225",
+      "source_location": "L231",
       "id": "lib_print_parser_lookupmpprint",
       "community": 1,
       "norm_label": "lookupmpprint()"
@@ -3382,7 +3400,7 @@
       "label": "lookupMlaPrint()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L236",
+      "source_location": "L242",
       "id": "lib_print_parser_lookupmlaprint",
       "community": 1,
       "norm_label": "lookupmlaprint()"
@@ -3391,7 +3409,7 @@
       "label": "matchesMpScope()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L243",
+      "source_location": "L249",
       "id": "lib_print_parser_matchesmpscope",
       "community": 1,
       "norm_label": "matchesmpscope()"
@@ -3400,7 +3418,7 @@
       "label": "matchesEntityPrintScope()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L249",
+      "source_location": "L255",
       "id": "lib_print_parser_matchesentityprintscope",
       "community": 1,
       "norm_label": "matchesentityprintscope()"
@@ -3409,7 +3427,7 @@
       "label": "buildLookup()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L258",
+      "source_location": "L264",
       "id": "lib_print_parser_buildlookup",
       "community": 1,
       "norm_label": "buildlookup()"
@@ -3418,7 +3436,7 @@
       "label": "fileSlug()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L273",
+      "source_location": "L279",
       "id": "lib_print_parser_fileslug",
       "community": 1,
       "norm_label": "fileslug()"
@@ -3427,7 +3445,7 @@
       "label": "dirLatestMtime()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L281",
+      "source_location": "L287",
       "id": "lib_print_parser_dirlatestmtime",
       "community": 1,
       "norm_label": "dirlatestmtime()"
@@ -3436,7 +3454,7 @@
       "label": "loadPrintFromFile()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L294",
+      "source_location": "L300",
       "id": "lib_print_parser_loadprintfromfile",
       "community": 1,
       "norm_label": "loadprintfromfile()"
@@ -3445,7 +3463,7 @@
       "label": "ensureCache()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L343",
+      "source_location": "L349",
       "id": "lib_print_parser_ensurecache",
       "community": 1,
       "norm_label": "ensurecache()"
@@ -3454,7 +3472,7 @@
       "label": "listConstituenciesFromPrint()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L380",
+      "source_location": "L386",
       "id": "lib_print_parser_listconstituenciesfromprint",
       "community": 5,
       "norm_label": "listconstituenciesfromprint()"
@@ -3463,7 +3481,7 @@
       "label": "resolveConstituencyToken()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L384",
+      "source_location": "L390",
       "id": "lib_print_parser_resolveconstituencytoken",
       "community": 5,
       "norm_label": "resolveconstituencytoken()"
@@ -3472,7 +3490,7 @@
       "label": "isKnownConstituency()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L397",
+      "source_location": "L403",
       "id": "lib_print_parser_isknownconstituency",
       "community": 5,
       "norm_label": "isknownconstituency()"
@@ -3481,7 +3499,7 @@
       "label": "loadAllPrintRecords()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L405",
+      "source_location": "L411",
       "id": "lib_print_parser_loadallprintrecords",
       "community": 1,
       "norm_label": "loadallprintrecords()"
@@ -3490,7 +3508,7 @@
       "label": "resolveDistrictScope()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L409",
+      "source_location": "L415",
       "id": "lib_print_parser_resolvedistrictscope",
       "community": 1,
       "norm_label": "resolvedistrictscope()"
@@ -3499,7 +3517,7 @@
       "label": "districtMatchKeys()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L413",
+      "source_location": "L419",
       "id": "lib_print_parser_districtmatchkeys",
       "community": 1,
       "norm_label": "districtmatchkeys()"
@@ -3508,7 +3526,7 @@
       "label": "matchesDistrict()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L423",
+      "source_location": "L429",
       "id": "lib_print_parser_matchesdistrict",
       "community": 1,
       "norm_label": "matchesdistrict()"
@@ -3517,7 +3535,7 @@
       "label": "filterPrintRecords()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L435",
+      "source_location": "L441",
       "id": "lib_print_parser_filterprintrecords",
       "community": 5,
       "norm_label": "filterprintrecords()"
@@ -3526,16 +3544,16 @@
       "label": "loadPrintRecords()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L500",
+      "source_location": "L506",
       "id": "lib_print_parser_loadprintrecords",
-      "community": 5,
+      "community": 1,
       "norm_label": "loadprintrecords()"
     },
     {
       "label": "listMpNamesByHouse()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L506",
+      "source_location": "L512",
       "id": "lib_print_parser_listmpnamesbyhouse",
       "community": 3,
       "norm_label": "listmpnamesbyhouse()"
@@ -3544,7 +3562,7 @@
       "label": "listDistrictNamesFromPrint()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L536",
+      "source_location": "L542",
       "id": "lib_print_parser_listdistrictnamesfromprint",
       "community": 1,
       "norm_label": "listdistrictnamesfromprint()"
@@ -3553,16 +3571,16 @@
       "label": "loadDistrictPrintRecords()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L549",
+      "source_location": "L555",
       "id": "lib_print_parser_loaddistrictprintrecords",
-      "community": 5,
+      "community": 1,
       "norm_label": "loaddistrictprintrecords()"
     },
     {
       "label": "listMlaNames()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L558",
+      "source_location": "L564",
       "id": "lib_print_parser_listmlanames",
       "community": 1,
       "norm_label": "listmlanames()"
@@ -3571,7 +3589,7 @@
       "label": "loadMpPrintRecords()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L571",
+      "source_location": "L577",
       "id": "lib_print_parser_loadmpprintrecords",
       "community": 1,
       "norm_label": "loadmpprintrecords()"
@@ -3580,7 +3598,7 @@
       "label": "loadMlaPrintRecords()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L578",
+      "source_location": "L584",
       "id": "lib_print_parser_loadmlaprintrecords",
       "community": 1,
       "norm_label": "loadmlaprintrecords()"
@@ -3589,7 +3607,7 @@
       "label": "loadConstituencyPrintRecords()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L585",
+      "source_location": "L591",
       "id": "lib_print_parser_loadconstituencyprintrecords",
       "community": 5,
       "norm_label": "loadconstituencyprintrecords()"
@@ -3598,9 +3616,9 @@
       "label": "printCountsByDistrict()",
       "file_type": "code",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L595",
+      "source_location": "L601",
       "id": "lib_print_parser_printcountsbydistrict",
-      "community": 5,
+      "community": 1,
       "norm_label": "printcountsbydistrict()"
     },
     {
@@ -3627,7 +3645,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L7",
       "id": "lib_types_printsourcetype",
-      "community": 2,
+      "community": 1,
       "norm_label": "printsourcetype"
     },
     {
@@ -3672,7 +3690,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L60",
       "id": "lib_types_mediabreakdown",
-      "community": 2,
+      "community": 0,
       "norm_label": "mediabreakdown"
     },
     {
@@ -3681,7 +3699,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L67",
       "id": "lib_types_districtsummary",
-      "community": 0,
+      "community": 2,
       "norm_label": "districtsummary"
     },
     {
@@ -3744,7 +3762,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L155",
       "id": "lib_types_printrecord",
-      "community": 4,
+      "community": 1,
       "norm_label": "printrecord"
     },
     {
@@ -3780,7 +3798,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L203",
       "id": "lib_types_governmentmemberprofile",
-      "community": 0,
+      "community": 2,
       "norm_label": "governmentmemberprofile"
     },
     {
@@ -3834,7 +3852,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L302",
       "id": "lib_types_globalfilters",
-      "community": 10,
+      "community": 2,
       "norm_label": "globalfilters"
     },
     {
@@ -3888,7 +3906,7 @@
       "source_file": "src/lib/utils.ts",
       "source_location": "L13",
       "id": "lib_utils_formatcompact",
-      "community": 2,
+      "community": 0,
       "norm_label": "formatcompact()"
     },
     {
@@ -3906,7 +3924,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L1",
       "id": "services_analytics",
-      "community": 5,
+      "community": 2,
       "norm_label": "analytics.ts"
     },
     {
@@ -3915,7 +3933,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L31",
       "id": "services_analytics_emptysentiment",
-      "community": 5,
+      "community": 2,
       "norm_label": "emptysentiment()"
     },
     {
@@ -3924,7 +3942,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L35",
       "id": "services_analytics_addsentiment",
-      "community": 5,
+      "community": 2,
       "norm_label": "addsentiment()"
     },
     {
@@ -3942,7 +3960,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L58",
       "id": "services_analytics_bumptrend",
-      "community": 5,
+      "community": 2,
       "norm_label": "bumptrend()"
     },
     {
@@ -3951,7 +3969,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L75",
       "id": "services_analytics_builddailytrend",
-      "community": 5,
+      "community": 2,
       "norm_label": "builddailytrend()"
     },
     {
@@ -3960,7 +3978,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L92",
       "id": "services_analytics_engagementscore",
-      "community": 5,
+      "community": 2,
       "norm_label": "engagementscore()"
     },
     {
@@ -3969,7 +3987,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L98",
       "id": "services_analytics_topnewsbysentiment",
-      "community": 5,
+      "community": 2,
       "norm_label": "topnewsbysentiment()"
     },
     {
@@ -3978,7 +3996,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L125",
       "id": "services_analytics_builddistrictsummary",
-      "community": 5,
+      "community": 1,
       "norm_label": "builddistrictsummary()"
     },
     {
@@ -4243,28 +4261,19 @@
       "norm_label": "mergesentiment()"
     },
     {
-      "label": "sentimentOfPrint()",
+      "label": "sentimentOfPrintRecords()",
       "file_type": "code",
       "source_file": "src/services/representatives.ts",
       "source_location": "L138",
-      "id": "services_representatives_sentimentofprint",
+      "id": "services_representatives_sentimentofprintrecords",
       "community": 3,
-      "norm_label": "sentimentofprint()"
-    },
-    {
-      "label": "sentimentOfMlaPrint()",
-      "file_type": "code",
-      "source_file": "src/services/representatives.ts",
-      "source_location": "L144",
-      "id": "services_representatives_sentimentofmlaprint",
-      "community": 3,
-      "norm_label": "sentimentofmlaprint()"
+      "norm_label": "sentimentofprintrecords()"
     },
     {
       "label": "mediaOf()",
       "file_type": "code",
       "source_file": "src/services/representatives.ts",
-      "source_location": "L151",
+      "source_location": "L145",
       "id": "services_representatives_mediaof",
       "community": 3,
       "norm_label": "mediaof()"
@@ -4273,7 +4282,7 @@
       "label": "primaryDistrict()",
       "file_type": "code",
       "source_file": "src/services/representatives.ts",
-      "source_location": "L166",
+      "source_location": "L160",
       "id": "services_representatives_primarydistrict",
       "community": 3,
       "norm_label": "primarydistrict()"
@@ -4282,7 +4291,7 @@
       "label": "MlaUnionEntry",
       "file_type": "code",
       "source_file": "src/services/representatives.ts",
-      "source_location": "L185",
+      "source_location": "L179",
       "id": "services_representatives_mlaunionentry",
       "community": 10,
       "norm_label": "mlaunionentry"
@@ -4291,7 +4300,7 @@
       "label": "normalizeMlaKey()",
       "file_type": "code",
       "source_file": "src/services/representatives.ts",
-      "source_location": "L191",
+      "source_location": "L185",
       "id": "services_representatives_normalizemlakey",
       "community": 3,
       "norm_label": "normalizemlakey()"
@@ -4300,7 +4309,7 @@
       "label": "collectMlaUnion()",
       "file_type": "code",
       "source_file": "src/services/representatives.ts",
-      "source_location": "L204",
+      "source_location": "L198",
       "id": "services_representatives_collectmlaunion",
       "community": 3,
       "norm_label": "collectmlaunion()"
@@ -4309,7 +4318,7 @@
       "label": "buildMpMediaIndex()",
       "file_type": "code",
       "source_file": "src/services/representatives.ts",
-      "source_location": "L252",
+      "source_location": "L246",
       "id": "services_representatives_buildmpmediaindex",
       "community": 3,
       "norm_label": "buildmpmediaindex()"
@@ -4318,7 +4327,7 @@
       "label": "getMLADirectory()",
       "file_type": "code",
       "source_file": "src/services/representatives.ts",
-      "source_location": "L267",
+      "source_location": "L261",
       "id": "services_representatives_getmladirectory",
       "community": 3,
       "norm_label": "getmladirectory()"
@@ -4327,7 +4336,7 @@
       "label": "getMPDirectory()",
       "file_type": "code",
       "source_file": "src/services/representatives.ts",
-      "source_location": "L314",
+      "source_location": "L308",
       "id": "services_representatives_getmpdirectory",
       "community": 3,
       "norm_label": "getmpdirectory()"
@@ -4378,6 +4387,24 @@
       "norm_label": "buildfilterquery()"
     },
     {
+      "label": "sentimentOfPrint()",
+      "file_type": "code",
+      "source_file": "src/services/representatives.ts",
+      "source_location": "L138",
+      "community": 1,
+      "norm_label": "sentimentofprint()",
+      "id": "services_representatives_sentimentofprint"
+    },
+    {
+      "label": "sentimentOfMlaPrint()",
+      "file_type": "code",
+      "source_file": "src/services/representatives.ts",
+      "source_location": "L144",
+      "community": 3,
+      "norm_label": "sentimentofmlaprint()",
+      "id": "services_representatives_sentimentofmlaprint"
+    },
+    {
       "label": "route.ts",
       "file_type": "code",
       "source_file": "src/app/api/constituency/filters/route.ts",
@@ -4418,6 +4445,17 @@
       "confidence_score": 1.0,
       "source": "src_app_api_constituency_filters_route_ts_filters_route",
       "target": "lib_api_helpers_jsonerror"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/constituency/filters/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "src_app_api_constituency_filters_route_ts_filters_route",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4471,6 +4509,17 @@
       "source_location": "L8",
       "weight": 1.0,
       "source": "src_app_api_constituency_filters_route_ts_filters_route_get",
+      "target": "lib_api_helpers_warmdatacaches"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/app/api/constituency/filters/route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "src_app_api_constituency_filters_route_ts_filters_route_get",
       "target": "services_constituency_getconstituencyoptions"
     },
     {
@@ -4494,6 +4543,17 @@
       "confidence_score": 1.0,
       "source": "src_app_api_constituency_print_route_ts_print_route",
       "target": "lib_api_helpers_jsonerror"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/constituency/print/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_app_api_constituency_print_route_ts_print_route",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4537,6 +4597,17 @@
       "weight": 1.0,
       "source": "src_app_api_constituency_print_route_ts_print_route_get",
       "target": "lib_api_helpers_jsonerror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/app/api/constituency/print/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "src_app_api_constituency_print_route_ts_print_route_get",
+      "target": "lib_api_helpers_warmdatacaches"
     },
     {
       "relation": "calls",
@@ -4593,6 +4664,17 @@
       "target": "lib_api_helpers_parsefilters"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/constituency/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "constituency_route",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -4646,6 +4728,17 @@
       "weight": 1.0,
       "source": "constituency_route_get",
       "target": "lib_api_helpers_parsefilters"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/api/constituency/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "constituency_route_get",
+      "target": "lib_api_helpers_warmdatacaches"
     },
     {
       "relation": "calls",
@@ -4713,6 +4806,17 @@
       "target": "lib_api_helpers_parsefilters"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/dashboard/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "dashboard_route",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -4755,6 +4859,17 @@
       "weight": 1.0,
       "source": "dashboard_route_get",
       "target": "lib_api_helpers_parsefilters"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/api/dashboard/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "dashboard_route_get",
+      "target": "lib_api_helpers_warmdatacaches"
     },
     {
       "relation": "calls",
@@ -4811,6 +4926,17 @@
       "target": "lib_api_helpers_parsefilters"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/district/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "district_route",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -4860,6 +4986,17 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/district/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "district_route_get",
+      "target": "lib_api_helpers_warmdatacaches"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/api/district/route.ts",
       "source_location": "L12",
       "weight": 1.0,
       "source": "district_route_get",
@@ -4886,6 +5023,17 @@
       "confidence_score": 1.0,
       "source": "src_app_api_filters_route_ts_filters_route",
       "target": "lib_api_helpers_jsonerror"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/filters/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "src_app_api_filters_route_ts_filters_route",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4939,6 +5087,17 @@
       "source_location": "L8",
       "weight": 1.0,
       "source": "src_app_api_filters_route_ts_filters_route_get",
+      "target": "lib_api_helpers_warmdatacaches"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/app/api/filters/route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "src_app_api_filters_route_ts_filters_route_get",
       "target": "services_analytics_getfilteroptions"
     },
     {
@@ -4973,6 +5132,17 @@
       "confidence_score": 1.0,
       "source": "media_route",
       "target": "lib_api_helpers_parsefilters"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/media/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "media_route",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -5056,6 +5226,17 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/media/route.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "media_route_get",
+      "target": "lib_api_helpers_warmdatacaches"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/api/media/route.ts",
       "source_location": "L13",
       "weight": 1.0,
       "source": "media_route_get",
@@ -5082,6 +5263,17 @@
       "confidence_score": 1.0,
       "source": "mla_route",
       "target": "lib_api_helpers_jsonerror"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/mla/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "mla_route",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -5135,6 +5327,17 @@
       "source_location": "L9",
       "weight": 1.0,
       "source": "mla_route_get",
+      "target": "lib_api_helpers_warmdatacaches"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/api/mla/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "mla_route_get",
       "target": "services_representatives_getmladirectory"
     },
     {
@@ -5158,6 +5361,17 @@
       "confidence_score": 1.0,
       "source": "mp_route",
       "target": "lib_api_helpers_jsonerror"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/mp/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "mp_route",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -5211,6 +5425,17 @@
       "source_location": "L9",
       "weight": 1.0,
       "source": "mp_route_get",
+      "target": "lib_api_helpers_warmdatacaches"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/api/mp/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "mp_route_get",
       "target": "services_representatives_getmpdirectory"
     },
     {
@@ -5245,6 +5470,17 @@
       "confidence_score": 1.0,
       "source": "src_app_api_print_route_ts_print_route",
       "target": "lib_api_helpers_parsefilters"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/print/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_app_api_print_route_ts_print_route",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -5299,6 +5535,17 @@
       "weight": 1.0,
       "source": "src_app_api_print_route_ts_print_route_get",
       "target": "lib_api_helpers_parsefilters"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/app/api/print/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "src_app_api_print_route_ts_print_route_get",
+      "target": "lib_api_helpers_warmdatacaches"
     },
     {
       "relation": "calls",
@@ -13001,9 +13248,31 @@
       "source_file": "src/instrumentation.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_instrumentation",
-      "target": "src_instrumentation_register",
+      "target": "src_instrumentation_register"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/instrumentation.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "src_instrumentation_register",
+      "target": "lib_api_helpers",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/instrumentation.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "src_instrumentation_register",
+      "target": "lib_api_helpers_warmdatacaches"
     },
     {
       "relation": "imports_from",
@@ -13012,9 +13281,9 @@
       "source_file": "src/instrumentation.ts",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_instrumentation_register",
-      "target": "lib_excel_parser",
-      "confidence_score": 1.0
+      "target": "lib_excel_parser"
     },
     {
       "relation": "calls",
@@ -13034,9 +13303,9 @@
       "source_file": "src/instrumentation.ts",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_instrumentation_register",
-      "target": "lib_mp_bio_parser",
-      "confidence_score": 1.0
+      "target": "lib_mp_bio_parser"
     },
     {
       "relation": "calls",
@@ -13056,9 +13325,9 @@
       "source_file": "src/instrumentation.ts",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_instrumentation_register",
-      "target": "lib_print_parser",
-      "confidence_score": 1.0
+      "target": "lib_print_parser"
     },
     {
       "relation": "calls",
@@ -13070,6 +13339,39 @@
       "weight": 1.0,
       "source": "src_instrumentation_register",
       "target": "lib_print_parser_loadallprintrecords"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/instrumentation.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "src_instrumentation_register",
+      "target": "services_representatives",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/instrumentation.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_instrumentation_register",
+      "target": "services_representatives_getmladirectory"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/instrumentation.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "src_instrumentation_register",
+      "target": "services_representatives_getmpdirectory"
     },
     {
       "relation": "contains",
@@ -13495,6 +13797,16 @@
       "confidence_score": 1.0,
       "source": "lib_api_helpers",
       "target": "lib_api_helpers_parsefilters"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/api-helpers.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "lib_api_helpers",
+      "target": "lib_api_helpers_warmdatacaches",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -16359,7 +16671,18 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser",
+      "target": "lib_mp_name_matching_compactmpkey"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/print-parser.ts",
+      "source_location": "L193",
+      "weight": 1.0,
+      "source": "lib_print_parser_mpindexkeysfromscope",
       "target": "lib_mp_name_matching_compactmpkey",
       "confidence_score": 1.0
     },
@@ -16370,9 +16693,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L195",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_mplookupkeys",
-      "target": "lib_mp_name_matching_compactmpkey",
-      "confidence_score": 1.0
+      "target": "lib_mp_name_matching_compactmpkey"
     },
     {
       "relation": "imports",
@@ -16557,9 +16880,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser",
-      "target": "lib_mp_name_matching_resolvempbiokey",
-      "confidence_score": 1.0
+      "target": "lib_mp_name_matching_resolvempbiokey"
     },
     {
       "relation": "calls",
@@ -16568,9 +16891,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L193",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_mplookupkeys",
-      "target": "lib_mp_name_matching_resolvempbiokey",
-      "confidence_score": 1.0
+      "target": "lib_mp_name_matching_resolvempbiokey"
     },
     {
       "relation": "imports",
@@ -16722,9 +17045,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L200",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser",
-      "target": "lib_print_parser_indexprintrecords",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_indexprintrecords"
     },
     {
       "relation": "contains",
@@ -16852,9 +17175,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L236",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser",
-      "target": "lib_print_parser_lookupmlaprint",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_lookupmlaprint"
     },
     {
       "relation": "contains",
@@ -16862,9 +17185,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L225",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser",
-      "target": "lib_print_parser_lookupmpprint",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_lookupmpprint"
     },
     {
       "relation": "contains",
@@ -16910,11 +17233,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L191",
+      "source_location": "L192",
       "weight": 1.0,
       "source": "lib_print_parser",
-      "target": "lib_print_parser_mplookupkeys",
+      "target": "lib_print_parser_mpindexkeysfromscope",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/print-parser.ts",
+      "source_location": "L191",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_print_parser",
+      "target": "lib_print_parser_mplookupkeys"
     },
     {
       "relation": "contains",
@@ -17228,9 +17561,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L215",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_indexprintrecords",
-      "target": "lib_print_parser_normalizemlaname",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_normalizemlaname"
     },
     {
       "relation": "calls",
@@ -17239,9 +17572,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L240",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_lookupmlaprint",
-      "target": "lib_print_parser_normalizemlaname",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_normalizemlaname"
     },
     {
       "relation": "calls",
@@ -17303,11 +17636,22 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L196",
+      "source_location": "L193",
       "weight": 1.0,
-      "source": "lib_print_parser_mplookupkeys",
+      "source": "lib_print_parser_mpindexkeysfromscope",
       "target": "lib_print_parser_normalizepersonname",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/print-parser.ts",
+      "source_location": "L196",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_print_parser_mplookupkeys",
+      "target": "lib_print_parser_normalizepersonname"
     },
     {
       "relation": "calls",
@@ -17325,11 +17669,33 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/print-parser.ts",
-      "source_location": "L209",
+      "source_location": "L215",
       "weight": 1.0,
       "source": "lib_print_parser_indexprintrecords",
-      "target": "lib_print_parser_mplookupkeys",
+      "target": "lib_print_parser_mpindexkeysfromscope",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/print-parser.ts",
+      "source_location": "L251",
+      "weight": 1.0,
+      "source": "lib_print_parser_matchesmpscope",
+      "target": "lib_print_parser_mpindexkeysfromscope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/print-parser.ts",
+      "source_location": "L209",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_print_parser_indexprintrecords",
+      "target": "lib_print_parser_mplookupkeys"
     },
     {
       "relation": "calls",
@@ -17338,9 +17704,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L229",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_lookupmpprint",
-      "target": "lib_print_parser_mplookupkeys",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_mplookupkeys"
     },
     {
       "relation": "calls",
@@ -17349,9 +17715,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L245",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_matchesmpscope",
-      "target": "lib_print_parser_mplookupkeys",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_mplookupkeys"
     },
     {
       "relation": "calls",
@@ -17360,9 +17726,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L367",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_ensurecache",
-      "target": "lib_print_parser_indexprintrecords",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_indexprintrecords"
     },
     {
       "relation": "calls",
@@ -17371,9 +17737,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L574",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_loadmpprintrecords",
-      "target": "lib_print_parser_lookupmpprint",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_lookupmpprint"
     },
     {
       "relation": "calls",
@@ -17382,9 +17748,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L581",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_loadmlaprintrecords",
-      "target": "lib_print_parser_lookupmlaprint",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_lookupmlaprint"
     },
     {
       "relation": "calls",
@@ -17470,9 +17836,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L579",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_loadmlaprintrecords",
-      "target": "lib_print_parser_ensurecache",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_ensurecache"
     },
     {
       "relation": "calls",
@@ -17481,9 +17847,9 @@
       "source_file": "src/lib/print-parser.ts",
       "source_location": "L572",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_print_parser_loadmpprintrecords",
-      "target": "lib_print_parser_ensurecache",
-      "confidence_score": 1.0
+      "target": "lib_print_parser_ensurecache"
     },
     {
       "relation": "calls",
@@ -19482,6 +19848,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/services/representatives.ts",
+      "source_location": "L138",
+      "weight": 1.0,
+      "source": "services_representatives",
+      "target": "services_representatives_sentimentofprintrecords",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/representatives.ts",
       "source_location": "L58",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -19564,6 +19940,17 @@
       "confidence_score": 1.0,
       "source": "services_representatives_sentimentofprint",
       "target": "services_representatives_addsentiment"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/representatives.ts",
+      "source_location": "L140",
+      "weight": 1.0,
+      "source": "services_representatives_sentimentofprintrecords",
+      "target": "services_representatives_addsentiment",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",

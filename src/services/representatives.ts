@@ -1,9 +1,12 @@
 import "server-only";
 import { loadRecords } from "@/lib/excel-parser";
+import { lookupGovernmentMember, listGovernmentMlaMembers } from "@/lib/government-member-parser";
+import { listAllMlaBioMembers, type MLABioRecord } from "@/lib/mla-bio-parser";
 import {
-  listGovernmentMlaMembers,
-  lookupGovernmentMember,
-} from "@/lib/government-member-parser";
+  getMlaNameIndex,
+  resolveMlaBioKey,
+  resolveMlaBioRecord,
+} from "@/lib/mla-name-matching";
 import { listAllMpBioMembers } from "@/lib/mp-bio-parser";
 import {
   compactMpKey,
@@ -21,6 +24,7 @@ import type {
   MediaRecord,
   MLA,
   MP,
+  MPBioProfile,
   RepType,
   Sentiment,
   SentimentBreakdown,
@@ -174,6 +178,18 @@ function primaryDistrict(name: string, records: MediaRecord[]): string | null {
   return best;
 }
 
+function toMlaBioProfile(mlaBio: MLABioRecord): MPBioProfile {
+  return {
+    fullName: mlaBio.fullName,
+    constituency: mlaBio.constituency,
+    partyFname: mlaBio.partyFname,
+    dateOfBirth: mlaBio.dateOfBirth,
+    education: mlaBio.education,
+    profession: mlaBio.profession,
+    careerTimeline: mlaBio.careerTimeline,
+  };
+}
+
 /* --------------------------- MLA union index --------------------------- */
 
 interface MlaUnionEntry {
@@ -197,6 +213,7 @@ function normalizeMlaKey(name: string): string {
 
 function collectMlaUnion(): MlaUnionEntry[] {
   const map = new Map<string, MlaUnionEntry>();
+  const bioIndex = getMlaNameIndex();
 
   const upsert = (rawName: string): MlaUnionEntry => {
     const key = normalizeMlaKey(rawName);
@@ -212,31 +229,59 @@ function collectMlaUnion(): MlaUnionEntry[] {
     return entry;
   };
 
+  const upsertBioCanonical = (rawName: string): MlaUnionEntry => {
+    const bioKey = resolveMlaBioKey(rawName, bioIndex);
+    const canonical =
+      (bioKey ? bioIndex.byKey.get(bioKey)?.fullName : null) ?? rawName;
+    return upsert(canonical);
+  };
+
   for (const e of groupByEntity(["MLA"])) {
-    const entry = upsert(e.name);
-    entry.name = e.name;
+    const entry = upsertBioCanonical(e.name);
+    entry.name = entry.name || e.name;
     entry.hasMedia = true;
-    entry.records = e.records;
+    entry.records.push(...e.records);
   }
 
   for (const name of listMlaNames()) {
-    const entry = upsert(name);
+    const entry = upsertBioCanonical(name);
     if (!entry.hasMedia) entry.name = name;
   }
 
   for (const member of listGovernmentMlaMembers()) {
-    const entry = upsert(member.name);
+    const entry = upsertBioCanonical(member.name);
     if (!entry.hasMedia) entry.name = member.name;
   }
 
-  const entries = [...map.values()];
-  const printCounts = new Map(
-    entries.map((e) => [e.name, loadMlaPrintRecords(e.name).length]),
+  for (const member of listAllMlaBioMembers()) {
+    const entry = upsert(member.fullName);
+    entry.name = member.fullName;
+  }
+
+  return [...map.values()];
+}
+
+function sortMlaDirectory(mlas: MLA[]): MLA[] {
+  const bioRank = new Map(
+    listAllMlaBioMembers().map((member, index) => [
+      compactMpKey(member.fullName),
+      index,
+    ]),
   );
-  return entries.sort((a, b) => {
-    const aMentions = a.records.length + (printCounts.get(a.name) ?? 0);
-    const bMentions = b.records.length + (printCounts.get(b.name) ?? 0);
-    return bMentions - aMentions || a.name.localeCompare(b.name);
+
+  return [...mlas].sort((a, b) => {
+    const aKey = resolveMlaBioKey(a.name) ?? compactMpKey(a.name);
+    const bKey = resolveMlaBioKey(b.name) ?? compactMpKey(b.name);
+    const aRank = aKey ? bioRank.get(aKey) : undefined;
+    const bRank = bKey ? bioRank.get(bKey) : undefined;
+
+    if (aRank != null && bRank != null) return aRank - bRank;
+    if (aRank != null) return -1;
+    if (bRank != null) return 1;
+
+    return (
+      b.mediaMentions - a.mediaMentions || a.name.localeCompare(b.name)
+    );
   });
 }
 
@@ -259,9 +304,12 @@ function buildMpMediaIndex(): Map<string, MediaRecord[]> {
 /* --------------------------- Public directory --------------------------- */
 
 export function getMLADirectory(): MLA[] {
-  return collectMlaUnion().map((e) => {
-    const district = primaryDistrict(e.name, e.records) ?? "Uttar Pradesh";
-    const printRecords = loadMlaPrintRecords(e.name);
+  const mlas = collectMlaUnion().map((e) => {
+    const mlaBio = resolveMlaBioRecord(e.name);
+    const name = mlaBio?.fullName ?? e.name;
+    const district = primaryDistrict(name, e.records) ?? "Uttar Pradesh";
+    const resolvedConstituency = mlaBio?.constituency ?? district;
+    const printRecords = loadMlaPrintRecords(name);
     const digitalMedia = mediaOf(e.records);
     const media: MediaBreakdown = {
       ...digitalMedia,
@@ -272,37 +320,44 @@ export function getMLADirectory(): MLA[] {
       sentimentOfPrintRecords(printRecords),
     );
     const totalMentions = e.records.length + printRecords.length;
-    const gov = lookupGovernmentMember(e.name, "mla");
+    const gov = lookupGovernmentMember(name, "mla");
     return {
-      id: `mla-${slug(e.name)}`,
-      name: e.name,
+      id: `mla-${slug(name)}`,
+      name,
+      bioProfile: mlaBio ? toMlaBioProfile(mlaBio) : null,
       governmentProfile: gov,
       district,
-      constituency: district,
-      party: "Bharatiya Janata Party",
+      constituency: resolvedConstituency,
+      party: mlaBio?.partyFname ?? "Bharatiya Janata Party",
       designation: "Member of Legislative Assembly",
-      email: `${dotted(e.name)}@upvidhansabha.gov.in`,
-      phone: `+91 ${pick(e.name, "p1", 70000, 99999)} ${pick(e.name, "p2", 10000, 99999)}`,
-      image: avatar(e.name),
-      education: gov?.highestQualification ?? "—",
-      age: pick(e.name, "age", 40, 70),
-      gender: FEMALE_NAMES.has(e.name) ? "Female" : "Male",
-      bio: `${e.name} is a Member of the Legislative Assembly associated with the ${district} region. This profile aggregates ${totalMentions} media mentions (including ${printRecords.length} print articles) across print, YouTube, online news and X.`,
+      email: `${dotted(name)}@upvidhansabha.gov.in`,
+      phone: `+91 ${pick(name, "p1", 70000, 99999)} ${pick(name, "p2", 10000, 99999)}`,
+      image: avatar(name),
+      education: mlaBio?.education ?? gov?.highestQualification ?? "—",
+      age: pick(name, "age", 40, 70),
+      gender: FEMALE_NAMES.has(name) ? "Female" : "Male",
+      bio: `${name} is a Member of the Legislative Assembly${
+        resolvedConstituency !== district
+          ? ` representing the ${resolvedConstituency} constituency`
+          : ` associated with the ${district} region`
+      }. This profile aggregates ${totalMentions} media mentions (including ${printRecords.length} print articles) across print, YouTube, online news and X.`,
       socialMedia: {
-        twitter: `https://twitter.com/${slug(e.name)}`,
-        facebook: `https://facebook.com/${slug(e.name)}`,
-        instagram: `https://instagram.com/${slug(e.name)}`,
-        website: `https://${slug(e.name)}.in`,
+        twitter: `https://twitter.com/${slug(name)}`,
+        facebook: `https://facebook.com/${slug(name)}`,
+        instagram: `https://instagram.com/${slug(name)}`,
+        website: `https://${slug(name)}.in`,
       },
-      performanceScore: pick(e.name, "perf", 72, 96),
-      attendance: pick(e.name, "att", 80, 99),
-      publicEngagement: pick(e.name, "eng", 65, 95),
+      performanceScore: pick(name, "perf", 72, 96),
+      attendance: pick(name, "att", 80, 99),
+      publicEngagement: pick(name, "eng", 65, 95),
       mediaMentions: totalMentions,
       totalEngagement: engagementOf(e.records),
       media,
       sentiment,
     } satisfies MLA;
   });
+
+  return sortMlaDirectory(mlas);
 }
 
 export function getMPDirectory(): MP[] {

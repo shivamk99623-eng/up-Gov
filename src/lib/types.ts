@@ -225,6 +225,8 @@ export interface MPBioProfile {
 export interface MLA {
   id: string;
   name: string;
+  /** Bio details from Vidhan Sabha JSON when matched. */
+  bioProfile: MPBioProfile | null;
   /** Government member details when matched in UP Government Member Data. */
   governmentProfile: GovernmentMemberProfile | null;
   district: string;

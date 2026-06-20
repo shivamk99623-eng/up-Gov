@@ -1,0 +1,362 @@
+[
+  {
+    "mpsno": null,
+    "fullName": "Yogi Adityanath",
+    "constituency": "Gorakhpur Urban",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "05-Jun-1972",
+    "qualificationName": "Graduate",
+    "education": "B.Sc. (Mathematics), Hemwati Nandan Bahuguna Garhwal University",
+    "ProfessionName": "Religious Leader, Politician",
+    "positionHeld": [
+      {
+        "period": "1998",
+        "positionHeld": "Elected to 12th Lok Sabha from Gorakhpur"
+      },
+      {
+        "period": "1999",
+        "positionHeld": "Re-elected to 13th Lok Sabha"
+      },
+      {
+        "period": "2004",
+        "positionHeld": "Elected to 14th Lok Sabha"
+      },
+      {
+        "period": "2009",
+        "positionHeld": "Elected to 15th Lok Sabha"
+      },
+      {
+        "period": "2014",
+        "positionHeld": "Elected to 16th Lok Sabha and became Mahant of Gorakhnath Math"
+      },
+      {
+        "period": "19-Mar-2017",
+        "positionHeld": "Chief Minister of Uttar Pradesh"
+      },
+      {
+        "period": "25-Mar-2022 - Present",
+        "positionHeld": "Chief Minister, Uttar Pradesh (Second Consecutive Term)"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Brajesh Pathak",
+    "constituency": "Lucknow Cantonment",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "25-Jun-1964",
+    "qualificationName": "Law Graduate",
+    "education": "B.Sc., LL.B., University of Lucknow",
+    "ProfessionName": "Advocate, Politician",
+    "positionHeld": [
+      {
+        "period": "2004-2009",
+        "positionHeld": "Member of Parliament, Lok Sabha (Unnao)"
+      },
+      {
+        "period": "2009-2014",
+        "positionHeld": "Member, Rajya Sabha"
+      },
+      {
+        "period": "2017",
+        "positionHeld": "Cabinet Minister, Law and Justice, Government of Uttar Pradesh"
+      },
+      {
+        "period": "25-Mar-2022 - Present",
+        "positionHeld": "Deputy Chief Minister, Uttar Pradesh"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Dr. Dharmpal Singh",
+    "constituency": "Etmadpur",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "01-Jun-1963",
+    "qualificationName": null,
+    "education": "Postgraduate, PhD",
+    "ProfessionName": null,
+    "positionHeld": [
+      {
+        "period": "Pre-2006",
+        "positionHeld": "Active in Samajwadi Party politics at the local level"
+      },
+      {
+        "period": "2006",
+        "positionHeld": "Left Samajwadi Party along with Raj Babbar"
+      },
+      {
+        "period": "2007",
+        "positionHeld": "Elected MLA from Dayalbagh constituency on Jan Morcha ticket; later joined BSP"
+      },
+      {
+        "period": "2012",
+        "positionHeld": "Elected MLA from Etmadpur on BSP ticket"
+      },
+      {
+        "period": "2017",
+        "positionHeld": "Joined BJP and elected MLA from Etmadpur"
+      },
+      {
+        "period": "2022-Present",
+        "positionHeld": "MLA, Etmadpur Assembly Constituency"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Dr. G. S. Dharmesh",
+    "constituency": "Agra Cantonment",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "15-Jul-1953",
+    "qualificationName": null,
+    "education": "M.B.B.S.",
+    "ProfessionName": "Medical Practitioner",
+    "positionHeld": [
+      {
+        "period": "Professional Career",
+        "positionHeld": "Practiced as a medical doctor prior to active politics"
+      },
+      {
+        "period": "BJP Organizational Career",
+        "positionHeld": "Held responsibilities in BJP's Scheduled Caste outreach and Agra district organization"
+      },
+      {
+        "period": "2017",
+        "positionHeld": "Elected MLA from Agra Cantonment"
+      },
+      {
+        "period": "2022-Present",
+        "positionHeld": "MLA, Agra Cantonment Assembly Constituency"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Yogendra Upadhyaya",
+    "constituency": "Agra South",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "30-Oct-1955",
+    "qualificationName": null,
+    "education": "M.A., LLB",
+    "ProfessionName": null,
+    "positionHeld": [
+      {
+        "period": "1974",
+        "positionHeld": "Joined Akhil Bharatiya Vidyarthi Parishad (ABVP)"
+      },
+      {
+        "period": "1987",
+        "positionHeld": "Joined Bharatiya Janata Party"
+      },
+      {
+        "period": "2012",
+        "positionHeld": "Elected MLA from Agra South"
+      },
+      {
+        "period": "2017",
+        "positionHeld": "Re-elected MLA from Agra South"
+      },
+      {
+        "period": "March 2022",
+        "positionHeld": "Appointed Minister of Higher Education, Uttar Pradesh"
+      },
+      {
+        "period": "2024-Present",
+        "positionHeld": "Higher Education Minister and MLA"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Purushottam Khandelwal",
+    "constituency": "Agra North",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "16-Sep-1961",
+    "qualificationName": null,
+    "education": "High School",
+    "ProfessionName": null,
+    "positionHeld": [
+      {
+        "period": "1980s-1990s",
+        "positionHeld": "Active BJP organizational worker in Agra"
+      },
+      {
+        "period": "1990s-2010s",
+        "positionHeld": "Held various BJP organizational and youth wing responsibilities"
+      },
+      {
+        "period": "2019",
+        "positionHeld": "Won Agra North Assembly by-election and became MLA"
+      },
+      {
+        "period": "2022-Present",
+        "positionHeld": "MLA, Agra North Assembly Constituency"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Baby Rani Maurya",
+    "constituency": "Agra Rural",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "15-Aug-1956",
+    "qualificationName": null,
+    "education": "M.A., B.Ed",
+    "ProfessionName": null,
+    "positionHeld": [
+      {
+        "period": "1995-2000",
+        "positionHeld": "Mayor of Agra"
+      },
+      {
+        "period": "2002-2005",
+        "positionHeld": "Member, National Commission for Women"
+      },
+      {
+        "period": "Aug 2018-Sep 2021",
+        "positionHeld": "Governor of Uttarakhand"
+      },
+      {
+        "period": "Sep 2021",
+        "positionHeld": "BJP National Vice-President"
+      },
+      {
+        "period": "2022",
+        "positionHeld": "Elected MLA from Agra Rural"
+      },
+      {
+        "period": "2022-Present",
+        "positionHeld": "Cabinet Minister, Women Welfare, Child Development and Nutrition"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Chaudhary Babulal",
+    "constituency": "Fatehpur Sikri",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "01-Jan-1952",
+    "qualificationName": null,
+    "education": "Intermediate",
+    "ProfessionName": null,
+    "positionHeld": [
+      {
+        "period": "1980s-1990s",
+        "positionHeld": "Active in local agrarian and regional politics"
+      },
+      {
+        "period": "2017",
+        "positionHeld": "Elected MLA from Fatehpur Sikri"
+      },
+      {
+        "period": "2022-Present",
+        "positionHeld": "MLA, Fatehpur Sikri Assembly Constituency"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Bhagwan Singh Kushwaha",
+    "constituency": "Kheragarh",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "20-Jun-1968",
+    "qualificationName": null,
+    "education": "Post Graduate, B.Ed.",
+    "ProfessionName": null,
+    "positionHeld": [
+      {
+        "period": "BSP Period",
+        "positionHeld": "Associated with Bahujan Samaj Party and developed a political base"
+      },
+      {
+        "period": "Before 2022",
+        "positionHeld": "Joined Bharatiya Janata Party"
+      },
+      {
+        "period": "2022-Present",
+        "positionHeld": "MLA, Kheragarh Assembly Constituency"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Chhotey Lal Verma",
+    "constituency": "Fatehabad",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "07-Jul-1953",
+    "qualificationName": null,
+    "education": "Class 9 pass",
+    "ProfessionName": null,
+    "positionHeld": [
+      {
+        "period": "1993",
+        "positionHeld": "Elected MLA from Fatehabad for the first time"
+      },
+      {
+        "period": "2002",
+        "positionHeld": "Re-elected MLA from Fatehabad"
+      },
+      {
+        "period": "2012",
+        "positionHeld": "Elected MLA from Fatehabad for a third term"
+      },
+      {
+        "period": "2022-Present",
+        "positionHeld": "MLA, Fatehabad Assembly Constituency"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Rani Pakshalika Singh",
+    "constituency": "Bah",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "15-Nov-1960",
+    "qualificationName": null,
+    "education": "Graduate",
+    "ProfessionName": null,
+    "positionHeld": [
+      {
+        "period": "2017",
+        "positionHeld": "Elected MLA from Bah Assembly Constituency"
+      },
+      {
+        "period": "2022-Present",
+        "positionHeld": "Serving second consecutive term as MLA from Bah"
+      }
+    ]
+  },
+  {
+    "mpsno": null,
+    "fullName": "Surendra Diler",
+    "constituency": "Jalesar (SC)",
+    "partyFname": "Bharatiya Janata Party",
+    "partySname": "BJP",
+    "dateOfBirth": "17-Oct-1993",
+    "qualificationName": null,
+    "education": "Intermediate",
+    "ProfessionName": null,
+    "positionHeld": [
+      {
+        "period": "2017",
+        "positionHeld": "Elected MLA from Jalesar (SC Reserved) constituency"
+      },
+      {
+        "period": "2022-Present",
+        "positionHeld": "Serving second consecutive term as MLA from Jalesar"
+      }
+    ]
+  }
+]

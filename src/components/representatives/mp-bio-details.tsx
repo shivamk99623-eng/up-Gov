@@ -10,7 +10,7 @@ import {
   Users,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import type { MPBioProfile } from "@/lib/types";
+import type { House, MPBioProfile } from "@/lib/types";
 
 function DetailRow({
   icon,
@@ -38,18 +38,26 @@ function DetailRow({
   );
 }
 
-function CareerTimeline({ positions }: { positions: MPBioProfile["careerTimeline"] }) {
+function CareerTimeline({
+  positions,
+  reverse = false,
+}: {
+  positions: MPBioProfile["careerTimeline"];
+  reverse?: boolean;
+}) {
   if (positions.length === 0) {
     return (
       <p className="text-sm text-muted-foreground">No career timeline available.</p>
     );
   }
 
+  const items = reverse ? [...positions].reverse() : positions;
+
   return (
     <ol className="relative space-y-0">
-      {positions.map((item, index) => (
+      {items.map((item, index) => (
         <li key={`${item.period}-${index}`} className="relative flex gap-4 pb-6 last:pb-0">
-          {index < positions.length - 1 ? (
+          {index < items.length - 1 ? (
             <span
               aria-hidden
               className="absolute left-[7px] top-3 h-[calc(100%-4px)] w-px bg-border"
@@ -80,10 +88,14 @@ export function MPBioDetails({
   profile,
   fallbackName,
   house,
+  reverseTimeline = false,
 }: {
   profile: MPBioProfile | null;
   fallbackName: string;
-  house: "Lok Sabha" | "Rajya Sabha";
+  /** Omit for Vidhan Sabha / MLA profiles. */
+  house?: House | null;
+  /** When true, newest career entries appear first (MP page). */
+  reverseTimeline?: boolean;
 }) {
   const constituency =
     profile?.constituency ??
@@ -136,7 +148,10 @@ export function MPBioDetails({
             <History className="h-4 w-4 text-primary" />
             <h3 className="text-sm font-semibold text-foreground">Career Timeline</h3>
           </div>
-          <CareerTimeline positions={profile?.careerTimeline ?? []} />
+          <CareerTimeline
+            positions={profile?.careerTimeline ?? []}
+            reverse={reverseTimeline}
+          />
         </CardContent>
       </Card>
     </div>

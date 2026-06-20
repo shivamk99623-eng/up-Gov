@@ -4,16 +4,22 @@ import fs from "node:fs";
 import type { House } from "./types";
 import { normalizeGovernmentMemberName } from "./government-member-parser";
 
-const LOK_FILE = path.join(
-  process.cwd(),
-  "data",
+const DATA_DIR = path.join(process.cwd(), "data");
+
+const LOK_FILE_CANDIDATES = [
   "uttar_pradesh_lok_sabha_members_bio.json",
-);
-const RAJ_FILE = path.join(
-  process.cwd(),
-  "data",
-  "uttar_pradesh_rajya_sabha_members_bio.json",
-);
+  "uttar_pradesh_lok_sabha_members_bio copy.json",
+];
+
+const RAJ_FILE = path.join(DATA_DIR, "uttar_pradesh_rajya_sabha_members_bio.json");
+
+function resolveLokSabhaBioFile(): string {
+  for (const name of LOK_FILE_CANDIDATES) {
+    const filePath = path.join(DATA_DIR, name);
+    if (fs.existsSync(filePath)) return filePath;
+  }
+  return path.join(DATA_DIR, LOK_FILE_CANDIDATES[0]);
+}
 
 export interface CareerPosition {
   period: string;
@@ -140,7 +146,8 @@ function loadJson<T>(filePath: string): T[] {
 }
 
 function ensureCache(): BioCache {
-  const lokMtime = fs.existsSync(LOK_FILE) ? fs.statSync(LOK_FILE).mtimeMs : 0;
+  const lokFile = resolveLokSabhaBioFile();
+  const lokMtime = fs.existsSync(lokFile) ? fs.statSync(lokFile).mtimeMs : 0;
   const rajMtime = fs.existsSync(RAJ_FILE) ? fs.statSync(RAJ_FILE).mtimeMs : 0;
 
   if (cache && cache.lokMtime === lokMtime && cache.rajMtime === rajMtime) {
@@ -152,7 +159,7 @@ function ensureCache(): BioCache {
   const lokMembers: MPBioRecord[] = [];
   const rajMembers: MPBioRecord[] = [];
 
-  for (const raw of loadJson<RawLokEntry>(LOK_FILE)) {
+  for (const raw of loadJson<RawLokEntry>(lokFile)) {
     const record = parseLokEntry(raw);
     if (!record) continue;
     lokMembers.push(record);

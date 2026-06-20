@@ -31,6 +31,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState, ErrorState } from "@/components/common/states";
 import { useMPs } from "@/lib/api-client";
+import { useRepresentativeSelection } from "@/lib/use-representative-selection";
 import { cn, formatNumber } from "@/lib/utils";
 import type { MP, House } from "@/lib/types";
 
@@ -141,6 +142,7 @@ function MPDetails({ mp }: { mp: MP }) {
         profile={mp.bioProfile}
         fallbackName={mp.name}
         house={mp.house}
+        reverseTimeline
       />
 
       <div className="grid grid-cols-2 gap-3 sm:max-w-md">
@@ -204,9 +206,24 @@ const HOUSE_TABS: { id: HouseFilter; label: string }[] = [
 ];
 
 export default function MPPage() {
+  return (
+    <React.Suspense
+      fallback={
+        <div className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
+          <Skeleton className="h-24 w-full rounded-xl" />
+          <Skeleton className="h-[560px] w-full rounded-xl" />
+        </div>
+      }
+    >
+      <MPPageContent />
+    </React.Suspense>
+  );
+}
+
+function MPPageContent() {
   const { data, isLoading, isError } = useMPs();
+  const { selectedId, setSelectedId } = useRepresentativeSelection();
   const [house, setHouse] = React.useState<HouseFilter>("All");
-  const [selectedId, setSelectedId] = React.useState<string | null>(null);
 
   const allMps = React.useMemo(() => data?.mps ?? [], [data]);
   const mps = React.useMemo(
@@ -221,7 +238,7 @@ export default function MPPage() {
     if (selected && house !== "All" && selected.house !== house) {
       setSelectedId(null);
     }
-  }, [house, selected]);
+  }, [house, selected, setSelectedId]);
 
   const counts = React.useMemo(
     () => ({
