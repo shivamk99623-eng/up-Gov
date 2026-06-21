@@ -12,6 +12,7 @@ import {
   TrendingUp,
   MessageSquare,
   Users,
+  Newspaper,
 } from "lucide-react";
 import { FaXTwitter, FaFacebookF, FaInstagram } from "react-icons/fa6";
 import { Header } from "@/components/layout/header";
@@ -26,11 +27,11 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState, ErrorState } from "@/components/common/states";
+import { RepresentativeDetailSkeleton } from "@/components/representatives/representative-detail-skeleton";
 import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
 import { GovernmentMemberDetails } from "@/components/representatives/government-member-details";
 import { MPBioDetails } from "@/components/representatives/mp-bio-details";
-import { Newspaper } from "lucide-react";
-import { useMLAs } from "@/lib/api-client";
+import { useMLAs, useMLA } from "@/lib/api-client";
 import { useRepresentativeSelection } from "@/lib/use-representative-selection";
 import { cn, formatNumber } from "@/lib/utils";
 import type { MLA } from "@/lib/types";
@@ -116,13 +117,65 @@ function SocialLink({
   );
 }
 
+function RepAvatar({ name }: { name: string }) {
+  const initials = name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(-2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+  return (
+    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary ring-1 ring-border">
+      {initials || "?"}
+    </div>
+  );
+}
+
+function repOptionLabel(name: string, constituency: string | null, party: string | null) {
+  const parts = [name];
+  if (constituency) parts.push(constituency);
+  if (party) parts.push(party);
+  return parts.length > 1 ? `${name} — ${[constituency, party].filter(Boolean).join(" · ")}` : name;
+}
+
+function RelatedMediaCoverage({
+  entityName,
+  printSource,
+}: {
+  entityName: string;
+  printSource: "mla" | "mp";
+}) {
+  return (
+    <Card>
+      <CardContent className="p-4 lg:p-5">
+        <div className="mb-4 flex items-center gap-2">
+          <Newspaper className="h-4 w-4 text-primary" />
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">
+              Related Media Coverage
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              Print and digital mentions linked to {entityName}.
+            </p>
+          </div>
+        </div>
+        <DistrictMediaTabs
+          entity={entityName}
+          exportName={entityName}
+          printSource={printSource}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
 function MLADetails({ mla }: { mla: MLA }) {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-2">
-        <Badge variant="secondary">{mla.constituency}</Badge>
-        <Badge variant="outline">{mla.district}</Badge>
-        <Badge>{mla.party}</Badge>
+        {mla.constituency && <Badge variant="secondary">{mla.constituency}</Badge>}
+        {mla.district && <Badge variant="outline">{mla.district}</Badge>}
+        {mla.party && <Badge>{mla.party}</Badge>}
       </div>
 
       {mla.bioProfile ? (
@@ -163,27 +216,6 @@ function MLADetails({ mla }: { mla: MLA }) {
           <SentimentDonut data={mla.sentiment} height={300} />
         </ChartCard>
       </div>
-
-      <Card>
-        <CardContent className="p-4 lg:p-5">
-          <div className="mb-4 flex items-center gap-2">
-            <Newspaper className="h-4 w-4 text-primary" />
-            <div>
-              <h3 className="text-sm font-semibold text-foreground">
-                Related Media Coverage
-              </h3>
-              <p className="text-xs text-muted-foreground">
-                Print and digital mentions linked to {mla.name}.
-              </p>
-            </div>
-          </div>
-          <DistrictMediaTabs
-            entity={mla.name}
-            exportName={mla.name}
-            printSource="mla"
-          />
-        </CardContent>
-      </Card>
     </div>
   );
 }
@@ -206,9 +238,28 @@ export default function MLAPage() {
 function MLAPageContent() {
   const { data, isLoading, isError } = useMLAs();
   const { selectedId, setSelectedId } = useRepresentativeSelection();
+  const {
+    data: selected,
+    isLoading: detailLoading,
+    isFetching: detailFetching,
+    isError: detailError,
+  } = useMLA(selectedId);
 
   const mlas = data?.mlas ?? [];
-  const selected = mlas.find((m) => m.id === selectedId) ?? null;
+  const selectedSummary = mlas.find((m) => m.id === selectedId) ?? null;
+  const detailReady = !!selected && selected.id === selectedId;
+  const showDetailSkeleton =
+    !!selectedId &&
+    !!selectedSummary &&
+    !detailReady &&
+    (detailLoading || detailFetching);
+
+  React.useEffect(() => {
+    if (!selectedId || isLoading || !data) return;
+    if (!data.mlas.some((m) => m.id === selectedId)) {
+      setSelectedId(null);
+    }
+  }, [selectedId, isLoading, data, setSelectedId]);
 
   return (
     <>
@@ -223,11 +274,14 @@ function MLAPageContent() {
             <div className="flex items-center gap-2 text-sm font-medium text-foreground">
               <Users className="h-4 w-4 text-primary" />
               Select MLA
+              {/* {!isLoading && mlas.length > 0 && (
+                <span className="text-muted-foreground">({mlas.length})</span>
+              )} */}
             </div>
             <div className="sm:w-96">
               <SearchableSelect
                 options={mlas.map((m) => ({
-                  label: `${m.name} — ${m.constituency}`,
+                  label: repOptionLabel(m.name, m.constituency, m.party),
                   value: m.id,
                 }))}
                 value={selectedId}
@@ -251,9 +305,17 @@ function MLAPageContent() {
               <Skeleton className="h-72 w-full rounded-xl" />
             </div>
           </div>
-        ) : selected ? (
-          <div className="animate-fade-in">
+        ) : showDetailSkeleton ? (
+          <RepresentativeDetailSkeleton />
+        ) : selectedId && detailError && !detailReady ? (
+          <ErrorState />
+        ) : selectedId && detailReady && selectedSummary && selected ? (
+          <div className="animate-fade-in space-y-6">
             <MLADetails mla={selected} />
+            <RelatedMediaCoverage
+              entityName={selectedSummary.name}
+              printSource="mla"
+            />
           </div>
         ) : (
           <>
@@ -272,16 +334,11 @@ function MLAPageContent() {
                     "flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-all hover:border-primary hover:shadow-md",
                   )}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={m.image}
-                    alt={m.name}
-                    className="h-12 w-12 rounded-full ring-1 ring-border"
-                  />
+                  <RepAvatar name={m.name} />
                   <div className="min-w-0">
                     <p className="truncate font-semibold text-foreground">{m.name}</p>
                     <p className="truncate text-xs text-muted-foreground">
-                      {m.constituency} · {m.party}
+                      {[m.constituency, m.party].filter(Boolean).join(" · ") || "—"}
                     </p>
                   </div>
                 </button>

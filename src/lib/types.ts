@@ -11,8 +11,24 @@ export type Sentiment = "Positive" | "Negative" | "Neutral";
 /** Political entity a mention can be linked to (derived from the Keyword column). */
 export type RepType = "MLA" | "Lok Sabha MP" | "Rajya Sabha MP";
 
+/** Parsed JSON array columns stored as TEXT in news_* tables. */
+export interface NewsArrayFields {
+  /** District names parsed from the `District` JSON array column. */
+  districts: string[];
+  /** Constituency names from the `Constituency` JSON array column. */
+  constituencies: string[];
+  /** MLA names from the `MLA` JSON array column. */
+  mla: string[];
+  /** Lok Sabha MP names from the `Loksabha_MP` JSON array column. */
+  loksabhaMp: string[];
+  /** Rajya Sabha MP names from the `Rajyasabha_MP` JSON array column. */
+  rajyasabhaMp: string[];
+}
+
+export type NewsMediaKind = "Print" | "YouTube" | "X" | "Online";
+
 /** A single normalized media mention record. */
-export interface MediaRecord {
+export interface MediaRecord extends NewsArrayFields {
   id: string;
   mediaType: MediaType;
   /** Original raw channel value (Youtube / Twitter / Web / Reddit). */
@@ -144,20 +160,31 @@ export interface DistrictAnalyticsResponse {
   languageDistribution: NameCount[];
 }
 
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
 export interface MediaQueryResponse {
   district: string | null;
   constituency: string | null;
   mediaType: MediaType | "All";
   total: number;
   records: MediaRecord[];
+  page?: number;
+  limit?: number;
+  totalPages?: number;
 }
 
-export interface PrintRecord {
+export interface PrintRecord extends NewsArrayFields {
   id: string;
   sourceType: PrintSourceType;
   scope: string;
   srNo: number | null;
   headline: string;
+  summary: string | null;
+  content: string;
   publication: string;
   author: string;
   edition: string;
@@ -166,20 +193,52 @@ export interface PrintRecord {
   ccm: string | null;
   language: string;
   date: string | null;
+  timestamp: number | null;
 }
 
-export interface PrintQueryResponse {
+/** YouTube row from `news_youtube`. */
+export interface YouTubeRecord extends MediaRecord {
+  mediaType: "YouTube";
+  channel: string | null;
+  duration: string | null;
+}
+
+/** X/Twitter row from `news_x`. */
+export interface XRecord extends MediaRecord {
+  mediaType: "X";
+  handles: string | null;
+}
+
+/** Online/web row from `news_online`. */
+export interface OnlineRecord extends MediaRecord {
+  mediaType: "Online";
+  website: string | null;
+}
+
+export interface TypedNewsQueryResponse<T, K extends NewsMediaKind> {
+  mediaType: K;
   district: string | null;
   constituency: string | null;
   entity: string | null;
   total: number;
-  records: PrintRecord[];
+  records: T[];
+  page?: number;
+  limit?: number;
+  totalPages?: number;
 }
+
+export type YouTubeQueryResponse = TypedNewsQueryResponse<YouTubeRecord, "YouTube">;
+export type XQueryResponse = TypedNewsQueryResponse<XRecord, "X">;
+export type OnlineQueryResponse = TypedNewsQueryResponse<OnlineRecord, "Online">;
+export type PrintQueryResponse = TypedNewsQueryResponse<PrintRecord, "Print">;
 
 export interface ConstituencyPrintResponse {
   constituency: string | null;
   total: number;
   records: PrintRecord[];
+  page?: number;
+  limit?: number;
+  totalPages?: number;
 }
 
 export interface ConstituencyAnalyticsResponse {
@@ -197,6 +256,55 @@ export interface ConstituencyAnalyticsResponse {
   dailyTrend: TrendPoint[];
   topProfiles: NameCount[];
   languageDistribution: NameCount[];
+}
+
+export interface ConstituencyElectionResult {
+  year: number;
+  winnerName: string | null;
+  winnerParty: string | null;
+  totalCandidates: number | null;
+  totalVotesPolled: number | null;
+  exitPollResult: string | null;
+}
+
+export interface ConstituencyPartyOrg {
+  jiladhyaksha: string | null;
+  mahanagar: string | null;
+  mandal: string | null;
+  jilapratinidhi: string | null;
+  boothadhyaksha: string | null;
+}
+
+export interface ConstituencyCasteSegment {
+  label: string;
+  percentage: number | null;
+}
+
+export interface ConstituencyInsight {
+  label: string;
+  value: string;
+}
+
+export interface ConstituencyDetailResponse {
+  srNo: number | null;
+  constituencyName: string;
+  personAllottedTo: string | null;
+  reservationStatus: string | null;
+  assemblySegments: string[];
+  totalPopulation: number | null;
+  caste: {
+    mostPopulated: ConstituencyCasteSegment | null;
+    secondMajority: ConstituencyCasteSegment | null;
+    rest: ConstituencyCasteSegment[];
+  };
+  elections: ConstituencyElectionResult[];
+  insights: ConstituencyInsight[];
+  partyOrganization: {
+    bjp: ConstituencyPartyOrg;
+    sp: ConstituencyPartyOrg;
+    bsp: ConstituencyPartyOrg;
+    inc: ConstituencyPartyOrg;
+  };
 }
 
 /** Profile fields from `UP Government Member Data.xlsx`. */
@@ -222,6 +330,25 @@ export interface MPBioProfile {
   careerTimeline: CareerPosition[];
 }
 
+export type House = "Lok Sabha" | "Rajya Sabha";
+
+/** Minimal fields for MLA directory list / selector. */
+export interface MLAListItem {
+  id: string;
+  name: string;
+  constituency: string | null;
+  party: string | null;
+}
+
+/** Minimal fields for MP directory list / selector. */
+export interface MPListItem {
+  id: string;
+  name: string;
+  house: House;
+  constituency: string | null;
+  party: string | null;
+}
+
 export interface MLA {
   id: string;
   name: string;
@@ -229,26 +356,27 @@ export interface MLA {
   bioProfile: MPBioProfile | null;
   /** Government member details when matched in UP Government Member Data. */
   governmentProfile: GovernmentMemberProfile | null;
-  district: string;
-  constituency: string;
-  party: string;
+  /** Derived from linked news mentions; null when unavailable. */
+  district: string | null;
+  constituency: string | null;
+  party: string | null;
   designation: string;
-  email: string;
-  phone: string;
-  image: string;
-  education: string;
-  age: number;
-  gender: string;
-  bio: string;
+  email: string | null;
+  phone: string | null;
+  image: string | null;
+  education: string | null;
+  age: number | null;
+  gender: string | null;
+  bio: string | null;
   socialMedia: {
-    twitter: string;
-    facebook: string;
-    instagram: string;
-    website: string;
-  };
-  performanceScore: number;
-  attendance: number;
-  publicEngagement: number;
+    twitter: string | null;
+    facebook: string | null;
+    instagram: string | null;
+    website: string | null;
+  } | null;
+  performanceScore: number | null;
+  attendance: number | null;
+  publicEngagement: number | null;
   mediaMentions: number;
   /** Total real engagement (likes + comments + shares) across linked mentions. */
   totalEngagement: number;
@@ -256,8 +384,6 @@ export interface MLA {
   media: MediaBreakdown;
   sentiment: SentimentBreakdown;
 }
-
-export type House = "Lok Sabha" | "Rajya Sabha";
 
 /** Member of Parliament — same shape as an MLA plus the house of Parliament. */
 export interface MP {
@@ -265,33 +391,30 @@ export interface MP {
   name: string;
   /** Bio details from Lok Sabha / Rajya Sabha JSON when matched. */
   bioProfile: MPBioProfile | null;
-  /** Primary house for display (from media-data when available). */
   house: House;
-  /** All houses this MP is linked to across media-data and print folders. */
   houses: House[];
-  /** Lok Sabha constituency, or state representation for Rajya Sabha. */
-  constituency: string;
-  district: string;
-  party: string;
+  constituency: string | null;
+  /** Derived from linked news mentions; null when unavailable. */
+  district: string | null;
+  party: string | null;
   designation: string;
-  email: string;
-  phone: string;
-  image: string;
-  education: string;
-  age: number;
-  gender: string;
-  bio: string;
-  /** Year first elected / nominated to the current term. */
-  termSince: number;
+  email: string | null;
+  phone: string | null;
+  image: string | null;
+  education: string | null;
+  age: number | null;
+  gender: string | null;
+  bio: string | null;
+  termSince: number | null;
   socialMedia: {
-    twitter: string;
-    facebook: string;
-    instagram: string;
-    website: string;
-  };
-  performanceScore: number;
-  attendance: number;
-  publicEngagement: number;
+    twitter: string | null;
+    facebook: string | null;
+    instagram: string | null;
+    website: string | null;
+  } | null;
+  performanceScore: number | null;
+  attendance: number | null;
+  publicEngagement: number | null;
   mediaMentions: number;
   /** Total real engagement (likes + comments + shares) across linked mentions. */
   totalEngagement: number;
@@ -299,6 +422,8 @@ export interface MP {
   media: MediaBreakdown;
   sentiment: SentimentBreakdown;
 }
+
+export type SortDirection = "asc" | "desc";
 
 /** Shared filter params used across the API. */
 export interface GlobalFilters {
@@ -314,6 +439,9 @@ export interface GlobalFilters {
   entity?: string | null;
   /** Limits print to a specific folder (district / MLA / MP). */
   printSource?: "district" | "mla" | "mp" | null;
+  /** Column id for server-side table sort. */
+  sortBy?: string | null;
+  sortDir?: SortDirection | null;
 }
 
 export const MEDIA_TYPES: MediaType[] = ["YouTube", "X", "Online"];

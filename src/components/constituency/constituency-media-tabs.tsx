@@ -9,46 +9,81 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
-import { EmptyState, ErrorState } from "@/components/common/states";
+import { ErrorState } from "@/components/common/states";
 import { MediaTabTable } from "@/components/tables/media-tables";
 import { PrintSummaryTable } from "@/components/constituency/print-summary-table";
-import { useConstituencyPrint, useScopedMedia } from "@/lib/api-client";
+import {
+  useConstituencyPrint,
+  useFilterOptions,
+  useScopedMedia,
+} from "@/lib/api-client";
+import {
+  useMediaTableQueryState,
+  bindServerPagination,
+  useClampServerPage,
+  type MediaTableQueryState,
+} from "@/lib/use-media-table-query-state";
 import { cn } from "@/lib/utils";
 import type { MediaType } from "@/lib/types";
+
+function hasActiveTableFilters(
+  search: string,
+  sentiment: string,
+  language: string | null,
+) {
+  return !!search.trim() || sentiment !== "All" || !!language;
+}
 
 function PrintTab({
   constituency,
   exportName,
   tableMaxHeight,
+  mediaQuery,
 }: {
   constituency: string | null;
   exportName?: string;
   tableMaxHeight?: number;
+  mediaQuery: MediaTableQueryState;
 }) {
-  const { data, isLoading, isError } = useConstituencyPrint(constituency);
-  if (isLoading) {
-    return (
-      <div className="space-y-3">
-        <Skeleton className="h-9 w-full" />
-        <Skeleton className="h-[800px] w-full rounded-xl" />
-      </div>
-    );
-  }
+  const { apiQuery, tableControls } = mediaQuery;
+  const { data, isError, isFetching } = useConstituencyPrint(
+    constituency,
+    apiQuery,
+  );
+
+  useClampServerPage(
+    data?.total,
+    apiQuery.pageSize,
+    apiQuery.page,
+    tableControls.serverPagination.onPageChange,
+  );
+
   if (isError) return <ErrorState />;
-  if (!data || data.records.length === 0) {
-    return (
-      <EmptyState
-        title="No print mentions"
-        description="There are no print records for the selected constituency."
-      />
-    );
-  }
+
+  const filtered = hasActiveTableFilters(
+    apiQuery.search,
+    apiQuery.sentiment,
+    apiQuery.language,
+  );
+
   return (
     <PrintSummaryTable
-      records={data.records}
+      records={data?.records ?? []}
       exportName={exportName ?? constituency ?? "all-constituencies-print"}
       maxHeight={tableMaxHeight}
+      serverPagination={bindServerPagination(data, apiQuery, tableControls)}
+      serverMode
+      isLoading={isFetching}
+      isSearchPending={tableControls.isSearchPending}
+      emptyDescription={
+        filtered
+          ? "No print records match your search or filters. Try different keywords or clear filters."
+          : "There are no print records for the selected constituency."
+      }
+      searchValue={tableControls.searchValue}
+      onSearchChange={tableControls.onSearchChange}
+      sortValue={tableControls.sortValue}
+      onSortChange={tableControls.onSortChange}
     />
   );
 }
@@ -58,40 +93,62 @@ function MediaTab({
   mediaType,
   exportName,
   tableMaxHeight,
+  mediaQuery,
 }: {
   constituency: string | null;
   mediaType: MediaType;
   exportName?: string;
   tableMaxHeight?: number;
+  mediaQuery: MediaTableQueryState;
 }) {
-  const { data, isLoading, isError } = useScopedMedia(
+  const { data: filterOptions } = useFilterOptions();
+  const { apiQuery, tableControls } = mediaQuery;
+  const { data, isError, isFetching } = useScopedMedia(
     { constituency },
     mediaType,
+    apiQuery,
   );
-  if (isLoading) {
-    return (
-      <div className="space-y-3">
-        <Skeleton className="h-9 w-full" />
-        <Skeleton className="h-[800px] w-full rounded-xl" />
-      </div>
-    );
-  }
+
+  useClampServerPage(
+    data?.total,
+    apiQuery.pageSize,
+    apiQuery.page,
+    tableControls.serverPagination.onPageChange,
+  );
+
   if (isError) return <ErrorState />;
-  if (!data || data.records.length === 0) {
-    const label = mediaType === "X" ? "Twitter/X" : mediaType;
-    return (
-      <EmptyState
-        title={`No ${label} mentions`}
-        description="There are no records for this media type in the selected constituency and filters."
-      />
-    );
-  }
+
+  const label = mediaType === "X" ? "Twitter/X" : mediaType;
+  const filtered = hasActiveTableFilters(
+    apiQuery.search,
+    apiQuery.sentiment,
+    apiQuery.language,
+  );
+
   return (
     <MediaTabTable
-      records={data.records}
+      records={data?.records ?? []}
       mediaType={mediaType}
       exportName={exportName ?? constituency ?? "all-constituencies"}
       maxHeight={tableMaxHeight}
+      serverPagination={bindServerPagination(data, apiQuery, tableControls)}
+      serverMode
+      isLoading={isFetching}
+      isSearchPending={tableControls.isSearchPending}
+      emptyDescription={
+        filtered
+          ? `No ${label} records match your search or filters. Try different keywords or clear filters.`
+          : `There are no ${label} records for the selected constituency and filters.`
+      }
+      searchValue={tableControls.searchValue}
+      onSearchChange={tableControls.onSearchChange}
+      sortValue={tableControls.sortValue}
+      onSortChange={tableControls.onSortChange}
+      sentiment={tableControls.sentiment}
+      onSentimentChange={tableControls.onSentimentChange}
+      language={tableControls.language}
+      onLanguageChange={tableControls.onLanguageChange}
+      languageOptions={filterOptions?.languages ?? []}
     />
   );
 }
@@ -106,6 +163,7 @@ export function ConstituencyMediaTabs({
   exportName?: string;
   tableMaxHeight?: number;
 }) {
+  const mediaQuery = useMediaTableQueryState();
   const constrained = tableMaxHeight != null;
   const tabContentClass = cn("mt-3", constrained && "min-h-0 flex-1");
   return (
@@ -132,6 +190,7 @@ export function ConstituencyMediaTabs({
           constituency={constituency}
           exportName={exportName}
           tableMaxHeight={tableMaxHeight}
+          mediaQuery={mediaQuery}
         />
       </TabsContent>
       <TabsContent value="YouTube" className={tabContentClass}>
@@ -140,6 +199,7 @@ export function ConstituencyMediaTabs({
           mediaType="YouTube"
           exportName={exportName}
           tableMaxHeight={tableMaxHeight}
+          mediaQuery={mediaQuery}
         />
       </TabsContent>
       <TabsContent value="Online" className={tabContentClass}>
@@ -148,6 +208,7 @@ export function ConstituencyMediaTabs({
           mediaType="Online"
           exportName={exportName}
           tableMaxHeight={tableMaxHeight}
+          mediaQuery={mediaQuery}
         />
       </TabsContent>
       <TabsContent value="X" className={tabContentClass}>
@@ -156,6 +217,7 @@ export function ConstituencyMediaTabs({
           mediaType="X"
           exportName={exportName}
           tableMaxHeight={tableMaxHeight}
+          mediaQuery={mediaQuery}
         />
       </TabsContent>
     </Tabs>

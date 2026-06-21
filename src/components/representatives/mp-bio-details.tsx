@@ -97,9 +97,7 @@ export function MPBioDetails({
   /** When true, newest career entries appear first (MP page). */
   reverseTimeline?: boolean;
 }) {
-  const constituency =
-    profile?.constituency ??
-    (house === "Rajya Sabha" ? "Rajya Sabha — Uttar Pradesh" : null);
+  const constituency = profile?.constituency ?? null;
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

@@ -20,6 +20,7 @@ import {
   MediaSentimentChart,
 } from "@/components/charts/district-charts";
 import { ConstituencyMediaTabs } from "@/components/constituency/constituency-media-tabs";
+import { ConstituencyDetail } from "@/components/constituency/constituency-detail";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorState } from "@/components/common/states";
@@ -68,7 +69,7 @@ export default function ConstituencyPage() {
     <>
       <Header
         title="Constituency Analytics"
-        subtitle="Print coverage and media mentions by Lok Sabha constituency"
+        subtitle="Constituency profile, elections, and media coverage"
         hideDistrictFilter
       />
       <main className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
@@ -101,7 +102,7 @@ export default function ConstituencyPage() {
           <ErrorState message={(analytics.error as Error)?.message} />
         ) : (
           <>
-            <section className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
+                    <section className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
               <SummaryCard
                 label="Print Articles"
                 value={a?.printTotal ?? 0}
@@ -165,6 +166,11 @@ export default function ConstituencyPage() {
                 accent={CHART_COLORS.x}
               />
             </section>
+            {constituency && (
+              <ConstituencyDetail constituency={constituency} />
+            )}
+
+  
 
             <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <ChartCard

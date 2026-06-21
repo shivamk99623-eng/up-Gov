@@ -1,28 +1,22 @@
 import "server-only";
-import {
-  loadRecords,
-  filterRecords,
-  toGeoName,
-  isKnownDistrict,
-} from "@/lib/excel-parser";
-import {
-  loadDistrictPrintRecords,
-  loadPrintRecords,
-  listDistrictNamesFromPrint,
-  printCountsByDistrict,
-} from "@/lib/print-parser";
 import { formatCalendarDate } from "@/lib/dates";
+import { isKnownDistrict, toGeoName } from "@/lib/geo";
+import {
+  listDistrictNamesFromNews,
+  listLanguagesFromNews,
+  printCountsByDistrict,
+  queryDigitalMedia,
+  queryPrintRecords,
+} from "@/lib/news-repository";
 import type {
   DashboardResponse,
   DistrictAnalyticsResponse,
   DistrictSummary,
   GlobalFilters,
-  MediaQueryResponse,
   MediaRecord,
   MediaType,
   NameCount,
   NewsItem,
-  PrintQueryResponse,
   PrintRecord,
   Sentiment,
   TrendPoint,
@@ -32,7 +26,10 @@ function emptySentiment() {
   return { positive: 0, negative: 0, neutral: 0 };
 }
 
-function addSentiment(acc: { positive: number; negative: number; neutral: number }, s: Sentiment) {
+function addSentiment(
+  acc: { positive: number; negative: number; neutral: number },
+  s: Sentiment,
+) {
   if (s === "Positive") acc.positive += 1;
   else if (s === "Negative") acc.negative += 1;
   else acc.neutral += 1;
@@ -88,13 +85,11 @@ function buildDailyTrend(
   return [...map.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
 
-/** Engagement score used to rank individual news items. */
 function engagementScore(r: MediaRecord): number {
   const interactions = r.likes + r.comments + r.shares;
   return Math.max(r.totalEngagement, interactions);
 }
 
-/** Top-N most engaging news items for a given sentiment, with a valid link. */
 function topNewsBySentiment(
   records: MediaRecord[],
   sentiment: Sentiment,
@@ -178,10 +173,10 @@ function buildDistrictSummary(
   return [...map.values()].sort((a, b) => b.total - a.total);
 }
 
+
 export function getDashboard(filters: GlobalFilters = {}): DashboardResponse {
-  const all = loadRecords();
-  const records = filterRecords(all, filters);
-  const printRecords = loadPrintRecords(filters);
+  const records = queryDigitalMedia(filters).records;
+  const printRecords = queryPrintRecords(filters).records;
 
   let youtubeCount = 0;
   let xCount = 0;
@@ -251,12 +246,12 @@ export function getDistrictAnalytics(
   district: string,
   filters: GlobalFilters = {},
 ): DistrictAnalyticsResponse {
-  const all = loadRecords();
-  const records = filterRecords(all, { ...filters, district });
+  const scoped = { ...filters, district };
+  const records = queryDigitalMedia(scoped).records;
   const printRecords =
     district === "All"
-      ? loadDistrictPrintRecords()
-      : loadDistrictPrintRecords(district);
+      ? queryPrintRecords({ printSource: "district" }).records
+      : queryPrintRecords({ ...scoped, printSource: "district" }).records;
 
   const sentiment = emptySentiment();
   const media = { print: 0, youtube: 0, x: 0, online: 0 };
@@ -299,51 +294,9 @@ export function getDistrictAnalytics(
   };
 }
 
-export function getMedia(
-  filters: GlobalFilters & { mediaType?: MediaType | "All" | null },
-): MediaQueryResponse {
-  const all = loadRecords();
-  const records = filterRecords(all, filters);
-  const sorted = records.sort(
-    (a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0),
-  );
-  return {
-    district: filters.district ?? null,
-    constituency: filters.constituency ?? null,
-    mediaType: filters.mediaType ?? "All",
-    total: sorted.length,
-    records: sorted,
-  };
-}
-
-/** Distinct values for populating filter dropdowns. */
-export function getPrint(
-  filters: GlobalFilters = {},
-): PrintQueryResponse {
-  const records = loadPrintRecords(filters);
-  const sorted = [...records].sort((a, b) =>
-    (b.date ?? "").localeCompare(a.date ?? ""),
-  );
-  return {
-    district: filters.district ?? null,
-    constituency: filters.constituency ?? null,
-    entity: filters.entity ?? null,
-    total: sorted.length,
-    records: sorted,
-  };
-}
-
 export function getFilterOptions() {
-  const records = loadRecords();
-  const districts = new Set<string>();
-  const languages = new Set<string>();
-  for (const r of records) {
-    if (isKnownDistrict(r.district)) districts.add(r.district);
-    languages.add(r.language);
-  }
-  for (const name of listDistrictNamesFromPrint()) {
-    districts.add(name);
-  }
+  const districts = new Set(listDistrictNamesFromNews());
+  const languages = new Set(listLanguagesFromNews());
   return {
     districts: [...districts].sort(),
     languages: [...languages].sort(),

@@ -30,10 +30,11 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState, ErrorState } from "@/components/common/states";
-import { useMPs } from "@/lib/api-client";
+import { useMPs, useMP } from "@/lib/api-client";
 import { useRepresentativeSelection } from "@/lib/use-representative-selection";
 import { cn, formatNumber } from "@/lib/utils";
-import type { MP, House } from "@/lib/types";
+import { RepresentativeDetailSkeleton } from "@/components/representatives/representative-detail-skeleton";
+import type { MP, House, MPListItem } from "@/lib/types";
 
 type HouseFilter = "All" | House;
 
@@ -126,6 +127,26 @@ function HouseBadge({ house }: { house: House }) {
   );
 }
 
+function RepAvatar({ name }: { name: string }) {
+  const initials = name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(-2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+  return (
+    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary ring-1 ring-border">
+      {initials || "?"}
+    </div>
+  );
+}
+
+function repOptionLabel(name: string, constituency: string | null, party: string | null) {
+  return constituency || party
+    ? `${name} — ${[constituency, party].filter(Boolean).join(" · ")}`
+    : name;
+}
+
 function MPDetails({ mp }: { mp: MP }) {
   return (
     <div className="space-y-6">
@@ -133,9 +154,9 @@ function MPDetails({ mp }: { mp: MP }) {
       <div className="flex flex-wrap items-center gap-2">
         {/* <h2 className="mr-2 text-lg font-bold text-foreground">{mp.name}</h2> */}
         <HouseBadge house={mp.house} />
-        <Badge variant="secondary">{mp.constituency}</Badge>
-        <Badge variant="outline">{mp.district}</Badge>
-        <Badge>{mp.party}</Badge>
+        {mp.constituency && <Badge variant="secondary">{mp.constituency}</Badge>}
+        {mp.district && <Badge variant="outline">{mp.district}</Badge>}
+        {mp.party && <Badge>{mp.party}</Badge>}
       </div>
 
       <MPBioDetails
@@ -174,28 +195,38 @@ function MPDetails({ mp }: { mp: MP }) {
           <SentimentDonut data={mp.sentiment} height={300} />
         </ChartCard>
       </div>
-
-      <Card>
-        <CardContent className="p-4 lg:p-5">
-          <div className="mb-4 flex items-center gap-2">
-            <Newspaper className="h-4 w-4 text-primary" />
-            <div>
-              <h3 className="text-sm font-semibold text-foreground">
-                Related Media Coverage
-              </h3>
-              <p className="text-xs text-muted-foreground">
-                Print and digital mentions linked to {mp.name}.
-              </p>
-            </div>
-          </div>
-          <DistrictMediaTabs
-            entity={mp.name}
-            exportName={mp.name}
-            printSource="mp"
-          />
-        </CardContent>
-      </Card>
     </div>
+  );
+}
+
+function RelatedMediaCoverage({
+  entityName,
+  printSource,
+}: {
+  entityName: string;
+  printSource: "mla" | "mp";
+}) {
+  return (
+    <Card>
+      <CardContent className="p-4 lg:p-5">
+        <div className="mb-4 flex items-center gap-2">
+          <Newspaper className="h-4 w-4 text-primary" />
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">
+              Related Media Coverage
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              Print and digital mentions linked to {entityName}.
+            </p>
+          </div>
+        </div>
+        <DistrictMediaTabs
+          entity={entityName}
+          exportName={entityName}
+          printSource={printSource}
+        />
+      </CardContent>
+    </Card>
   );
 }
 
@@ -220,6 +251,20 @@ export default function MPPage() {
   );
 }
 
+function resolveSelectedMp(
+  allMps: MPListItem[],
+  selectedId: string | null,
+  houseFilter: HouseFilter,
+): MPListItem | null {
+  if (!selectedId) return null;
+  const matches = allMps.filter((m) => m.id === selectedId);
+  if (matches.length === 1) return matches[0];
+  if (houseFilter !== "All") {
+    return matches.find((m) => m.house === houseFilter) ?? null;
+  }
+  return matches[0] ?? null;
+}
+
 function MPPageContent() {
   const { data, isLoading, isError } = useMPs();
   const { selectedId, setSelectedId } = useRepresentativeSelection();
@@ -231,14 +276,36 @@ function MPPageContent() {
       house === "All" ? allMps : allMps.filter((m) => m.house === house),
     [allMps, house],
   );
-  const selected = allMps.find((m) => m.id === selectedId) ?? null;
+  const selectedSummary = React.useMemo(
+    () => resolveSelectedMp(allMps, selectedId, house),
+    [allMps, selectedId, house],
+  );
+  const {
+    data: selected,
+    isLoading: detailLoading,
+    isFetching: detailFetching,
+    isError: detailError,
+  } = useMP(selectedId, selectedSummary?.house ?? null);
 
-  // Reset selection if it no longer matches the active house filter.
+  const detailReady = !!selected && selected.id === selectedId;
+  const showDetailSkeleton =
+    !!selectedId &&
+    !!selectedSummary &&
+    !detailReady &&
+    (detailLoading || detailFetching);
+
   React.useEffect(() => {
-    if (selected && house !== "All" && selected.house !== house) {
+    if (!selectedId || isLoading || !data) return;
+    if (!data.mps.some((m) => m.id === selectedId)) {
       setSelectedId(null);
     }
-  }, [house, selected, setSelectedId]);
+  }, [selectedId, isLoading, data, setSelectedId]);
+
+  React.useEffect(() => {
+    if (selectedSummary && house !== "All" && selectedSummary.house !== house) {
+      setSelectedId(null);
+    }
+  }, [house, selectedSummary, setSelectedId]);
 
   const counts = React.useMemo(
     () => ({
@@ -296,7 +363,7 @@ function MPPageContent() {
               <div className="sm:w-[26rem]">
                 <SearchableSelect
                   options={mps.map((m) => ({
-                    label: `${m.name} — ${m.constituency}`,
+                    label: repOptionLabel(m.name, m.constituency, m.party),
                     value: m.id,
                   }))}
                   value={selectedId}
@@ -321,9 +388,17 @@ function MPPageContent() {
               <Skeleton className="h-72 w-full rounded-xl" />
             </div>
           </div>
-        ) : selected ? (
-          <div className="animate-fade-in">
+        ) : showDetailSkeleton ? (
+          <RepresentativeDetailSkeleton />
+        ) : selectedId && detailError && !detailReady ? (
+          <ErrorState />
+        ) : selectedId && detailReady && selectedSummary && selected ? (
+          <div className="animate-fade-in space-y-6">
             <MPDetails mp={selected} />
+            <RelatedMediaCoverage
+              entityName={selectedSummary.name}
+              printSource="mp"
+            />
           </div>
         ) : (
           <>
@@ -342,16 +417,11 @@ function MPPageContent() {
                     "flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-all hover:border-primary hover:shadow-md",
                   )}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={m.image}
-                    alt={m.name}
-                    className="h-12 w-12 rounded-full ring-1 ring-border"
-                  />
+                  <RepAvatar name={m.name} />
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-semibold text-foreground">{m.name}</p>
                     <p className="truncate text-xs text-muted-foreground">
-                      {m.constituency} · {m.party}
+                      {[m.constituency, m.party].filter(Boolean).join(" · ") || m.house}
                     </p>
                   </div>
                   <HouseBadge house={m.house} />

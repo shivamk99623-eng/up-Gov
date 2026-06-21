@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MediaRecordDetailModal } from "@/components/tables/media-record-detail";
-import type { MediaRecord, MediaType } from "@/lib/types";
+import type { MediaRecord, MediaType, Sentiment } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 
 function DateCell({ value }: { value: string | null }) {
@@ -100,6 +100,7 @@ function youtubeColumns(): DataTableColumn<MediaRecord>[] {
     {
       id: "channel",
       header: "Channel",
+      enableSorting: true,
       value: (r) => r.rawChannel,
       cell: (r) => <span>{r.rawChannel || "—"}</span>,
     },
@@ -141,6 +142,7 @@ function onlineColumns(): DataTableColumn<MediaRecord>[] {
     {
       id: "location",
       header: "Location",
+      enableSorting: true,
       value: (r) => r.location ?? "",
       cell: (r) => <span>{r.location ?? "—"}</span>,
     },
@@ -156,6 +158,7 @@ function onlineColumns(): DataTableColumn<MediaRecord>[] {
     {
       id: "content",
       header: "Content Preview",
+      enableSorting: true,
       value: (r) => r.content,
       cell: (r) => (
         <span className="line-clamp-2 max-w-[360px] text-muted-foreground">
@@ -181,6 +184,7 @@ function twitterColumns(): DataTableColumn<MediaRecord>[] {
     {
       id: "content",
       header: "Content",
+      enableSorting: true,
       value: (r) => r.content,
       cell: (r) => (
         <span className="line-clamp-2 max-w-[340px] text-muted-foreground">
@@ -208,10 +212,23 @@ interface MediaTabTableProps {
   records: MediaRecord[];
   mediaType: MediaType;
   district?: string;
-  /** Extra columns prepended to the table (e.g. linked-person columns). */
   extraColumns?: DataTableColumn<MediaRecord>[];
   exportName?: string;
   maxHeight?: number;
+  serverPagination?: React.ComponentProps<typeof DataTable<MediaRecord>>["serverPagination"];
+  serverMode?: boolean;
+  searchValue?: string;
+  onSearchChange?: (search: string) => void;
+  sortValue?: { id: string; dir: "asc" | "desc" } | null;
+  onSortChange?: (sort: { id: string; dir: "asc" | "desc" } | null) => void;
+  sentiment?: Sentiment | "All";
+  onSentimentChange?: (sentiment: Sentiment | "All") => void;
+  language?: string | null;
+  onLanguageChange?: (language: string | null) => void;
+  languageOptions?: string[];
+  isLoading?: boolean;
+  emptyDescription?: string;
+  isSearchPending?: boolean;
 }
 
 export function MediaTabTable({
@@ -221,25 +238,21 @@ export function MediaTabTable({
   extraColumns,
   exportName,
   maxHeight,
+  serverPagination,
+  serverMode = !!serverPagination,
+  searchValue,
+  onSearchChange,
+  sortValue,
+  onSortChange,
+  sentiment = "All",
+  onSentimentChange,
+  language = null,
+  onLanguageChange,
+  languageOptions = [],
+  isLoading = false,
+  emptyDescription,
+  isSearchPending = false,
 }: MediaTabTableProps) {
-  const [sentiment, setSentiment] = React.useState<string>("All");
-  const [language, setLanguage] = React.useState<string>("All");
-
-  const languages = React.useMemo(
-    () => Array.from(new Set(records.map((r) => r.language))).sort(),
-    [records],
-  );
-
-  const filtered = React.useMemo(
-    () =>
-      records.filter(
-        (r) =>
-          (sentiment === "All" || r.sentiment === sentiment) &&
-          (language === "All" || r.language === language),
-      ),
-    [records, sentiment, language],
-  );
-
   const columns = React.useMemo(
     () => [...(extraColumns ?? []), ...COLUMN_BUILDERS[mediaType]()],
     [mediaType, extraColumns],
@@ -247,10 +260,19 @@ export function MediaTabTable({
 
   return (
     <DataTable
-      data={filtered}
+      data={records}
       columns={columns}
       getRowId={(r) => r.id}
       {...(maxHeight != null ? { maxHeight } : {})}
+      {...(serverPagination ? { serverPagination } : {})}
+      serverMode={serverMode}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      sortValue={sortValue}
+      onSortChange={onSortChange}
+      isLoading={isLoading}
+      emptyDescription={emptyDescription}
+      isSearchPending={isSearchPending}
       exportFileName={`${exportName ?? district ?? "media"}-${mediaType}`
         .toLowerCase()
         .replace(/\s+/g, "-")}
@@ -263,32 +285,48 @@ export function MediaTabTable({
         />
       )}
       toolbarStart={
-        <>
-          <Select value={sentiment} onValueChange={setSentiment}>
-            <SelectTrigger className="h-9 w-[140px]">
-              <SelectValue placeholder="Sentiment" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All sentiment</SelectItem>
-              <SelectItem value="Positive">Positive</SelectItem>
-              <SelectItem value="Negative">Negative</SelectItem>
-              <SelectItem value="Neutral">Neutral</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={language} onValueChange={setLanguage}>
-            <SelectTrigger className="h-9 w-[130px]">
-              <SelectValue placeholder="Language" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All languages</SelectItem>
-              {languages.map((l) => (
-                <SelectItem key={l} value={l} className="uppercase">
-                  {l}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </>
+        onSentimentChange || onLanguageChange ? (
+          <>
+            {onSentimentChange && (
+              <Select
+                value={sentiment}
+                onValueChange={(v) =>
+                  onSentimentChange(v as Sentiment | "All")
+                }
+              >
+                <SelectTrigger className="h-9 w-[140px]">
+                  <SelectValue placeholder="Sentiment" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All sentiment</SelectItem>
+                  <SelectItem value="Positive">Positive</SelectItem>
+                  <SelectItem value="Negative">Negative</SelectItem>
+                  <SelectItem value="Neutral">Neutral</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+            {onLanguageChange && (
+              <Select
+                value={language ?? "All"}
+                onValueChange={(v) =>
+                  onLanguageChange(v === "All" ? null : v)
+                }
+              >
+                <SelectTrigger className="h-9 w-[130px]">
+                  <SelectValue placeholder="Language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All languages</SelectItem>
+                  {languageOptions.map((l) => (
+                    <SelectItem key={l} value={l} className="uppercase">
+                      {l}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          </>
+        ) : undefined
       }
     />
   );

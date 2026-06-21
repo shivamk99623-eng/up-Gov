@@ -1,5 +1,5 @@
 import "server-only";
-import { listAllMpBioMembers, type MPBioRecord } from "./mp-bio-parser";
+import { listAllMpBioMembers, type MPBioRecord } from "./representatives-db";
 
 const TITLE_RE =
   /^(?:(?:shri|shrimati|smt|dr|prof|adv|mr|mrs|ms|miss)\.?\s*)+/i;

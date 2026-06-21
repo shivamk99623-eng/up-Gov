@@ -1,18 +1,8 @@
-import { NextRequest } from "next/server";
-import { getPrint } from "@/services/analytics";
-import { parseFilters, jsonError, warmDataCaches } from "@/lib/api-helpers";
+import { getPrintNews } from "@/services/media";
+import { createNewsRoute } from "@/lib/news-route-handler";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: NextRequest) {
-  try {
-    await warmDataCaches();
-    const filters = parseFilters(req.nextUrl.searchParams);
-    const data = getPrint(filters);
-    return Response.json(data, {
-      headers: { "Cache-Control": "s-maxage=60, stale-while-revalidate=300" },
-    });
-  } catch (err) {
-    return jsonError(err instanceof Error ? err.message : "Unknown error");
-  }
-}
+export const GET = createNewsRoute((filters, pagination) =>
+  getPrintNews(filters, pagination),
+);

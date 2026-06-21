@@ -14,6 +14,8 @@ import {
 import { GlobalFilters } from "@/components/filters/global-filters";
 import { DateRangePicker } from "@/components/filters/date-range-picker";
 import { SidebarNav, Emblem } from "./sidebar-nav";
+import { DEBOUNCE } from "@/lib/debounce-throttle";
+import { useDebouncedValue } from "@/lib/use-debounced-value";
 import { useFilterStore } from "@/store/filters";
 
 interface HeaderProps {
@@ -34,13 +36,12 @@ export function Header({
   const { search, setSearch, dateFrom, dateTo, setDateRange } =
     useFilterStore();
   const [local, setLocal] = React.useState(search);
+  const debouncedLocal = useDebouncedValue(local, DEBOUNCE.SEARCH_MS);
   const [mobileNav, setMobileNav] = React.useState(false);
 
-  // Debounce the global search input into the store.
   React.useEffect(() => {
-    const id = setTimeout(() => setSearch(local), 300);
-    return () => clearTimeout(id);
-  }, [local, setSearch]);
+    setSearch(debouncedLocal);
+  }, [debouncedLocal, setSearch]);
 
   React.useEffect(() => {
     setLocal(search);

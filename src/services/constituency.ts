@@ -1,11 +1,17 @@
 import "server-only";
-import { loadRecords, filterRecords } from "@/lib/excel-parser";
+import { resolveConstituencyToken, listConstituencies } from "@/lib/constituency-lookup";
+import { listConstituencyDetailNames, dedupeConstituencyNames } from "@/lib/constituency-detail";
 import {
-  filterPrintRecords,
-  listConstituenciesFromPrint as listConstituencies,
-  loadConstituencyPrintRecords,
-  resolveConstituencyToken,
-} from "@/lib/print-parser";
+  queryDigitalMedia,
+  queryPrintRecords,
+  type PaginationParams,
+} from "@/lib/news-repository";
+import {
+  getOnlineNews,
+  getPrintNews,
+  getXNews,
+  getYouTubeNews,
+} from "@/services/media";
 import type {
   ConstituencyAnalyticsResponse,
   ConstituencyPrintResponse,
@@ -72,18 +78,28 @@ function resolveConstituencyFilter(constituency: string | null | undefined) {
 }
 
 export function getConstituencyOptions() {
-  return { constituencies: listConstituencies() };
+  const fromNews = listConstituencies();
+  const fromDb = listConstituencyDetailNames();
+  return { constituencies: dedupeConstituencyNames([...fromDb, ...fromNews]) };
 }
 
 export function getConstituencyPrint(
   constituency?: string | null,
+  filters: GlobalFilters = {},
+  pagination?: PaginationParams,
 ): ConstituencyPrintResponse {
   const resolved = resolveConstituencyFilter(constituency);
-  const records = loadConstituencyPrintRecords(resolved);
+  const result = getPrintNews(
+    { ...filters, constituency: resolved ?? filters.constituency ?? null },
+    pagination,
+  );
   return {
     constituency: resolved,
-    total: records.length,
-    records,
+    total: result.total,
+    records: result.records,
+    ...(pagination
+      ? { page: result.page, limit: result.limit, totalPages: result.totalPages }
+      : {}),
   };
 }
 
@@ -92,20 +108,19 @@ export function getConstituencyAnalytics(
   filters: GlobalFilters = {},
 ): ConstituencyAnalyticsResponse {
   const resolved = resolveConstituencyFilter(constituency) ?? "All";
-  const all = loadRecords();
-  const records = filterRecords(all, {
-    ...filters,
-    constituency: resolved === "All" ? null : resolved,
-    district: null,
-  });
-  const printRecords = filterPrintRecords(
-    loadConstituencyPrintRecords(resolved === "All" ? null : resolved),
+  const records = queryDigitalMedia(
     {
       ...filters,
       constituency: resolved === "All" ? null : resolved,
       district: null,
     },
-  );
+    { skipDistrict: true },
+  ).records;
+  const printRecords = queryPrintRecords({
+    ...filters,
+    constituency: resolved === "All" ? null : resolved,
+    district: null,
+  }).records;
 
   const sentiment = emptySentiment();
   const media = {
@@ -158,22 +173,35 @@ export function getConstituencyMedia(
     constituency?: string | null;
     mediaType?: MediaType | "All" | null;
   },
+  pagination?: PaginationParams,
 ): MediaQueryResponse {
   const resolved = resolveConstituencyFilter(filters.constituency);
-  const all = loadRecords();
-  const records = filterRecords(all, {
+  const scoped = {
     ...filters,
     constituency: resolved,
     district: null,
-  });
-  const sorted = records.sort(
-    (a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0),
-  );
+  };
+  const options = { skipDistrict: true as const, pagination };
+
+  if (filters.mediaType === "YouTube") {
+    return { ...getYouTubeNews(scoped, pagination, options), mediaType: "YouTube" };
+  }
+  if (filters.mediaType === "X") {
+    return { ...getXNews(scoped, pagination, options), mediaType: "X" };
+  }
+  if (filters.mediaType === "Online") {
+    return { ...getOnlineNews(scoped, pagination, options), mediaType: "Online" };
+  }
+
+  const result = queryDigitalMedia(scoped, options);
   return {
     district: null,
     constituency: resolved,
     mediaType: filters.mediaType ?? "All",
-    total: sorted.length,
-    records: sorted,
+    total: result.total,
+    records: result.records,
+    ...(pagination
+      ? { page: result.page, limit: result.limit, totalPages: result.totalPages }
+      : {}),
   };
 }

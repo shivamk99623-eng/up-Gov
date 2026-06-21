@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import type {
   ConstituencyAnalyticsResponse,
+  ConstituencyDetailResponse,
   ConstituencyPrintResponse,
   DashboardResponse,
   PrintQueryResponse,
@@ -8,9 +9,24 @@ import type {
   MediaQueryResponse,
   MediaType,
   MLA,
+  MLAListItem,
   MP,
+  MPListItem,
+  OnlineQueryResponse,
+  XQueryResponse,
+  YouTubeQueryResponse,
+  House,
 } from "./types";
-import { buildFilterQuery, useFilterStore, type FilterState } from "@/store/filters";
+import {
+  appendMediaTableQuery,
+  createMediaTableQuery,
+  type MediaTableQuery,
+} from "@/lib/media-table-query";
+import { useApiFilterState, type ApiFilterValues } from "@/lib/use-api-filter-state";
+import { buildFilterQuery, type FilterState } from "@/store/filters";
+
+export type { MediaTableQuery };
+export { createMediaTableQuery };
 
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url);
@@ -27,8 +43,53 @@ async function fetchJson<T>(url: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+/** @deprecated Use MediaTableQuery */
+export interface ListPagination {
+  page: number;
+  pageSize: number;
+}
+
+function mergeTableFilters(
+  state: ApiFilterValues,
+  tableQuery?: MediaTableQuery,
+): ApiFilterValues {
+  if (!tableQuery) return state;
+  return {
+    ...state,
+    search: tableQuery.search || state.search,
+    sentiment:
+      tableQuery.sentiment !== "All" ? tableQuery.sentiment : state.sentiment,
+    language: tableQuery.language || state.language,
+  };
+}
+
+function buildMediaParams(
+  state: ApiFilterValues,
+  tableQuery?: MediaTableQuery,
+  extra?: Record<string, string | null | undefined>,
+): URLSearchParams {
+  const merged = mergeTableFilters(state, tableQuery);
+  const params = new URLSearchParams(buildFilterQuery(merged));
+  for (const [key, value] of Object.entries(extra ?? {})) {
+    if (value) params.set(key, value);
+  }
+  if (tableQuery) appendMediaTableQuery(params, tableQuery);
+  return params;
+}
+
+function mediaEndpoint(mediaType: MediaType): string {
+  switch (mediaType) {
+    case "YouTube":
+      return "/api/youtube";
+    case "X":
+      return "/api/x";
+    case "Online":
+      return "/api/online";
+  }
+}
+
 function useGlobalFilterQuery(extra?: Partial<FilterState>) {
-  const state = useFilterStore();
+  const state = useApiFilterState();
   return buildFilterQuery({ ...state, ...extra });
 }
 
@@ -52,42 +113,22 @@ export function useDistrictAnalytics(district: string | null) {
   });
 }
 
-export function useMedia(district: string | null, mediaType: MediaType | "All") {
-  const qs = useGlobalFilterQuery({
-    district,
-    mediaType: undefined as never,
+export function usePrint(
+  scope?: {
+    district?: string | null;
+    constituency?: string | null;
+    entity?: string | null;
+    printSource?: "district" | "mla" | "mp" | null;
+  },
+  tableQuery?: MediaTableQuery,
+) {
+  const state = useApiFilterState();
+  const params = buildMediaParams(state, tableQuery, {
+    district: scope?.district ?? state.district,
+    constituency: scope?.constituency ?? null,
+    entity: scope?.entity ?? null,
+    printSource: scope?.printSource ?? null,
   });
-  const params = new URLSearchParams(qs);
-  if (mediaType && mediaType !== "All") params.set("mediaType", mediaType);
-  const finalQs = params.toString();
-  return useQuery({
-    queryKey: ["media", district, mediaType, finalQs],
-    queryFn: () => fetchJson<MediaQueryResponse>(`/api/media?${finalQs}`),
-    enabled: !!district,
-  });
-}
-
-/**
- * Media query scoped to either a district (respecting global filters) or a
- * linked person/entity (matched exactly on the Keyword column, ignoring the
- * global filter drawer which is hidden on the MLA/MP pages).
- */
-export function usePrint(scope?: {
-  district?: string | null;
-  constituency?: string | null;
-  entity?: string | null;
-  printSource?: "district" | "mla" | "mp" | null;
-}) {
-  const state = useFilterStore();
-  const params = new URLSearchParams(
-    buildFilterQuery({
-      ...state,
-      district: scope?.district ?? null,
-    }),
-  );
-  if (scope?.constituency) params.set("constituency", scope.constituency);
-  if (scope?.entity) params.set("entity", scope.entity);
-  if (scope?.printSource) params.set("printSource", scope.printSource);
   const qs = params.toString();
   return useQuery({
     queryKey: [
@@ -96,9 +137,11 @@ export function usePrint(scope?: {
       scope?.constituency,
       scope?.entity,
       scope?.printSource,
+      tableQuery,
       qs,
     ],
     queryFn: () => fetchJson<PrintQueryResponse>(`/api/print?${qs}`),
+    placeholderData: keepPreviousData,
   });
 }
 
@@ -109,32 +152,35 @@ export function useScopedMedia(
     constituency?: string | null;
   },
   mediaType: MediaType | "All",
+  tableQuery?: MediaTableQuery,
 ) {
-  const state = useFilterStore();
+  const state = useApiFilterState();
   const { district = null, entity = null, constituency = null } = scope;
-  let finalQs: string;
-  if (entity) {
-    const params = new URLSearchParams();
-    params.set("entity", entity);
-    if (mediaType && mediaType !== "All") params.set("mediaType", mediaType);
-    finalQs = params.toString();
-  } else {
-    const base = buildFilterQuery({
-      ...state,
-      district,
-      mediaType: undefined as never,
-    });
-    const params = new URLSearchParams(base);
-    if (constituency && constituency !== "All") {
-      params.set("constituency", constituency);
-    }
-    if (mediaType && mediaType !== "All") params.set("mediaType", mediaType);
-    finalQs = params.toString();
-  }
+  const params = buildMediaParams(state, tableQuery, {
+    district: entity ? null : district,
+    entity,
+    constituency: constituency && constituency !== "All" ? constituency : null,
+  });
+  const endpoint =
+    mediaType === "All" ? "/api/media" : mediaEndpoint(mediaType);
+  const qs = params.toString();
+  const url = `${endpoint}${qs ? `?${qs}` : ""}`;
   return useQuery({
-    queryKey: ["scoped-media", district, entity, constituency, mediaType, finalQs],
-    queryFn: () => fetchJson<MediaQueryResponse>(`/api/media?${finalQs}`),
+    queryKey: [
+      "scoped-media",
+      district,
+      entity,
+      constituency,
+      mediaType,
+      tableQuery,
+      url,
+    ],
+    queryFn: () =>
+      fetchJson<
+        MediaQueryResponse | YouTubeQueryResponse | XQueryResponse | OnlineQueryResponse
+      >(url),
     enabled: !!(entity || district || constituency !== undefined),
+    placeholderData: keepPreviousData,
   });
 }
 
@@ -149,15 +195,20 @@ export function useConstituencyAnalytics(constituency: string) {
   });
 }
 
-export function useConstituencyPrint(constituency: string | null) {
-  const param =
-    constituency && constituency !== "All"
-      ? `?constituency=${encodeURIComponent(constituency)}`
-      : "";
+export function useConstituencyPrint(
+  constituency: string | null,
+  tableQuery?: MediaTableQuery,
+) {
+  const state = useApiFilterState();
+  const params = buildMediaParams(state, tableQuery, {
+    constituency: constituency && constituency !== "All" ? constituency : null,
+  });
+  const qs = params.toString();
   return useQuery({
-    queryKey: ["constituency-print", constituency ?? "All"],
+    queryKey: ["constituency-print", constituency ?? "All", tableQuery, qs],
     queryFn: () =>
-      fetchJson<ConstituencyPrintResponse>(`/api/constituency/print${param}`),
+      fetchJson<ConstituencyPrintResponse>(`/api/constituency/print?${qs}`),
+    placeholderData: keepPreviousData,
   });
 }
 
@@ -167,6 +218,18 @@ export function useConstituencyOptions() {
     queryFn: () =>
       fetchJson<{ constituencies: string[] }>(`/api/constituency/filters`),
     staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useConstituencyDetail(name: string | null) {
+  return useQuery({
+    queryKey: ["constituency-detail", name],
+    queryFn: () =>
+      fetchJson<ConstituencyDetailResponse>(
+        `/api/constituency/detail?name=${encodeURIComponent(name!)}`,
+      ),
+    enabled: !!name && name !== "All",
+    staleTime: 10 * 60 * 1000,
   });
 }
 
@@ -182,15 +245,35 @@ export function useFilterOptions() {
 export function useMLAs() {
   return useQuery({
     queryKey: ["mlas"],
-    queryFn: () => fetchJson<{ total: number; mlas: MLA[] }>(`/api/mla`),
+    queryFn: () => fetchJson<{ total: number; mlas: MLAListItem[] }>(`/api/mla`),
     staleTime: 10 * 60 * 1000,
+  });
+}
+
+export function useMLA(id: string | null) {
+  return useQuery({
+    queryKey: ["mla", id],
+    queryFn: () => fetchJson<MLA>(`/api/mla?id=${encodeURIComponent(id!)}`),
+    enabled: !!id,
   });
 }
 
 export function useMPs() {
   return useQuery({
     queryKey: ["mps"],
-    queryFn: () => fetchJson<{ total: number; mps: MP[] }>(`/api/mp`),
+    queryFn: () => fetchJson<{ total: number; mps: MPListItem[] }>(`/api/mp`),
     staleTime: 10 * 60 * 1000,
+  });
+}
+
+export function useMP(id: string | null, house?: House | null) {
+  const params = new URLSearchParams();
+  if (id) params.set("id", id);
+  if (house) params.set("house", house);
+  const qs = params.toString();
+  return useQuery({
+    queryKey: ["mp", id, house ?? null],
+    queryFn: () => fetchJson<MP>(`/api/mp?${qs}`),
+    enabled: !!id,
   });
 }

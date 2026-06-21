@@ -47,8 +47,13 @@ export function PrintRecordDetailModal({
         <DetailSection title="Article details">
           <DetailGrid>
             <DetailField
-              label="Headline"
-              value={record.headline}
+              label="Summary"
+              value={record.summary}
+              fullWidth
+            />
+            <DetailField
+              label="Content"
+              value={record.content}
               fullWidth
             />
             <DetailField label="Publication" value={record.publication} />

@@ -9,12 +9,17 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
-import { EmptyState, ErrorState } from "@/components/common/states";
+import { ErrorState } from "@/components/common/states";
 import { MediaTabTable } from "@/components/tables/media-tables";
 import type { DataTableColumn } from "@/components/tables/data-table";
 import { PrintSummaryTable } from "@/components/constituency/print-summary-table";
-import { usePrint, useScopedMedia } from "@/lib/api-client";
+import { useFilterOptions, usePrint, useScopedMedia } from "@/lib/api-client";
+import {
+  useMediaTableQueryState,
+  bindServerPagination,
+  useClampServerPage,
+  type MediaTableQueryState,
+} from "@/lib/use-media-table-query-state";
 import { cn } from "@/lib/utils";
 import type { MediaRecord, MediaType } from "@/lib/types";
 
@@ -22,7 +27,11 @@ function printEmptyDescription(
   entity: string | undefined,
   district: string | undefined,
   printSource: "district" | "mla" | "mp" | undefined,
+  hasActiveFilters: boolean,
 ): string {
+  if (hasActiveFilters) {
+    return "No print records match your search or filters. Try different keywords or clear filters.";
+  }
   if (entity && printSource === "mla") {
     return `No MLA print mentions for ${entity}.`;
   }
@@ -38,7 +47,19 @@ function printEmptyDescription(
   if (district) {
     return `No print mentions for ${district}.`;
   }
-  return "There are no print records for the current selection and filters.";
+  return "There are no print records for the current selection.";
+}
+
+function hasActiveTableFilters(
+  search: string,
+  sentiment: string,
+  language: string | null,
+) {
+  return (
+    !!search.trim() ||
+    sentiment !== "All" ||
+    !!language
+  );
 }
 
 function PrintTab({
@@ -48,6 +69,7 @@ function PrintTab({
   printSource,
   exportName,
   tableMaxHeight,
+  mediaQuery,
 }: {
   district?: string;
   constituency?: string;
@@ -55,44 +77,70 @@ function PrintTab({
   printSource?: "district" | "mla" | "mp";
   exportName?: string;
   tableMaxHeight?: number;
+  mediaQuery: MediaTableQueryState;
 }) {
-  const { data, isLoading, isError } = usePrint({
-    district,
-    constituency,
-    entity,
-    printSource,
-  });
-  if (isLoading) {
-    return (
-      <div className="space-y-3">
-        <Skeleton className="h-9 w-full" />
-        <Skeleton className="h-[800px] w-full rounded-xl" />
-      </div>
-    );
-  }
+  const { apiQuery, tableControls } = mediaQuery;
+  const { data, isError, isFetching } = usePrint(
+    { district, constituency, entity, printSource },
+    apiQuery,
+  );
+
+  useClampServerPage(
+    data?.total,
+    apiQuery.pageSize,
+    apiQuery.page,
+    tableControls.serverPagination.onPageChange,
+  );
+
   if (isError) return <ErrorState />;
-  if (!data || data.records.length === 0) {
-    return (
-      <EmptyState
-        title="No print mentions"
-        description={printEmptyDescription(entity, district, printSource)}
-      />
-    );
-  }
+
+  const filtered = hasActiveTableFilters(
+    apiQuery.search,
+    apiQuery.sentiment,
+    apiQuery.language,
+  );
+
   return (
     <PrintSummaryTable
-      records={data.records}
+      records={data?.records ?? []}
       exportName={exportName ?? district ?? constituency ?? "print"}
       maxHeight={tableMaxHeight}
+      serverPagination={bindServerPagination(data, apiQuery, tableControls)}
+      serverMode
+      isLoading={isFetching}
+      isSearchPending={tableControls.isSearchPending}
+      emptyDescription={printEmptyDescription(
+        entity,
+        district,
+        printSource,
+        filtered,
+      )}
+      searchValue={tableControls.searchValue}
+      onSearchChange={tableControls.onSearchChange}
+      sortValue={tableControls.sortValue}
+      onSortChange={tableControls.onSortChange}
     />
   );
 }
 
 interface MediaScope {
-  /** Scope by district (respects global filters). */
   district?: string;
-  /** Scope by linked person (matched on the Keyword column). */
   entity?: string;
+}
+
+function mediaEmptyDescription(
+  mediaType: MediaType,
+  scope: MediaScope,
+  hasActiveFilters: boolean,
+): string {
+  const label = mediaType === "X" ? "Twitter/X" : mediaType;
+  if (hasActiveFilters) {
+    return `No ${label} records match your search or filters. Try different keywords or clear filters.`;
+  }
+  if (scope.entity) {
+    return `No ${label} coverage is linked to ${scope.entity} in the data.`;
+  }
+  return `There are no ${label} records for the selected district and filters.`;
 }
 
 function MediaTab({
@@ -101,43 +149,59 @@ function MediaTab({
   extraColumns,
   exportName,
   tableMaxHeight,
+  mediaQuery,
 }: {
   scope: MediaScope;
   mediaType: MediaType;
   extraColumns?: DataTableColumn<MediaRecord>[];
   exportName?: string;
   tableMaxHeight?: number;
+  mediaQuery: MediaTableQueryState;
 }) {
-  const { data, isLoading, isError } = useScopedMedia(scope, mediaType);
-  if (isLoading) {
-    return (
-      <div className="space-y-3">
-        <Skeleton className="h-9 w-full" />
-        <Skeleton className="h-[800px] w-full rounded-xl" />
-      </div>
-    );
-  }
+  const { data: filterOptions } = useFilterOptions();
+  const { apiQuery, tableControls } = mediaQuery;
+  const { data, isError, isFetching } = useScopedMedia(
+    scope,
+    mediaType,
+    apiQuery,
+  );
+
+  useClampServerPage(
+    data?.total,
+    apiQuery.pageSize,
+    apiQuery.page,
+    tableControls.serverPagination.onPageChange,
+  );
+
   if (isError) return <ErrorState />;
-  if (!data || data.records.length === 0) {
-    const label = mediaType === "X" ? "Twitter/X" : mediaType;
-    return (
-      <EmptyState
-        title={`No ${label} mentions`}
-        description={
-          scope.entity
-            ? `No ${label} coverage is linked to ${scope.entity} in the data.`
-            : "There are no records for this media type in the selected district and filters."
-        }
-      />
-    );
-  }
+
+  const filtered = hasActiveTableFilters(
+    apiQuery.search,
+    apiQuery.sentiment,
+    apiQuery.language,
+  );
+
   return (
     <MediaTabTable
-      records={data.records}
+      records={data?.records ?? []}
       mediaType={mediaType}
       extraColumns={extraColumns}
       exportName={exportName ?? scope.entity ?? scope.district}
       maxHeight={tableMaxHeight}
+      serverPagination={bindServerPagination(data, apiQuery, tableControls)}
+      serverMode
+      isLoading={isFetching}
+      isSearchPending={tableControls.isSearchPending}
+      emptyDescription={mediaEmptyDescription(mediaType, scope, filtered)}
+      searchValue={tableControls.searchValue}
+      onSearchChange={tableControls.onSearchChange}
+      sortValue={tableControls.sortValue}
+      onSortChange={tableControls.onSortChange}
+      sentiment={tableControls.sentiment}
+      onSentimentChange={tableControls.onSentimentChange}
+      language={tableControls.language}
+      onLanguageChange={tableControls.onLanguageChange}
+      languageOptions={filterOptions?.languages ?? []}
     />
   );
 }
@@ -155,13 +219,12 @@ export function DistrictMediaTabs({
   district?: string;
   entity?: string;
   constituency?: string;
-  /** Limits print to district, MLA, or MP folders. */
   printSource?: "district" | "mla" | "mp";
   extraColumns?: DataTableColumn<MediaRecord>[];
   exportName?: string;
-  /** Caps table scroll height (e.g. home map drill-down slot). */
   tableMaxHeight?: number;
 }) {
+  const mediaQuery = useMediaTableQueryState();
   const scope: MediaScope = entity ? { entity } : { district };
   const constrained = tableMaxHeight != null;
   const tabContentClass = cn("mt-3", constrained && "min-h-0 flex-1");
@@ -192,6 +255,7 @@ export function DistrictMediaTabs({
           printSource={printSource}
           exportName={exportName}
           tableMaxHeight={tableMaxHeight}
+          mediaQuery={mediaQuery}
         />
       </TabsContent>
       <TabsContent value="YouTube" className={tabContentClass}>
@@ -201,6 +265,7 @@ export function DistrictMediaTabs({
           extraColumns={extraColumns}
           exportName={exportName}
           tableMaxHeight={tableMaxHeight}
+          mediaQuery={mediaQuery}
         />
       </TabsContent>
       <TabsContent value="Online" className={tabContentClass}>
@@ -210,6 +275,7 @@ export function DistrictMediaTabs({
           extraColumns={extraColumns}
           exportName={exportName}
           tableMaxHeight={tableMaxHeight}
+          mediaQuery={mediaQuery}
         />
       </TabsContent>
       <TabsContent value="X" className={tabContentClass}>
@@ -219,6 +285,7 @@ export function DistrictMediaTabs({
           extraColumns={extraColumns}
           exportName={exportName}
           tableMaxHeight={tableMaxHeight}
+          mediaQuery={mediaQuery}
         />
       </TabsContent>
     </Tabs>

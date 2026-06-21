@@ -1,14 +1,11 @@
 import { getConstituencyOptions } from "@/services/constituency";
-import { jsonError, warmDataCaches } from "@/lib/api-helpers";
+import { jsonError } from "@/lib/api-helpers";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    await warmDataCaches();
-    return Response.json(getConstituencyOptions(), {
-      headers: { "Cache-Control": "s-maxage=300, stale-while-revalidate=600" },
-    });
+    return Response.json(getConstituencyOptions());
   } catch (err) {
     return jsonError(err instanceof Error ? err.message : "Unknown error");
   }

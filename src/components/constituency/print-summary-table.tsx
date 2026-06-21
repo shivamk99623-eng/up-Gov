@@ -98,10 +98,28 @@ export function PrintSummaryTable({
   records,
   exportName,
   maxHeight,
+  serverPagination,
+  serverMode = !!serverPagination,
+  searchValue,
+  onSearchChange,
+  sortValue,
+  onSortChange,
+  isLoading = false,
+  emptyDescription,
+  isSearchPending = false,
 }: {
   records: PrintRecord[];
   exportName?: string;
   maxHeight?: number;
+  serverPagination?: React.ComponentProps<typeof DataTable<PrintRecord>>["serverPagination"];
+  serverMode?: boolean;
+  searchValue?: string;
+  onSearchChange?: (search: string) => void;
+  sortValue?: { id: string; dir: "asc" | "desc" } | null;
+  onSortChange?: (sort: { id: string; dir: "asc" | "desc" } | null) => void;
+  isLoading?: boolean;
+  emptyDescription?: string;
+  isSearchPending?: boolean;
 }) {
   return (
     <DataTable
@@ -110,6 +128,15 @@ export function PrintSummaryTable({
       getRowId={(r) => r.id}
       exportFileName={exportName ?? "constituency-print"}
       {...(maxHeight != null ? { maxHeight } : {})}
+      {...(serverPagination ? { serverPagination } : {})}
+      serverMode={serverMode}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      sortValue={sortValue}
+      onSortChange={onSortChange}
+      isLoading={isLoading}
+      emptyDescription={emptyDescription}
+      isSearchPending={isSearchPending}
       detailTitle={(r) => r.headline}
       renderDetail={({ row, open, onOpenChange }) => (
         <PrintRecordDetailModal

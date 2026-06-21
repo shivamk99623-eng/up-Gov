@@ -26,6 +26,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EmptyState } from "@/components/common/states";
+import { DEBOUNCE, THROTTLE } from "@/lib/debounce-throttle";
+import {
+  useDebouncedValue,
+  useThrottledCallback,
+} from "@/lib/use-debounced-value";
 import { cn } from "@/lib/utils";
 
 export interface DataTableCellContext {
@@ -83,10 +88,30 @@ interface DataTableProps<T> {
   detailTitle?: (row: T) => string;
   exportFileName?: string;
   pageSize?: number;
+  /** When set, pagination is driven by the API instead of client-side slicing. */
+  serverPagination?: {
+    total: number;
+    page: number;
+    pageSize: number;
+    onPageChange: (page: number) => void;
+    onPageSizeChange: (pageSize: number) => void;
+  };
+  /** Disables client-side search/sort; use with `serverPagination`. */
+  serverMode?: boolean;
+  searchValue?: string;
+  onSearchChange?: (search: string) => void;
+  sortValue?: SortState;
+  onSortChange?: (sort: SortState) => void;
   /** Caps table body height (px) and adds an inner scroll; omit for page-level scroll only. */
   maxHeight?: number;
   /** Toolbar slot rendered on the left (e.g. extra filters). */
   toolbarStart?: React.ReactNode;
+  /** Shows loading state in the table body while keeping toolbar and headers visible. */
+  isLoading?: boolean;
+  /** Custom message when there are no rows (server mode). */
+  emptyDescription?: string;
+  /** True while a debounced server search is waiting to refetch. */
+  isSearchPending?: boolean;
 }
 
 type SortState = { id: string; dir: "asc" | "desc" } | null;
@@ -103,10 +128,20 @@ export function DataTable<T>({
   detailTitle,
   exportFileName = "export",
   pageSize: initialPageSize = 50,
+  serverPagination,
+  serverMode = false,
+  searchValue,
+  onSearchChange,
+  sortValue,
+  onSortChange,
   maxHeight,
   toolbarStart,
+  isLoading = false,
+  emptyDescription,
+  isSearchPending = false,
 }: DataTableProps<T>) {
-  const [search, setSearch] = React.useState("");
+  const [searchInput, setSearchInput] = React.useState("");
+  const debouncedSearch = useDebouncedValue(searchInput, DEBOUNCE.SEARCH_MS);
   const [sort, setSort] = React.useState<SortState>(null);
   const [page, setPage] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(initialPageSize);
@@ -121,6 +156,15 @@ export function DataTable<T>({
   const tableColSpan =
     visibleColumns.length + (renderExpanded ? 1 : 0) + (showAction ? 1 : 0);
 
+  const activeSearch = serverMode ? (searchValue ?? "") : searchInput;
+  const filterSearch = serverMode ? (searchValue ?? "") : debouncedSearch;
+  const activeSort = serverMode ? (sortValue ?? null) : sort;
+
+  const throttledClientPageChange = useThrottledCallback(
+    (nextPage: number) => setPage(nextPage),
+    THROTTLE.ACTION_MS,
+  );
+
   const valueOf = React.useCallback(
     (row: T, col: DataTableColumn<T>) => {
       if (col.value) return col.value(row);
@@ -130,7 +174,8 @@ export function DataTable<T>({
   );
 
   const filtered = React.useMemo(() => {
-    const q = search.trim().toLowerCase();
+    if (serverMode) return data;
+    const q = filterSearch.trim().toLowerCase();
     if (!q) return data;
     return data.filter((row) =>
       columns.some((c) => {
@@ -138,9 +183,10 @@ export function DataTable<T>({
         return v != null && String(v).toLowerCase().includes(q);
       }),
     );
-  }, [data, columns, search]);
+  }, [data, columns, filterSearch, serverMode]);
 
   const sorted = React.useMemo(() => {
+    if (serverMode) return filtered;
     if (!sort) return filtered;
     const col = columns.find((c) => c.id === sort.id);
     if (!col?.value) return filtered;
@@ -154,18 +200,45 @@ export function DataTable<T>({
         return (av - bv) * dir;
       return String(av).localeCompare(String(bv)) * dir;
     });
-  }, [filtered, sort, columns]);
+  }, [filtered, sort, columns, serverMode]);
 
-  const pageCount = Math.max(1, Math.ceil(sorted.length / pageSize));
-  const safePage = Math.min(page, pageCount - 1);
+  const pageCount = serverPagination
+    ? Math.max(1, Math.ceil(serverPagination.total / serverPagination.pageSize))
+    : Math.max(1, Math.ceil(sorted.length / pageSize));
+  const safePage = serverPagination
+    ? Math.min(serverPagination.page - 1, pageCount - 1)
+    : Math.min(page, pageCount - 1);
   const pageRows = React.useMemo(
-    () => sorted.slice(safePage * pageSize, safePage * pageSize + pageSize),
-    [sorted, safePage, pageSize],
+    () =>
+      serverPagination
+        ? sorted
+        : sorted.slice(safePage * pageSize, safePage * pageSize + pageSize),
+    [sorted, safePage, pageSize, serverPagination],
   );
+  const totalRecords = serverPagination?.total ?? sorted.length;
 
   React.useEffect(() => {
-    setPage(0);
-  }, [search, sort, pageSize]);
+    if (!serverPagination && !serverMode) setPage(0);
+  }, [filterSearch, sort, pageSize, serverPagination, serverMode]);
+
+  const handleSearchChange = (value: string) => {
+    if (serverMode) onSearchChange?.(value);
+    else setSearchInput(value);
+  };
+
+  const toggleSort = (id: string) => {
+    const next: SortState = !activeSort || activeSort.id !== id
+      ? { id, dir: "asc" }
+      : activeSort.dir === "asc"
+        ? { id, dir: "desc" }
+        : null;
+    if (serverMode) {
+      onSortChange?.(next);
+      serverPagination?.onPageChange(1);
+      return;
+    }
+    setSort(next);
+  };
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const useVirtualization = maxHeight != null;
@@ -176,14 +249,6 @@ export function DataTable<T>({
     estimateSize: () => 56,
     overscan: 8,
   });
-
-  const toggleSort = (id: string) => {
-    setSort((prev) => {
-      if (!prev || prev.id !== id) return { id, dir: "asc" };
-      if (prev.dir === "asc") return { id, dir: "desc" };
-      return null;
-    });
-  };
 
   const toggleExpand = (id: string) => {
     setExpanded((prev) => {
@@ -255,8 +320,8 @@ export function DataTable<T>({
         <div className="relative min-w-[180px] flex-1">
           <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            value={activeSearch}
+            onChange={(e) => handleSearchChange(e.target.value)}
             placeholder="Search table…"
             className="pl-8"
           />
@@ -306,7 +371,10 @@ export function DataTable<T>({
         </Button>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-border bg-card">
+      <div className="relative overflow-hidden rounded-xl border border-border bg-card">
+        {(isLoading || isSearchPending) && pageRows.length > 0 && (
+          <div className="pointer-events-none absolute inset-0 z-20 bg-background/40" />
+        )}
         <div
           ref={scrollRef}
           className={cn(
@@ -322,7 +390,7 @@ export function DataTable<T>({
                   <th className="w-10 border-b border-border bg-secondary" />
                 )}
                 {visibleColumns.map((c) => {
-                  const active = sort?.id === c.id;
+                  const active = activeSort?.id === c.id;
                   return (
                     <th
                       key={c.id}
@@ -338,7 +406,7 @@ export function DataTable<T>({
                           >
                             {c.header}
                             {active ? (
-                              sort!.dir === "asc" ? (
+                              activeSort!.dir === "asc" ? (
                                 <ArrowUp className="h-3.5 w-3.5" />
                               ) : (
                                 <ArrowDown className="h-3.5 w-3.5" />
@@ -363,13 +431,36 @@ export function DataTable<T>({
                 )}
               </tr>
             </thead>
-            <tbody>
-                {pageRows.length === 0 ? (
+            <tbody className={cn((isLoading || isSearchPending) && pageRows.length > 0 && "opacity-60")}>
+                {isLoading && pageRows.length === 0 ? (
+                  Array.from({ length: 8 }).map((_, i) => (
+                    <tr key={`loading-${i}`} className="border-b border-border">
+                      {renderExpanded && (
+                        <td className="px-2 py-3">
+                          <div className="mx-auto h-4 w-4 animate-pulse rounded bg-muted" />
+                        </td>
+                      )}
+                      {visibleColumns.map((c) => (
+                        <td key={c.id} className="px-3 py-3">
+                          <div className="h-4 animate-pulse rounded bg-muted" />
+                        </td>
+                      ))}
+                      {showAction && (
+                        <td className="px-2 py-3">
+                          <div className="mx-auto h-8 w-8 animate-pulse rounded bg-muted" />
+                        </td>
+                      )}
+                    </tr>
+                  ))
+                ) : pageRows.length === 0 ? (
                   <tr>
                     <td colSpan={tableColSpan}>
                       <EmptyState
                         title="No records"
-                        description="No rows match the current search and filters."
+                        description={
+                          emptyDescription ??
+                          "No rows match the current search and filters."
+                        }
                         className="border-0 bg-transparent"
                       />
                     </td>
@@ -489,16 +580,34 @@ export function DataTable<T>({
       {/* Pagination */}
       <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
         <div>
-          {sorted.length.toLocaleString("en-IN")} records ·{" "}
-          {sorted.length === 0
+          {totalRecords.toLocaleString("en-IN")} records ·{" "}
+          {totalRecords === 0
             ? 0
-            : safePage * pageSize + 1}
-          –{Math.min((safePage + 1) * pageSize, sorted.length)} shown
+            : serverPagination
+              ? (serverPagination.page - 1) * serverPagination.pageSize + 1
+              : safePage * pageSize + 1}
+          –
+          {totalRecords === 0
+            ? 0
+            : serverPagination
+              ? Math.min(
+                  serverPagination.page * serverPagination.pageSize,
+                  totalRecords,
+                )
+              : Math.min((safePage + 1) * pageSize, sorted.length)}{" "}
+          shown
         </div>
         <div className="flex items-center gap-3">
           <select
-            value={pageSize}
-            onChange={(e) => setPageSize(Number(e.target.value))}
+            value={serverPagination?.pageSize ?? pageSize}
+            onChange={(e) => {
+              const next = Number(e.target.value);
+              if (serverPagination) serverPagination.onPageSizeChange(next);
+              else {
+                setPageSize(next);
+                throttledClientPageChange(0);
+              }
+            }}
             className="h-8 rounded-md border border-input bg-card px-2 text-sm"
           >
             {[25, 50, 100, 200, 500].map((n) => (
@@ -513,7 +622,13 @@ export function DataTable<T>({
               size="icon"
               className="h-8 w-8"
               disabled={safePage === 0}
-              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              onClick={() => {
+                if (serverPagination) {
+                  serverPagination.onPageChange(serverPagination.page - 1);
+                } else {
+                  throttledClientPageChange(Math.max(0, safePage - 1));
+                }
+              }}
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -525,7 +640,13 @@ export function DataTable<T>({
               size="icon"
               className="h-8 w-8"
               disabled={safePage >= pageCount - 1}
-              onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+              onClick={() => {
+                if (serverPagination) {
+                  serverPagination.onPageChange(serverPagination.page + 1);
+                } else {
+                  throttledClientPageChange(Math.min(pageCount - 1, safePage + 1));
+                }
+              }}
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
