@@ -192,19 +192,27 @@ export const DIGITAL_TABLES: Record<DigitalMediaKind, string> = {
 export const PRINT_TABLE = "news_print";
 
 export const NEWS_ROW_COLUMNS = `
-  "newsId", "Heading", "Summary", "CreatedAt",'"CCM"', "Content",
-  "Language", "Sentiment", "Authors", "District", "Constituency",
+  "newsId", "Heading", "Summary", "CreatedAt", "Content",
+  "Language", "Sentiment", "District", "Constituency",
   "MLA", "Loksabha_MP", "Rajyasabha_MP"
 `;
 
-export const PRINT_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Publication", "Edition"`;
+export const PRINT_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Publication","CCM", "Authors", "Edition"`;
 
 /** Minimal columns for entity stats scans (avoids loading full article bodies). */
 export const ENTITY_STAT_ROW_COLUMNS = `
   "Sentiment", "District", "MLA", "Loksabha_MP", "Rajyasabha_MP"
 `;
+
+/** Light columns for analytics aggregation (no article bodies). */
+export const AGG_ROW_COLUMNS = `
+  "Sentiment", "CreatedAt", "District", "Constituency",
+  "MLA", "Loksabha_MP", "Rajyasabha_MP", "Language", "Authors"
+`;
+
+export const PRINT_DISTRICT_ONLY_COLUMNS = `"District"`;
 export const YOUTUBE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "channel", "duration", "link"`;
-export const ONLINE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Website" as "website", "Link" as "link"`;
+export const ONLINE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Website" as "website", "Link" as "link" , "Authors"`;
 export const X_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Handles" as "handles", "Link" as "link"`;
 
 export const TABLE_COLUMNS: Record<DigitalMediaKind | "Print", string> = {

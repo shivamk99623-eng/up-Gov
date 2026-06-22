@@ -2,11 +2,13 @@ import "server-only";
 import { formatCalendarDate } from "@/lib/dates";
 import { isKnownDistrict, toGeoName } from "@/lib/geo";
 import {
+  countAndSentimentSql,
+  dailyTrendCountsSql,
+  aggregateFilteredStats,
   listDistrictNamesFromNews,
   listLanguagesFromNews,
   printCountsByDistrict,
   queryDigitalMedia,
-  queryPrintRecords,
 } from "@/lib/news-repository";
 import type {
   DashboardResponse,
@@ -17,7 +19,6 @@ import type {
   MediaType,
   NameCount,
   NewsItem,
-  PrintRecord,
   Sentiment,
   TrendPoint,
 } from "@/lib/types";
@@ -26,13 +27,43 @@ function emptySentiment() {
   return { positive: 0, negative: 0, neutral: 0 };
 }
 
-function addSentiment(
+function mergeSentiment(
   acc: { positive: number; negative: number; neutral: number },
-  s: Sentiment,
+  s: { positive: number; negative: number; neutral: number },
 ) {
-  if (s === "Positive") acc.positive += 1;
-  else if (s === "Negative") acc.negative += 1;
-  else acc.neutral += 1;
+  acc.positive += s.positive;
+  acc.negative += s.negative;
+  acc.neutral += s.neutral;
+}
+
+function hasJsScopeFilters(filters: GlobalFilters): boolean {
+  return !!(
+    filters.district ||
+    filters.constituency ||
+    filters.search?.trim() ||
+    filters.entity
+  );
+}
+
+function mergeDailyTrendMaps(
+  digitalRecords: MediaRecord[],
+  printByDate: Map<string, number>,
+): TrendPoint[] {
+  const map = new Map<string, TrendPoint>();
+  for (const r of digitalRecords) {
+    if (!r.date) continue;
+    bumpTrend(map, r.date, r.mediaType);
+  }
+  for (const [date, count] of printByDate) {
+    let p = map.get(date);
+    if (!p) {
+      p = { date, total: 0, print: 0, youtube: 0, x: 0, online: 0 };
+      map.set(date, p);
+    }
+    p.total += count;
+    p.print += count;
+  }
+  return [...map.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
 
 function topCounts(
@@ -67,22 +98,6 @@ function bumpTrend(
   else if (kind === "YouTube") p.youtube += 1;
   else if (kind === "X") p.x += 1;
   else p.online += 1;
-}
-
-function buildDailyTrend(
-  records: MediaRecord[],
-  printRecords: PrintRecord[] = [],
-): TrendPoint[] {
-  const map = new Map<string, TrendPoint>();
-  for (const r of records) {
-    if (!r.date) continue;
-    bumpTrend(map, r.date, r.mediaType);
-  }
-  for (const r of printRecords) {
-    if (!r.date) continue;
-    bumpTrend(map, r.date, "print");
-  }
-  return [...map.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
 
 function topNewsBySentiment(
@@ -170,14 +185,29 @@ function buildDistrictSummary(
 
 export function getDashboard(filters: GlobalFilters = {}): DashboardResponse {
   const records = queryDigitalMedia(filters).records;
-  const printRecords = queryPrintRecords(filters).records;
-  console.log(printRecords);
+
+  let printCount: number;
+  let printSentiment: ReturnType<typeof emptySentiment>;
+  let printDaily: Map<string, number>;
+
+  if (hasJsScopeFilters(filters)) {
+    const agg = aggregateFilteredStats("Print", filters);
+    printCount = agg.total;
+    printSentiment = agg.sentiment;
+    printDaily = agg.dailyTrend;
+  } else {
+    const stats = countAndSentimentSql("Print", filters);
+    printCount = stats.total;
+    printSentiment = stats.sentiment;
+    printDaily = dailyTrendCountsSql("Print", filters);
+  }
+
   let youtubeCount = 0;
   let xCount = 0;
   let onlineCount = 0;
-  let positiveCount = 0;
-  let negativeCount = 0;
-  let neutralCount = 0;
+  let positiveCount = printSentiment.positive;
+  let negativeCount = printSentiment.negative;
+  let neutralCount = printSentiment.neutral;
   let minTs: number | null = null;
   let maxTs: number | null = null;
 
@@ -194,18 +224,12 @@ export function getDashboard(filters: GlobalFilters = {}): DashboardResponse {
     }
   }
 
-  for (const r of printRecords) {
-    if (r.sentiment === "Positive") positiveCount += 1;
-    else if (r.sentiment === "Negative") negativeCount += 1;
-    else neutralCount += 1;
-  }
-
   const printByDistrict = printCountsByDistrict();
   const districtSummary = buildDistrictSummary(records, printByDistrict);
 
   return {
-    totalNews: records.length + printRecords.length,
-    printCount: printRecords.length,
+    totalNews: records.length + printCount,
+    printCount,
     youtubeCount,
     xCount,
     onlineCount,
@@ -219,12 +243,12 @@ export function getDashboard(filters: GlobalFilters = {}): DashboardResponse {
     topPositiveNews: topNewsBySentiment(records, "Positive", 10),
     topNegativeNews: topNewsBySentiment(records, "Negative", 10),
     mediaDistribution: {
-      print: printRecords.length,
+      print: printCount,
       youtube: youtubeCount,
       x: xCount,
       online: onlineCount,
     },
-    dailyTrend: buildDailyTrend(records, printRecords),
+    dailyTrend: mergeDailyTrendMaps(records, printDaily),
     topProfiles: topCounts(records, (r) => r.authors || null, 10),
     topChannels: topCounts(records, digitalSourceName, 10),
     languageDistribution: topCounts(records, (r) => r.language, 12),
@@ -241,12 +265,6 @@ export function getDistrictAnalytics(
   filters: GlobalFilters = {},
 ): DistrictAnalyticsResponse {
   const scoped = { ...filters, district };
-  const records = queryDigitalMedia(scoped).records;
-  const printRecords =
-    district === "All"
-      ? queryPrintRecords({ printSource: "district" }).records
-      : queryPrintRecords({ ...scoped, printSource: "district" }).records;
-
   const sentiment = emptySentiment();
   const media = { print: 0, youtube: 0, x: 0, online: 0 };
   const mediaSentiment = {
@@ -255,34 +273,65 @@ export function getDistrictAnalytics(
     x: emptySentiment(),
     online: emptySentiment(),
   };
+  const dailyTrendMap = new Map<string, TrendPoint>();
 
-  for (const r of records) {
-    addSentiment(sentiment, r.sentiment);
-    if (r.mediaType === "YouTube") {
-      media.youtube += 1;
-      addSentiment(mediaSentiment.youtube, r.sentiment);
-    } else if (r.mediaType === "X") {
-      media.x += 1;
-      addSentiment(mediaSentiment.x, r.sentiment);
-    } else {
-      media.online += 1;
-      addSentiment(mediaSentiment.online, r.sentiment);
+  const bumpDailyCounts = (
+    counts: Map<string, number>,
+    kind: "print" | MediaType,
+  ) => {
+    for (const [date, count] of counts) {
+      let p = dailyTrendMap.get(date);
+      if (!p) {
+        p = { date, total: 0, print: 0, youtube: 0, x: 0, online: 0 };
+        dailyTrendMap.set(date, p);
+      }
+      p.total += count;
+      if (kind === "print") p.print += count;
+      else if (kind === "YouTube") p.youtube += count;
+      else if (kind === "X") p.x += count;
+      else p.online += count;
     }
+  };
+
+  for (const kind of ["YouTube", "X", "Online"] as const) {
+    const agg = aggregateFilteredStats(kind, scoped);
+    if (kind === "YouTube") {
+      media.youtube = agg.total;
+      mediaSentiment.youtube = agg.sentiment;
+    } else if (kind === "X") {
+      media.x = agg.total;
+      mediaSentiment.x = agg.sentiment;
+    } else {
+      media.online = agg.total;
+      mediaSentiment.online = agg.sentiment;
+    }
+    mergeSentiment(sentiment, agg.sentiment);
+    bumpDailyCounts(agg.dailyTrend, kind);
   }
 
-  for (const r of printRecords) {
-    media.print += 1;
-    addSentiment(sentiment, r.sentiment);
-    addSentiment(mediaSentiment.print, r.sentiment);
-  }
+  const printFilters =
+    district === "All"
+      ? { ...filters, printSource: "district" as const }
+      : { ...scoped, printSource: "district" as const };
+  const printAgg = aggregateFilteredStats("Print", printFilters);
+  media.print = printAgg.total;
+  mediaSentiment.print = printAgg.sentiment;
+  mergeSentiment(sentiment, printAgg.sentiment);
+  bumpDailyCounts(printAgg.dailyTrend, "print");
+
+  const digitalTotal = media.youtube + media.x + media.online;
+  const records =
+    digitalTotal > 0 ? queryDigitalMedia(scoped).records : [];
 
   return {
     district,
-    total: records.length + printRecords.length,
+    total: digitalTotal + media.print,
     sentiment,
     media,
     mediaSentiment,
-    dailyTrend: buildDailyTrend(records),
+    dailyTrend: [...dailyTrendMap.values()].sort((a, b) =>
+      a.date.localeCompare(b.date),
+    ),
     topProfiles: topCounts(records, (r) => r.authors || null, 10),
     languageDistribution: topCounts(records, (r) => r.language, 10),
   };

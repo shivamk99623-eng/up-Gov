@@ -55,13 +55,13 @@ const columns: DataTableColumn<PrintRecord>[] = [
     exportValue: (r) => (r.date ? formatDisplayDate(r.date) : ""),
     cell: (r) => <DateCell value={r.date} />,
   },
-  {
-    id: "pageNo",
-    header: "Page No.",
-    enableSorting: true,
-    value: (r) => r.pageNo ?? "",
-    cell: (r) => r.pageNo ?? "—",
-  },
+  // {
+  //   id: "pageNo",
+  //   header: "Page No.",
+  //   enableSorting: true,
+  //   value: (r) => r.pageNo ?? "",
+  //   cell: (r) => r.pageNo ?? "—",
+  // },
   {
     id: "sentiment",
     header: "Sentiment",
@@ -90,7 +90,7 @@ const columns: DataTableColumn<PrintRecord>[] = [
     enableSorting: true,
     value: (r) => r.ccm ?? "",
     cell: (r) => r.ccm ?? "—",
-    defaultHidden: true,
+    defaultHidden: false,
   },
 ];
 

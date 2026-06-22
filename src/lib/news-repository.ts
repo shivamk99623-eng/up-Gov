@@ -14,7 +14,9 @@ import { getDb } from "./db";
 import {
   columnsForKind,
   isKnownLanguage,
+  AGG_ROW_COLUMNS,
   ENTITY_STAT_ROW_COLUMNS,
+  PRINT_DISTRICT_ONLY_COLUMNS,
   PRINT_ROW_COLUMNS,
   rowToOnlineRecord,
   rowToPrintRecord,
@@ -153,6 +155,208 @@ function buildEntitySqlPrefilter(
     }
   }
   return { sql: `(${parts.join(" OR ")})`, params };
+}
+
+function emptySentimentBreakdown(): SentimentBreakdown {
+  return { positive: 0, negative: 0, neutral: 0 };
+}
+
+function addSentimentCount(
+  acc: SentimentBreakdown,
+  sentiment: Sentiment,
+): void {
+  if (sentiment === "Positive") acc.positive += 1;
+  else if (sentiment === "Negative") acc.negative += 1;
+  else acc.neutral += 1;
+}
+
+function sentimentFromRow(value: unknown): Sentiment {
+  const s = String(value ?? "").trim().toLowerCase();
+  if (s.startsWith("pos")) return "Positive";
+  if (s.startsWith("neg")) return "Negative";
+  return "Neutral";
+}
+
+function needsJsFiltering(
+  filters: GlobalFilters,
+  kind: TableKind,
+): boolean {
+  if (filters.search?.trim()) return true;
+  if (filters.entity) return true;
+  if (filters.district && filters.district !== "All") return true;
+  if (filters.constituency && filters.constituency !== "All") return true;
+  if (kind === "Print" && filters.printSource) return true;
+  return false;
+}
+
+const SORT_SQL_COLUMNS: Record<string, string> = {
+  headline: '"Heading"',
+  date: '"CreatedAt"',
+  sentiment: '"Sentiment"',
+  language: '"Language"',
+  authors: '"Authors"',
+  author: '"Authors"',
+  publication: '"Publication"',
+  edition: '"Edition"',
+  channel: '"channel"',
+  handles: '"handles"',
+  website: '"website"',
+  publisher: '"website"',
+};
+
+function queryTableRecordsSql<T extends { date?: string | null; timestamp?: number | null }>(
+  kind: TableKind,
+  filters: GlobalFilters,
+  pagination: PaginationParams,
+): QueryListResult<T> {
+  const table = tableForKind(kind);
+  if (!tableExists(table)) {
+    return { total: 0, records: [], ...paginateMeta(0, pagination) };
+  }
+  const { clause, params } = buildIndexedWhere(filters);
+  const db = getDb();
+  const total = (
+    db
+      .prepare(`SELECT COUNT(*) AS c FROM "${table}" ${clause}`)
+      .get(...params) as { c: number }
+  ).c;
+
+  const sortCol =
+    filters.sortBy && SORT_SQL_COLUMNS[filters.sortBy]
+      ? SORT_SQL_COLUMNS[filters.sortBy]
+      : '"CreatedAt"';
+  const sortDir = filters.sortDir === "asc" ? "ASC" : "DESC";
+  const columns =
+    kind === "Print" ? PRINT_ROW_COLUMNS : columnsForKind(kind as DigitalMediaKind);
+  const { page, limit } = pagination;
+  const offset = (page - 1) * limit;
+
+  const rows = db
+    .prepare(
+      `SELECT ${columns} FROM "${table}" ${clause} ORDER BY ${sortCol} ${sortDir} LIMIT ? OFFSET ?`,
+    )
+    .all(...params, limit, offset) as RawNewsRow[];
+
+  return {
+    total,
+    records: rows.map((row) => mapRow<T>(kind, row)),
+    ...paginateMeta(total, pagination),
+  };
+}
+
+/** SQL-only count + sentiment — no full table scan in JS. */
+export function countAndSentimentSql(
+  kind: TableKind,
+  filters: GlobalFilters = {},
+): { total: number; sentiment: SentimentBreakdown } {
+  const table = tableForKind(kind);
+  if (!tableExists(table)) {
+    return { total: 0, sentiment: emptySentimentBreakdown() };
+  }
+  const { clause, params } = buildIndexedWhere(filters);
+  const rows = getDb()
+    .prepare(
+      `SELECT lower(trim("Sentiment")) AS s, COUNT(*) AS c FROM "${table}" ${clause} GROUP BY s`,
+    )
+    .all(...params) as { s: string; c: number }[];
+
+  const sentiment = emptySentimentBreakdown();
+  let total = 0;
+  for (const { s, c } of rows) {
+    total += c;
+    if (s.startsWith("pos")) sentiment.positive += c;
+    else if (s.startsWith("neg")) sentiment.negative += c;
+    else sentiment.neutral += c;
+  }
+  return { total, sentiment };
+}
+
+/** SQL-only daily counts keyed by YYYY-MM-DD. */
+export function dailyTrendCountsSql(
+  kind: TableKind,
+  filters: GlobalFilters = {},
+): Map<string, number> {
+  const table = tableForKind(kind);
+  const map = new Map<string, number>();
+  if (!tableExists(table)) return map;
+  const { clause, params } = buildIndexedWhere(filters);
+  const rows = getDb()
+    .prepare(
+      `SELECT date("CreatedAt") AS d, COUNT(*) AS c FROM "${table}" ${clause} AND "CreatedAt" IS NOT NULL GROUP BY d`,
+    )
+    .all(...params) as { d: string; c: number }[];
+  for (const { d, c } of rows) {
+    if (d) map.set(d, c);
+  }
+  return map;
+}
+
+export interface FilteredAggregateStats {
+  total: number;
+  sentiment: SentimentBreakdown;
+  dailyTrend: Map<string, number>;
+}
+
+/** Aggregate with JS filters on light rows (no article bodies). */
+export function aggregateFilteredStats(
+  kind: TableKind,
+  filters: GlobalFilters = {},
+  options?: { skipDistrict?: boolean },
+): FilteredAggregateStats {
+  const scopedFilters = applyConstituencyScope(filters);
+  const filterOptions = {
+    ...options,
+    skipDistrict:
+      options?.skipDistrict ??
+      !!(scopedFilters.constituency && scopedFilters.constituency !== "All"),
+  };
+  const sentiment = emptySentimentBreakdown();
+  const dailyTrend = new Map<string, number>();
+  let total = 0;
+
+  for (const row of fetchRows(kind, scopedFilters, AGG_ROW_COLUMNS)) {
+    if (!rowMatchesFilters(row, scopedFilters, filterOptions)) continue;
+
+    if (kind === "Print") {
+      if (
+        !rowMatchesPrintSource(
+          row,
+          scopedFilters.printSource,
+          scopedFilters.entity,
+        )
+      ) {
+        continue;
+      }
+      if (scopedFilters.printSource === "district" && scopedFilters.district) {
+        const { sourceType } = rowToPrintRecord(row);
+        if (
+          sourceType !== "district" &&
+          sourceType !== "constituency" &&
+          !rowMatchesDistrict(row, scopedFilters.district)
+        ) {
+          continue;
+        }
+      }
+      if (scopedFilters.entity && scopedFilters.printSource === "mla") {
+        if (
+          !parsePersonNameArray(row.MLA).some((n) =>
+            mlaNamesMatch(n, scopedFilters.entity!),
+          )
+        ) {
+          continue;
+        }
+      }
+    }
+
+    total += 1;
+    addSentimentCount(sentiment, sentimentFromRow(row.Sentiment));
+    if (row.CreatedAt) {
+      const d = row.CreatedAt.slice(0, 10);
+      dailyTrend.set(d, (dailyTrend.get(d) ?? 0) + 1);
+    }
+  }
+
+  return { total, sentiment, dailyTrend };
 }
 
 function fetchRows(
@@ -390,6 +594,13 @@ function queryTableRecords<
   options?: { skipDistrict?: boolean; pagination?: PaginationParams },
 ): QueryListResult<T> {
   const scopedFilters = applyConstituencyScope(filters);
+  if (
+    options?.pagination &&
+    !needsJsFiltering(scopedFilters, kind)
+  ) {
+    return queryTableRecordsSql<T>(kind, scopedFilters, options.pagination);
+  }
+
   const filterOptions = {
     ...options,
     skipDistrict:
@@ -531,26 +742,6 @@ export interface EntityMediaStats {
   primaryDistrict: string | null;
 }
 
-function emptySentimentBreakdown(): SentimentBreakdown {
-  return { positive: 0, negative: 0, neutral: 0 };
-}
-
-function sentimentFromRow(value: unknown): Sentiment {
-  const s = String(value ?? "").trim().toLowerCase();
-  if (s.startsWith("pos")) return "Positive";
-  if (s.startsWith("neg")) return "Negative";
-  return "Neutral";
-}
-
-function addSentimentCount(
-  acc: SentimentBreakdown,
-  sentiment: Sentiment,
-): void {
-  if (sentiment === "Positive") acc.positive += 1;
-  else if (sentiment === "Negative") acc.negative += 1;
-  else acc.neutral += 1;
-}
-
 function bumpEntityDistrictCounts(
   row: RawNewsRow,
   entityName: string,
@@ -619,7 +810,7 @@ export function queryEntityMediaStats(
 
 export function printCountsByDistrict(): Map<string, number> {
   const map = new Map<string, number>();
-  for (const row of fetchRows("Print")) {
+  for (const row of fetchRows("Print", {}, AGG_ROW_COLUMNS)) {
     const districts = parseDistrictNames(row.District).map(resolveDistrictName);
     for (const d of districts) {
       if (!isKnownDistrict(d)) continue;

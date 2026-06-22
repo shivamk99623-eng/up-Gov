@@ -164,11 +164,13 @@ export function ConstituencyMediaTabs({
   tableMaxHeight?: number;
 }) {
   const mediaQuery = useMediaTableQueryState();
+  const [activeTab, setActiveTab] = React.useState("Print");
   const constrained = tableMaxHeight != null;
   const tabContentClass = cn("mt-3", constrained && "min-h-0 flex-1");
   return (
     <Tabs
-      defaultValue="Print"
+      value={activeTab}
+      onValueChange={setActiveTab}
       className={cn(constrained && "flex h-full min-h-0 flex-col")}
     >
       <TabsList>
@@ -186,39 +188,47 @@ export function ConstituencyMediaTabs({
         </TabsTrigger>
       </TabsList>
       <TabsContent value="Print" className={tabContentClass}>
-        <PrintTab
-          constituency={constituency}
-          exportName={exportName}
-          tableMaxHeight={tableMaxHeight}
-          mediaQuery={mediaQuery}
-        />
+        {activeTab === "Print" && (
+          <PrintTab
+            constituency={constituency}
+            exportName={exportName}
+            tableMaxHeight={tableMaxHeight}
+            mediaQuery={mediaQuery}
+          />
+        )}
       </TabsContent>
       <TabsContent value="YouTube" className={tabContentClass}>
-        <MediaTab
-          constituency={constituency}
-          mediaType="YouTube"
-          exportName={exportName}
-          tableMaxHeight={tableMaxHeight}
-          mediaQuery={mediaQuery}
-        />
+        {activeTab === "YouTube" && (
+          <MediaTab
+            constituency={constituency}
+            mediaType="YouTube"
+            exportName={exportName}
+            tableMaxHeight={tableMaxHeight}
+            mediaQuery={mediaQuery}
+          />
+        )}
       </TabsContent>
       <TabsContent value="Online" className={tabContentClass}>
-        <MediaTab
-          constituency={constituency}
-          mediaType="Online"
-          exportName={exportName}
-          tableMaxHeight={tableMaxHeight}
-          mediaQuery={mediaQuery}
-        />
+        {activeTab === "Online" && (
+          <MediaTab
+            constituency={constituency}
+            mediaType="Online"
+            exportName={exportName}
+            tableMaxHeight={tableMaxHeight}
+            mediaQuery={mediaQuery}
+          />
+        )}
       </TabsContent>
       <TabsContent value="X" className={tabContentClass}>
-        <MediaTab
-          constituency={constituency}
-          mediaType="X"
-          exportName={exportName}
-          tableMaxHeight={tableMaxHeight}
-          mediaQuery={mediaQuery}
-        />
+        {activeTab === "X" && (
+          <MediaTab
+            constituency={constituency}
+            mediaType="X"
+            exportName={exportName}
+            tableMaxHeight={tableMaxHeight}
+            mediaQuery={mediaQuery}
+          />
+        )}
       </TabsContent>
     </Tabs>
   );

@@ -225,12 +225,14 @@ export function DistrictMediaTabs({
   tableMaxHeight?: number;
 }) {
   const mediaQuery = useMediaTableQueryState();
+  const [activeTab, setActiveTab] = React.useState("Print");
   const scope: MediaScope = entity ? { entity } : { district };
   const constrained = tableMaxHeight != null;
   const tabContentClass = cn("mt-3", constrained && "min-h-0 flex-1");
   return (
     <Tabs
-      defaultValue="Print"
+      value={activeTab}
+      onValueChange={setActiveTab}
       className={cn(constrained && "flex h-full min-h-0 flex-col")}
     >
       <TabsList>
@@ -248,45 +250,53 @@ export function DistrictMediaTabs({
         </TabsTrigger>
       </TabsList>
       <TabsContent value="Print" className={tabContentClass}>
-        <PrintTab
-          district={district}
-          constituency={constituency}
-          entity={entity}
-          printSource={printSource}
-          exportName={exportName}
-          tableMaxHeight={tableMaxHeight}
-          mediaQuery={mediaQuery}
-        />
+        {activeTab === "Print" && (
+          <PrintTab
+            district={district}
+            constituency={constituency}
+            entity={entity}
+            printSource={printSource}
+            exportName={exportName}
+            tableMaxHeight={tableMaxHeight}
+            mediaQuery={mediaQuery}
+          />
+        )}
       </TabsContent>
       <TabsContent value="YouTube" className={tabContentClass}>
-        <MediaTab
-          scope={scope}
-          mediaType="YouTube"
-          extraColumns={extraColumns}
-          exportName={exportName}
-          tableMaxHeight={tableMaxHeight}
-          mediaQuery={mediaQuery}
-        />
+        {activeTab === "YouTube" && (
+          <MediaTab
+            scope={scope}
+            mediaType="YouTube"
+            extraColumns={extraColumns}
+            exportName={exportName}
+            tableMaxHeight={tableMaxHeight}
+            mediaQuery={mediaQuery}
+          />
+        )}
       </TabsContent>
       <TabsContent value="Online" className={tabContentClass}>
-        <MediaTab
-          scope={scope}
-          mediaType="Online"
-          extraColumns={extraColumns}
-          exportName={exportName}
-          tableMaxHeight={tableMaxHeight}
-          mediaQuery={mediaQuery}
-        />
+        {activeTab === "Online" && (
+          <MediaTab
+            scope={scope}
+            mediaType="Online"
+            extraColumns={extraColumns}
+            exportName={exportName}
+            tableMaxHeight={tableMaxHeight}
+            mediaQuery={mediaQuery}
+          />
+        )}
       </TabsContent>
       <TabsContent value="X" className={tabContentClass}>
-        <MediaTab
-          scope={scope}
-          mediaType="X"
-          extraColumns={extraColumns}
-          exportName={exportName}
-          tableMaxHeight={tableMaxHeight}
-          mediaQuery={mediaQuery}
-        />
+        {activeTab === "X" && (
+          <MediaTab
+            scope={scope}
+            mediaType="X"
+            extraColumns={extraColumns}
+            exportName={exportName}
+            tableMaxHeight={tableMaxHeight}
+            mediaQuery={mediaQuery}
+          />
+        )}
       </TabsContent>
     </Tabs>
   );

@@ -2,8 +2,8 @@ import "server-only";
 import { resolveConstituencyFilter, listConstituencies } from "@/lib/constituency-lookup";
 import { listConstituencyDetailNames, dedupeConstituencyNames } from "@/lib/constituency-detail";
 import {
+  aggregateFilteredStats,
   queryDigitalMedia,
-  queryPrintRecords,
   type PaginationParams,
 } from "@/lib/news-repository";
 import {
@@ -19,21 +19,20 @@ import type {
   MediaQueryResponse,
   MediaType,
   NameCount,
-  Sentiment,
   TrendPoint,
 } from "@/lib/types";
 
-function emptySentiment() {
-  return { positive: 0, negative: 0, neutral: 0 };
+function mergeSentiment(
+  acc: { positive: number; negative: number; neutral: number },
+  s: { positive: number; negative: number; neutral: number },
+) {
+  acc.positive += s.positive;
+  acc.negative += s.negative;
+  acc.neutral += s.neutral;
 }
 
-function addSentiment(
-  acc: { positive: number; negative: number; neutral: number },
-  s: Sentiment,
-) {
-  if (s === "Positive") acc.positive += 1;
-  else if (s === "Negative") acc.negative += 1;
-  else acc.neutral += 1;
+function emptySentiment() {
+  return { positive: 0, negative: 0, neutral: 0 };
 }
 
 function topCounts<T>(
@@ -51,25 +50,6 @@ function topCounts<T>(
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count)
     .slice(0, limit);
-}
-
-function buildDailyTrend(
-  records: { date: string | null; mediaType: string }[],
-): TrendPoint[] {
-  const map = new Map<string, TrendPoint>();
-  for (const r of records) {
-    if (!r.date) continue;
-    let p = map.get(r.date);
-    if (!p) {
-      p = { date: r.date, total: 0, print: 0, youtube: 0, x: 0, online: 0 };
-      map.set(r.date, p);
-    }
-    p.total += 1;
-    if (r.mediaType === "YouTube") p.youtube += 1;
-    else if (r.mediaType === "X") p.x += 1;
-    else p.online += 1;
-  }
-  return [...map.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
 
 function resolveConstituencyFilterForAnalytics(constituency: string) {
@@ -111,61 +91,78 @@ export function getConstituencyAnalytics(
   filters: GlobalFilters = {},
 ): ConstituencyAnalyticsResponse {
   const resolved = resolveConstituencyFilterForAnalytics(constituency);
-  const records = queryDigitalMedia(
-    {
-      ...filters,
-      constituency: resolved === "All" ? null : resolved,
-      district: null,
-    },
-    { skipDistrict: true },
-  ).records;
-  const printRecords = queryPrintRecords({
+  const scoped = {
     ...filters,
     constituency: resolved === "All" ? null : resolved,
     district: null,
-  }).records;
+  };
 
   const sentiment = emptySentiment();
-  const media = {
-    print: printRecords.length,
-    youtube: 0,
-    x: 0,
-    online: 0,
-  };
+  const media = { print: 0, youtube: 0, x: 0, online: 0 };
   const mediaSentiment = {
     print: emptySentiment(),
     youtube: emptySentiment(),
     x: emptySentiment(),
     online: emptySentiment(),
   };
+  const dailyTrendMap = new Map<string, TrendPoint>();
 
-  for (const r of records) {
-    addSentiment(sentiment, r.sentiment);
-    if (r.mediaType === "YouTube") {
-      media.youtube += 1;
-      addSentiment(mediaSentiment.youtube, r.sentiment);
-    } else if (r.mediaType === "X") {
-      media.x += 1;
-      addSentiment(mediaSentiment.x, r.sentiment);
+  for (const kind of ["YouTube", "X", "Online"] as const) {
+    const agg = aggregateFilteredStats(kind, scoped, { skipDistrict: true });
+    if (kind === "YouTube") {
+      media.youtube = agg.total;
+      mediaSentiment.youtube = agg.sentiment;
+    } else if (kind === "X") {
+      media.x = agg.total;
+      mediaSentiment.x = agg.sentiment;
     } else {
-      media.online += 1;
-      addSentiment(mediaSentiment.online, r.sentiment);
+      media.online = agg.total;
+      mediaSentiment.online = agg.sentiment;
+    }
+    mergeSentiment(sentiment, agg.sentiment);
+    for (const [date, count] of agg.dailyTrend) {
+      let p = dailyTrendMap.get(date);
+      if (!p) {
+        p = { date, total: 0, print: 0, youtube: 0, x: 0, online: 0 };
+        dailyTrendMap.set(date, p);
+      }
+      p.total += count;
+      if (kind === "YouTube") p.youtube += count;
+      else if (kind === "X") p.x += count;
+      else p.online += count;
     }
   }
 
-  for (const r of printRecords) {
-    addSentiment(sentiment, r.sentiment);
-    addSentiment(mediaSentiment.print, r.sentiment);
+  const printAgg = aggregateFilteredStats("Print", scoped, { skipDistrict: true });
+  media.print = printAgg.total;
+  mediaSentiment.print = printAgg.sentiment;
+  mergeSentiment(sentiment, printAgg.sentiment);
+  for (const [date, count] of printAgg.dailyTrend) {
+    let p = dailyTrendMap.get(date);
+    if (!p) {
+      p = { date, total: 0, print: 0, youtube: 0, x: 0, online: 0 };
+      dailyTrendMap.set(date, p);
+    }
+    p.total += count;
+    p.print += count;
   }
+
+  const digitalTotal = media.youtube + media.x + media.online;
+  const records =
+    digitalTotal > 0
+      ? queryDigitalMedia(scoped, { skipDistrict: true }).records
+      : [];
 
   return {
     constituency: resolved,
-    total: records.length + printRecords.length,
-    printTotal: printRecords.length,
+    total: digitalTotal + media.print,
+    printTotal: media.print,
     sentiment,
     media,
     mediaSentiment,
-    dailyTrend: buildDailyTrend(records),
+    dailyTrend: [...dailyTrendMap.values()].sort((a, b) =>
+      a.date.localeCompare(b.date),
+    ),
     topProfiles: topCounts(records, (r) => r.authors || null, 10),
     languageDistribution: topCounts(records, (r) => r.language, 10),
   };

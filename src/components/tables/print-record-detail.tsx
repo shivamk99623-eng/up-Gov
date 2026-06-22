@@ -59,20 +59,20 @@ export function PrintRecordDetailModal({
             <DetailField label="Publication" value={record.publication} />
             <DetailField label="Edition" value={record.edition || "—"} />
             <DetailField label="Author" value={record.author || "—"} />
-            <DetailField
+            {/* <DetailField
               label="Page no."
               value={record.pageNo != null ? String(record.pageNo) : "—"}
-            />
+            /> */}
             <DetailField
               label="Date"
               value={record.date ? formatDisplayDate(record.date) : "—"}
             />
             <DetailField label="Language" value={record.language} />
             <DetailField label="CCM" value={record.ccm || "—"} />
-            <DetailField
+            {/* <DetailField
               label="Serial no."
               value={record.srNo != null ? String(record.srNo) : "—"}
-            />
+            /> */}
           </DetailGrid>
         </DetailSection>
       </div>
