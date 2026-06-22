@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Check, ChevronsUpDown, X } from "lucide-react";
+import { matchesSemanticSearch } from "@/lib/name-search";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +21,8 @@ import {
 export interface Option {
   label: string;
   value: string;
+  /** Extra normalized text used for semantic search (honorific-safe). */
+  keywords?: string;
 }
 
 interface SearchableSelectProps {
@@ -32,6 +35,8 @@ interface SearchableSelectProps {
   clearable?: boolean;
   className?: string;
   disabled?: boolean;
+  /** Strip honorifics and match by tokens (default: true). */
+  semanticSearch?: boolean;
 }
 
 export function SearchableSelect({
@@ -44,9 +49,22 @@ export function SearchableSelect({
   clearable = true,
   className,
   disabled,
+  semanticSearch = true,
 }: SearchableSelectProps) {
   const [open, setOpen] = React.useState(false);
+  const [query, setQuery] = React.useState("");
   const selected = options.find((o) => o.value === value);
+
+  const visibleOptions = React.useMemo(() => {
+    if (!semanticSearch || !query.trim()) return options;
+    return options.filter((opt) =>
+      matchesSemanticSearch(query, opt.label, opt.keywords),
+    );
+  }, [options, query, semanticSearch]);
+
+  React.useEffect(() => {
+    if (!open) setQuery("");
+  }, [open]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -78,14 +96,18 @@ export function SearchableSelect({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
-        <Command>
-          <CommandInput placeholder={searchPlaceholder} />
+        <Command shouldFilter={false}>
+          <CommandInput
+            placeholder={searchPlaceholder}
+            value={query}
+            onValueChange={setQuery}
+          />
           <CommandList>
             <CommandEmpty>{emptyText}</CommandEmpty>
-            {options.map((opt) => (
+            {visibleOptions.map((opt) => (
               <CommandItem
                 key={opt.value}
-                value={opt.label}
+                value={opt.value}
                 onSelect={() => {
                   onChange(opt.value === value ? null : opt.value);
                   setOpen(false);

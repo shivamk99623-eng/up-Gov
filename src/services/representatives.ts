@@ -22,14 +22,6 @@ import type {
   SentimentBreakdown,
 } from "@/lib/types";
 
-function engagementOf(records: MediaRecord[]): number {
-  let sum = 0;
-  for (const r of records) {
-    sum += Math.max(r.totalEngagement, r.likes + r.comments + r.shares);
-  }
-  return sum;
-}
-
 function sentimentOf(records: MediaRecord[]): SentimentBreakdown {
   const s = { positive: 0, negative: 0, neutral: 0 };
   for (const r of records) {
@@ -116,7 +108,7 @@ function buildMlaDetail(
     attendance: null,
     publicEngagement: null,
     mediaMentions: records.length + printCount,
-    totalEngagement: engagementOf(records),
+    totalEngagement: 0,
     media: { ...digitalMedia, print: printCount },
     sentiment: sentimentOf(records),
   };
@@ -153,7 +145,7 @@ function buildMpDetail(
     attendance: null,
     publicEngagement: null,
     mediaMentions: records.length + printCount,
-    totalEngagement: engagementOf(records),
+    totalEngagement: 0,
     media: { ...digitalMedia, print: printCount },
     sentiment: sentimentOf(records),
   };

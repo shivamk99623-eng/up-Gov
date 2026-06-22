@@ -141,11 +141,7 @@ function RepAvatar({ name }: { name: string }) {
   );
 }
 
-function repOptionLabel(name: string, constituency: string | null, party: string | null) {
-  return constituency || party
-    ? `${name} — ${[constituency, party].filter(Boolean).join(" · ")}`
-    : name;
-}
+import { buildRepSelectOption } from "@/lib/name-search";
 
 function MPDetails({ mp }: { mp: MP }) {
   return (
@@ -362,10 +358,9 @@ function MPPageContent() {
               </div>
               <div className="sm:w-[26rem]">
                 <SearchableSelect
-                  options={mps.map((m) => ({
-                    label: repOptionLabel(m.name, m.constituency, m.party),
-                    value: m.id,
-                  }))}
+                  options={mps.map((m) =>
+                    buildRepSelectOption(m.id, m.name, m.constituency, m.party),
+                  )}
                   value={selectedId}
                   onChange={setSelectedId}
                   placeholder={`Choose an MP${house === "All" ? "" : ` (${house})`}…`}

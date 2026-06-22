@@ -12,7 +12,10 @@ import {
 import { MediaBadge, SentimentBadge } from "@/components/common/sentiment-badge";
 import { formatDisplayDate } from "@/lib/dates";
 import type { MediaRecord } from "@/lib/types";
-import { formatNumber } from "@/lib/utils";
+
+function joinList(values: string[]): string {
+  return values.length ? values.join(", ") : "—";
+}
 
 export function MediaRecordDetailModal({
   record,
@@ -25,30 +28,22 @@ export function MediaRecordDetailModal({
 }) {
   if (!record) return null;
 
-  const engagement = record.likes + record.comments + record.shares;
-
   return (
     <RecordDetailModal
       open={open}
       onOpenChange={onOpenChange}
       title={record.headline}
-      description={record.content || undefined}
+      description={record.summary || record.content || undefined}
       badges={
         <>
           <MediaBadge mediaType={record.mediaType} />
           <SentimentBadge sentiment={record.sentiment} />
-          {record.entityName ? (
-            <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-foreground">
-              {record.entityName}
-              {record.entityType ? ` · ${record.entityType}` : ""}
-            </span>
-          ) : null}
         </>
       }
       footer={
-        record.url ? (
+        record.link ? (
           <Button asChild>
-            <a href={record.url} target="_blank" rel="noopener noreferrer">
+            <a href={record.link} target="_blank" rel="noopener noreferrer">
               Open source <ExternalLink className="ml-2 h-4 w-4" />
             </a>
           </Button>
@@ -56,55 +51,48 @@ export function MediaRecordDetailModal({
       }
     >
       <div className="space-y-6">
-        {(record.content || record.headline) && (
+        {(record.content || record.summary) && (
           <DetailSection title="Full content">
-            <DetailBody>
-              {record.content || record.headline}
-            </DetailBody>
+            <DetailBody>{record.content || record.summary}</DetailBody>
           </DetailSection>
         )}
 
-        <DetailSection title="Overview">
+        <DetailSection title="Article details">
           <DetailGrid>
+            <DetailField label="Summary" value={record.summary} fullWidth />
+            <DetailField label="Authors" value={record.authors || "—"} />
             <DetailField
               label="Date"
               value={record.date ? formatDisplayDate(record.date) : "—"}
             />
             <DetailField label="Language" value={record.language} />
-            <DetailField label="District" value={record.district || "—"} />
-            <DetailField label="Profile" value={record.profile || "—"} />
-            <DetailField label="Channel" value={record.rawChannel || "—"} />
-            <DetailField label="Category" value={record.category || "—"} />
-            <DetailField label="Keyword" value={record.keyword || "—"} fullWidth />
+            <DetailField label="CCM" value={record.ccm || "—"} />
+            {record.mediaType === "YouTube" && (
+              <>
+                <DetailField label="Channel" value={record.channel || "—"} />
+                <DetailField label="Duration" value={record.duration || "—"} />
+              </>
+            )}
+            {record.mediaType === "X" && (
+              <DetailField label="Handle" value={record.handles || "—"} />
+            )}
+            {record.mediaType === "Online" && (
+              <DetailField label="Website" value={record.website || "—"} />
+            )}
+            <DetailField label="District" value={joinList(record.districts)} />
+            <DetailField
+              label="Constituency"
+              value={joinList(record.constituencies)}
+            />
+            <DetailField label="MLA" value={joinList(record.mla)} />
+            <DetailField label="Lok Sabha MP" value={joinList(record.loksabhaMp)} />
+            <DetailField
+              label="Rajya Sabha MP"
+              value={joinList(record.rajyasabhaMp)}
+            />
+            <DetailField label="Link" value={record.link || "—"} fullWidth />
           </DetailGrid>
         </DetailSection>
-
-        <DetailSection title="Engagement">
-          <DetailGrid>
-            <DetailField
-              label="Total engagement"
-              value={formatNumber(record.totalEngagement)}
-            />
-            <DetailField label="Interactions" value={formatNumber(engagement)} />
-            <DetailField label="Views" value={formatNumber(record.views)} />
-            <DetailField
-              label="Impressions"
-              value={formatNumber(record.impressions)}
-            />
-            <DetailField label="Likes" value={formatNumber(record.likes)} />
-            <DetailField label="Comments" value={formatNumber(record.comments)} />
-            <DetailField label="Shares" value={formatNumber(record.shares)} />
-            <DetailField
-              label="Followers / Rank"
-              value={
-                record.followersRank != null
-                  ? formatNumber(record.followersRank)
-                  : "—"
-              }
-            />
-          </DetailGrid>
-        </DetailSection>
-
       </div>
     </RecordDetailModal>
   );

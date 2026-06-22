@@ -85,36 +85,30 @@ function buildDailyTrend(
   return [...map.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
 
-function engagementScore(r: MediaRecord): number {
-  const interactions = r.likes + r.comments + r.shares;
-  return Math.max(r.totalEngagement, interactions);
-}
-
 function topNewsBySentiment(
   records: MediaRecord[],
   sentiment: Sentiment,
   limit: number,
 ): NewsItem[] {
   return records
-    .filter((r) => r.sentiment === sentiment && !!r.url)
+    .filter((r) => r.sentiment === sentiment && !!r.link)
     .map((r) => ({
       id: r.id,
       headline: r.headline,
-      url: r.url,
+      link: r.link!,
       mediaType: r.mediaType,
       district: r.district,
       sentiment: r.sentiment,
-      engagement: engagementScore(r),
-      views: r.views,
       date: r.date,
     }))
-    .sort(
-      (a, b) =>
-        b.engagement - a.engagement ||
-        b.views - a.views ||
-        (b.date ?? "").localeCompare(a.date ?? ""),
-    )
+    .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""))
     .slice(0, limit);
+}
+
+function digitalSourceName(r: MediaRecord): string | null {
+  if (r.mediaType === "YouTube") return r.channel;
+  if (r.mediaType === "X") return r.handles;
+  return r.website;
 }
 
 function buildDistrictSummary(
@@ -231,8 +225,8 @@ export function getDashboard(filters: GlobalFilters = {}): DashboardResponse {
       online: onlineCount,
     },
     dailyTrend: buildDailyTrend(records, printRecords),
-    topProfiles: topCounts(records, (r) => r.profile, 10),
-    topChannels: topCounts(records, (r) => r.rawChannel, 10),
+    topProfiles: topCounts(records, (r) => r.authors || null, 10),
+    topChannels: topCounts(records, digitalSourceName, 10),
     languageDistribution: topCounts(records, (r) => r.language, 12),
     dateRange: {
       min: minTs ? formatCalendarDate(minTs) : null,
@@ -289,7 +283,7 @@ export function getDistrictAnalytics(
     media,
     mediaSentiment,
     dailyTrend: buildDailyTrend(records),
-    topProfiles: topCounts(records, (r) => r.profile, 10),
+    topProfiles: topCounts(records, (r) => r.authors || null, 10),
     languageDistribution: topCounts(records, (r) => r.language, 10),
   };
 }

@@ -131,12 +131,7 @@ function RepAvatar({ name }: { name: string }) {
   );
 }
 
-function repOptionLabel(name: string, constituency: string | null, party: string | null) {
-  const parts = [name];
-  if (constituency) parts.push(constituency);
-  if (party) parts.push(party);
-  return parts.length > 1 ? `${name} — ${[constituency, party].filter(Boolean).join(" · ")}` : name;
-}
+import { buildRepSelectOption } from "@/lib/name-search";
 
 function RelatedMediaCoverage({
   entityName,
@@ -280,10 +275,9 @@ function MLAPageContent() {
             </div>
             <div className="sm:w-96">
               <SearchableSelect
-                options={mlas.map((m) => ({
-                  label: repOptionLabel(m.name, m.constituency, m.party),
-                  value: m.id,
-                }))}
+                options={mlas.map((m) =>
+                  buildRepSelectOption(m.id, m.name, m.constituency, m.party),
+                )}
                 value={selectedId}
                 onChange={setSelectedId}
                 placeholder="Choose an MLA…"

@@ -1,46 +1,35 @@
 import "server-only";
-import { listAllMpBioMembers, type MPBioRecord } from "./representatives-db";
+import {
+  compactPersonKey,
+  normalizePersonName,
+  stripHonorifics,
+} from "./name-search";
+import {
+  listAllMlaBioMembers,
+  listAllMpBioMembers,
+  type MLABioRecord,
+  type MPBioRecord,
+} from "./representatives-db";
 
-const TITLE_RE =
-  /^(?:(?:shri|shrimati|smt|dr|prof|adv|mr|mrs|ms|miss)\.?\s*)+/i;
+export {
+  compactPersonKey as compactMpKey,
+  normalizePersonName as normalizeMpCore,
+  stripHonorifics as stripTitles,
+} from "./name-search";
 
-/** Spelling / formatting variants seen across news files and bio JSON. */
 const CORE_REPLACEMENTS: [string, string][] = [
   ["agarwal", "agrawal"],
   ["bajpai", "bajpayee"],
   ["dharampal", "dharmpal"],
 ];
 
-export interface MpNameIndex {
-  byKey: Map<string, MPBioRecord>;
+export interface PersonNameIndex<T> {
+  byKey: Map<string, T>;
   aliasToKey: Map<string, string>;
 }
 
-function stripTitles(name: string): string {
-  let s = name.trim().replace(/\u00a0/g, " ");
-  let prev = "";
-  while (s !== prev) {
-    prev = s;
-    s = s.replace(TITLE_RE, "").trim();
-  }
-  return s;
-}
-
-/** Lowercase core name with titles and dots removed. */
-export function normalizeMpCore(name: string): string {
-  return stripTitles(name)
-    .toLowerCase()
-    .replace(/[\[\]]/g, "")
-    .replace(/,/g, " ")
-    .replace(/\./g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/** Letters-only compact key for cross-format joins. */
-export function compactMpKey(name: string): string {
-  return normalizeMpCore(name).replace(/\s+/g, "");
-}
+export type MpNameIndex = PersonNameIndex<MPBioRecord>;
+export type MlaNameIndex = PersonNameIndex<MLABioRecord>;
 
 function expandSpellingVariants(value: string): string[] {
   const variants = new Set<string>([value]);
@@ -62,7 +51,7 @@ function extractAliasNames(fullName: string): string[] {
 }
 
 function tokenize(name: string): string[] {
-  return normalizeMpCore(name).split(/\s+/).filter(Boolean);
+  return normalizePersonName(name).split(/\s+/).filter(Boolean);
 }
 
 function registerAlias(
@@ -80,8 +69,8 @@ function registerNameVariants(
   key: string,
 ): void {
   for (const name of extractAliasNames(rawName)) {
-    const core = normalizeMpCore(name);
-    const compact = compactMpKey(name);
+    const core = normalizePersonName(name);
+    const compact = compactPersonKey(name);
     registerAlias(aliasToKey, core, key);
     registerAlias(aliasToKey, compact, key);
     for (const variant of expandSpellingVariants(core)) {
@@ -102,12 +91,15 @@ function registerNameVariants(
   }
 }
 
-export function buildMpNameIndex(): MpNameIndex {
-  const byKey = new Map<string, MPBioRecord>();
+function buildNameIndex<T extends { fullName: string }>(
+  members: T[],
+  keyFn: (member: T) => string,
+): PersonNameIndex<T> {
+  const byKey = new Map<string, T>();
   const aliasToKey = new Map<string, string>();
 
-  for (const member of listAllMpBioMembers()) {
-    const key = compactMpKey(member.fullName);
+  for (const member of members) {
+    const key = keyFn(member);
     byKey.set(key, member);
     registerNameVariants(aliasToKey, member.fullName, key);
   }
@@ -115,20 +107,38 @@ export function buildMpNameIndex(): MpNameIndex {
   return { byKey, aliasToKey };
 }
 
-let cachedIndex: MpNameIndex | null = null;
-
-export function getMpNameIndex(): MpNameIndex {
-  if (!cachedIndex) cachedIndex = buildMpNameIndex();
-  return cachedIndex;
+export function buildMpNameIndex(): MpNameIndex {
+  return buildNameIndex(listAllMpBioMembers(), (member) =>
+    compactPersonKey(member.fullName),
+  );
 }
 
-function lookupAlias(name: string, index: MpNameIndex): string | null {
+export function buildMlaNameIndex(): MlaNameIndex {
+  return buildNameIndex(listAllMlaBioMembers(), (member) =>
+    compactPersonKey(member.fullName),
+  );
+}
+
+let cachedMpIndex: MpNameIndex | null = null;
+let cachedMlaIndex: MlaNameIndex | null = null;
+
+export function getMpNameIndex(): MpNameIndex {
+  if (!cachedMpIndex) cachedMpIndex = buildMpNameIndex();
+  return cachedMpIndex;
+}
+
+export function getMlaNameIndex(): MlaNameIndex {
+  if (!cachedMlaIndex) cachedMlaIndex = buildMlaNameIndex();
+  return cachedMlaIndex;
+}
+
+function lookupAlias(name: string, index: PersonNameIndex<unknown>): string | null {
   const candidates = new Set<string>([
-    normalizeMpCore(name),
-    compactMpKey(name),
+    normalizePersonName(name),
+    compactPersonKey(name),
   ]);
 
-  for (const base of [normalizeMpCore(name), compactMpKey(name)]) {
+  for (const base of [normalizePersonName(name), compactPersonKey(name)]) {
     for (const variant of expandSpellingVariants(base)) {
       candidates.add(variant);
       candidates.add(variant.replace(/\s+/g, ""));
@@ -142,7 +152,10 @@ function lookupAlias(name: string, index: MpNameIndex): string | null {
   return null;
 }
 
-function tokenSubsetMatch(name: string, index: MpNameIndex): string | null {
+function tokenSubsetMatch(
+  name: string,
+  index: PersonNameIndex<{ fullName: string }>,
+): string | null {
   const queryTokens = tokenize(name);
   if (queryTokens.length < 2) return null;
 
@@ -167,10 +180,9 @@ function tokenSubsetMatch(name: string, index: MpNameIndex): string | null {
   return bestKey;
 }
 
-/** Resolves any MP name variant to the canonical compact bio key. */
-export function resolveMpBioKey(
+function resolveBioKey(
   name: string | null | undefined,
-  index: MpNameIndex = getMpNameIndex(),
+  index: PersonNameIndex<{ fullName: string }>,
 ): string | null {
   if (!name?.trim()) return null;
 
@@ -178,6 +190,21 @@ export function resolveMpBioKey(
   if (direct) return direct;
 
   return tokenSubsetMatch(name, index);
+}
+
+/** Resolves any MP name variant to the canonical compact bio key. */
+export function resolveMpBioKey(
+  name: string | null | undefined,
+  index: MpNameIndex = getMpNameIndex(),
+): string | null {
+  return resolveBioKey(name, index);
+}
+
+export function resolveMlaBioKey(
+  name: string | null | undefined,
+  index: MlaNameIndex = getMlaNameIndex(),
+): string | null {
+  return resolveBioKey(name, index);
 }
 
 export function resolveMpBioRecord(
@@ -188,18 +215,54 @@ export function resolveMpBioRecord(
   return key ? (index.byKey.get(key) ?? null) : null;
 }
 
+export function resolveMlaBioRecord(
+  name: string | null | undefined,
+  index: MlaNameIndex = getMlaNameIndex(),
+): MLABioRecord | null {
+  const key = resolveMlaBioKey(name, index);
+  return key ? (index.byKey.get(key) ?? null) : null;
+}
+
+function namesMatchInIndex(
+  a: string | null | undefined,
+  b: string | null | undefined,
+  index: PersonNameIndex<unknown>,
+): boolean {
+  if (!a?.trim() || !b?.trim()) return false;
+  if (a.trim() === b.trim()) return true;
+
+  const keyA = resolveBioKey(a, index as PersonNameIndex<{ fullName: string }>);
+  const keyB = resolveBioKey(b, index as PersonNameIndex<{ fullName: string }>);
+  if (keyA && keyB) return keyA === keyB;
+
+  return normalizePersonName(a) === normalizePersonName(b);
+}
+
 /** True when two names refer to the same MP in the bio JSON (or are identical). */
 export function mpNamesMatch(
   a: string | null | undefined,
   b: string | null | undefined,
   index: MpNameIndex = getMpNameIndex(),
 ): boolean {
-  if (!a?.trim() || !b?.trim()) return false;
-  if (a.trim() === b.trim()) return true;
+  return namesMatchInIndex(a, b, index);
+}
 
-  const keyA = resolveMpBioKey(a, index);
-  const keyB = resolveMpBioKey(b, index);
-  if (keyA && keyB) return keyA === keyB;
+export function mlaNamesMatch(
+  a: string | null | undefined,
+  b: string | null | undefined,
+  index: MlaNameIndex = getMlaNameIndex(),
+): boolean {
+  return namesMatchInIndex(a, b, index);
+}
 
-  return normalizeMpCore(a) === normalizeMpCore(b);
+/** Matches MLA or MP names across honorifics, aliases, and spelling variants. */
+export function personNamesMatch(
+  a: string | null | undefined,
+  b: string | null | undefined,
+): boolean {
+  return (
+    mpNamesMatch(a, b) ||
+    mlaNamesMatch(a, b) ||
+    normalizePersonName(a ?? "") === normalizePersonName(b ?? "")
+  );
 }

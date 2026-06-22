@@ -10,7 +10,6 @@ import type {
   OnlineRecord,
   PrintRecord,
   PrintSourceType,
-  RepType,
   Sentiment,
   XRecord,
   YouTubeRecord,
@@ -39,6 +38,7 @@ export interface RawNewsRow {
   handles?: string | null;
   channel?: string | null;
   duration?: string | null;
+  link?: string | null;
 }
 
 function normalizeSentiment(value: unknown): Sentiment {
@@ -79,21 +79,6 @@ export function extractNewsArrayFields(row: RawNewsRow): NewsArrayFields & {
   };
 }
 
-function resolveEntity(row: RawNewsRow): {
-  entityName: string | null;
-  entityType: RepType | null;
-} {
-  const arrays = extractNewsArrayFields(row);
-  if (arrays.mla.length) return { entityName: arrays.mla[0], entityType: "MLA" };
-  if (arrays.loksabhaMp.length) {
-    return { entityName: arrays.loksabhaMp[0], entityType: "Lok Sabha MP" };
-  }
-  if (arrays.rajyasabhaMp.length) {
-    return { entityName: arrays.rajyasabhaMp[0], entityType: "Rajya Sabha MP" };
-  }
-  return { entityName: null, entityType: null };
-}
-
 function buildHeadline(row: RawNewsRow): string {
   return (
     row.Heading?.trim() ||
@@ -106,56 +91,21 @@ function buildHeadline(row: RawNewsRow): string {
 function baseDigitalFields<K extends DigitalMediaKind>(row: RawNewsRow, kind: K) {
   const { date, timestamp } = parseTimestamp(row.CreatedAt);
   const arrays = extractNewsArrayFields(row);
-  const { entityName, entityType } = resolveEntity(row);
   return {
     id: row.newsId,
     mediaType: kind,
-    rawChannel:
-      kind === "YouTube"
-        ? row.channel?.trim() || "YouTube"
-        : kind === "X"
-          ? row.handles?.trim() || "X"
-          : row.website?.trim() || "Online",
-    category: null,
-    profile: row.Authors?.trim() || null,
-    profileVisits: null,
-    profileUsers: null,
+    headline: buildHeadline(row),
+    summary: row.Summary?.trim() || null,
+    content: row.Content?.trim() ?? row.Summary?.trim() ?? "",
+    ccm: row.CCM?.trim() || null,
     language: row.Language?.trim() || "Unknown",
-    followersRank: null,
-    totalEngagement: 0,
-    totalEngagementWithViews: 0,
-    likes: 0,
-    comments: 0,
-    shares: 0,
-    views: 0,
-    impressions: 0,
+    sentiment: normalizeSentiment(row.Sentiment),
+    authors: row.Authors?.trim() ?? "",
     date,
     timestamp,
-    sentiment: normalizeSentiment(row.Sentiment),
-    headline: buildHeadline(row),
-    content: row.Content?.trim() ?? row.Summary?.trim() ?? "",
-    country: null,
-    location: null,
-    tracker: null,
-    keyword: "",
-    entityName,
-    entityType,
+    link: row.link?.trim() || null,
     ...arrays,
   };
-}
-
-function urlFor(kind: DigitalMediaKind, row: RawNewsRow): string {
-  if (kind === "Online") return row.website?.trim() ?? "";
-  if (kind === "X") {
-    const handle = row.handles?.trim();
-    if (!handle) return "";
-    return handle.startsWith("http")
-      ? handle
-      : `https://x.com/${handle.replace(/^@/, "")}`;
-  }
-  const channel = row.channel?.trim();
-  if (!channel) return "";
-  return channel.startsWith("http") ? channel : "";
 }
 
 export function isKnownLanguage(language: string | null | undefined): boolean {
@@ -167,7 +117,6 @@ export function isKnownLanguage(language: string | null | undefined): boolean {
 export function rowToYouTubeRecord(row: RawNewsRow): YouTubeRecord {
   return {
     ...baseDigitalFields(row, "YouTube"),
-    url: urlFor("YouTube", row),
     channel: row.channel?.trim() || null,
     duration: row.duration?.trim() || null,
   };
@@ -176,7 +125,6 @@ export function rowToYouTubeRecord(row: RawNewsRow): YouTubeRecord {
 export function rowToXRecord(row: RawNewsRow): XRecord {
   return {
     ...baseDigitalFields(row, "X"),
-    url: urlFor("X", row),
     handles: row.handles?.trim() || null,
   };
 }
@@ -184,7 +132,6 @@ export function rowToXRecord(row: RawNewsRow): XRecord {
 export function rowToOnlineRecord(row: RawNewsRow): OnlineRecord {
   return {
     ...baseDigitalFields(row, "Online"),
-    url: urlFor("Online", row),
     website: row.website?.trim() || null,
   };
 }
@@ -250,9 +197,9 @@ export const NEWS_ROW_COLUMNS = `
 `;
 
 export const PRINT_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Publication", "Edition"`;
-export const YOUTUBE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "channel", "duration"`;
-export const ONLINE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "website"`;
-export const X_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "handles"`;
+export const YOUTUBE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "channel", "duration", "link"`;
+export const ONLINE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "website", "link"`;
+export const X_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "handles", "link"`;
 
 export const TABLE_COLUMNS: Record<DigitalMediaKind | "Print", string> = {
   YouTube: YOUTUBE_ROW_COLUMNS,

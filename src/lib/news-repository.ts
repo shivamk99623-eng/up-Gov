@@ -3,11 +3,12 @@ import { endOfCalendarDay, startOfCalendarDay } from "./dates";
 import { resolveConstituencyToken } from "./constituency-lookup";
 import { isKnownDistrict, resolveDistrictName, toGeoName } from "./geo";
 import {
-  jsonArrayContains,
   parseDistrictNames,
   parseJsonStringArray,
+  parsePersonNameArray,
 } from "./json-fields";
-import { mpNamesMatch } from "./mp-name-matching";
+import { mpNamesMatch, mlaNamesMatch, personNamesMatch } from "./mp-name-matching";
+import { matchesSemanticSearch } from "./name-search";
 import { getDb } from "./db";
 import {
   columnsForKind,
@@ -112,9 +113,11 @@ function rowMatchesConstituency(row: RawNewsRow, constituency: string): boolean 
 }
 
 function rowMatchesEntity(row: RawNewsRow, entity: string): boolean {
-  if (jsonArrayContains(row.MLA, entity)) return true;
-  const lok = parseJsonStringArray(row.Loksabha_MP);
-  const raj = parseJsonStringArray(row.Rajyasabha_MP);
+  if (parsePersonNameArray(row.MLA).some((n) => personNamesMatch(n, entity))) {
+    return true;
+  }
+  const lok = parsePersonNameArray(row.Loksabha_MP);
+  const raj = parsePersonNameArray(row.Rajyasabha_MP);
   return (
     lok.some((n) => mpNamesMatch(n, entity)) ||
     raj.some((n) => mpNamesMatch(n, entity))
@@ -168,7 +171,6 @@ function rowMatchesFilters(
   }
 
   if (search?.trim()) {
-    const q = search.trim().toLowerCase();
     const hay = [
       row.Heading,
       row.Content,
@@ -179,11 +181,14 @@ function rowMatchesFilters(
       row.channel,
       row.website,
       row.handles,
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-    if (!hay.includes(q)) return false;
+      row.link,
+      ...parsePersonNameArray(row.MLA),
+      ...parsePersonNameArray(row.Loksabha_MP),
+      ...parsePersonNameArray(row.Rajyasabha_MP),
+      ...parseDistrictNames(row.District),
+      ...parseJsonStringArray(row.Constituency),
+    ];
+    if (!matchesSemanticSearch(search, ...hay)) return false;
   }
 
   return true;
@@ -199,9 +204,9 @@ function rowMatchesPrintSource(
     return parseDistrictNames(row.District).length > 0;
   }
   if (printSource === "mla") {
-    const mla = parseJsonStringArray(row.MLA);
+    const mla = parsePersonNameArray(row.MLA);
     if (!mla.length) return false;
-    if (entity) return mla.some((n) => n === entity);
+    if (entity) return mla.some((n) => mlaNamesMatch(n, entity));
     return true;
   }
   if (printSource === "mp") {
@@ -238,16 +243,15 @@ const DIGITAL_SORT: Record<string, (r: MediaRecord) => SortValue> = {
   date: (r) => r.timestamp ?? 0,
   sentiment: (r) => r.sentiment,
   language: (r) => r.language,
-  profile: (r) => r.profile ?? "",
-  channel: (r) => r.rawChannel,
-  publisher: (r) => r.profile ?? "",
-  location: (r) => r.location ?? "",
+  authors: (r) => r.authors,
+  channel: (r) => ("channel" in r ? r.channel : null) ?? "",
+  handles: (r) => ("handles" in r ? r.handles : null) ?? "",
+  website: (r) => ("website" in r ? r.website : null) ?? "",
+  publisher: (r) => ("website" in r ? r.website : null) ?? "",
+  duration: (r) => ("duration" in r ? r.duration : null) ?? "",
   content: (r) => r.content,
-  views: (r) => r.views,
-  likes: (r) => r.likes,
-  comments: (r) => r.comments,
-  shares: (r) => r.shares,
-  engagement: (r) => r.totalEngagement,
+  summary: (r) => r.summary ?? "",
+  ccm: (r) => r.ccm ?? "",
 };
 
 function compareSortValues(a: SortValue, b: SortValue, dir: number): number {
@@ -302,7 +306,13 @@ function queryTableRecords<
         }
       }
       if (filters.entity && filters.printSource === "mla") {
-        if (!jsonArrayContains(row.MLA, filters.entity)) continue;
+        if (
+          !parsePersonNameArray(row.MLA).some((n) =>
+            mlaNamesMatch(n, filters.entity!),
+          )
+        ) {
+          continue;
+        }
       }
     }
 

@@ -31,6 +31,28 @@ export function parseJsonStringArray(value: unknown): string[] {
   return [String(value).trim()].filter(Boolean);
 }
 
+/** Extracts person names from JSON array columns, including mildly malformed JSON. */
+export function parsePersonNameArray(value: unknown): string[] {
+  if (value == null || value === "") return [];
+
+  const parsed = parseJsonStringArray(value);
+  if (typeof value !== "string") return parsed;
+
+  const trimmed = value.trim();
+  if (!trimmed.startsWith("[")) return parsed;
+
+  const quoted = [...trimmed.matchAll(/"([^"]+)"/g)]
+    .map((match) => match[1].trim().replace(/,+$/, ""))
+    .filter(Boolean);
+
+  if (quoted.length > parsed.length) return quoted;
+  if (quoted.length && parsed.length === 1 && parsed[0] === trimmed) {
+    return quoted;
+  }
+
+  return parsed;
+}
+
 export function parseDistrictNames(value: unknown): string[] {
   if (value == null || value === "") return [];
   if (typeof value === "string") {

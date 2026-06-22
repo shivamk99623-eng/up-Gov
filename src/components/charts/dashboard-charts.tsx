@@ -198,7 +198,7 @@ type EChartsClickParams = {
   componentType?: string;
   dataIndex?: number;
   value?: string | number;
-  data?: { url?: string; value?: number };
+  data?: { link?: string; value?: number };
 };
 
 function newsIndexFromClick(params: EChartsClickParams): number | undefined {
@@ -220,7 +220,7 @@ const newsTooltipCss =
   "max-width:min(420px,92vw)!important;white-space:normal!important;word-break:break-word!important;overflow-wrap:anywhere!important;line-height:1.45!important;";
 
 /**
- * Top news ranked by engagement. Each bar is a single news item; clicking it
+ * Top news ranked by date. Each bar is a single news item; clicking it
  * opens the original source link in a new tab.
  */
 export function TopNewsChart({
@@ -233,9 +233,9 @@ export function TopNewsChart({
   const color = tone === "positive" ? CHART_COLORS.positive : CHART_COLORS.negative;
   const gradTo = tone === "positive" ? "#15803d" : "#b91c1c";
 
-  // Sort ascending so the most-engaging item appears at the top of the chart.
   const sorted = React.useMemo(
-    () => [...items].sort((a, b) => a.engagement - b.engagement),
+    () =>
+      [...items].sort((a, b) => (a.date ?? "").localeCompare(b.date ?? "")),
     [items],
   );
 
@@ -255,9 +255,9 @@ export function TopNewsChart({
       const p = params as EChartsClickParams;
       const idx = newsIndexFromClick(p);
       const fromData =
-        p.data && typeof p.data === "object" ? p.data.url : undefined;
+        p.data && typeof p.data === "object" ? p.data.link : undefined;
       const it = idx != null ? sortedRef.current[idx] : undefined;
-      const url = fromData ?? it?.url;
+      const url = fromData ?? it?.link;
       if (url) openNewsUrl(url);
     };
 
@@ -295,7 +295,6 @@ export function TopNewsChart({
           return [
             `<div style="font-weight:600;margin-bottom:6px">${headline}</div>`,
             `<div style="opacity:.85;font-size:11px">${escapeHtml(media)} · ${escapeHtml(it.district)} · ${escapeHtml(it.date ? formatDisplayDate(it.date) : "")}</div>`,
-            `<div style="margin-top:6px;font-size:11px">Engagement: <b>${formatCompact(it.engagement)}</b> · Views: <b>${formatCompact(it.views)}</b></div>`,
             `<div style="margin-top:6px;font-size:11px;color:#93c5fd">Click bar or headline to open source ↗</div>`,
           ].join("");
         },
@@ -324,8 +323,8 @@ export function TopNewsChart({
           type: "bar",
           cursor: "pointer",
           data: sorted.map((it) => ({
-            value: it.engagement,
-            url: it.url,
+            value: 1,
+            link: it.link,
           })),
           barWidth: "60%",
           itemStyle: {

@@ -15,6 +15,7 @@ import {
   FileSpreadsheet,
   Search,
 } from "lucide-react";
+import { matchesSemanticSearch } from "@/lib/name-search";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -175,12 +176,12 @@ export function DataTable<T>({
 
   const filtered = React.useMemo(() => {
     if (serverMode) return data;
-    const q = filterSearch.trim().toLowerCase();
+    const q = filterSearch.trim();
     if (!q) return data;
     return data.filter((row) =>
       columns.some((c) => {
         const v = c.value?.(row);
-        return v != null && String(v).toLowerCase().includes(q);
+        return v != null && matchesSemanticSearch(q, String(v));
       }),
     );
   }, [data, columns, filterSearch, serverMode]);

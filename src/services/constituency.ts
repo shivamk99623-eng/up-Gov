@@ -163,7 +163,7 @@ export function getConstituencyAnalytics(
     media,
     mediaSentiment,
     dailyTrend: buildDailyTrend(records),
-    topProfiles: topCounts(records, (r) => r.profile, 10),
+    topProfiles: topCounts(records, (r) => r.authors || null, 10),
     languageDistribution: topCounts(records, (r) => r.language, 10),
   };
 }

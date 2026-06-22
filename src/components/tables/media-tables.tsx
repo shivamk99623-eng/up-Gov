@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/select";
 import { MediaRecordDetailModal } from "@/components/tables/media-record-detail";
 import type { MediaRecord, MediaType, Sentiment } from "@/lib/types";
-import { formatNumber } from "@/lib/utils";
 
 function DateCell({ value }: { value: string | null }) {
   if (!value) return <span className="text-muted-foreground">—</span>;
@@ -25,7 +24,7 @@ function DateCell({ value }: { value: string | null }) {
   );
 }
 
-function LinkCell({ url }: { url: string }) {
+function LinkCell({ url }: { url: string | null }) {
   if (!url) return <span className="text-muted-foreground">—</span>;
   return (
     <a
@@ -75,22 +74,24 @@ const sentimentCol = (): DataTableColumn<MediaRecord> => ({
 const linkCol = (): DataTableColumn<MediaRecord> => ({
   id: "link",
   header: "Link",
-  value: (r) => r.url,
-  cell: (r) => <LinkCell url={r.url} />,
+  value: (r) => r.link ?? "",
+  cell: (r) => <LinkCell url={r.link} />,
 });
 
-const numCol = (
-  id: string,
-  header: string,
-  pick: (r: MediaRecord) => number,
-): DataTableColumn<MediaRecord> => ({
-  id,
-  header,
+const authorsCol = (): DataTableColumn<MediaRecord> => ({
+  id: "authors",
+  header: "Authors",
   enableSorting: true,
-  value: pick,
-  className: "tabular-nums text-right",
-  headerClassName: "text-right",
-  cell: (r) => <span className="tabular-nums">{formatNumber(pick(r))}</span>,
+  value: (r) => r.authors,
+  cell: (r) => <span className="font-medium">{r.authors || "—"}</span>,
+});
+
+const languageCol = (): DataTableColumn<MediaRecord> => ({
+  id: "language",
+  header: "Language",
+  enableSorting: true,
+  value: (r) => r.language,
+  cell: (r) => <span className="uppercase">{r.language}</span>,
 });
 
 function youtubeColumns(): DataTableColumn<MediaRecord>[] {
@@ -101,29 +102,24 @@ function youtubeColumns(): DataTableColumn<MediaRecord>[] {
       id: "channel",
       header: "Channel",
       enableSorting: true,
-      value: (r) => r.rawChannel,
-      cell: (r) => <span>{r.rawChannel || "—"}</span>,
+      value: (r) => (r.mediaType === "YouTube" ? r.channel : null) ?? "",
+      cell: (r) => (
+        <span>{r.mediaType === "YouTube" ? r.channel || "—" : "—"}</span>
+      ),
     },
-    {
-      id: "profile",
-      header: "Profile",
-      enableSorting: true,
-      value: (r) => r.profile ?? "",
-      cell: (r) => <span className="font-medium">{r.profile ?? "—"}</span>,
-    },
+    authorsCol(),
     dateCol(),
-    numCol("views", "Views", (r) => r.views),
-    numCol("likes", "Likes", (r) => r.likes),
-    numCol("comments", "Comments", (r) => r.comments),
-    numCol("shares", "Shares", (r) => r.shares),
-    sentimentCol(),
     {
-      id: "language",
-      header: "Language",
+      id: "duration",
+      header: "Duration",
       enableSorting: true,
-      value: (r) => r.language,
-      cell: (r) => <span className="uppercase">{r.language}</span>,
+      value: (r) => (r.mediaType === "YouTube" ? r.duration : null) ?? "",
+      cell: (r) => (
+        <span>{r.mediaType === "YouTube" ? r.duration || "—" : "—"}</span>
+      ),
     },
+    sentimentCol(),
+    languageCol(),
     linkCol(),
   ];
 }
@@ -133,27 +129,19 @@ function onlineColumns(): DataTableColumn<MediaRecord>[] {
     serialNumberColumn<MediaRecord>(),
     headlineCol(),
     {
-      id: "publisher",
-      header: "Publisher",
+      id: "website",
+      header: "Website",
       enableSorting: true,
-      value: (r) => r.profile ?? "",
-      cell: (r) => <span className="font-medium">{r.profile ?? "—"}</span>,
+      value: (r) => (r.mediaType === "Online" ? r.website : null) ?? "",
+      cell: (r) => (
+        <span className="font-medium">
+          {r.mediaType === "Online" ? r.website || "—" : "—"}
+        </span>
+      ),
     },
-    {
-      id: "location",
-      header: "Location",
-      enableSorting: true,
-      value: (r) => r.location ?? "",
-      cell: (r) => <span>{r.location ?? "—"}</span>,
-    },
+    authorsCol(),
     dateCol(),
-    {
-      id: "language",
-      header: "Language",
-      enableSorting: true,
-      value: (r) => r.language,
-      cell: (r) => <span className="uppercase">{r.language}</span>,
-    },
+    languageCol(),
     sentimentCol(),
     {
       id: "content",
@@ -175,12 +163,17 @@ function twitterColumns(): DataTableColumn<MediaRecord>[] {
     serialNumberColumn<MediaRecord>(),
     headlineCol(),
     {
-      id: "profile",
-      header: "Profile",
+      id: "handles",
+      header: "Handle",
       enableSorting: true,
-      value: (r) => r.profile ?? "",
-      cell: (r) => <span className="font-medium">{r.profile ?? "—"}</span>,
+      value: (r) => (r.mediaType === "X" ? r.handles : null) ?? "",
+      cell: (r) => (
+        <span className="font-medium">
+          {r.mediaType === "X" ? r.handles || "—" : "—"}
+        </span>
+      ),
     },
+    authorsCol(),
     {
       id: "content",
       header: "Content",
@@ -193,11 +186,8 @@ function twitterColumns(): DataTableColumn<MediaRecord>[] {
       ),
     },
     dateCol(),
-    numCol("engagement", "Engagement", (r) => r.totalEngagement),
-    numCol("likes", "Likes", (r) => r.likes),
-    numCol("comments", "Comments", (r) => r.comments),
-    numCol("shares", "Shares", (r) => r.shares),
     sentimentCol(),
+    languageCol(),
     linkCol(),
   ];
 }

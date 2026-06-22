@@ -27,45 +27,30 @@ export interface NewsArrayFields {
 
 export type NewsMediaKind = "Print" | "YouTube" | "X" | "Online";
 
-/** A single normalized media mention record. */
-export interface MediaRecord extends NewsArrayFields {
+/** Shared fields from `news_youtube`, `news_x`, and `news_online` tables. */
+export interface DigitalNewsRecordBase extends NewsArrayFields {
   id: string;
   mediaType: MediaType;
-  /** Original raw channel value (Youtube / Twitter / Web / Reddit). */
-  rawChannel: string;
-  category: string | null;
-  profile: string | null;
-  profileVisits: number | null;
-  profileUsers: number | null;
+  headline: string;
+  summary: string | null;
+  content: string;
+  ccm: string | null;
   language: string;
-  followersRank: number | null;
-  totalEngagement: number;
-  totalEngagementWithViews: number;
-  likes: number;
-  comments: number;
-  shares: number;
-  views: number;
-  impressions: number;
-  /** ISO date string (yyyy-MM-dd) */
+  sentiment: Sentiment;
+  authors: string;
+  /** ISO date string (yyyy-MM-dd) derived from `CreatedAt`. */
   date: string | null;
   /** Original timestamp in ms (for sorting / trend). */
   timestamp: number | null;
-  sentiment: Sentiment;
-  headline: string;
-  content: string;
-  country: string | null;
-  location: string | null;
-  tracker: string | null;
+  link: string | null;
+  /** Primary district (first entry in `districts`). */
   district: string;
-  /** Lok Sabha constituency (from Excel column or Keyword tags). */
+  /** Primary constituency (first entry in `constituencies`). */
   constituency: string;
-  keyword: string;
-  url: string;
-  /** Linked person name (from Keyword), or null for general state/district news. */
-  entityName: string | null;
-  /** Linked person type, or null for general news. */
-  entityType: RepType | null;
 }
+
+/** Combined digital record returned when querying all media types. */
+export type MediaRecord = YouTubeRecord | XRecord | OnlineRecord;
 
 export interface SentimentBreakdown {
   positive: number;
@@ -113,12 +98,10 @@ export interface NameCount {
 export interface NewsItem {
   id: string;
   headline: string;
-  url: string;
+  link: string;
   mediaType: MediaType;
   district: string;
   sentiment: Sentiment;
-  engagement: number;
-  views: number;
   date: string | null;
 }
 
@@ -197,20 +180,20 @@ export interface PrintRecord extends NewsArrayFields {
 }
 
 /** YouTube row from `news_youtube`. */
-export interface YouTubeRecord extends MediaRecord {
+export interface YouTubeRecord extends DigitalNewsRecordBase {
   mediaType: "YouTube";
   channel: string | null;
   duration: string | null;
 }
 
 /** X/Twitter row from `news_x`. */
-export interface XRecord extends MediaRecord {
+export interface XRecord extends DigitalNewsRecordBase {
   mediaType: "X";
   handles: string | null;
 }
 
 /** Online/web row from `news_online`. */
-export interface OnlineRecord extends MediaRecord {
+export interface OnlineRecord extends DigitalNewsRecordBase {
   mediaType: "Online";
   website: string | null;
 }
