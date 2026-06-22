@@ -151,7 +151,7 @@ export function listAllMpBioMembers(): MPBioRecord[] {
         `SELECT mpsno, fullName, constituency, partyFname, dateOfBirth, education,
                 ProfessionName, positionHeld
          FROM uttar_pradesh_lok_sabha_members_bio
-         ORDER BY mpsno`,
+         ORDER BY priority`,
       )
       .all() as Record<string, unknown>[];
     for (const row of lokRows) {
@@ -166,7 +166,7 @@ export function listAllMpBioMembers(): MPBioRecord[] {
         `SELECT mpsno, fullName, partyFname, dateOfBirth, education,
                 ProfessionName, positionHelds
          FROM uttar_pradesh_rajya_sabha_members_bio
-         ORDER BY mpsno`,
+         ORDER BY priority`,
       )
       .all() as Record<string, unknown>[];
     for (const row of rajRows) {
@@ -178,6 +178,7 @@ export function listAllMpBioMembers(): MPBioRecord[] {
   return members;
 }
 
+// top mla on total media mentions
 export function listAllMlaBioMembers(): MLABioRecord[] {
   if (!tableExists("uttar_pradesh_MLA_members_bio")) return [];
   const rows = getDb()
@@ -185,7 +186,7 @@ export function listAllMlaBioMembers(): MLABioRecord[] {
       `SELECT mpsno, fullName, constituency, partyFname, dateOfBirth, education,
               positionHeld
        FROM uttar_pradesh_MLA_members_bio
-       ORDER BY mpsno`,
+       ORDER BY priority`,
     )
     .all() as Record<string, unknown>[];
 

@@ -50,3 +50,12 @@ export function formatDisplayDateLong(value: string | null | undefined): string 
     return value;
   }
 }
+
+
+export function formatDisplayTimestamp(
+  value: number | null | undefined
+): string {
+  if (!value) return "";
+console.log(value);
+  return format(new Date(value), "dd/MM/yyyy hh:mm a");
+}

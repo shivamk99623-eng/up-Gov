@@ -40,6 +40,10 @@ export interface RawNewsRow {
   channel?: string | null;
   duration?: string | null;
   link?: string | null;
+  Comment_count?: string | null;
+  Like_count?: string | null;
+  Engagement?: string | null;
+  Engagements?: string | null;
 }
 
 function normalizeSentiment(value: unknown): Sentiment {
@@ -104,6 +108,8 @@ function baseDigitalFields<K extends DigitalMediaKind>(row: RawNewsRow, kind: K)
     authors: row.Authors?.trim() ?? "",
     date,
     timestamp,
+    engagement: row.Engagement?.trim() || null,
+    engagements: row.Engagements?.trim() || null,
     link: parseFirstLink(row.link),
     ...arrays,
   };
@@ -120,6 +126,8 @@ export function rowToYouTubeRecord(row: RawNewsRow): YouTubeRecord {
     ...baseDigitalFields(row, "YouTube"),
     channel: row.channel?.trim() || null,
     duration: row.duration?.trim() || null,
+    commentCount: row.Comment_count?.trim() || null,
+    likeCount: row.Like_count?.trim() || null,
   };
 }
 
@@ -127,6 +135,7 @@ export function rowToXRecord(row: RawNewsRow): XRecord {
   return {
     ...baseDigitalFields(row, "X"),
     handles: row.handles?.trim() || null,
+    engagements: row.Engagements?.trim() || null,
   };
 }
 
@@ -192,12 +201,11 @@ export const DIGITAL_TABLES: Record<DigitalMediaKind, string> = {
 export const PRINT_TABLE = "news_print";
 
 export const NEWS_ROW_COLUMNS = `
-  "newsId", "Heading", "Summary", "CreatedAt", "Content",
+  "newsId", "Heading", "Summary", "CreatedAt",
   "Language", "Sentiment", "District", "Constituency",
   "MLA", "Loksabha_MP", "Rajyasabha_MP"
 `;
 
-export const PRINT_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Publication","CCM", "Authors", "Edition"`;
 
 /** Minimal columns for entity stats scans (avoids loading full article bodies). */
 export const ENTITY_STAT_ROW_COLUMNS = `
@@ -207,13 +215,20 @@ export const ENTITY_STAT_ROW_COLUMNS = `
 /** Light columns for analytics aggregation (no article bodies). */
 export const AGG_ROW_COLUMNS = `
   "Sentiment", "CreatedAt", "District", "Constituency",
-  "MLA", "Loksabha_MP", "Rajyasabha_MP", "Language", "Authors"
+  "MLA", "Loksabha_MP", "Rajyasabha_MP", "Language"
 `;
 
 export const PRINT_DISTRICT_ONLY_COLUMNS = `"District"`;
-export const YOUTUBE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "channel", "duration", "link"`;
-export const ONLINE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Website" as "website", "Link" as "link" , "Authors"`;
-export const X_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Handles" as "handles", "Link" as "link"`;
+
+export const PRINT_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Publication","Content", "CCM", "Authors", "Edition", "CreatedAt"`;
+
+export const ONLINE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Website" as "website","Content", "Link" as "link", "Authors", "CreatedAt"`;
+
+export const YOUTUBE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Channel" as "channel", "PostedTime" as "CreatedAt", "Duration" as "duration", "Link" as "link", "Comment_count", "Like_count"`;
+
+export const X_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "handles", "Engagement", "Engagements", "PostedTime" as "CreatedAt", "Link" as "link"`;
+
+
 
 export const TABLE_COLUMNS: Record<DigitalMediaKind | "Print", string> = {
   YouTube: YOUTUBE_ROW_COLUMNS,

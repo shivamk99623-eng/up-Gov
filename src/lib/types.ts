@@ -184,12 +184,16 @@ export interface YouTubeRecord extends DigitalNewsRecordBase {
   mediaType: "YouTube";
   channel: string | null;
   duration: string | null;
+  commentCount: string | null;
+  likeCount: string | null;
 }
 
 /** X/Twitter row from `news_x`. */
 export interface XRecord extends DigitalNewsRecordBase {
   mediaType: "X";
   handles: string | null;
+  engagement: string | null;
+  engagements: string | null;
 }
 
 /** Online/web row from `news_online`. */

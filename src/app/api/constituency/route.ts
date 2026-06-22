@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
     const filters = applyConstituencyScope(parseFilters(req.nextUrl.searchParams));
     const data = getConstituencyAnalytics(constituency, filters);
     return Response.json(data);
+    return Response.json({});
   } catch (err) {
     return jsonError(err instanceof Error ? err.message : "Unknown error");
   }

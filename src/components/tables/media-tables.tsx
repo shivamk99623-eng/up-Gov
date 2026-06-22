@@ -3,7 +3,15 @@
 import * as React from "react";
 import { ExternalLink } from "lucide-react";
 import { DataTable, serialNumberColumn, type DataTableColumn } from "./data-table";
-import { formatDisplayDate } from "@/lib/dates";
+import { formatDisplayTimestamp } from "@/lib/dates";
+import {
+  Heart,
+  Repeat2,
+  MessageCircle,
+  Quote,
+  Eye,
+  Bookmark,
+} from "lucide-react";
 import { SentimentBadge } from "@/components/common/sentiment-badge";
 import {
   Select,
@@ -15,13 +23,66 @@ import {
 import { MediaRecordDetailModal } from "@/components/tables/media-record-detail";
 import type { MediaRecord, MediaType, Sentiment } from "@/lib/types";
 
+
+const formatCount = (value: string | null) =>
+  new Intl.NumberFormat("en", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(Number(value || 0));
+
 function DateCell({ value }: { value: string | null }) {
   if (!value) return <span className="text-muted-foreground">—</span>;
   return (
     <span className="whitespace-nowrap text-muted-foreground">
-      {formatDisplayDate(value)}
+      {value}
     </span>
   );
+}
+
+function EngagementCell({ value }: { value: string | null }) {
+  if (!value) {
+    return <span>—</span>;
+  }
+  console.log(value);
+  const data = Object.fromEntries(
+    value.split(",").map((item) => {
+      const [key, value] = item.split(":");
+      return [key, value];
+    })
+  );
+  return (
+    <div className="flex flex-wrap gap-3 text-sm">
+      <div className="flex items-center gap-1">
+        <Heart className="h-4 w-4 text-red-500" />
+        {formatCount(data.likes)}
+      </div>
+
+      {/* <div className="flex items-center gap-1">
+        <Repeat2 className="h-4 w-4 text-green-500" />
+        {data.retweets || 0}
+      </div> */}
+
+     {data.comments && <div className="flex items-center gap-1">
+        <MessageCircle className="h-4 w-4 text-blue-500" />
+        {formatCount(data.comments)}
+      </div>}
+
+      {/* <div className="flex items-center gap-1">
+        <Quote className="h-4 w-4 text-purple-500" />
+        {data.quotes || 0}
+      </div> */}
+
+     {data.views && <div className="flex items-center gap-1">
+        <Eye className="h-4 w-4 text-gray-500" />
+        {formatCount(data.views)}
+      </div>}
+
+      {/* <div className="flex items-center gap-1">
+        <Bookmark className="h-4 w-4 text-yellow-500" />
+        {data.bookmarks || 0}
+      </div> */}
+    </div>
+  )
 }
 
 function LinkCell({ url }: { url: string | null }) {
@@ -59,8 +120,8 @@ const dateCol = (): DataTableColumn<MediaRecord> => ({
   header: "Date",
   enableSorting: true,
   value: (r) => r.timestamp ?? 0,
-  exportValue: (r) => (r.date ? formatDisplayDate(r.date) : ""),
-  cell: (r) => <DateCell value={r.date} />,
+  exportValue: (r) => (r.timestamp ? formatDisplayTimestamp(r.timestamp) : ""),
+  cell: (r) => <DateCell value={formatDisplayTimestamp(r.timestamp)} />,
 });
 
 const sentimentCol = (): DataTableColumn<MediaRecord> => ({
@@ -107,7 +168,6 @@ function youtubeColumns(): DataTableColumn<MediaRecord>[] {
         <span>{r.mediaType === "YouTube" ? r.channel || "—" : "—"}</span>
       ),
     },
-    authorsCol(),
     dateCol(),
     {
       id: "duration",
@@ -120,6 +180,14 @@ function youtubeColumns(): DataTableColumn<MediaRecord>[] {
     },
     sentimentCol(),
     languageCol(),
+    {
+      id: "engagements",
+      header: "Engagements",
+      headerClassName: "w-[180px]",
+      enableSorting: true,
+      value: (r) => (r.mediaType === "X" ? r.engagements : null) ?? "",
+      cell: (r) => <EngagementCell value={r.mediaType === "YouTube" ? `likes:${r.likeCount},comments:${r.commentCount}`: null} />,
+    },
     linkCol(),
   ];
 }
@@ -139,24 +207,26 @@ function onlineColumns(): DataTableColumn<MediaRecord>[] {
         </span>
       ),
     },
-    authorsCol(),
     dateCol(),
     languageCol(),
     sentimentCol(),
-    {
-      id: "content",
-      header: "Content Preview",
-      enableSorting: true,
-      value: (r) => r.content,
-      cell: (r) => (
-        <span className="line-clamp-2 max-w-[360px] text-muted-foreground">
-          {r.content || "—"}
-        </span>
-      ),
-    },
+    // {
+    //   id: "content",
+    //   header: "Content Preview",
+    //   enableSorting: true,
+    //   value: (r) => r.content,
+    //   cell: (r) => (
+    //     <span className="line-clamp-2 max-w-[360px] text-muted-foreground">
+    //       {r.content || "—"}
+    //     </span>
+    //   ),
+    // },
+    authorsCol(),
     linkCol(),
   ];
 }
+
+
 
 function twitterColumns(): DataTableColumn<MediaRecord>[] {
   return [
@@ -173,21 +243,29 @@ function twitterColumns(): DataTableColumn<MediaRecord>[] {
         </span>
       ),
     },
-    authorsCol(),
-    {
-      id: "content",
-      header: "Content",
-      enableSorting: true,
-      value: (r) => r.content,
-      cell: (r) => (
-        <span className="line-clamp-2 max-w-[340px] text-muted-foreground">
-          {r.content || "—"}
-        </span>
-      ),
-    },
+    // {
+    //   id: "content",
+    //   header: "Content",
+    //   enableSorting: true,
+    //   value: (r) => r.content,
+    //   cell: (r) => (
+    //     <span className="line-clamp-2 max-w-[340px] text-muted-foreground">
+    //       {r.content || "—"}
+    //     </span>
+    //   ),
+    // },
     dateCol(),
     sentimentCol(),
     languageCol(),
+    //  "engagements": "likes:5,retweets:1,replies:0,quotes:0,views:1780,bookmarks:0",
+    {
+      id: "engagements",
+      header: "Engagements",
+      headerClassName: "w-[180px]",
+      enableSorting: true,
+      value: (r) => (r.mediaType === "X" ? r.engagements : null) ?? "",
+      cell: (r) => <EngagementCell value={r.mediaType === "X" ? r.engagements : null} />,
+    },
     linkCol(),
   ];
 }

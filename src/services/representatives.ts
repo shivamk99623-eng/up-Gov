@@ -110,15 +110,13 @@ export function getMLAById(id: string): MLA | null {
 }
 
 export function getMPList(): MPListItem[] {
-  return listAllMpBioMembers()
-    .map((bio) => ({
-      id: bio.id,
-      name: bio.fullName,
-      house: bio.house,
-      constituency: bio.constituency,
-      party: bio.partyFname,
-    }))
-    .sort((a, b) => a.name.localeCompare(b.name));
+  return listAllMpBioMembers().map((bio) => ({
+    id: bio.id,
+    name: bio.fullName,
+    house: bio.house,
+    constituency: bio.constituency,
+    party: bio.partyFname,
+  }));
 }
 
 export function getMPById(id: string, house?: MP["house"]): MP | null {

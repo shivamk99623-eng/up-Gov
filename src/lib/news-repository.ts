@@ -313,7 +313,7 @@ export function aggregateFilteredStats(
   const sentiment = emptySentimentBreakdown();
   const dailyTrend = new Map<string, number>();
   let total = 0;
-
+console.log(kind, filterOptions);
   for (const row of fetchRows(kind, scopedFilters, AGG_ROW_COLUMNS)) {
     if (!rowMatchesFilters(row, scopedFilters, filterOptions)) continue;
 
@@ -842,20 +842,107 @@ export function listDistrictNamesFromNews(): string[] {
 }
 
 export function listLanguagesFromNews(): string[] {
-  const set = new Set<string>();
-  const tables = [tableForKind("Print"), "news_youtube", "news_x", "news_online"];
-  for (const table of tables) {
-    if (!tableExists(table)) continue;
-    const rows = getDb()
-      .prepare(
-        `SELECT DISTINCT "Language" AS lang FROM "${table}" WHERE "Language" IS NOT NULL`,
-      )
-      .all() as { lang: string }[];
-    for (const { lang } of rows) {
-      if (isKnownLanguage(lang)) set.add(lang.trim());
+  // const set = new Set<string>();
+  // const tables = [tableForKind("Print"), "news_youtube", "news_x", "news_online"];
+  // for (const table of tables) {
+  //   if (!tableExists(table)) continue;
+  //   const rows = getDb()
+  //     .prepare(
+  //       `SELECT DISTINCT "Language" AS lang FROM "${table}" WHERE "Language" IS NOT NULL`,
+  //     )
+  //     .all() as { lang: string }[];
+  //   for (const { lang } of rows) {
+  //     if (isKnownLanguage(lang)) set.add(lang.trim());
+  //   }
+  // }
+ let languages = [
+    {
+        "value": "assamese",
+        "label": "Assamese",
+        "count": 1363
+    },
+    {
+        "value": "bengali",
+        "label": "Bengali",
+        "count": 3571
+    },
+    {
+        "value": "english",
+        "label": "English",
+        "count": 68191
+    },
+    {
+        "value": "gujarati",
+        "label": "Gujarati",
+        "count": 10273
+    },
+    {
+        "value": "hindi",
+        "label": "Hindi",
+        "count": 110292
+    },
+    {
+        "value": "kannada",
+        "label": "Kannada",
+        "count": 6038
+    },
+    {
+        "value": "khasi",
+        "label": "Khasi",
+        "count": 179
+    },
+    {
+        "value": "konkani",
+        "label": "Konkani",
+        "count": 80
+    },
+    {
+        "value": "malayalam",
+        "label": "Malayalam",
+        "count": 1971
+    },
+    {
+        "value": "marathi",
+        "label": "Marathi",
+        "count": 10169
+    },
+    {
+        "value": "meitei",
+        "label": "Meitei",
+        "count": 587
+    },
+    {
+        "value": "nepali",
+        "label": "Nepali",
+        "count": 695
+    },
+    {
+        "value": "odia",
+        "label": "Odia",
+        "count": 6146
+    },
+    {
+        "value": "punjabi",
+        "label": "Punjabi",
+        "count": 3644
+    },
+    {
+        "value": "tamil",
+        "label": "Tamil",
+        "count": 2814
+    },
+    {
+        "value": "telugu",
+        "label": "Telugu",
+        "count": 9421
+    },
+    {
+        "value": "urdu",
+        "label": "Urdu",
+        "count": 2022
     }
-  }
-  return [...set].sort();
+]
+  return languages.map(l => l.label).sort();
 }
 
 export function buildPrintCountIndex(

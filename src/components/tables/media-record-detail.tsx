@@ -10,7 +10,7 @@ import {
   RecordDetailModal,
 } from "@/components/common/record-detail-modal";
 import { MediaBadge, SentimentBadge } from "@/components/common/sentiment-badge";
-import { formatDisplayDate } from "@/lib/dates";
+import { formatDisplayDate, formatDisplayTimestamp } from "@/lib/dates";
 import type { MediaRecord } from "@/lib/types";
 
 function joinList(values: string[]): string {
@@ -60,13 +60,12 @@ export function MediaRecordDetailModal({
         <DetailSection title="Article details">
           <DetailGrid>
             <DetailField label="Summary" value={record.summary} fullWidth />
-            <DetailField label="Authors" value={record.authors || "—"} />
+            {record.mediaType === "Online" && <DetailField label="Authors" value={record.authors || "—"} />}
             <DetailField
-              label="Date"
-              value={record.date ? formatDisplayDate(record.date) : "—"}
+              label="Date & Time"
+              value={record.date ? formatDisplayTimestamp(record.timestamp) : "—"}
             />
             <DetailField label="Language" value={record.language} />
-            <DetailField label="CCM" value={record.ccm || "—"} />
             {record.mediaType === "YouTube" && (
               <>
                 <DetailField label="Channel" value={record.channel || "—"} />
