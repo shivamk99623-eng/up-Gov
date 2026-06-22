@@ -95,6 +95,24 @@ export function buildPersonSearchKeywords(
   return searchBlob(...parts);
 }
 
+/** DISTINCT-friendly LIKE patterns for SQL pre-filtering person JSON columns. */
+export function entitySearchLikePatterns(entity: string): string[] {
+  const tokens = tokenizeSearch(entity).filter((t) => t.length >= 3);
+  if (!tokens.length) return [];
+
+  const searchTokens =
+    tokens.length >= 2 ? tokens.slice(-2) : [tokens[tokens.length - 1]!];
+
+  const patterns = new Set<string>();
+  for (const token of searchTokens) {
+    patterns.add(`%${token}%`);
+    for (const variant of expandSpellingVariants(token)) {
+      patterns.add(`%${variant}%`);
+    }
+  }
+  return [...patterns];
+}
+
 export function formatRepOptionLabel(
   name: string,
   constituency: string | null,

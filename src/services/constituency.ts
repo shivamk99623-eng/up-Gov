@@ -1,5 +1,5 @@
 import "server-only";
-import { resolveConstituencyToken, listConstituencies } from "@/lib/constituency-lookup";
+import { resolveConstituencyFilter, listConstituencies } from "@/lib/constituency-lookup";
 import { listConstituencyDetailNames, dedupeConstituencyNames } from "@/lib/constituency-detail";
 import {
   queryDigitalMedia,
@@ -72,9 +72,8 @@ function buildDailyTrend(
   return [...map.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
 
-function resolveConstituencyFilter(constituency: string | null | undefined) {
-  if (!constituency || constituency === "All") return null;
-  return resolveConstituencyToken(constituency) ?? constituency;
+function resolveConstituencyFilterForAnalytics(constituency: string) {
+  return resolveConstituencyFilter(constituency) ?? "All";
 }
 
 export function getConstituencyOptions() {
@@ -90,7 +89,11 @@ export function getConstituencyPrint(
 ): ConstituencyPrintResponse {
   const resolved = resolveConstituencyFilter(constituency);
   const result = getPrintNews(
-    { ...filters, constituency: resolved ?? filters.constituency ?? null },
+    {
+      ...filters,
+      constituency: resolved ?? filters.constituency ?? null,
+      district: null,
+    },
     pagination,
   );
   return {
@@ -107,7 +110,7 @@ export function getConstituencyAnalytics(
   constituency: string,
   filters: GlobalFilters = {},
 ): ConstituencyAnalyticsResponse {
-  const resolved = resolveConstituencyFilter(constituency) ?? "All";
+  const resolved = resolveConstituencyFilterForAnalytics(constituency);
   const records = queryDigitalMedia(
     {
       ...filters,

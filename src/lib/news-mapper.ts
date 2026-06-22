@@ -2,6 +2,7 @@ import "server-only";
 import { formatCalendarDate } from "./dates";
 import {
   parseDistrictNames,
+  parseFirstLink,
   parseJsonStringArray,
 } from "./json-fields";
 import { resolveDistrictName } from "./geo";
@@ -103,7 +104,7 @@ function baseDigitalFields<K extends DigitalMediaKind>(row: RawNewsRow, kind: K)
     authors: row.Authors?.trim() ?? "",
     date,
     timestamp,
-    link: row.link?.trim() || null,
+    link: parseFirstLink(row.link),
     ...arrays,
   };
 }
@@ -191,15 +192,20 @@ export const DIGITAL_TABLES: Record<DigitalMediaKind, string> = {
 export const PRINT_TABLE = "news_print";
 
 export const NEWS_ROW_COLUMNS = `
-  "newsId", "Heading", "Summary", "CreatedAt", "CCM", "Content",
+  "newsId", "Heading", "Summary", "CreatedAt",'"CCM"', "Content",
   "Language", "Sentiment", "Authors", "District", "Constituency",
   "MLA", "Loksabha_MP", "Rajyasabha_MP"
 `;
 
 export const PRINT_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Publication", "Edition"`;
+
+/** Minimal columns for entity stats scans (avoids loading full article bodies). */
+export const ENTITY_STAT_ROW_COLUMNS = `
+  "Sentiment", "District", "MLA", "Loksabha_MP", "Rajyasabha_MP"
+`;
 export const YOUTUBE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "channel", "duration", "link"`;
-export const ONLINE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "website", "link"`;
-export const X_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "handles", "link"`;
+export const ONLINE_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Website" as "website", "Link" as "link"`;
+export const X_ROW_COLUMNS = `${NEWS_ROW_COLUMNS}, "Handles" as "handles", "Link" as "link"`;
 
 export const TABLE_COLUMNS: Record<DigitalMediaKind | "Print", string> = {
   YouTube: YOUTUBE_ROW_COLUMNS,

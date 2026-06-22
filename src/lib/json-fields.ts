@@ -31,6 +31,12 @@ export function parseJsonStringArray(value: unknown): string[] {
   return [String(value).trim()].filter(Boolean);
 }
 
+/** Returns the first URL from a link column stored as plain text or a JSON array. */
+export function parseFirstLink(value: unknown): string | null {
+  const links = parseJsonStringArray(value);
+  return links[0] ?? null;
+}
+
 /** Extracts person names from JSON array columns, including mildly malformed JSON. */
 export function parsePersonNameArray(value: unknown): string[] {
   if (value == null || value === "") return [];

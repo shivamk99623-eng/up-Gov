@@ -171,7 +171,7 @@ function buildDistrictSummary(
 export function getDashboard(filters: GlobalFilters = {}): DashboardResponse {
   const records = queryDigitalMedia(filters).records;
   const printRecords = queryPrintRecords(filters).records;
-
+  console.log(printRecords);
   let youtubeCount = 0;
   let xCount = 0;
   let onlineCount = 0;

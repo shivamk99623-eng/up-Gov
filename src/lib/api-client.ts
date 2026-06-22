@@ -68,9 +68,14 @@ function buildMediaParams(
   tableQuery?: MediaTableQuery,
   extra?: Record<string, string | null | undefined>,
 ): URLSearchParams {
+  const constituencyScoped =
+    extra?.district === null ||
+    !!(extra?.constituency && extra.constituency !== "All");
   const merged = mergeTableFilters(state, tableQuery);
-  const params = new URLSearchParams(buildFilterQuery(merged));
+  const scoped = constituencyScoped ? { ...merged, district: null } : merged;
+  const params = new URLSearchParams(buildFilterQuery(scoped));
   for (const [key, value] of Object.entries(extra ?? {})) {
+    if (key === "district" && value == null) continue;
     if (value) params.set(key, value);
   }
   if (tableQuery) appendMediaTableQuery(params, tableQuery);
@@ -156,8 +161,9 @@ export function useScopedMedia(
 ) {
   const state = useApiFilterState();
   const { district = null, entity = null, constituency = null } = scope;
+  const onConstituencyPage = "constituency" in scope;
   const params = buildMediaParams(state, tableQuery, {
-    district: entity ? null : district,
+    district: entity || onConstituencyPage ? null : district,
     entity,
     constituency: constituency && constituency !== "All" ? constituency : null,
   });
@@ -202,6 +208,7 @@ export function useConstituencyPrint(
   const state = useApiFilterState();
   const params = buildMediaParams(state, tableQuery, {
     constituency: constituency && constituency !== "All" ? constituency : null,
+    district: null,
   });
   const qs = params.toString();
   return useQuery({

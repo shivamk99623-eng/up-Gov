@@ -1,6 +1,7 @@
 import "server-only";
 import { endOfCalendarDay, startOfCalendarDay } from "./dates";
-import { resolveConstituencyToken } from "./constituency-lookup";
+import { resolveConstituencyFilter, resolveConstituencyToken } from "./constituency-lookup";
+import { constituencyDedupeKey } from "./constituency-detail";
 import { isKnownDistrict, resolveDistrictName, toGeoName } from "./geo";
 import {
   parseDistrictNames,
@@ -8,11 +9,12 @@ import {
   parsePersonNameArray,
 } from "./json-fields";
 import { mpNamesMatch, mlaNamesMatch, personNamesMatch } from "./mp-name-matching";
-import { matchesSemanticSearch } from "./name-search";
+import { entitySearchLikePatterns, matchesSemanticSearch } from "./name-search";
 import { getDb } from "./db";
 import {
   columnsForKind,
   isKnownLanguage,
+  ENTITY_STAT_ROW_COLUMNS,
   PRINT_ROW_COLUMNS,
   rowToOnlineRecord,
   rowToPrintRecord,
@@ -25,10 +27,13 @@ import {
 } from "./news-mapper";
 import type {
   GlobalFilters,
+  MediaBreakdown,
   MediaRecord,
   MediaType,
   OnlineRecord,
   PrintRecord,
+  Sentiment,
+  SentimentBreakdown,
   SortDirection,
   XRecord,
   YouTubeRecord,
@@ -79,14 +84,105 @@ function tableExists(name: string): boolean {
     .get(name);
 }
 
-function fetchRows(kind: TableKind): RawNewsRow[] {
+function buildIndexedWhere(filters: GlobalFilters): {
+  clause: string;
+  params: unknown[];
+} {
+  const parts: string[] = [
+    `"Language" IS NOT NULL`,
+    `trim("Language") != ''`,
+    `lower(trim("Language")) != 'unknown'`,
+  ];
+  const params: unknown[] = [];
+
+  if (filters.language && filters.language !== "All") {
+    parts.push(`"Language" = ?`);
+    params.push(filters.language);
+  }
+
+  if (filters.sentiment && filters.sentiment !== "All") {
+    const want = filters.sentiment.toLowerCase();
+    if (want.startsWith("pos")) {
+      parts.push(`lower("Sentiment") LIKE 'pos%'`);
+    } else if (want.startsWith("neg")) {
+      parts.push(`lower("Sentiment") LIKE 'neg%'`);
+    } else {
+      parts.push(
+        `lower("Sentiment") NOT LIKE 'pos%' AND lower("Sentiment") NOT LIKE 'neg%'`,
+      );
+    }
+  }
+
+  if (filters.dateFrom) {
+    parts.push(`"CreatedAt" >= ?`);
+    params.push(new Date(startOfCalendarDay(filters.dateFrom)).toISOString());
+  }
+
+  if (filters.dateTo) {
+    parts.push(`"CreatedAt" <= ?`);
+    params.push(new Date(endOfCalendarDay(filters.dateTo)).toISOString());
+  }
+
+  return {
+    clause: `WHERE ${parts.join(" AND ")}`,
+    params,
+  };
+}
+
+type EntityPersonColumn = "MLA" | "Loksabha_MP" | "Rajyasabha_MP";
+
+function entityColumnsForFilters(filters: GlobalFilters): EntityPersonColumn[] {
+  if (filters.printSource === "mla") return ["MLA"];
+  if (filters.printSource === "mp") return ["Loksabha_MP", "Rajyasabha_MP"];
+  return ["MLA", "Loksabha_MP", "Rajyasabha_MP"];
+}
+
+function buildEntitySqlPrefilter(
+  entity: string,
+  columns: EntityPersonColumn[],
+): { sql: string; params: string[] } | null {
+  const patterns = entitySearchLikePatterns(entity);
+  if (!patterns.length || !columns.length) return null;
+
+  const parts: string[] = [];
+  const params: string[] = [];
+  for (const col of columns) {
+    for (const pat of patterns) {
+      parts.push(`"${col}" LIKE ?`);
+      params.push(pat);
+    }
+  }
+  return { sql: `(${parts.join(" OR ")})`, params };
+}
+
+function fetchRows(
+  kind: TableKind,
+  filters: GlobalFilters = {},
+  columnSql?: string,
+): RawNewsRow[] {
   const table = tableForKind(kind);
   if (!tableExists(table)) return [];
-  const columnSql =
-    kind === "Print" ? PRINT_ROW_COLUMNS : columnsForKind(kind as DigitalMediaKind);
+  const columns =
+    columnSql ??
+    (kind === "Print" ? PRINT_ROW_COLUMNS : columnsForKind(kind as DigitalMediaKind));
+  const { clause, params } = buildIndexedWhere(filters);
+
+  let entityClause = "";
+  const entityParams: unknown[] = [];
+  if (filters.entity) {
+    const pre = buildEntitySqlPrefilter(
+      filters.entity,
+      entityColumnsForFilters(filters),
+    );
+    if (pre) {
+      entityClause = ` AND ${pre.sql}`;
+      entityParams.push(...pre.params);
+    }
+  }
+
   return getDb()
-    .prepare(`SELECT ${columnSql} FROM "${table}"`)
-    .all() as RawNewsRow[];
+    .prepare(`SELECT ${columns} FROM "${table}" ${clause}${entityClause}`)
+    .all(...params, ...entityParams) as RawNewsRow[];
 }
 
 function mapRow<T>(kind: TableKind, row: RawNewsRow): T {
@@ -106,10 +202,18 @@ function rowMatchesDistrict(row: RawNewsRow, district: string): boolean {
 }
 
 function rowMatchesConstituency(row: RawNewsRow, constituency: string): boolean {
-  const resolved = resolveConstituencyToken(constituency) ?? constituency;
-  return parseJsonStringArray(row.Constituency).some(
-    (c) => (resolveConstituencyToken(c) ?? c) === resolved,
-  );
+  const resolved = resolveConstituencyFilter(constituency) ?? constituency;
+  const targetKey = constituencyDedupeKey(resolved);
+  return parseJsonStringArray(row.Constituency).some((c) => {
+    const token = resolveConstituencyToken(c) ?? c;
+    return constituencyDedupeKey(token) === targetKey;
+  });
+}
+
+/** Constituency scope wins over district — matches analytics on the constituency page. */
+export function applyConstituencyScope(filters: GlobalFilters): GlobalFilters {
+  if (!filters.constituency || filters.constituency === "All") return filters;
+  return { ...filters, district: null };
 }
 
 function rowMatchesEntity(row: RawNewsRow, entity: string): boolean {
@@ -285,30 +389,42 @@ function queryTableRecords<
   filters: GlobalFilters = {},
   options?: { skipDistrict?: boolean; pagination?: PaginationParams },
 ): QueryListResult<T> {
+  const scopedFilters = applyConstituencyScope(filters);
+  const filterOptions = {
+    ...options,
+    skipDistrict:
+      options?.skipDistrict ??
+      !!(scopedFilters.constituency && scopedFilters.constituency !== "All"),
+  };
   const matched: T[] = [];
 
-  for (const row of fetchRows(kind)) {
-    if (!isKnownLanguage(row.Language)) continue;
-    if (!rowMatchesFilters(row, filters, options)) continue;
+  for (const row of fetchRows(kind, scopedFilters)) {
+    if (!rowMatchesFilters(row, scopedFilters, filterOptions)) continue;
 
     if (kind === "Print") {
-      if (!rowMatchesPrintSource(row, filters.printSource, filters.entity)) {
+      if (
+        !rowMatchesPrintSource(
+          row,
+          scopedFilters.printSource,
+          scopedFilters.entity,
+        )
+      ) {
         continue;
       }
-      if (filters.printSource === "district" && filters.district) {
+      if (scopedFilters.printSource === "district" && scopedFilters.district) {
         const record = rowToPrintRecord(row);
         if (
           record.sourceType !== "district" &&
           record.sourceType !== "constituency" &&
-          !rowMatchesDistrict(row, filters.district)
+          !rowMatchesDistrict(row, scopedFilters.district)
         ) {
           continue;
         }
       }
-      if (filters.entity && filters.printSource === "mla") {
+      if (scopedFilters.entity && scopedFilters.printSource === "mla") {
         if (
           !parsePersonNameArray(row.MLA).some((n) =>
-            mlaNamesMatch(n, filters.entity!),
+            mlaNamesMatch(n, scopedFilters.entity!),
           )
         ) {
           continue;
@@ -322,8 +438,8 @@ function queryTableRecords<
   const sorted = sortRecords(
     kind,
     matched,
-    filters.sortBy,
-    filters.sortDir,
+    scopedFilters.sortBy,
+    scopedFilters.sortDir,
   );
   const total = sorted.length;
 
@@ -405,6 +521,100 @@ export function queryDigitalMedia(
   }
 
   return { total, records: sorted };
+}
+
+export interface EntityMediaStats {
+  printTotal: number;
+  digitalTotal: number;
+  media: MediaBreakdown;
+  sentiment: SentimentBreakdown;
+  primaryDistrict: string | null;
+}
+
+function emptySentimentBreakdown(): SentimentBreakdown {
+  return { positive: 0, negative: 0, neutral: 0 };
+}
+
+function sentimentFromRow(value: unknown): Sentiment {
+  const s = String(value ?? "").trim().toLowerCase();
+  if (s.startsWith("pos")) return "Positive";
+  if (s.startsWith("neg")) return "Negative";
+  return "Neutral";
+}
+
+function addSentimentCount(
+  acc: SentimentBreakdown,
+  sentiment: Sentiment,
+): void {
+  if (sentiment === "Positive") acc.positive += 1;
+  else if (sentiment === "Negative") acc.negative += 1;
+  else acc.neutral += 1;
+}
+
+function bumpEntityDistrictCounts(
+  row: RawNewsRow,
+  entityName: string,
+  counts: Map<string, number>,
+): void {
+  for (const d of parseDistrictNames(row.District)) {
+    const canonical = resolveDistrictName(d);
+    if (!canonical || canonical === entityName) continue;
+    counts.set(canonical, (counts.get(canonical) ?? 0) + 1);
+  }
+}
+
+function pickPrimaryDistrict(counts: Map<string, number>): string | null {
+  let best: string | null = null;
+  let bestN = 0;
+  for (const [d, n] of counts) {
+    if (n > bestN) {
+      best = d;
+      bestN = n;
+    }
+  }
+  return best;
+}
+
+/** Aggregates linked print + digital coverage for an MLA/MP without loading full articles. */
+export function queryEntityMediaStats(
+  entity: string,
+  printSource: "mla" | "mp",
+): EntityMediaStats {
+  const media: MediaBreakdown = { print: 0, youtube: 0, x: 0, online: 0 };
+  const sentiment = emptySentimentBreakdown();
+  const districtCounts = new Map<string, number>();
+
+  for (const row of fetchRows(
+    "Print",
+    { entity, printSource },
+    ENTITY_STAT_ROW_COLUMNS,
+  )) {
+    if (!rowMatchesEntity(row, entity)) continue;
+    if (!rowMatchesPrintSource(row, printSource, entity)) continue;
+    media.print += 1;
+    addSentimentCount(sentiment, sentimentFromRow(row.Sentiment));
+    bumpEntityDistrictCounts(row, entity, districtCounts);
+  }
+
+  const digitalKinds: DigitalMediaKind[] = ["YouTube", "X", "Online"];
+  for (const kind of digitalKinds) {
+    for (const row of fetchRows(kind, { entity }, ENTITY_STAT_ROW_COLUMNS)) {
+      if (!rowMatchesEntity(row, entity)) continue;
+      if (kind === "YouTube") media.youtube += 1;
+      else if (kind === "X") media.x += 1;
+      else media.online += 1;
+      addSentimentCount(sentiment, sentimentFromRow(row.Sentiment));
+      bumpEntityDistrictCounts(row, entity, districtCounts);
+    }
+  }
+
+  return {
+    printTotal: media.print,
+    digitalTotal: media.youtube + media.x + media.online,
+    media,
+    sentiment,
+    primaryDistrict: pickPrimaryDistrict(districtCounts),
+  };
 }
 
 export function printCountsByDistrict(): Map<string, number> {

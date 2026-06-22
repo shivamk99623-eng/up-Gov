@@ -37,6 +37,12 @@ function inferType(values) {
 
 function createTableFromRows(tableName, rows) {
   if (!rows || rows.length === 0) return;
+  // stop if table exists
+  const exists = db.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?").get(tableName);
+  if (exists) {
+    console.log(`Table ${tableName} already exists`);
+    return true;
+  }
   const cols = new Set();
   rows.forEach(r => Object.keys(r || {}).forEach(k => cols.add(k)));
   const colList = Array.from(cols);
@@ -239,111 +245,111 @@ function main() {
     }
 
     //   // sample rows
-      const sampleDistricts = ['District A', 'District B'];
-      const sampleConstituencies = ['Constituency 1'];
+    //   const sampleDistricts = ['District A', 'District B'];
+    //   const sampleConstituencies = ['Constituency 1'];
 
-    createTable('news_print', ['"Publication" TEXT', '"Edition" TEXT'], [
-      {
-        Heading: 'Print: Sample headline 1',
-        newsId: 'print-1',
-        Summary: 'Summary for print 1',
-        CreatedAt: new Date().toISOString(),
-        CCM: 'ccm1',
-        Content: 'Full content of print 1',
-        Language: 'Hindi',
-        Sentiment: 'Neutral',
-        Authors: 'Reporter A',
-        District: sampleDistricts,
-        Constituency: sampleConstituencies,
-        MLA: ['MLA A'],
-        Loksabha_MP: ['MP A'],
-        Rajyasabha_MP: ['RS A'],
-        Publication: 'Daily Times',
-        Edition: 'Morning'
-      },
-      {
-        Heading: 'Print: Sample headline 2',
-        newsId: 'print-2',
-        Summary: 'Summary for print 2',
-        CreatedAt: new Date().toISOString(),
-        CCM: 'ccm2',
-        Content: 'Full content of print 2',
-        Language: 'English',
-        Sentiment: 'Positive',
-        Authors: 'Reporter B',
-        District: ['District C'],
-        Constituency: ['Constituency 2'],
-        MLA: ['MLA B'],
-        Loksabha_MP: ['MP B'],
-        Rajyasabha_MP: ['RS B'],
-        Publication: 'Evening News',
-        Edition: 'Evening'
-      }
-    ]);
+    // createTable('news_print', ['"Publication" TEXT', '"Edition" TEXT'], [
+    //   {
+    //     Heading: 'Print: Sample headline 1',
+    //     newsId: 'print-1',
+    //     Summary: 'Summary for print 1',
+    //     CreatedAt: new Date().toISOString(),
+    //     CCM: 'ccm1',
+    //     Content: 'Full content of print 1',
+    //     Language: 'Hindi',
+    //     Sentiment: 'Neutral',
+    //     Authors: 'Reporter A',
+    //     District: sampleDistricts,
+    //     Constituency: sampleConstituencies,
+    //     MLA: ['MLA A'],
+    //     Loksabha_MP: ['MP A'],
+    //     Rajyasabha_MP: ['RS A'],
+    //     Publication: 'Daily Times',
+    //     Edition: 'Morning'
+    //   },
+    //   {
+    //     Heading: 'Print: Sample headline 2',
+    //     newsId: 'print-2',
+    //     Summary: 'Summary for print 2',
+    //     CreatedAt: new Date().toISOString(),
+    //     CCM: 'ccm2',
+    //     Content: 'Full content of print 2',
+    //     Language: 'English',
+    //     Sentiment: 'Positive',
+    //     Authors: 'Reporter B',
+    //     District: ['District C'],
+    //     Constituency: ['Constituency 2'],
+    //     MLA: ['MLA B'],
+    //     Loksabha_MP: ['MP B'],
+    //     Rajyasabha_MP: ['RS B'],
+    //     Publication: 'Evening News',
+    //     Edition: 'Evening'
+    //   }
+    // ]);
 
-    createTable('news_online', ['"website" TEXT', '"link" TEXT'], [
-      {
-        Heading: 'Online: Sample headline 1',
-        newsId: 'online-1',
-        Summary: 'Online summary 1',
-        CreatedAt: new Date().toISOString(),
-        CCM: 'ccm-o1',
-        Content: 'Online content 1',
-        Language: 'Hindi',
-        Sentiment: 'Negative',
-        Authors: 'Author O',
-        District: sampleDistricts,
-        Constituency: sampleConstituencies,
-        MLA: ['MLA X'],
-        Loksabha_MP: ['MP X'],
-        Rajyasabha_MP: ['RS X'],
-        website: 'Aaj Tak',
-        link: 'https://example.com'
-      }
-    ]);
+    // createTable('news_online', ['"website" TEXT', '"link" TEXT'], [
+    //   {
+    //     Heading: 'Online: Sample headline 1',
+    //     newsId: 'online-1',
+    //     Summary: 'Online summary 1',
+    //     CreatedAt: new Date().toISOString(),
+    //     CCM: 'ccm-o1',
+    //     Content: 'Online content 1',
+    //     Language: 'Hindi',
+    //     Sentiment: 'Negative',
+    //     Authors: 'Author O',
+    //     District: sampleDistricts,
+    //     Constituency: sampleConstituencies,
+    //     MLA: ['MLA X'],
+    //     Loksabha_MP: ['MP X'],
+    //     Rajyasabha_MP: ['RS X'],
+    //     website: 'Aaj Tak',
+    //     link: 'https://example.com'
+    //   }
+    // ]);
 
-    createTable('news_x', ['"handles" TEXT', '"link" TEXT'], [
-      {
-        Heading: 'X: Sample headline',
-        newsId: 'x-1',
-        Summary: 'X summary',
-        CreatedAt: new Date().toISOString(),
-        CCM: 'ccm-x',
-        Content: 'X post content',
-        Language: 'English',
-        Sentiment: 'Neutral',
-        Authors: 'UserX',
-        District: ["District X"],
-        Constituency: ["Constituency X"],
-        MLA: ['MLA X'],
-        Loksabha_MP: ['MP X'],
-        Rajyasabha_MP: ['RS X'],
-        handles: '@example',
-        link: 'https://example.com'
-      }
-    ]);
+    // createTable('news_x', ['"handles" TEXT', '"link" TEXT'], [
+    //   {
+    //     Heading: 'X: Sample headline',
+    //     newsId: 'x-1',
+    //     Summary: 'X summary',
+    //     CreatedAt: new Date().toISOString(),
+    //     CCM: 'ccm-x',
+    //     Content: 'X post content',
+    //     Language: 'English',
+    //     Sentiment: 'Neutral',
+    //     Authors: 'UserX',
+    //     District: ["District X"],
+    //     Constituency: ["Constituency X"],
+    //     MLA: ['MLA X'],
+    //     Loksabha_MP: ['MP X'],
+    //     Rajyasabha_MP: ['RS X'],
+    //     handles: '@example',
+    //     link: 'https://example.com'
+    //   }
+    // ]);
 
-    createTable('news_youtube', ['"channel" TEXT', '"duration" TEXT', '"link" TEXT'], [
-      {
-        Heading: 'YouTube: Sample video',
-        newsId: 'yt-1',
-        Summary: 'Video summary',
-        CreatedAt: new Date().toISOString(),
-        CCM: 'ccm-yt',
-        Content: 'Video description',
-        Language: 'Hindi',
-        Sentiment: 'Positive',
-        Authors: 'ChannelOwner',
-        District: ["District X"],
-        Constituency: ["Constituency X"],
-        MLA: ['MLA X'],
-        Loksabha_MP: ['MP X'],
-        Rajyasabha_MP: ['RS X'],
-        channel: 'NewsChannel',
-        duration: '12:34',
-        link: 'https://example.com'
-      }
-    ]);
+    // createTable('news_youtube', ['"channel" TEXT', '"duration" TEXT', '"link" TEXT'], [
+    //   {
+    //     Heading: 'YouTube: Sample video',
+    //     newsId: 'yt-1',
+    //     Summary: 'Video summary',
+    //     CreatedAt: new Date().toISOString(),
+    //     CCM: 'ccm-yt',
+    //     Content: 'Video description',
+    //     Language: 'Hindi',
+    //     Sentiment: 'Positive',
+    //     Authors: 'ChannelOwner',
+    //     District: ["District X"],
+    //     Constituency: ["Constituency X"],
+    //     MLA: ['MLA X'],
+    //     Loksabha_MP: ['MP X'],
+    //     Rajyasabha_MP: ['RS X'],
+    //     channel: 'NewsChannel',
+    //     duration: '12:34',
+    //     link: 'https://example.com'
+    //   }
+    // ]);
 
 
     // try {
@@ -359,6 +365,12 @@ function main() {
     const geoPath = path.join(__dirname, 'public', 'geo', 'up-districts.geojson');
     if (!fs.existsSync(geoPath)) { console.warn('GeoJSON not found:', geoPath); return; }
     let gdata;
+    // stop if table exists
+    const exists = db.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?").get('districts');
+    if (exists) {
+      console.log('Districts table already exists');
+      return;
+    }
     try { gdata = JSON.parse(fs.readFileSync(geoPath, 'utf8')); } catch (e) { console.error('Invalid GeoJSON', e.message); return; }
     if (!Array.isArray(gdata.features)) return;
     db.prepare(`CREATE TABLE IF NOT EXISTS districts (
@@ -453,13 +465,20 @@ function main() {
   }
 
   try {
-    // createConstituencyTable();
-    // createDistrictsTable();
+    createConstituencyTable();
+    createDistrictsTable();
     // createDummyNewsTables();
-    // createMP_MLA_ConstituencyTable();
+    createMP_MLA_ConstituencyTable();
     console.log('Constituency, districts and representatives created/updated.');
   } catch (e) {
     console.error('Failed constituency/district/rep processing:', e.message);
+  }
+
+  try {
+    const { createIndexes } = require('./create_indexes');
+    createIndexes(db);
+  } catch (e) {
+    console.error('Failed creating indexes:', e.message);
   }
 
   db.close();

@@ -202,6 +202,13 @@ function RelatedMediaCoverage({
   entityName: string;
   printSource: "mla" | "mp";
 }) {
+  const [showTables, setShowTables] = React.useState(false);
+
+  React.useEffect(() => {
+    const id = window.setTimeout(() => setShowTables(true), 0);
+    return () => window.clearTimeout(id);
+  }, [entityName]);
+
   return (
     <Card>
       <CardContent className="p-4 lg:p-5">
@@ -216,11 +223,15 @@ function RelatedMediaCoverage({
             </p>
           </div>
         </div>
-        <DistrictMediaTabs
-          entity={entityName}
-          exportName={entityName}
-          printSource={printSource}
-        />
+        {showTables ? (
+          <DistrictMediaTabs
+            entity={entityName}
+            exportName={entityName}
+            printSource={printSource}
+          />
+        ) : (
+          <Skeleton className="h-48 w-full rounded-lg" />
+        )}
       </CardContent>
     </Card>
   );
