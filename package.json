@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node create_db.js",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "build:db": "node create_db.js",
