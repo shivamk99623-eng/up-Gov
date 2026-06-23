@@ -63,8 +63,10 @@ const EXCEL_FILE_PATH = "./UP_Legislative Assembly.xlsx";
 
 async function ensureColumnExists(db, tableName, columnName) {
   try {
+    // console.log(db.all(`select * from sqlite_master where type='table'`));
     const columns = await new Promise((resolve, reject) => {
       db.all(`PRAGMA table_info(${tableName})`, [], (err, rows) => {
+        console.log(err, rows);
         if (err) return reject(err);
         resolve(rows);
       });
@@ -113,7 +115,7 @@ SELECT
 FROM "YouTubeData" N
 WHERE
     N."isDeleted" = false
-    AND N."createdAt" BETWEEN '2026-05-31 18:30:00'
+    AND N."postedTime" BETWEEN '2026-05-31 18:30:00'
                           AND '2026-06-22 18:29:59'
     AND EXISTS (
         SELECT 1
@@ -237,7 +239,7 @@ async function insertNews(db, news, districts, assemblies) {
     Comment_count,
     Like_count,
     District,
-    ls_constituency
+    Constituency
   )
   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
@@ -270,7 +272,7 @@ async function updateNews(db, newsId, newDistricts, newAssemblies) {
   const existing = await get(
     db,
     `
-    SELECT District, ls_constituency
+    SELECT District, Constituency
     FROM news_youtube
     WHERE newsId = ?
     `,
@@ -287,8 +289,8 @@ async function updateNews(db, newsId, newDistricts, newAssemblies) {
   } catch { }
 
   try {
-    existingAssemblies = existing?.ls_constituency
-      ? JSON.parse(existing.ls_constituency)
+    existingAssemblies = existing?.Constituency
+      ? JSON.parse(existing.Constituency)
       : [];
   } catch { }
 
@@ -308,7 +310,7 @@ async function updateNews(db, newsId, newDistricts, newAssemblies) {
     UPDATE news_youtube
     SET
       District = ?,
-      ls_constituency = ?
+      Constituency = ?
     WHERE newsId = ?
     `,
     [
@@ -385,7 +387,7 @@ async function syncNews() {
 
   sqliteDb.configure("busyTimeout", 30000);
 
-  await ensureColumnExists(sqliteDb, "news_youtube", "ls_constituency");
+  await ensureColumnExists(sqliteDb, "news_youtube", "Constituency");
 
   try {
     log("Connecting to PostgreSQL...");

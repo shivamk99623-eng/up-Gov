@@ -233,7 +233,7 @@ async function insertNews(db, news, districts, assemblies) {
       Sentiment,
       Authors,
       District,
-      ls_constituency
+      Constituency
     )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
@@ -264,7 +264,7 @@ async function updateNews(db, newsId, newDistricts, newAssemblies) {
   const existing = await get(
     db,
     `
-    SELECT District, ls_constituency
+    SELECT District, Constituency
     FROM news_print
     WHERE newsId = ?
     `,
@@ -281,8 +281,8 @@ async function updateNews(db, newsId, newDistricts, newAssemblies) {
   } catch { }
 
   try {
-    existingAssemblies = existing?.ls_constituency
-      ? JSON.parse(existing.ls_constituency)
+    existingAssemblies = existing?.Constituency
+      ? JSON.parse(existing.Constituency)
       : [];
   } catch { }
 
@@ -302,7 +302,7 @@ async function updateNews(db, newsId, newDistricts, newAssemblies) {
     UPDATE news_print
     SET
       District = ?,
-      ls_constituency = ?
+      Constituency = ?
     WHERE newsId = ?
     `,
     [
@@ -379,7 +379,7 @@ async function syncNews() {
 
   sqliteDb.configure("busyTimeout", 30000);
 
-  await ensureColumnExists(sqliteDb, "news_print", "ls_constituency");
+  await ensureColumnExists(sqliteDb, "news_print", "Constituency");
 
   try {
     log("Connecting to PostgreSQL...");

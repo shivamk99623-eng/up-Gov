@@ -225,7 +225,7 @@ async function insertNews(db, news, districts, assemblies) {
     CreatedAt,
     Link,
     District,
-    ls_constituency
+    Constituency
   )
   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
@@ -256,7 +256,7 @@ async function updateNews(db, news, newDistricts, newAssemblies) {
   const existing = await get(
     db,
     `
-    SELECT District, ls_constituency
+    SELECT District, Constituency
     FROM news_x
     WHERE newsId = ?
     `,
@@ -273,8 +273,8 @@ async function updateNews(db, news, newDistricts, newAssemblies) {
   } catch { }
 
   try {
-    existingAssemblies = existing?.ls_constituency
-      ? JSON.parse(existing.ls_constituency)
+    existingAssemblies = existing?.Constituency
+      ? JSON.parse(existing.Constituency)
       : [];
   } catch { }
 
@@ -296,7 +296,7 @@ async function updateNews(db, news, newDistricts, newAssemblies) {
       Heading = ?,
       Link = ?,
       District = ?,
-      ls_constituency = ?
+      Constituency = ?
     WHERE newsId = ?
     `,
     [
@@ -375,7 +375,7 @@ async function syncNews() {
 
   sqliteDb.configure("busyTimeout", 30000);
 
-  await ensureColumnExists(sqliteDb, "news_x", "ls_constituency");
+  await ensureColumnExists(sqliteDb, "news_x", "Constituency");
 
   try {
     log("Connecting to PostgreSQL...");
@@ -682,8 +682,8 @@ syncNews();
 //   } catch { }
 
 //   // try {
-//   //   existingAssemblies = existing?.ls_constituency
-//   //     ? JSON.parse(existing.ls_constituency)
+//   //   existingAssemblies = existing?.Constituency
+//   //     ? JSON.parse(existing.Constituency)
 //   //     : [];
 //   // } catch { }
 
