@@ -1,5 +1,5 @@
 import "server-only";
-import type { GlobalFilters, MediaType, Sentiment, SortDirection } from "./types";
+import type { ConstituencyScope, GlobalFilters, MediaType, Sentiment, SortDirection } from "./types";
 import { normalizePagination } from "./news-repository";
 
 /** Parses shared global filters from a request's URL search params. */
@@ -28,6 +28,10 @@ export function parseFilters(searchParams: URLSearchParams): GlobalFilters {
       const v = searchParams.get("printSource");
       return v === "district" || v === "mla" || v === "mp" ? v : null;
     })(),
+    constituencyScope: (() => {
+      const v = searchParams.get("constituencyScope");
+      return v === "legislative" ? "legislative" : "parliamentary";
+    })() as ConstituencyScope,
   };
 }
 

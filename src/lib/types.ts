@@ -412,10 +412,14 @@ export interface MP {
 
 export type SortDirection = "asc" | "desc";
 
+export type ConstituencyScope = "parliamentary" | "legislative";
+
 /** Shared filter params used across the API. */
 export interface GlobalFilters {
   district?: string | null;
   constituency?: string | null;
+  /** Parliamentary (LK_Constituency) vs legislative assembly (Constituency). */
+  constituencyScope?: ConstituencyScope | null;
   mediaType?: MediaType | "All" | null;
   sentiment?: Sentiment | "All" | null;
   language?: string | null;

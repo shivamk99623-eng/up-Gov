@@ -1,5 +1,6 @@
 import "server-only";
 import { resolveConstituencyFilter, listConstituencies } from "@/lib/constituency-lookup";
+import { listLegislativeAssemblies, resolveLegislativeAssemblyFilter } from "@/lib/legislative-lookup";
 import { listConstituencyDetailNames, dedupeConstituencyNames } from "@/lib/constituency-detail";
 import {
   aggregateFilteredStats,
@@ -15,6 +16,7 @@ import {
 import type {
   ConstituencyAnalyticsResponse,
   ConstituencyPrintResponse,
+  ConstituencyScope,
   GlobalFilters,
   MediaQueryResponse,
   MediaType,
@@ -52,12 +54,28 @@ function topCounts<T>(
     .slice(0, limit);
 }
 
-function resolveConstituencyFilterForAnalytics(constituency: string) {
-  return resolveConstituencyFilter(constituency) ?? "All";
+function resolveScopedConstituencyFilter(
+  constituency: string | null | undefined,
+  scope: ConstituencyScope,
+) {
+  if (scope === "legislative") {
+    return resolveLegislativeAssemblyFilter(constituency);
+  }
+  return resolveConstituencyFilter(constituency, scope);
 }
 
-export function getConstituencyOptions() {
-  const fromNews = listConstituencies();
+function resolveConstituencyFilterForAnalytics(
+  constituency: string,
+  scope: ConstituencyScope,
+) {
+  return resolveScopedConstituencyFilter(constituency, scope) ?? "All";
+}
+
+export function getConstituencyOptions(scope: ConstituencyScope = "parliamentary") {
+  if (scope === "legislative") {
+    return { constituencies: listLegislativeAssemblies() };
+  }
+  const fromNews = listConstituencies("parliamentary");
   const fromDb = listConstituencyDetailNames();
   return { constituencies: dedupeConstituencyNames([...fromDb, ...fromNews]) };
 }
@@ -67,7 +85,8 @@ export function getConstituencyPrint(
   filters: GlobalFilters = {},
   pagination?: PaginationParams,
 ): ConstituencyPrintResponse {
-  const resolved = resolveConstituencyFilter(constituency);
+  const scope = filters.constituencyScope ?? "parliamentary";
+  const resolved = resolveScopedConstituencyFilter(constituency, scope);
   const result = getPrintNews(
     {
       ...filters,
@@ -90,9 +109,11 @@ export function getConstituencyAnalytics(
   constituency: string,
   filters: GlobalFilters = {},
 ): ConstituencyAnalyticsResponse {
-  const resolved = resolveConstituencyFilterForAnalytics(constituency);
+  const scope = filters.constituencyScope ?? "parliamentary";
+  const resolved = resolveConstituencyFilterForAnalytics(constituency, scope);
   const scoped = {
     ...filters,
+    constituencyScope: scope,
     constituency: resolved === "All" ? null : resolved,
     district: null,
   };
@@ -175,9 +196,11 @@ export function getConstituencyMedia(
   },
   pagination?: PaginationParams,
 ): MediaQueryResponse {
-  const resolved = resolveConstituencyFilter(filters.constituency);
+  const scope = filters.constituencyScope ?? "parliamentary";
+  const resolved = resolveScopedConstituencyFilter(filters.constituency, scope);
   const scoped = {
     ...filters,
+    constituencyScope: scope,
     constituency: resolved,
     district: null,
   };

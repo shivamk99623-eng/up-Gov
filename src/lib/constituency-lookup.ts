@@ -5,6 +5,7 @@ import {
   resolveConstituencyDetailName,
   stripReservationSuffix,
 } from "./constituency-detail";
+import type { ConstituencyScope } from "./types";
 
 const CONSTITUENCY_ALIASES: Record<string, string> = {
   ambedkarnagar: "Ambedkarnagar",
@@ -18,25 +19,30 @@ const CONSTITUENCY_ALIASES: Record<string, string> = {
 
 let constituencyLookup: Map<string, string> | null = null;
 let constituencyList: string[] | null = null;
+let legislativeConstituencyLookup: Map<string, string> | null = null;
+let legislativeConstituencyList: string[] | null = null;
 
 function normalizeKey(name: string): string {
   return name.trim().toLowerCase().replace(/\s+/g, "");
 }
 
-function buildConstituencyLookup(): Map<string, string> {
-  if (constituencyLookup) return constituencyLookup;
+function buildConstituencyLookup(scope: ConstituencyScope = "parliamentary"): Map<string, string> {
+  if (scope === "parliamentary" && constituencyLookup) return constituencyLookup;
+  if (scope === "legislative" && legislativeConstituencyLookup) return legislativeConstituencyLookup;
 
   const canonical = new Set<string>();
   const tables = ["news_print", "news_online", "news_x", "news_youtube"];
   const db = getDb();
 
+  const column =
+    scope === "legislative" ? '"Constituency"' : '"LK_Constituency"';
   for (const table of tables) {
     const exists = db
       .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?")
       .get(table);
     if (!exists) continue;
     const rows = db
-      .prepare(`SELECT "Constituency" AS c FROM "${table}" WHERE "Constituency" IS NOT NULL`)
+      .prepare(`SELECT ${column} AS c FROM "${table}" WHERE ${column} IS NOT NULL`)
       .all() as { c: string }[];
 
     for (const { c } of rows) {
@@ -49,7 +55,7 @@ function buildConstituencyLookup(): Map<string, string> {
   const detailExists = db
     .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='constituency'")
     .get();
-  if (detailExists) {
+  if (detailExists && scope === "parliamentary") {
     const detailRows = db
       .prepare(`SELECT constituency_name FROM constituency`)
       .all() as { constituency_name: string }[];
@@ -74,20 +80,30 @@ function buildConstituencyLookup(): Map<string, string> {
     lookup.set(alias.replace(/\s+/g, ""), resolved);
   }
 
-  constituencyLookup = lookup;
-  constituencyList = [...canonical].sort();
+  if (scope === "parliamentary") {
+    constituencyLookup = lookup;
+    constituencyList = [...canonical].sort();
+  } else {
+    legislativeConstituencyLookup = lookup;
+    legislativeConstituencyList = [...canonical].sort();
+  }
   return lookup;
 }
 
-export function listConstituencies(): string[] {
-  buildConstituencyLookup();
-  return [...(constituencyList ?? [])];
+export function listConstituencies(scope: ConstituencyScope = "parliamentary"): string[] {
+  buildConstituencyLookup(scope);
+  return scope === "legislative"
+    ? [...(legislativeConstituencyList ?? [])]
+    : [...(constituencyList ?? [])];
 }
 
-export function resolveConstituencyToken(token: string): string | null {
+export function resolveConstituencyToken(
+  token: string,
+  scope: ConstituencyScope = "parliamentary",
+): string | null {
   const t = token.trim();
   if (!t) return null;
-  const lookup = buildConstituencyLookup();
+  const lookup = buildConstituencyLookup(scope);
   const lower = t.toLowerCase();
   const stripped = t.replace(/\s*\((sc|st|general)\)\s*/gi, "").trim();
   return (
@@ -102,31 +118,35 @@ export function resolveConstituencyToken(token: string): string | null {
 
 export function isKnownConstituency(
   constituency: string | null | undefined,
+  scope: ConstituencyScope = "parliamentary",
 ): boolean {
   if (!constituency?.trim()) return false;
-  return resolveConstituencyFilter(constituency) !== null;
+  return resolveConstituencyFilter(constituency, scope) !== null;
 }
 
 /** Resolves UI / detail-table names to a news-table constituency token. */
 export function resolveConstituencyFilter(
   constituency: string | null | undefined,
+  scope: ConstituencyScope = "parliamentary",
 ): string | null {
   if (!constituency || constituency === "All") return null;
 
-  const fromNews = resolveConstituencyToken(constituency);
+  const fromNews = resolveConstituencyToken(constituency, scope);
   if (fromNews) return fromNews;
 
-  const fromDetail = resolveConstituencyDetailName(constituency);
-  if (fromDetail) {
-    return (
-      resolveConstituencyToken(fromDetail) ??
-      resolveConstituencyToken(stripReservationSuffix(fromDetail)) ??
-      stripReservationSuffix(fromDetail)
-    );
+  if (scope === "parliamentary") {
+    const fromDetail = resolveConstituencyDetailName(constituency);
+    if (fromDetail) {
+      return (
+        resolveConstituencyToken(fromDetail, scope) ??
+        resolveConstituencyToken(stripReservationSuffix(fromDetail), scope) ??
+        stripReservationSuffix(fromDetail)
+      );
+    }
   }
 
   return (
-    resolveConstituencyToken(stripReservationSuffix(constituency)) ??
+    resolveConstituencyToken(stripReservationSuffix(constituency), scope) ??
     constituency
   );
 }

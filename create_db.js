@@ -95,6 +95,7 @@ function processXlsxFile(filePath) {
 }
 
 const CONSTITUENCY_XLS = 'UP Constituency Data Exercise(Sheet1).xls';
+const LEGISLATIVE_XLSX = 'UP_Legislative Assembly.xlsx';
 
 function cellValue(row, idx) {
   let val = row[idx];
@@ -159,6 +160,31 @@ function rowToConstituencyRecord(row) {
   };
 }
 
+function createUpLegislativeTable() {
+  const filePath = path.join(dataDir, LEGISLATIVE_XLSX);
+  if (!fs.existsSync(filePath)) {
+    console.warn('Legislative Assembly XLSX not found:', filePath);
+    return;
+  }
+
+  const workbook = XLSX.readFile(filePath);
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const rawRows = XLSX.utils.sheet_to_json(sheet, { defval: null });
+  const rows = rawRows
+    .filter((row) => row.Assembly != null && String(row.Assembly).trim() !== '')
+    .map((row) => ({
+      sr_no: row['Sr. No.'] ?? null,
+      district: row.Distrit ?? null,
+      assembly: String(row.Assembly).trim(),
+      assembly_code: row.__EMPTY ?? null,
+      reservation: row.Reservation ?? null,
+    }));
+
+  db.prepare('DROP TABLE IF EXISTS Up_legislative').run();
+  createTableFromRows('Up_legislative', rows);
+  console.log(`Imported Up_legislative table (${rows.length} rows) from ${LEGISLATIVE_XLSX}`);
+}
+
 function createConstituencyTable() {
   const filePath = path.join(dataDir, CONSTITUENCY_XLS);
   if (!fs.existsSync(filePath)) {
@@ -186,7 +212,7 @@ function main() {
       const full = path.join(dataDir, f);
       const stat = fs.statSync(full);
       if (!stat.isFile()) continue;
-      if (f === CONSTITUENCY_XLS) continue;
+      if (f === CONSTITUENCY_XLS || f === LEGISLATIVE_XLSX) continue;
       const ext = path.extname(f).toLowerCase();
       try {
         if (ext === '.json') processJsonFile(full);
@@ -464,6 +490,7 @@ function main() {
 
   try {
     createConstituencyTable();
+    createUpLegislativeTable();
     createDistrictsTable();
     // createDummyNewsTables();
     createMP_MLA_ConstituencyTable();

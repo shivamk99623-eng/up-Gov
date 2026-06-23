@@ -30,6 +30,7 @@ export interface RawNewsRow {
   Authors: string | null;
   District: string | null;
   Constituency: string | null;
+  LK_Constituency: string | null;
   MLA: string | null;
   Loksabha_MP: string | null;
   Rajyasabha_MP: string | null;
@@ -202,7 +203,7 @@ export const PRINT_TABLE = "news_print";
 
 export const NEWS_ROW_COLUMNS = `
   "newsId", "Heading", "Summary", "CreatedAt",
-  "Language", "Sentiment", "District", "Constituency",
+  "Language", "Sentiment", "District", "Constituency", "LK_Constituency",
   "MLA", "Loksabha_MP", "Rajyasabha_MP"
 `;
 
@@ -214,7 +215,7 @@ export const ENTITY_STAT_ROW_COLUMNS = `
 
 /** Light columns for analytics aggregation (no article bodies). */
 export const AGG_ROW_COLUMNS = `
-  "Sentiment", "CreatedAt", "District", "Constituency",
+  "Sentiment", "CreatedAt", "District", "Constituency", "LK_Constituency",
   "MLA", "Loksabha_MP", "Rajyasabha_MP", "Language"
 `;
 

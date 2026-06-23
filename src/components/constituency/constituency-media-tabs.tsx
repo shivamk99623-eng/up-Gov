@@ -24,7 +24,7 @@ import {
   type MediaTableQueryState,
 } from "@/lib/use-media-table-query-state";
 import { cn } from "@/lib/utils";
-import type { MediaType } from "@/lib/types";
+import type { ConstituencyScope, MediaType } from "@/lib/types";
 
 function hasActiveTableFilters(
   search: string,
@@ -36,11 +36,13 @@ function hasActiveTableFilters(
 
 function PrintTab({
   constituency,
+  constituencyScope,
   exportName,
   tableMaxHeight,
   mediaQuery,
 }: {
   constituency: string | null;
+  constituencyScope: ConstituencyScope;
   exportName?: string;
   tableMaxHeight?: number;
   mediaQuery: MediaTableQueryState;
@@ -49,6 +51,7 @@ function PrintTab({
   const { data, isError, isFetching } = useConstituencyPrint(
     constituency,
     apiQuery,
+    constituencyScope,
   );
 
   useClampServerPage(
@@ -90,12 +93,14 @@ function PrintTab({
 
 function MediaTab({
   constituency,
+  constituencyScope,
   mediaType,
   exportName,
   tableMaxHeight,
   mediaQuery,
 }: {
   constituency: string | null;
+  constituencyScope: ConstituencyScope;
   mediaType: MediaType;
   exportName?: string;
   tableMaxHeight?: number;
@@ -104,7 +109,7 @@ function MediaTab({
   const { data: filterOptions } = useFilterOptions();
   const { apiQuery, tableControls } = mediaQuery;
   const { data, isError, isFetching } = useScopedMedia(
-    { constituency },
+    { constituency, constituencyScope },
     mediaType,
     apiQuery,
   );
@@ -156,10 +161,12 @@ function MediaTab({
 /** Print + digital media tabs scoped to a constituency (or all when null). */
 export function ConstituencyMediaTabs({
   constituency,
+  constituencyScope = "parliamentary",
   exportName,
   tableMaxHeight,
 }: {
   constituency: string | null;
+  constituencyScope?: ConstituencyScope;
   exportName?: string;
   tableMaxHeight?: number;
 }) {
@@ -191,6 +198,7 @@ export function ConstituencyMediaTabs({
         {activeTab === "Print" && (
           <PrintTab
             constituency={constituency}
+            constituencyScope={constituencyScope}
             exportName={exportName}
             tableMaxHeight={tableMaxHeight}
             mediaQuery={mediaQuery}
@@ -201,6 +209,7 @@ export function ConstituencyMediaTabs({
         {activeTab === "YouTube" && (
           <MediaTab
             constituency={constituency}
+            constituencyScope={constituencyScope}
             mediaType="YouTube"
             exportName={exportName}
             tableMaxHeight={tableMaxHeight}
@@ -212,6 +221,7 @@ export function ConstituencyMediaTabs({
         {activeTab === "Online" && (
           <MediaTab
             constituency={constituency}
+            constituencyScope={constituencyScope}
             mediaType="Online"
             exportName={exportName}
             tableMaxHeight={tableMaxHeight}
@@ -223,6 +233,7 @@ export function ConstituencyMediaTabs({
         {activeTab === "X" && (
           <MediaTab
             constituency={constituency}
+            constituencyScope={constituencyScope}
             mediaType="X"
             exportName={exportName}
             tableMaxHeight={tableMaxHeight}

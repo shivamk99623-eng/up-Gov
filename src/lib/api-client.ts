@@ -3,6 +3,7 @@ import type {
   ConstituencyAnalyticsResponse,
   ConstituencyDetailResponse,
   ConstituencyPrintResponse,
+  ConstituencyScope,
   DashboardResponse,
   PrintQueryResponse,
   DistrictAnalyticsResponse,
@@ -155,17 +156,24 @@ export function useScopedMedia(
     district?: string | null;
     entity?: string | null;
     constituency?: string | null;
+    constituencyScope?: ConstituencyScope;
   },
   mediaType: MediaType | "All",
   tableQuery?: MediaTableQuery,
 ) {
   const state = useApiFilterState();
-  const { district = null, entity = null, constituency = null } = scope;
+  const {
+    district = null,
+    entity = null,
+    constituency = null,
+    constituencyScope = "parliamentary",
+  } = scope;
   const onConstituencyPage = "constituency" in scope;
   const params = buildMediaParams(state, tableQuery, {
     district: entity || onConstituencyPage ? null : district,
     entity,
     constituency: constituency && constituency !== "All" ? constituency : null,
+    constituencyScope,
   });
   const endpoint =
     mediaType === "All" ? "/api/media" : mediaEndpoint(mediaType);
@@ -177,6 +185,7 @@ export function useScopedMedia(
       district,
       entity,
       constituency,
+      constituencyScope,
       mediaType,
       tableQuery,
       url,
@@ -190,13 +199,19 @@ export function useScopedMedia(
   });
 }
 
-export function useConstituencyAnalytics(constituency: string) {
+export function useConstituencyAnalytics(
+  constituency: string,
+  constituencyScope: ConstituencyScope = "parliamentary",
+) {
   const qs = useGlobalFilterQuery();
+  const scopeQs = qs
+    ? `${qs}&constituencyScope=${constituencyScope}`
+    : `constituencyScope=${constituencyScope}`;
   return useQuery({
-    queryKey: ["constituency", constituency, qs],
+    queryKey: ["constituency", constituency, constituencyScope, qs],
     queryFn: () =>
       fetchJson<ConstituencyAnalyticsResponse>(
-        `/api/constituency?constituency=${encodeURIComponent(constituency)}&${qs}`,
+        `/api/constituency?constituency=${encodeURIComponent(constituency)}&${scopeQs}`,
       ),
   });
 }
@@ -204,26 +219,32 @@ export function useConstituencyAnalytics(constituency: string) {
 export function useConstituencyPrint(
   constituency: string | null,
   tableQuery?: MediaTableQuery,
+  constituencyScope: ConstituencyScope = "parliamentary",
 ) {
   const state = useApiFilterState();
   const params = buildMediaParams(state, tableQuery, {
     constituency: constituency && constituency !== "All" ? constituency : null,
     district: null,
+    constituencyScope,
   });
   const qs = params.toString();
   return useQuery({
-    queryKey: ["constituency-print", constituency ?? "All", tableQuery, qs],
+    queryKey: ["constituency-print", constituency ?? "All", constituencyScope, tableQuery, qs],
     queryFn: () =>
       fetchJson<ConstituencyPrintResponse>(`/api/constituency/print?${qs}`),
     placeholderData: keepPreviousData,
   });
 }
 
-export function useConstituencyOptions() {
+export function useConstituencyOptions(
+  constituencyScope: ConstituencyScope = "parliamentary",
+) {
   return useQuery({
-    queryKey: ["constituency-options"],
+    queryKey: ["constituency-options", constituencyScope],
     queryFn: () =>
-      fetchJson<{ constituencies: string[] }>(`/api/constituency/filters`),
+      fetchJson<{ constituencies: string[] }>(
+        `/api/constituency/filters?constituencyScope=${constituencyScope}`,
+      ),
     staleTime: 5 * 60 * 1000,
   });
 }

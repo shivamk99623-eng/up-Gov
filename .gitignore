@@ -4,6 +4,7 @@
 /node_modules
 /script/node_modules
 /script/package-lock.json
+/script/data.db
 /.pnp
 .pnp.*
 .yarn/*

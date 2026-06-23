@@ -2,6 +2,11 @@ import "server-only";
 import { endOfCalendarDay, startOfCalendarDay } from "./dates";
 import { resolveConstituencyFilter, resolveConstituencyToken } from "./constituency-lookup";
 import { constituencyDedupeKey } from "./constituency-detail";
+import {
+  legislativeAssemblyDedupeKey,
+  resolveLegislativeAssemblyFilter,
+  resolveLegislativeAssemblyToken,
+} from "./legislative-lookup";
 import { isKnownDistrict, resolveDistrictName, toGeoName } from "./geo";
 import {
   parseDistrictNames,
@@ -28,6 +33,7 @@ import {
   type TableKind,
 } from "./news-mapper";
 import type {
+  ConstituencyScope,
   GlobalFilters,
   MediaBreakdown,
   MediaRecord,
@@ -405,11 +411,28 @@ function rowMatchesDistrict(row: RawNewsRow, district: string): boolean {
   );
 }
 
-function rowMatchesConstituency(row: RawNewsRow, constituency: string): boolean {
-  const resolved = resolveConstituencyFilter(constituency) ?? constituency;
+function constituencyScope(filters: GlobalFilters): ConstituencyScope {
+  return filters.constituencyScope === "legislative" ? "legislative" : "parliamentary";
+}
+
+function rowMatchesConstituency(
+  row: RawNewsRow,
+  constituency: string,
+  scope: ConstituencyScope = "parliamentary",
+): boolean {
+  if (scope === "legislative") {
+    const resolved = resolveLegislativeAssemblyFilter(constituency) ?? constituency;
+    const targetKey = legislativeAssemblyDedupeKey(resolved);
+    return parseJsonStringArray(row.Constituency).some((c) => {
+      const token = resolveLegislativeAssemblyToken(c) ?? c;
+      return legislativeAssemblyDedupeKey(token) === targetKey;
+    });
+  }
+
+  const resolved = resolveConstituencyFilter(constituency, scope) ?? constituency;
   const targetKey = constituencyDedupeKey(resolved);
-  return parseJsonStringArray(row.Constituency).some((c) => {
-    const token = resolveConstituencyToken(c) ?? c;
+  return parseJsonStringArray(row.LK_Constituency).some((c) => {
+    const token = resolveConstituencyToken(c, scope) ?? c;
     return constituencyDedupeKey(token) === targetKey;
   });
 }
@@ -455,7 +478,7 @@ function rowMatchesFilters(
   }
 
   if (constituency && constituency !== "All") {
-    if (!rowMatchesConstituency(row, constituency)) return false;
+    if (!rowMatchesConstituency(row, constituency, constituencyScope(filters))) return false;
   }
 
   if (sentiment && sentiment !== "All") {
