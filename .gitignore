@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/script/node_modules
+/script/package-lock.json
 /.pnp
 .pnp.*
 .yarn/*
@@ -10,6 +12,15 @@
 !.yarn/releases
 !.yarn/versions
 
+*.log
+*.log.*
+*.log.*.*
+*.log.*.*.*
+*.log.*.*.*.*
+*.log.*.*.*.*.*
+*.log.*.*.*.*.*.*
+*.log.*.*.*.*.*.*.*
+*.log.*.*.*.*.*.*.*.*
 # testing
 /coverage
 

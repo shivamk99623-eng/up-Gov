@@ -1,0 +1,19 @@
+{
+  "name": "script",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "jsscript.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node jsscript.js"
+  },
+  "dependencies": {
+    "pg": "^8.22.0",
+    "pg-query-stream": "^4.16.0",
+    "sqlite3": "^6.0.1",
+    "xlsx": "^0.18.5"
+  }
+}
