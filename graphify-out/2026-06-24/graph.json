@@ -153,7 +153,7 @@
       "source_file": "src/app/api/mla/route.ts",
       "source_location": "L1",
       "id": "mla_route",
-      "community": 1,
+      "community": 0,
       "norm_label": "route.ts"
     },
     {
@@ -162,7 +162,7 @@
       "source_file": "src/app/api/mla/route.ts",
       "source_location": "L7",
       "id": "mla_route_get",
-      "community": 1,
+      "community": 0,
       "norm_label": "get()"
     },
     {
@@ -171,7 +171,7 @@
       "source_file": "src/app/api/mp/route.ts",
       "source_location": "L1",
       "id": "mp_route",
-      "community": 1,
+      "community": 0,
       "norm_label": "route.ts"
     },
     {
@@ -180,7 +180,7 @@
       "source_file": "src/app/api/mp/route.ts",
       "source_location": "L8",
       "id": "mp_route_get",
-      "community": 1,
+      "community": 0,
       "norm_label": "get()"
     },
     {
@@ -261,7 +261,7 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L1",
       "id": "constituency_page",
-      "community": 8,
+      "community": 11,
       "norm_label": "page.tsx"
     },
     {
@@ -270,7 +270,7 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L37",
       "id": "constituency_page_constituencyscopepanel",
-      "community": 8,
+      "community": 11,
       "norm_label": "constituencyscopepanel()"
     },
     {
@@ -279,7 +279,7 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L220",
       "id": "constituency_page_constituencypage",
-      "community": 8,
+      "community": 11,
       "norm_label": "constituencypage()"
     },
     {
@@ -297,7 +297,7 @@
       "source_file": "src/app/district/page.tsx",
       "source_location": "L30",
       "id": "district_page_districtpage",
-      "community": 11,
+      "community": 3,
       "norm_label": "districtpage()"
     },
     {
@@ -342,7 +342,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L1",
       "id": "mla_page",
-      "community": 9,
+      "community": 14,
       "norm_label": "page.tsx"
     },
     {
@@ -360,7 +360,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L73",
       "id": "mla_page_progressrow",
-      "community": 9,
+      "community": 14,
       "norm_label": "progressrow()"
     },
     {
@@ -369,7 +369,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L98",
       "id": "mla_page_sociallink",
-      "community": 9,
+      "community": 14,
       "norm_label": "sociallink()"
     },
     {
@@ -378,7 +378,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L120",
       "id": "mla_page_repavatar",
-      "community": 9,
+      "community": 14,
       "norm_label": "repavatar()"
     },
     {
@@ -387,7 +387,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L136",
       "id": "mla_page_relatedmediacoverage",
-      "community": 9,
+      "community": 14,
       "norm_label": "relatedmediacoverage()"
     },
     {
@@ -405,7 +405,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L229",
       "id": "mla_page_mlapage",
-      "community": 9,
+      "community": 14,
       "norm_label": "mlapage()"
     },
     {
@@ -414,7 +414,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L244",
       "id": "mla_page_mlapagecontent",
-      "community": 9,
+      "community": 14,
       "norm_label": "mlapagecontent()"
     },
     {
@@ -423,7 +423,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L1",
       "id": "mp_page",
-      "community": 9,
+      "community": 12,
       "norm_label": "page.tsx"
     },
     {
@@ -432,7 +432,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L39",
       "id": "mp_page_housefilter",
-      "community": 9,
+      "community": 12,
       "norm_label": "housefilter"
     },
     {
@@ -450,7 +450,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L75",
       "id": "mp_page_progressrow",
-      "community": 9,
+      "community": 12,
       "norm_label": "progressrow()"
     },
     {
@@ -459,7 +459,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L100",
       "id": "mp_page_sociallink",
-      "community": 9,
+      "community": 12,
       "norm_label": "sociallink()"
     },
     {
@@ -468,7 +468,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L122",
       "id": "mp_page_housebadge",
-      "community": 9,
+      "community": 12,
       "norm_label": "housebadge()"
     },
     {
@@ -477,7 +477,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L130",
       "id": "mp_page_repavatar",
-      "community": 9,
+      "community": 12,
       "norm_label": "repavatar()"
     },
     {
@@ -495,7 +495,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L198",
       "id": "mp_page_relatedmediacoverage",
-      "community": 9,
+      "community": 12,
       "norm_label": "relatedmediacoverage()"
     },
     {
@@ -504,7 +504,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L240",
       "id": "mp_page_house_tabs",
-      "community": 9,
+      "community": 12,
       "norm_label": "house_tabs"
     },
     {
@@ -513,7 +513,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L246",
       "id": "mp_page_mppage",
-      "community": 9,
+      "community": 12,
       "norm_label": "mppage()"
     },
     {
@@ -522,7 +522,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L261",
       "id": "mp_page_resolveselectedmp",
-      "community": 9,
+      "community": 12,
       "norm_label": "resolveselectedmp()"
     },
     {
@@ -531,7 +531,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L275",
       "id": "mp_page_mppagecontent",
-      "community": 9,
+      "community": 12,
       "norm_label": "mppagecontent()"
     },
     {
@@ -594,7 +594,7 @@
       "source_file": "src/components/cards/chart-card.tsx",
       "source_location": "L20",
       "id": "cards_chart_card_chartcard",
-      "community": 9,
+      "community": 8,
       "norm_label": "chartcard()"
     },
     {
@@ -837,7 +837,7 @@
       "source_file": "src/components/charts/district-charts.tsx",
       "source_location": "L116",
       "id": "charts_district_charts_sentimentdonut",
-      "community": 9,
+      "community": 11,
       "norm_label": "sentimentdonut()"
     },
     {
@@ -900,7 +900,7 @@
       "source_file": "src/components/charts/echart.tsx",
       "source_location": "L83",
       "id": "charts_echart_chart_colors",
-      "community": 11,
+      "community": 10,
       "norm_label": "chart_colors"
     },
     {
@@ -1008,7 +1008,7 @@
       "source_file": "src/components/common/states.tsx",
       "source_location": "L1",
       "id": "common_states",
-      "community": 0,
+      "community": 11,
       "norm_label": "states.tsx"
     },
     {
@@ -1017,7 +1017,7 @@
       "source_file": "src/components/common/states.tsx",
       "source_location": "L4",
       "id": "common_states_emptystate",
-      "community": 0,
+      "community": 11,
       "norm_label": "emptystate()"
     },
     {
@@ -1026,7 +1026,7 @@
       "source_file": "src/components/common/states.tsx",
       "source_location": "L35",
       "id": "common_states_errorstate",
-      "community": 0,
+      "community": 11,
       "norm_label": "errorstate()"
     },
     {
@@ -1116,7 +1116,7 @@
       "source_file": "src/components/constituency/constituency-media-tabs.tsx",
       "source_location": "L1",
       "id": "constituency_constituency_media_tabs",
-      "community": 0,
+      "community": 3,
       "norm_label": "constituency-media-tabs.tsx"
     },
     {
@@ -1125,7 +1125,7 @@
       "source_file": "src/components/constituency/constituency-media-tabs.tsx",
       "source_location": "L29",
       "id": "constituency_constituency_media_tabs_hasactivetablefilters",
-      "community": 0,
+      "community": 3,
       "norm_label": "hasactivetablefilters()"
     },
     {
@@ -1134,7 +1134,7 @@
       "source_file": "src/components/constituency/constituency-media-tabs.tsx",
       "source_location": "L37",
       "id": "constituency_constituency_media_tabs_printtab",
-      "community": 0,
+      "community": 3,
       "norm_label": "printtab()"
     },
     {
@@ -1143,7 +1143,7 @@
       "source_file": "src/components/constituency/constituency-media-tabs.tsx",
       "source_location": "L94",
       "id": "constituency_constituency_media_tabs_mediatab",
-      "community": 0,
+      "community": 3,
       "norm_label": "mediatab()"
     },
     {
@@ -1152,7 +1152,7 @@
       "source_file": "src/components/constituency/constituency-media-tabs.tsx",
       "source_location": "L162",
       "id": "constituency_constituency_media_tabs_constituencymediatabs",
-      "community": 8,
+      "community": 3,
       "norm_label": "constituencymediatabs()"
     },
     {
@@ -1188,7 +1188,7 @@
       "source_file": "src/components/constituency/print-summary-table.tsx",
       "source_location": "L97",
       "id": "constituency_print_summary_table_printsummarytable",
-      "community": 0,
+      "community": 3,
       "norm_label": "printsummarytable()"
     },
     {
@@ -1197,7 +1197,7 @@
       "source_file": "src/components/district/district-media-tabs.tsx",
       "source_location": "L1",
       "id": "district_district_media_tabs",
-      "community": 0,
+      "community": 3,
       "norm_label": "district-media-tabs.tsx"
     },
     {
@@ -1206,7 +1206,7 @@
       "source_file": "src/components/district/district-media-tabs.tsx",
       "source_location": "L26",
       "id": "district_district_media_tabs_printemptydescription",
-      "community": 0,
+      "community": 3,
       "norm_label": "printemptydescription()"
     },
     {
@@ -1215,7 +1215,7 @@
       "source_file": "src/components/district/district-media-tabs.tsx",
       "source_location": "L53",
       "id": "district_district_media_tabs_hasactivetablefilters",
-      "community": 0,
+      "community": 3,
       "norm_label": "hasactivetablefilters()"
     },
     {
@@ -1224,7 +1224,7 @@
       "source_file": "src/components/district/district-media-tabs.tsx",
       "source_location": "L65",
       "id": "district_district_media_tabs_printtab",
-      "community": 0,
+      "community": 3,
       "norm_label": "printtab()"
     },
     {
@@ -1233,7 +1233,7 @@
       "source_file": "src/components/district/district-media-tabs.tsx",
       "source_location": "L126",
       "id": "district_district_media_tabs_mediascope",
-      "community": 0,
+      "community": 3,
       "norm_label": "mediascope"
     },
     {
@@ -1242,7 +1242,7 @@
       "source_file": "src/components/district/district-media-tabs.tsx",
       "source_location": "L131",
       "id": "district_district_media_tabs_mediaemptydescription",
-      "community": 0,
+      "community": 3,
       "norm_label": "mediaemptydescription()"
     },
     {
@@ -1251,7 +1251,7 @@
       "source_file": "src/components/district/district-media-tabs.tsx",
       "source_location": "L146",
       "id": "district_district_media_tabs_mediatab",
-      "community": 0,
+      "community": 3,
       "norm_label": "mediatab()"
     },
     {
@@ -1260,7 +1260,7 @@
       "source_file": "src/components/district/district-media-tabs.tsx",
       "source_location": "L210",
       "id": "district_district_media_tabs_districtmediatabs",
-      "community": 0,
+      "community": 11,
       "norm_label": "districtmediatabs()"
     },
     {
@@ -1449,7 +1449,7 @@
       "source_file": "src/components/layout/header.tsx",
       "source_location": "L30",
       "id": "layout_header_header",
-      "community": 14,
+      "community": 11,
       "norm_label": "header()"
     },
     {
@@ -1557,7 +1557,7 @@
       "source_file": "src/components/representatives/representative-detail-skeleton.tsx",
       "source_location": "L1",
       "id": "representatives_representative_detail_skeleton",
-      "community": 10,
+      "community": 14,
       "norm_label": "representative-detail-skeleton.tsx"
     },
     {
@@ -1566,7 +1566,7 @@
       "source_file": "src/components/representatives/representative-detail-skeleton.tsx",
       "source_location": "L3",
       "id": "representatives_representative_detail_skeleton_representativedetailskeleton",
-      "community": 10,
+      "community": 14,
       "norm_label": "representativedetailskeleton()"
     },
     {
@@ -1836,7 +1836,7 @@
       "source_file": "src/components/tables/media-tables.tsx",
       "source_location": "L302",
       "id": "tables_media_tables_mediatabtable",
-      "community": 0,
+      "community": 3,
       "norm_label": "mediatabtable()"
     },
     {
@@ -2376,7 +2376,7 @@
       "source_file": "src/components/ui/skeleton.tsx",
       "source_location": "L1",
       "id": "ui_skeleton",
-      "community": 10,
+      "community": 14,
       "norm_label": "skeleton.tsx"
     },
     {
@@ -2385,7 +2385,7 @@
       "source_file": "src/components/ui/skeleton.tsx",
       "source_location": "L3",
       "id": "ui_skeleton_skeleton",
-      "community": 10,
+      "community": 14,
       "norm_label": "skeleton()"
     },
     {
@@ -2457,7 +2457,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L1",
       "id": "ui_tabs",
-      "community": 8,
+      "community": 3,
       "norm_label": "tabs.tsx"
     },
     {
@@ -2466,7 +2466,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L9",
       "id": "ui_tabs_tabslist",
-      "community": 8,
+      "community": 3,
       "norm_label": "tabslist"
     },
     {
@@ -2475,7 +2475,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L24",
       "id": "ui_tabs_tabstrigger",
-      "community": 8,
+      "community": 3,
       "norm_label": "tabstrigger"
     },
     {
@@ -2484,7 +2484,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L39",
       "id": "ui_tabs_tabscontent",
-      "community": 8,
+      "community": 3,
       "norm_label": "tabscontent"
     },
     {
@@ -2511,7 +2511,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L1",
       "id": "lib_api_client",
-      "community": 13,
+      "community": 0,
       "norm_label": "api-client.ts"
     },
     {
@@ -2520,7 +2520,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L32",
       "id": "lib_api_client_fetchjson",
-      "community": 13,
+      "community": 0,
       "norm_label": "fetchjson()"
     },
     {
@@ -2529,7 +2529,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L48",
       "id": "lib_api_client_listpagination",
-      "community": 0,
+      "community": 3,
       "norm_label": "listpagination"
     },
     {
@@ -2538,7 +2538,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L53",
       "id": "lib_api_client_mergetablefilters",
-      "community": 14,
+      "community": 3,
       "norm_label": "mergetablefilters()"
     },
     {
@@ -2547,7 +2547,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L67",
       "id": "lib_api_client_buildmediaparams",
-      "community": 14,
+      "community": 3,
       "norm_label": "buildmediaparams()"
     },
     {
@@ -2556,7 +2556,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L86",
       "id": "lib_api_client_mediaendpoint",
-      "community": 14,
+      "community": 3,
       "norm_label": "mediaendpoint()"
     },
     {
@@ -2565,7 +2565,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L97",
       "id": "lib_api_client_useglobalfilterquery",
-      "community": 14,
+      "community": 3,
       "norm_label": "useglobalfilterquery()"
     },
     {
@@ -2583,7 +2583,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L110",
       "id": "lib_api_client_usedistrictanalytics",
-      "community": 11,
+      "community": 3,
       "norm_label": "usedistrictanalytics()"
     },
     {
@@ -2592,7 +2592,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L122",
       "id": "lib_api_client_useprint",
-      "community": 14,
+      "community": 3,
       "norm_label": "useprint()"
     },
     {
@@ -2601,7 +2601,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L154",
       "id": "lib_api_client_usescopedmedia",
-      "community": 14,
+      "community": 3,
       "norm_label": "usescopedmedia()"
     },
     {
@@ -2610,7 +2610,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L202",
       "id": "lib_api_client_useconstituencyanalytics",
-      "community": 8,
+      "community": 11,
       "norm_label": "useconstituencyanalytics()"
     },
     {
@@ -2619,7 +2619,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L219",
       "id": "lib_api_client_useconstituencyprint",
-      "community": 14,
+      "community": 3,
       "norm_label": "useconstituencyprint()"
     },
     {
@@ -2628,7 +2628,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L239",
       "id": "lib_api_client_useconstituencyoptions",
-      "community": 8,
+      "community": 11,
       "norm_label": "useconstituencyoptions()"
     },
     {
@@ -2646,7 +2646,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L264",
       "id": "lib_api_client_usefilteroptions",
-      "community": 0,
+      "community": 3,
       "norm_label": "usefilteroptions()"
     },
     {
@@ -2655,7 +2655,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L273",
       "id": "lib_api_client_usemlas",
-      "community": 9,
+      "community": 14,
       "norm_label": "usemlas()"
     },
     {
@@ -2664,7 +2664,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L281",
       "id": "lib_api_client_usemla",
-      "community": 9,
+      "community": 14,
       "norm_label": "usemla()"
     },
     {
@@ -2673,7 +2673,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L289",
       "id": "lib_api_client_usemps",
-      "community": 9,
+      "community": 12,
       "norm_label": "usemps()"
     },
     {
@@ -2682,7 +2682,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L297",
       "id": "lib_api_client_usemp",
-      "community": 9,
+      "community": 12,
       "norm_label": "usemp()"
     },
     {
@@ -3006,7 +3006,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L128",
       "id": "lib_constituency_lookup_resolveconstituencyfilter",
-      "community": 5,
+      "community": 13,
       "norm_label": "resolveconstituencyfilter()"
     },
     {
@@ -3015,7 +3015,7 @@
       "source_file": "src/lib/dates.ts",
       "source_location": "L1",
       "id": "lib_dates",
-      "community": 6,
+      "community": 2,
       "norm_label": "dates.ts"
     },
     {
@@ -3024,7 +3024,7 @@
       "source_file": "src/lib/dates.ts",
       "source_location": "L9",
       "id": "lib_dates_parsecalendardate",
-      "community": 6,
+      "community": 2,
       "norm_label": "parsecalendardate()"
     },
     {
@@ -3051,7 +3051,7 @@
       "source_file": "src/lib/dates.ts",
       "source_location": "L30",
       "id": "lib_dates_formatcalendardate",
-      "community": 6,
+      "community": 13,
       "norm_label": "formatcalendardate()"
     },
     {
@@ -3087,7 +3087,7 @@
       "source_file": "src/lib/db.ts",
       "source_location": "L1",
       "id": "lib_db",
-      "community": 6,
+      "community": 5,
       "norm_label": "db.ts"
     },
     {
@@ -3096,7 +3096,7 @@
       "source_file": "src/lib/db.ts",
       "source_location": "L5",
       "id": "lib_db_db_path",
-      "community": 6,
+      "community": 5,
       "norm_label": "db_path"
     },
     {
@@ -3105,7 +3105,7 @@
       "source_file": "src/lib/db.ts",
       "source_location": "L9",
       "id": "lib_db_getdb",
-      "community": 6,
+      "community": 5,
       "norm_label": "getdb()"
     },
     {
@@ -3276,7 +3276,7 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L1",
       "id": "lib_legislative_lookup",
-      "community": 6,
+      "community": 5,
       "norm_label": "legislative-lookup.ts"
     },
     {
@@ -3285,52 +3285,61 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L6",
       "id": "lib_legislative_lookup_normalizekey",
-      "community": 6,
+      "community": 5,
       "norm_label": "normalizekey()"
     },
     {
-      "label": "buildAssemblyLookup()",
+      "label": "upLegislativeTableExists()",
       "file_type": "code",
       "source_file": "src/lib/legislative-lookup.ts",
-      "source_location": "L13",
-      "id": "lib_legislative_lookup_buildassemblylookup",
-      "community": 6,
-      "norm_label": "buildassemblylookup()"
+      "source_location": "L12",
+      "id": "lib_legislative_lookup_uplegislativetableexists",
+      "community": 5,
+      "norm_label": "uplegislativetableexists()"
     },
     {
       "label": "listLegislativeAssemblies()",
       "file_type": "code",
       "source_file": "src/lib/legislative-lookup.ts",
-      "source_location": "L63",
+      "source_location": "L19",
       "id": "lib_legislative_lookup_listlegislativeassemblies",
-      "community": 6,
+      "community": 5,
       "norm_label": "listlegislativeassemblies()"
+    },
+    {
+      "label": "buildAssemblyLookup()",
+      "file_type": "code",
+      "source_file": "src/lib/legislative-lookup.ts",
+      "source_location": "L31",
+      "id": "lib_legislative_lookup_buildassemblylookup",
+      "community": 5,
+      "norm_label": "buildassemblylookup()"
     },
     {
       "label": "resolveLegislativeAssemblyToken()",
       "file_type": "code",
       "source_file": "src/lib/legislative-lookup.ts",
-      "source_location": "L76",
+      "source_location": "L74",
       "id": "lib_legislative_lookup_resolvelegislativeassemblytoken",
-      "community": 6,
+      "community": 5,
       "norm_label": "resolvelegislativeassemblytoken()"
     },
     {
       "label": "resolveLegislativeAssemblyFilter()",
       "file_type": "code",
       "source_file": "src/lib/legislative-lookup.ts",
-      "source_location": "L92",
+      "source_location": "L90",
       "id": "lib_legislative_lookup_resolvelegislativeassemblyfilter",
-      "community": 6,
+      "community": 5,
       "norm_label": "resolvelegislativeassemblyfilter()"
     },
     {
       "label": "legislativeAssemblyDedupeKey()",
       "file_type": "code",
       "source_file": "src/lib/legislative-lookup.ts",
-      "source_location": "L105",
+      "source_location": "L103",
       "id": "lib_legislative_lookup_legislativeassemblydedupekey",
-      "community": 6,
+      "community": 5,
       "norm_label": "legislativeassemblydedupekey()"
     },
     {
@@ -3339,7 +3348,7 @@
       "source_file": "src/lib/media-table-query.ts",
       "source_location": "L1",
       "id": "lib_media_table_query",
-      "community": 13,
+      "community": 0,
       "norm_label": "media-table-query.ts"
     },
     {
@@ -3348,7 +3357,7 @@
       "source_file": "src/lib/media-table-query.ts",
       "source_location": "L6",
       "id": "lib_media_table_query_mediatablequery",
-      "community": 13,
+      "community": 0,
       "norm_label": "mediatablequery"
     },
     {
@@ -3357,7 +3366,7 @@
       "source_file": "src/lib/media-table-query.ts",
       "source_location": "L16",
       "id": "lib_media_table_query_createmediatablequery",
-      "community": 13,
+      "community": 0,
       "norm_label": "createmediatablequery()"
     },
     {
@@ -3366,7 +3375,7 @@
       "source_file": "src/lib/media-table-query.ts",
       "source_location": "L31",
       "id": "lib_media_table_query_appendmediatablequery",
-      "community": 13,
+      "community": 3,
       "norm_label": "appendmediatablequery()"
     },
     {
@@ -3609,7 +3618,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L1",
       "id": "lib_name_search",
-      "community": 3,
+      "community": 1,
       "norm_label": "name-search.ts"
     },
     {
@@ -3618,7 +3627,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L6",
       "id": "lib_name_search_spelling_variants",
-      "community": 3,
+      "community": 1,
       "norm_label": "spelling_variants"
     },
     {
@@ -3654,7 +3663,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L38",
       "id": "lib_name_search_expandspellingvariants",
-      "community": 3,
+      "community": 1,
       "norm_label": "expandspellingvariants()"
     },
     {
@@ -3663,7 +3672,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L48",
       "id": "lib_name_search_tokenizesearch",
-      "community": 3,
+      "community": 1,
       "norm_label": "tokenizesearch()"
     },
     {
@@ -3672,7 +3681,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L54",
       "id": "lib_name_search_searchblob",
-      "community": 3,
+      "community": 1,
       "norm_label": "searchblob()"
     },
     {
@@ -3681,7 +3690,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L65",
       "id": "lib_name_search_matchessemanticsearch",
-      "community": 3,
+      "community": 1,
       "norm_label": "matchessemanticsearch()"
     },
     {
@@ -3690,7 +3699,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L92",
       "id": "lib_name_search_buildpersonsearchkeywords",
-      "community": 3,
+      "community": 1,
       "norm_label": "buildpersonsearchkeywords()"
     },
     {
@@ -3699,7 +3708,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L99",
       "id": "lib_name_search_entitysearchlikepatterns",
-      "community": 3,
+      "community": 1,
       "norm_label": "entitysearchlikepatterns()"
     },
     {
@@ -3708,7 +3717,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L116",
       "id": "lib_name_search_formatrepoptionlabel",
-      "community": 3,
+      "community": 1,
       "norm_label": "formatrepoptionlabel()"
     },
     {
@@ -3717,7 +3726,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L126",
       "id": "lib_name_search_repselectoption",
-      "community": 3,
+      "community": 1,
       "norm_label": "repselectoption"
     },
     {
@@ -3726,7 +3735,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L132",
       "id": "lib_name_search_buildrepselectoption",
-      "community": 3,
+      "community": 1,
       "norm_label": "buildrepselectoption()"
     },
     {
@@ -4068,7 +4077,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L300",
       "id": "lib_news_repository_filteredaggregatestats",
-      "community": 1,
+      "community": 0,
       "norm_label": "filteredaggregatestats"
     },
     {
@@ -4122,7 +4131,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L418",
       "id": "lib_news_repository_rowmatchesconstituency",
-      "community": 6,
+      "community": 5,
       "norm_label": "rowmatchesconstituency()"
     },
     {
@@ -4266,7 +4275,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L760",
       "id": "lib_news_repository_entitymediastats",
-      "community": 1,
+      "community": 0,
       "norm_label": "entitymediastats"
     },
     {
@@ -4374,7 +4383,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L1",
       "id": "lib_representatives_db",
-      "community": 1,
+      "community": 5,
       "norm_label": "representatives-db.ts"
     },
     {
@@ -4383,7 +4392,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L5",
       "id": "lib_representatives_db_mpbiorecord",
-      "community": 1,
+      "community": 0,
       "norm_label": "mpbiorecord"
     },
     {
@@ -4392,7 +4401,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L17",
       "id": "lib_representatives_db_mlabiorecord",
-      "community": 1,
+      "community": 0,
       "norm_label": "mlabiorecord"
     },
     {
@@ -4401,7 +4410,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L28",
       "id": "lib_representatives_db_cleantext",
-      "community": 1,
+      "community": 5,
       "norm_label": "cleantext()"
     },
     {
@@ -4410,7 +4419,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L39",
       "id": "lib_representatives_db_parsetimeline",
-      "community": 1,
+      "community": 5,
       "norm_label": "parsetimeline()"
     },
     {
@@ -4419,7 +4428,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L68",
       "id": "lib_representatives_db_tableexists",
-      "community": 1,
+      "community": 5,
       "norm_label": "tableexists()"
     },
     {
@@ -4428,7 +4437,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L74",
       "id": "lib_representatives_db_mpcompositeid",
-      "community": 1,
+      "community": 5,
       "norm_label": "mpcompositeid()"
     },
     {
@@ -4437,7 +4446,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L79",
       "id": "lib_representatives_db_parsempid",
-      "community": 1,
+      "community": 5,
       "norm_label": "parsempid()"
     },
     {
@@ -4446,7 +4455,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L95",
       "id": "lib_representatives_db_maplokrow",
-      "community": 1,
+      "community": 5,
       "norm_label": "maplokrow()"
     },
     {
@@ -4455,7 +4464,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L112",
       "id": "lib_representatives_db_maprajrow",
-      "community": 1,
+      "community": 5,
       "norm_label": "maprajrow()"
     },
     {
@@ -4464,7 +4473,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L129",
       "id": "lib_representatives_db_mapmlarow",
-      "community": 1,
+      "community": 5,
       "norm_label": "mapmlarow()"
     },
     {
@@ -4473,7 +4482,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L145",
       "id": "lib_representatives_db_listallmpbiomembers",
-      "community": 1,
+      "community": 5,
       "norm_label": "listallmpbiomembers()"
     },
     {
@@ -4482,7 +4491,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L182",
       "id": "lib_representatives_db_listallmlabiomembers",
-      "community": 1,
+      "community": 5,
       "norm_label": "listallmlabiomembers()"
     },
     {
@@ -4491,7 +4500,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L201",
       "id": "lib_representatives_db_getmlabiobyid",
-      "community": 1,
+      "community": 5,
       "norm_label": "getmlabiobyid()"
     },
     {
@@ -4500,7 +4509,7 @@
       "source_file": "src/lib/representatives-db.ts",
       "source_location": "L215",
       "id": "lib_representatives_db_getmpbiobyid",
-      "community": 1,
+      "community": 5,
       "norm_label": "getmpbiobyid()"
     },
     {
@@ -4509,7 +4518,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L1",
       "id": "lib_types",
-      "community": 13,
+      "community": 0,
       "norm_label": "types.ts"
     },
     {
@@ -4518,7 +4527,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L5",
       "id": "lib_types_mediatype",
-      "community": 13,
+      "community": 0,
       "norm_label": "mediatype"
     },
     {
@@ -4527,7 +4536,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L7",
       "id": "lib_types_printsourcetype",
-      "community": 13,
+      "community": 0,
       "norm_label": "printsourcetype"
     },
     {
@@ -4536,7 +4545,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L9",
       "id": "lib_types_sentiment",
-      "community": 13,
+      "community": 0,
       "norm_label": "sentiment"
     },
     {
@@ -4545,7 +4554,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L12",
       "id": "lib_types_reptype",
-      "community": 1,
+      "community": 0,
       "norm_label": "reptype"
     },
     {
@@ -4563,7 +4572,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L28",
       "id": "lib_types_newsmediakind",
-      "community": 13,
+      "community": 0,
       "norm_label": "newsmediakind"
     },
     {
@@ -4590,7 +4599,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L55",
       "id": "lib_types_sentimentbreakdown",
-      "community": 1,
+      "community": 0,
       "norm_label": "sentimentbreakdown"
     },
     {
@@ -4599,7 +4608,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L61",
       "id": "lib_types_mediabreakdown",
-      "community": 1,
+      "community": 0,
       "norm_label": "mediabreakdown"
     },
     {
@@ -4617,7 +4626,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L83",
       "id": "lib_types_trendpoint",
-      "community": 13,
+      "community": 10,
       "norm_label": "trendpoint"
     },
     {
@@ -4626,7 +4635,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L92",
       "id": "lib_types_namecount",
-      "community": 13,
+      "community": 10,
       "norm_label": "namecount"
     },
     {
@@ -4635,7 +4644,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L98",
       "id": "lib_types_newsitem",
-      "community": 13,
+      "community": 10,
       "norm_label": "newsitem"
     },
     {
@@ -4644,7 +4653,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L108",
       "id": "lib_types_dashboardresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "dashboardresponse"
     },
     {
@@ -4653,7 +4662,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L130",
       "id": "lib_types_districtanalyticsresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "districtanalyticsresponse"
     },
     {
@@ -4662,7 +4671,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L146",
       "id": "lib_types_paginationmeta",
-      "community": 13,
+      "community": 0,
       "norm_label": "paginationmeta"
     },
     {
@@ -4671,7 +4680,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L152",
       "id": "lib_types_mediaqueryresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "mediaqueryresponse"
     },
     {
@@ -4716,7 +4725,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L205",
       "id": "lib_types_typednewsqueryresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "typednewsqueryresponse"
     },
     {
@@ -4725,7 +4734,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L217",
       "id": "lib_types_youtubequeryresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "youtubequeryresponse"
     },
     {
@@ -4734,7 +4743,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L218",
       "id": "lib_types_xqueryresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "xqueryresponse"
     },
     {
@@ -4743,7 +4752,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L219",
       "id": "lib_types_onlinequeryresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "onlinequeryresponse"
     },
     {
@@ -4752,7 +4761,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L220",
       "id": "lib_types_printqueryresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "printqueryresponse"
     },
     {
@@ -4761,7 +4770,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L222",
       "id": "lib_types_constituencyprintresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "constituencyprintresponse"
     },
     {
@@ -4770,7 +4779,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L231",
       "id": "lib_types_constituencyanalyticsresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "constituencyanalyticsresponse"
     },
     {
@@ -4815,7 +4824,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L275",
       "id": "lib_types_constituencydetailresponse",
-      "community": 13,
+      "community": 0,
       "norm_label": "constituencydetailresponse"
     },
     {
@@ -4833,7 +4842,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L304",
       "id": "lib_types_careerposition",
-      "community": 1,
+      "community": 0,
       "norm_label": "careerposition"
     },
     {
@@ -4842,7 +4851,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L310",
       "id": "lib_types_mpbioprofile",
-      "community": 9,
+      "community": 0,
       "norm_label": "mpbioprofile"
     },
     {
@@ -4851,7 +4860,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L320",
       "id": "lib_types_house",
-      "community": 1,
+      "community": 0,
       "norm_label": "house"
     },
     {
@@ -4860,7 +4869,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L323",
       "id": "lib_types_mlalistitem",
-      "community": 13,
+      "community": 0,
       "norm_label": "mlalistitem"
     },
     {
@@ -4869,7 +4878,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L331",
       "id": "lib_types_mplistitem",
-      "community": 13,
+      "community": 0,
       "norm_label": "mplistitem"
     },
     {
@@ -4878,7 +4887,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L339",
       "id": "lib_types_mla",
-      "community": 13,
+      "community": 0,
       "norm_label": "mla"
     },
     {
@@ -4887,7 +4896,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L376",
       "id": "lib_types_mp",
-      "community": 13,
+      "community": 0,
       "norm_label": "mp"
     },
     {
@@ -4896,7 +4905,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L413",
       "id": "lib_types_sortdirection",
-      "community": 13,
+      "community": 0,
       "norm_label": "sortdirection"
     },
     {
@@ -4905,7 +4914,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L415",
       "id": "lib_types_constituencyscope",
-      "community": 13,
+      "community": 0,
       "norm_label": "constituencyscope"
     },
     {
@@ -4959,7 +4968,7 @@
       "source_file": "src/lib/use-api-filter-state.ts",
       "source_location": "L20",
       "id": "lib_use_api_filter_state_useapifilterstate",
-      "community": 14,
+      "community": 3,
       "norm_label": "useapifilterstate()"
     },
     {
@@ -5022,7 +5031,7 @@
       "source_file": "src/lib/use-debounced-value.ts",
       "source_location": "L107",
       "id": "lib_use_debounced_value_useisdebouncing",
-      "community": 0,
+      "community": 3,
       "norm_label": "useisdebouncing()"
     },
     {
@@ -5031,7 +5040,7 @@
       "source_file": "src/lib/use-media-table-query-state.ts",
       "source_location": "L1",
       "id": "lib_use_media_table_query_state",
-      "community": 0,
+      "community": 3,
       "norm_label": "use-media-table-query-state.ts"
     },
     {
@@ -5040,7 +5049,7 @@
       "source_file": "src/lib/use-media-table-query-state.ts",
       "source_location": "L15",
       "id": "lib_use_media_table_query_state_sortstate",
-      "community": 0,
+      "community": 3,
       "norm_label": "sortstate"
     },
     {
@@ -5049,7 +5058,7 @@
       "source_file": "src/lib/use-media-table-query-state.ts",
       "source_location": "L17",
       "id": "lib_use_media_table_query_state_mediatablequerystate",
-      "community": 0,
+      "community": 3,
       "norm_label": "mediatablequerystate"
     },
     {
@@ -5058,7 +5067,7 @@
       "source_file": "src/lib/use-media-table-query-state.ts",
       "source_location": "L20",
       "id": "lib_use_media_table_query_state_useclampserverpage",
-      "community": 0,
+      "community": 3,
       "norm_label": "useclampserverpage()"
     },
     {
@@ -5067,7 +5076,7 @@
       "source_file": "src/lib/use-media-table-query-state.ts",
       "source_location": "L33",
       "id": "lib_use_media_table_query_state_usemediatablequerystate",
-      "community": 0,
+      "community": 3,
       "norm_label": "usemediatablequerystate()"
     },
     {
@@ -5076,7 +5085,7 @@
       "source_file": "src/lib/use-media-table-query-state.ts",
       "source_location": "L111",
       "id": "lib_use_media_table_query_state_bindserverpagination",
-      "community": 0,
+      "community": 3,
       "norm_label": "bindserverpagination()"
     },
     {
@@ -5085,7 +5094,7 @@
       "source_file": "src/lib/use-representative-selection.ts",
       "source_location": "L1",
       "id": "lib_use_representative_selection",
-      "community": 9,
+      "community": 12,
       "norm_label": "use-representative-selection.ts"
     },
     {
@@ -5094,7 +5103,7 @@
       "source_file": "src/lib/use-representative-selection.ts",
       "source_location": "L7",
       "id": "lib_use_representative_selection_userepresentativeselection",
-      "community": 9,
+      "community": 12,
       "norm_label": "userepresentativeselection()"
     },
     {
@@ -5175,7 +5184,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L39",
       "id": "services_analytics_hasjsscopefilters",
-      "community": 6,
+      "community": 13,
       "norm_label": "hasjsscopefilters()"
     },
     {
@@ -5211,7 +5220,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L103",
       "id": "services_analytics_topnewsbysentiment",
-      "community": 6,
+      "community": 13,
       "norm_label": "topnewsbysentiment()"
     },
     {
@@ -5238,7 +5247,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L186",
       "id": "services_analytics_getdashboard",
-      "community": 6,
+      "community": 13,
       "norm_label": "getdashboard()"
     },
     {
@@ -5319,7 +5328,7 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L74",
       "id": "services_constituency_getconstituencyoptions",
-      "community": 5,
+      "community": 13,
       "norm_label": "getconstituencyoptions()"
     },
     {
@@ -5409,7 +5418,7 @@
       "source_file": "src/services/representatives.ts",
       "source_location": "L1",
       "id": "services_representatives",
-      "community": 1,
+      "community": 0,
       "norm_label": "representatives.ts"
     },
     {
@@ -5418,7 +5427,7 @@
       "source_file": "src/services/representatives.ts",
       "source_location": "L22",
       "id": "services_representatives_tobioprofile",
-      "community": 1,
+      "community": 0,
       "norm_label": "tobioprofile()"
     },
     {
@@ -5427,7 +5436,7 @@
       "source_file": "src/services/representatives.ts",
       "source_location": "L34",
       "id": "services_representatives_buildmladetail",
-      "community": 1,
+      "community": 0,
       "norm_label": "buildmladetail()"
     },
     {
@@ -5436,7 +5445,7 @@
       "source_file": "src/services/representatives.ts",
       "source_location": "L64",
       "id": "services_representatives_buildmpdetail",
-      "community": 1,
+      "community": 0,
       "norm_label": "buildmpdetail()"
     },
     {
@@ -5445,7 +5454,7 @@
       "source_file": "src/services/representatives.ts",
       "source_location": "L96",
       "id": "services_representatives_getmlalist",
-      "community": 1,
+      "community": 0,
       "norm_label": "getmlalist()"
     },
     {
@@ -5454,7 +5463,7 @@
       "source_file": "src/services/representatives.ts",
       "source_location": "L105",
       "id": "services_representatives_getmlabyid",
-      "community": 1,
+      "community": 0,
       "norm_label": "getmlabyid()"
     },
     {
@@ -5463,7 +5472,7 @@
       "source_file": "src/services/representatives.ts",
       "source_location": "L112",
       "id": "services_representatives_getmplist",
-      "community": 1,
+      "community": 0,
       "norm_label": "getmplist()"
     },
     {
@@ -5472,7 +5481,7 @@
       "source_file": "src/services/representatives.ts",
       "source_location": "L122",
       "id": "services_representatives_getmpbyid",
-      "community": 1,
+      "community": 0,
       "norm_label": "getmpbyid()"
     },
     {
@@ -5481,7 +5490,7 @@
       "source_file": "src/store/filters.ts",
       "source_location": "L1",
       "id": "store_filters",
-      "community": 13,
+      "community": 0,
       "norm_label": "filters.ts"
     },
     {
@@ -5490,7 +5499,7 @@
       "source_file": "src/store/filters.ts",
       "source_location": "L4",
       "id": "store_filters_filterstate",
-      "community": 13,
+      "community": 0,
       "norm_label": "filterstate"
     },
     {
@@ -5499,7 +5508,7 @@
       "source_file": "src/store/filters.ts",
       "source_location": "L22",
       "id": "store_filters_initial",
-      "community": 13,
+      "community": 0,
       "norm_label": "initial"
     },
     {
@@ -5508,7 +5517,7 @@
       "source_file": "src/store/filters.ts",
       "source_location": "L32",
       "id": "store_filters_usefilterstore",
-      "community": 14,
+      "community": 3,
       "norm_label": "usefilterstore"
     },
     {
@@ -5517,7 +5526,7 @@
       "source_file": "src/store/filters.ts",
       "source_location": "L44",
       "id": "store_filters_buildfilterquery",
-      "community": 14,
+      "community": 3,
       "norm_label": "buildfilterquery()"
     },
     {
@@ -5645,9 +5654,9 @@
       "source_file": "src/app/api/constituency/filters/route.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_api_constituency_filters_route_ts_filters_route",
-      "target": "lib_types",
-      "confidence_score": 1.0
+      "target": "lib_types"
     },
     {
       "relation": "imports",
@@ -5656,9 +5665,9 @@
       "source_file": "src/app/api/constituency/filters/route.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_api_constituency_filters_route_ts_filters_route",
-      "target": "lib_types_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_types_constituencyscope"
     },
     {
       "relation": "imports_from",
@@ -7225,9 +7234,9 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L37",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "constituency_page",
-      "target": "constituency_page_constituencyscopepanel",
-      "confidence_score": 1.0
+      "target": "constituency_page_constituencyscopepanel"
     },
     {
       "relation": "imports_from",
@@ -7313,9 +7322,9 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "constituency_page",
-      "target": "lib_types",
-      "confidence_score": 1.0
+      "target": "lib_types"
     },
     {
       "relation": "imports",
@@ -7324,9 +7333,9 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "constituency_page",
-      "target": "lib_types_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_types_constituencyscope"
     },
     {
       "relation": "imports_from",
@@ -7390,9 +7399,9 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "constituency_page",
-      "target": "ui_tabs",
-      "confidence_score": 1.0
+      "target": "ui_tabs"
     },
     {
       "relation": "imports",
@@ -7401,9 +7410,9 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "constituency_page",
-      "target": "ui_tabs_tabscontent",
-      "confidence_score": 1.0
+      "target": "ui_tabs_tabscontent"
     },
     {
       "relation": "imports",
@@ -7412,9 +7421,9 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "constituency_page",
-      "target": "ui_tabs_tabslist",
-      "confidence_score": 1.0
+      "target": "ui_tabs_tabslist"
     },
     {
       "relation": "imports",
@@ -7423,9 +7432,9 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "constituency_page",
-      "target": "ui_tabs_tabstrigger",
-      "confidence_score": 1.0
+      "target": "ui_tabs_tabstrigger"
     },
     {
       "relation": "calls",
@@ -7434,9 +7443,9 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L52",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "constituency_page_constituencyscopepanel",
-      "target": "lib_api_client_useconstituencyanalytics",
-      "confidence_score": 1.0
+      "target": "lib_api_client_useconstituencyanalytics"
     },
     {
       "relation": "calls",
@@ -7445,9 +7454,9 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "constituency_page_constituencyscopepanel",
-      "target": "lib_api_client_useconstituencyoptions",
-      "confidence_score": 1.0
+      "target": "lib_api_client_useconstituencyoptions"
     },
     {
       "relation": "calls",
@@ -11710,9 +11719,9 @@
       "source_file": "src/components/constituency/constituency-media-tabs.tsx",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "constituency_constituency_media_tabs",
-      "target": "lib_types_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_types_constituencyscope"
     },
     {
       "relation": "imports",
@@ -16756,9 +16765,9 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_api_client",
-      "target": "lib_types_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_types_constituencyscope"
     },
     {
       "relation": "imports",
@@ -17292,9 +17301,9 @@
       "source_file": "src/lib/api-helpers.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_api_helpers",
-      "target": "lib_types_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_types_constituencyscope"
     },
     {
       "relation": "imports",
@@ -17830,9 +17839,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_constituency_detail",
-      "confidence_score": 1.0
+      "target": "lib_constituency_detail"
     },
     {
       "relation": "imports_from",
@@ -17984,9 +17993,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_constituency_detail_constituencydedupekey",
-      "confidence_score": 1.0
+      "target": "lib_constituency_detail_constituencydedupekey"
     },
     {
       "relation": "calls",
@@ -18439,9 +18448,9 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_constituency_lookup",
-      "target": "lib_types",
-      "confidence_score": 1.0
+      "target": "lib_types"
     },
     {
       "relation": "imports",
@@ -18450,9 +18459,9 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_constituency_lookup",
-      "target": "lib_types_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_types_constituencyscope"
     },
     {
       "relation": "imports_from",
@@ -18703,9 +18712,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L64",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency_resolvescopedconstituencyfilter",
-      "target": "lib_constituency_lookup_resolveconstituencyfilter",
-      "confidence_score": 1.0
+      "target": "lib_constituency_lookup_resolveconstituencyfilter"
     },
     {
       "relation": "contains",
@@ -19002,9 +19011,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_db",
-      "confidence_score": 1.0
+      "target": "lib_db"
     },
     {
       "relation": "imports_from",
@@ -19057,9 +19066,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_db_getdb",
-      "confidence_score": 1.0
+      "target": "lib_db_getdb"
     },
     {
       "relation": "calls",
@@ -19068,9 +19077,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup_buildassemblylookup",
-      "target": "lib_db_getdb",
-      "confidence_score": 1.0
+      "target": "lib_db_getdb"
     },
     {
       "relation": "calls",
@@ -19082,6 +19091,17 @@
       "weight": 1.0,
       "source": "lib_legislative_lookup_listlegislativeassemblies",
       "target": "lib_db_getdb"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/legislative-lookup.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "lib_legislative_lookup_uplegislativetableexists",
+      "target": "lib_db_getdb",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -19680,9 +19700,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_json_fields",
-      "confidence_score": 1.0
+      "target": "lib_json_fields"
     },
     {
       "relation": "imports_from",
@@ -19746,9 +19766,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_json_fields_parsejsonstringarray",
-      "confidence_score": 1.0
+      "target": "lib_json_fields_parsejsonstringarray"
     },
     {
       "relation": "calls",
@@ -19757,9 +19777,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup_buildassemblylookup",
-      "target": "lib_json_fields_parsejsonstringarray",
-      "confidence_score": 1.0
+      "target": "lib_json_fields_parsejsonstringarray"
     },
     {
       "relation": "imports",
@@ -20119,9 +20139,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_legislative_lookup_buildassemblylookup",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_buildassemblylookup"
     },
     {
       "relation": "contains",
@@ -20129,9 +20149,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L105",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_legislative_lookup_legislativeassemblydedupekey",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_legislativeassemblydedupekey"
     },
     {
       "relation": "contains",
@@ -20139,9 +20159,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L63",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_legislative_lookup_listlegislativeassemblies",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_listlegislativeassemblies"
     },
     {
       "relation": "contains",
@@ -20149,9 +20169,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_legislative_lookup_normalizekey",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_normalizekey"
     },
     {
       "relation": "contains",
@@ -20159,9 +20179,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter"
     },
     {
       "relation": "contains",
@@ -20169,8 +20189,18 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L76",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblytoken",
+      "target": "lib_legislative_lookup_resolvelegislativeassemblytoken"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/legislative-lookup.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "lib_legislative_lookup",
+      "target": "lib_legislative_lookup_uplegislativetableexists",
       "confidence_score": 1.0
     },
     {
@@ -20180,9 +20210,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_legislative_lookup",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup"
     },
     {
       "relation": "imports_from",
@@ -20191,9 +20221,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency",
-      "target": "lib_legislative_lookup",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup"
     },
     {
       "relation": "calls",
@@ -20202,9 +20232,9 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L52",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup_buildassemblylookup",
-      "target": "lib_legislative_lookup_normalizekey",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_normalizekey"
     },
     {
       "relation": "calls",
@@ -20213,19 +20243,19 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L85",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup_resolvelegislativeassemblytoken",
-      "target": "lib_legislative_lookup_normalizekey",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_normalizekey"
     },
     {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/legislative-lookup.ts",
-      "source_location": "L64",
+      "source_location": "L20",
       "weight": 1.0,
       "source": "lib_legislative_lookup_listlegislativeassemblies",
-      "target": "lib_legislative_lookup_buildassemblylookup",
+      "target": "lib_legislative_lookup_uplegislativetableexists",
       "confidence_score": 1.0
     },
     {
@@ -20233,10 +20263,10 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/legislative-lookup.ts",
-      "source_location": "L79",
+      "source_location": "L46",
       "weight": 1.0,
-      "source": "lib_legislative_lookup_resolvelegislativeassemblytoken",
-      "target": "lib_legislative_lookup_buildassemblylookup",
+      "source": "lib_legislative_lookup_buildassemblylookup",
+      "target": "lib_legislative_lookup_listlegislativeassemblies",
       "confidence_score": 1.0
     },
     {
@@ -20246,9 +20276,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency",
-      "target": "lib_legislative_lookup_listlegislativeassemblies",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_listlegislativeassemblies"
     },
     {
       "relation": "calls",
@@ -20266,11 +20296,22 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/legislative-lookup.ts",
+      "source_location": "L79",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_legislative_lookup_resolvelegislativeassemblytoken",
+      "target": "lib_legislative_lookup_buildassemblylookup"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L97",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_legislative_lookup_resolvelegislativeassemblyfilter",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblytoken",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_resolvelegislativeassemblytoken"
     },
     {
       "relation": "imports",
@@ -20279,9 +20320,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblytoken",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_resolvelegislativeassemblytoken"
     },
     {
       "relation": "calls",
@@ -20290,9 +20331,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L427",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_rowmatchesconstituency",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblytoken",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_resolvelegislativeassemblytoken"
     },
     {
       "relation": "imports",
@@ -20301,9 +20342,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter"
     },
     {
       "relation": "calls",
@@ -20312,9 +20353,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L424",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_rowmatchesconstituency",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter"
     },
     {
       "relation": "imports",
@@ -20323,9 +20364,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter"
     },
     {
       "relation": "calls",
@@ -20334,9 +20375,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency_resolvescopedconstituencyfilter",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter"
     },
     {
       "relation": "imports",
@@ -20345,9 +20386,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_legislative_lookup_legislativeassemblydedupekey",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_legislativeassemblydedupekey"
     },
     {
       "relation": "calls",
@@ -20356,9 +20397,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L425",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_rowmatchesconstituency",
-      "target": "lib_legislative_lookup_legislativeassemblydedupekey",
-      "confidence_score": 1.0
+      "target": "lib_legislative_lookup_legislativeassemblydedupekey"
     },
     {
       "relation": "contains",
@@ -22554,9 +22595,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L414",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_news_repository_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_constituencyscope"
     },
     {
       "relation": "contains",
@@ -22966,9 +23007,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_types_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_types_constituencyscope"
     },
     {
       "relation": "imports",
@@ -23736,9 +23777,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L481",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_rowmatchesfilters",
-      "target": "lib_news_repository_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_constituencyscope"
     },
     {
       "relation": "calls",
@@ -25141,9 +25182,9 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L415",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_types",
-      "target": "lib_types_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_types_constituencyscope"
     },
     {
       "relation": "contains",
@@ -26126,9 +26167,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency",
-      "target": "lib_types_constituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_types_constituencyscope"
     },
     {
       "relation": "imports",
@@ -26891,9 +26932,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency",
-      "target": "services_constituency_resolvescopedconstituencyfilter",
-      "confidence_score": 1.0
+      "target": "services_constituency_resolvescopedconstituencyfilter"
     },
     {
       "relation": "contains",
@@ -27000,9 +27041,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L200",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency_getconstituencymedia",
-      "target": "services_constituency_resolvescopedconstituencyfilter",
-      "confidence_score": 1.0
+      "target": "services_constituency_resolvescopedconstituencyfilter"
     },
     {
       "relation": "calls",
@@ -27011,9 +27052,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L89",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency_getconstituencyprint",
-      "target": "services_constituency_resolvescopedconstituencyfilter",
-      "confidence_score": 1.0
+      "target": "services_constituency_resolvescopedconstituencyfilter"
     },
     {
       "relation": "calls",
@@ -27022,9 +27063,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L71",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency_resolveconstituencyfilterforanalytics",
-      "target": "services_constituency_resolvescopedconstituencyfilter",
-      "confidence_score": 1.0
+      "target": "services_constituency_resolvescopedconstituencyfilter"
     },
     {
       "relation": "calls",
