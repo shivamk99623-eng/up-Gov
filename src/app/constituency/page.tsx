@@ -231,7 +231,7 @@ export default function ConstituencyPage() {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="h-auto flex-wrap">
             <TabsTrigger value="parliamentary">Parliamentary (Lok Sabha)</TabsTrigger>
-            <TabsTrigger value="legislative">Legislative Assembly</TabsTrigger>
+            <TabsTrigger value="legislative">Legislative Assembly (Vidhan Sabha)</TabsTrigger>
           </TabsList>
 
           <TabsContent value="parliamentary" className="mt-6">
