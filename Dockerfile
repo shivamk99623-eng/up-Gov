@@ -9,10 +9,9 @@ FROM base AS deps
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# Production dependencies only (runtime image)
-FROM base AS prod-deps
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+# Production dependencies only — reuse compiled native modules from deps
+FROM deps AS prod-deps
+RUN npm prune --omit=dev
 
 
 # Build Next.js app

@@ -2,7 +2,10 @@
  * Core domain types for the UP Media Monitoring Dashboard.
  */
 
-export type MediaType = "YouTube" | "X" | "Online";
+export type MediaType = "YouTube" | "X" | "Online" | "Print";
+
+/** Digital-only subset of {@link MediaType} (excludes print). */
+export type DigitalMediaType = Exclude<MediaType, "Print">;
 
 export type PrintSourceType = "constituency" | "district" | "mp" | "mla";
 
@@ -30,7 +33,7 @@ export type NewsMediaKind = "Print" | "YouTube" | "X" | "Online";
 /** Shared fields from `news_youtube`, `news_x`, and `news_online` tables. */
 export interface DigitalNewsRecordBase extends NewsArrayFields {
   id: string;
-  mediaType: MediaType;
+  mediaType: DigitalMediaType;
   headline: string;
   summary: string | null;
   content: string;
@@ -435,5 +438,5 @@ export interface GlobalFilters {
   sortDir?: SortDirection | null;
 }
 
-export const MEDIA_TYPES: MediaType[] = ["YouTube", "X", "Online"];
+export const MEDIA_TYPES: DigitalMediaType[] = ["YouTube", "X", "Online"];
 export const SENTIMENTS: Sentiment[] = ["Positive", "Negative", "Neutral"];

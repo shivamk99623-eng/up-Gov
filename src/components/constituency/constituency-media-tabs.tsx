@@ -24,7 +24,7 @@ import {
   type MediaTableQueryState,
 } from "@/lib/use-media-table-query-state";
 import { cn } from "@/lib/utils";
-import type { ConstituencyScope, MediaType } from "@/lib/types";
+import type { ConstituencyScope, DigitalMediaType } from "@/lib/types";
 
 function hasActiveTableFilters(
   search: string,
@@ -61,7 +61,7 @@ function PrintTab({
     tableControls.serverPagination.onPageChange,
   );
 
-  if (isError) return <ErrorState />;
+  if (isError && !data) return <ErrorState />;
 
   const filtered = hasActiveTableFilters(
     apiQuery.search,
@@ -101,7 +101,7 @@ function MediaTab({
 }: {
   constituency: string | null;
   constituencyScope: ConstituencyScope;
-  mediaType: MediaType;
+  mediaType: DigitalMediaType;
   exportName?: string;
   tableMaxHeight?: number;
   mediaQuery: MediaTableQueryState;
@@ -121,7 +121,7 @@ function MediaTab({
     tableControls.serverPagination.onPageChange,
   );
 
-  if (isError) return <ErrorState />;
+  if (isError && !data) return <ErrorState />;
 
   const label = mediaType === "X" ? "Twitter/X" : mediaType;
   const filtered = hasActiveTableFilters(

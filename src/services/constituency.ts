@@ -3,7 +3,8 @@ import { resolveConstituencyFilter, listConstituencies } from "@/lib/constituenc
 import { listLegislativeAssemblies, resolveLegislativeAssemblyFilter } from "@/lib/legislative-lookup";
 import { listConstituencyDetailNames, dedupeConstituencyNames } from "@/lib/constituency-detail";
 import {
-  aggregateFilteredStats,
+  aggregateDashboardValueCounts,
+  tableStatsSql,
   queryDigitalMedia,
   type PaginationParams,
 } from "@/lib/news-repository";
@@ -20,7 +21,6 @@ import type {
   GlobalFilters,
   MediaQueryResponse,
   MediaType,
-  NameCount,
   TrendPoint,
 } from "@/lib/types";
 
@@ -35,23 +35,6 @@ function mergeSentiment(
 
 function emptySentiment() {
   return { positive: 0, negative: 0, neutral: 0 };
-}
-
-function topCounts<T>(
-  items: T[],
-  key: (item: T) => string | null,
-  limit: number,
-): NameCount[] {
-  const map = new Map<string, number>();
-  for (const item of items) {
-    const k = key(item);
-    if (!k) continue;
-    map.set(k, (map.get(k) ?? 0) + 1);
-  }
-  return [...map.entries()]
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, limit);
 }
 
 function resolveScopedConstituencyFilter(
@@ -129,19 +112,19 @@ export function getConstituencyAnalytics(
   const dailyTrendMap = new Map<string, TrendPoint>();
 
   for (const kind of ["YouTube", "X", "Online"] as const) {
-    const agg = aggregateFilteredStats(kind, scoped, { skipDistrict: true });
+    const stats = tableStatsSql(kind, scoped);
     if (kind === "YouTube") {
-      media.youtube = agg.total;
-      mediaSentiment.youtube = agg.sentiment;
+      media.youtube = stats.total;
+      mediaSentiment.youtube = stats.sentiment;
     } else if (kind === "X") {
-      media.x = agg.total;
-      mediaSentiment.x = agg.sentiment;
+      media.x = stats.total;
+      mediaSentiment.x = stats.sentiment;
     } else {
-      media.online = agg.total;
-      mediaSentiment.online = agg.sentiment;
+      media.online = stats.total;
+      mediaSentiment.online = stats.sentiment;
     }
-    mergeSentiment(sentiment, agg.sentiment);
-    for (const [date, count] of agg.dailyTrend) {
+    mergeSentiment(sentiment, stats.sentiment);
+    for (const [date, count] of stats.dailyTrend) {
       let p = dailyTrendMap.get(date);
       if (!p) {
         p = { date, total: 0, print: 0, youtube: 0, x: 0, online: 0 };
@@ -154,11 +137,11 @@ export function getConstituencyAnalytics(
     }
   }
 
-  const printAgg = aggregateFilteredStats("Print", scoped, { skipDistrict: true });
-  media.print = printAgg.total;
-  mediaSentiment.print = printAgg.sentiment;
-  mergeSentiment(sentiment, printAgg.sentiment);
-  for (const [date, count] of printAgg.dailyTrend) {
+  const printStats = tableStatsSql("Print", scoped);
+  media.print = printStats.total;
+  mediaSentiment.print = printStats.sentiment;
+  mergeSentiment(sentiment, printStats.sentiment);
+  for (const [date, count] of printStats.dailyTrend) {
     let p = dailyTrendMap.get(date);
     if (!p) {
       p = { date, total: 0, print: 0, youtube: 0, x: 0, online: 0 };
@@ -169,10 +152,6 @@ export function getConstituencyAnalytics(
   }
 
   const digitalTotal = media.youtube + media.x + media.online;
-  const records =
-    digitalTotal > 0
-      ? queryDigitalMedia(scoped, { skipDistrict: true }).records
-      : [];
 
   return {
     constituency: resolved,
@@ -184,8 +163,8 @@ export function getConstituencyAnalytics(
     dailyTrend: [...dailyTrendMap.values()].sort((a, b) =>
       a.date.localeCompare(b.date),
     ),
-    topProfiles: topCounts(records, (r) => r.authors || null, 10),
-    languageDistribution: topCounts(records, (r) => r.language, 10),
+    topProfiles: aggregateDashboardValueCounts(scoped, "authors", 10),
+    languageDistribution: aggregateDashboardValueCounts(scoped, "language", 10),
   };
 }
 

@@ -26,7 +26,6 @@ export function useApiFilterState(): ApiFilterValues {
   const rawDateFrom = useFilterStore((s) => s.dateFrom);
   const rawDateTo = useFilterStore((s) => s.dateTo);
 
-  const debouncedSearch = useDebouncedValue(rawSearch, DEBOUNCE.SEARCH_MS);
   const debouncedDateFrom = useDebouncedValue(rawDateFrom, DEBOUNCE.DATE_MS);
   const debouncedDateTo = useDebouncedValue(rawDateTo, DEBOUNCE.DATE_MS);
 
@@ -36,7 +35,7 @@ export function useApiFilterState(): ApiFilterValues {
       mediaType,
       sentiment,
       language,
-      search: debouncedSearch,
+      search: rawSearch,
       dateFrom: debouncedDateFrom,
       dateTo: debouncedDateTo,
     }),
@@ -45,25 +44,19 @@ export function useApiFilterState(): ApiFilterValues {
       mediaType,
       sentiment,
       language,
-      debouncedSearch,
+      rawSearch,
       debouncedDateFrom,
       debouncedDateTo,
     ],
   );
 }
 
-/** True when global search/date filters are waiting to settle. */
+/** True when global date filters are waiting to settle. */
 export function useGlobalFiltersPending(): boolean {
-  const rawSearch = useFilterStore((s) => s.search);
   const rawDateFrom = useFilterStore((s) => s.dateFrom);
   const rawDateTo = useFilterStore((s) => s.dateTo);
-  const debouncedSearch = useDebouncedValue(rawSearch, DEBOUNCE.SEARCH_MS);
   const debouncedDateFrom = useDebouncedValue(rawDateFrom, DEBOUNCE.DATE_MS);
   const debouncedDateTo = useDebouncedValue(rawDateTo, DEBOUNCE.DATE_MS);
 
-  return (
-    rawSearch !== debouncedSearch ||
-    rawDateFrom !== debouncedDateFrom ||
-    rawDateTo !== debouncedDateTo
-  );
+  return rawDateFrom !== debouncedDateFrom || rawDateTo !== debouncedDateTo;
 }

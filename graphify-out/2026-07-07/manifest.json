@@ -75,8 +75,8 @@
     "semantic_hash": ""
   },
   "src/app/page.tsx": {
-    "mtime": 1783441648.7397225,
-    "ast_hash": "cd1de0e5c3e662cbb2b5278208016fd2",
+    "mtime": 1783437463.434226,
+    "ast_hash": "860712a987a655a4d28675999101e897",
     "semantic_hash": ""
   },
   "src/app/providers.tsx": {
@@ -295,8 +295,8 @@
     "semantic_hash": ""
   },
   "src/lib/api-client.ts": {
-    "mtime": 1783441649.0439713,
-    "ast_hash": "47a6991d6d65b455fa406f3f78150418",
+    "mtime": 1783437486.1655643,
+    "ast_hash": "305070aedcf2c2192e0b9f0c37685c67",
     "semantic_hash": ""
   },
   "src/lib/api-helpers.ts": {
@@ -330,13 +330,13 @@
     "semantic_hash": ""
   },
   "src/services/analytics.ts": {
-    "mtime": 1783441637.154702,
-    "ast_hash": "e84e8635490bff48b7137e55be272fbf",
+    "mtime": 1783440633.5144413,
+    "ast_hash": "9e909b6ace2ad8de13ec8c76e5e37a10",
     "semantic_hash": ""
   },
   "src/services/constituency.ts": {
-    "mtime": 1783441640.2849693,
-    "ast_hash": "d458a98cecb56d8ba26eb76e39af1965",
+    "mtime": 1783440648.193071,
+    "ast_hash": "0b3c3184678f7ed64ac4e021d0890df5",
     "semantic_hash": ""
   },
   "src/services/representatives.ts": {
@@ -355,8 +355,8 @@
     "semantic_hash": ""
   },
   "src/lib/db.ts": {
-    "mtime": 1783441618.462624,
-    "ast_hash": "4c1587350bfd6984664b4f8b9f16cac6",
+    "mtime": 1783437462.3100638,
+    "ast_hash": "5fb0fbf47d27d7a2bba1a4f9975e535b",
     "semantic_hash": ""
   },
   "src/lib/geo.ts": {
@@ -375,8 +375,8 @@
     "semantic_hash": ""
   },
   "src/lib/news-repository.ts": {
-    "mtime": 1783441623.7314365,
-    "ast_hash": "b60043e40c17f62c4ba708c01db2522e",
+    "mtime": 1783441356.4904606,
+    "ast_hash": "6392292ced4d29952e39d34a6116088a",
     "semantic_hash": ""
   },
   "src/lib/representatives-db.ts": {
@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "src/lib/sql-scope-filters.ts": {
-    "mtime": 1783441618.4625087,
-    "ast_hash": "1d392db2763577291d10ffd5330e2c67",
+    "mtime": 1783440424.1043468,
+    "ast_hash": "647d7622e54adbdda79c215bb6bb6351",
     "semantic_hash": ""
   }
 }

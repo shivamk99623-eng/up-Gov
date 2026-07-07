@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MediaRecordDetailModal } from "@/components/tables/media-record-detail";
-import type { MediaRecord, MediaType, Sentiment } from "@/lib/types";
+import type { DigitalMediaType, MediaRecord, Sentiment } from "@/lib/types";
 
 
 const formatCount = (value: string | null) =>
@@ -270,7 +270,10 @@ function twitterColumns(): DataTableColumn<MediaRecord>[] {
   ];
 }
 
-const COLUMN_BUILDERS: Record<MediaType, () => DataTableColumn<MediaRecord>[]> = {
+const COLUMN_BUILDERS: Record<
+  DigitalMediaType,
+  () => DataTableColumn<MediaRecord>[]
+> = {
   YouTube: youtubeColumns,
   Online: onlineColumns,
   X: twitterColumns,
@@ -278,7 +281,7 @@ const COLUMN_BUILDERS: Record<MediaType, () => DataTableColumn<MediaRecord>[]> =
 
 interface MediaTabTableProps {
   records: MediaRecord[];
-  mediaType: MediaType;
+  mediaType: DigitalMediaType;
   district?: string;
   extraColumns?: DataTableColumn<MediaRecord>[];
   exportName?: string;

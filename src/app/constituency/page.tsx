@@ -100,7 +100,7 @@ function ConstituencyScopePanel({
         </CardContent>
       </Card>
 
-      {analytics.isError ? (
+      {analytics.isError && !a ? (
         <ErrorState message={(analytics.error as Error)?.message} />
       ) : (
         <>

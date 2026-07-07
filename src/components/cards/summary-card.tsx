@@ -1,5 +1,5 @@
 import * as React from "react";
-import { formatNumber, percent } from "@/lib/utils";
+import { formatNumber, percent, cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -10,6 +10,8 @@ interface SummaryCardProps {
   accent?: string;
   total?: number;
   loading?: boolean;
+  /** Subtle pulse while data is refetching (keeps current values visible). */
+  updating?: boolean;
 }
 
 export function SummaryCard({
@@ -19,6 +21,7 @@ export function SummaryCard({
   accent = "var(--primary)",
   total,
   loading,
+  updating = false,
 }: SummaryCardProps) {
   if (loading) {
     return (
@@ -31,7 +34,12 @@ export function SummaryCard({
   }
 
   return (
-    <Card className="group relative min-w-[9.5rem] overflow-hidden p-4 transition-shadow hover:shadow-md">
+    <Card
+      className={cn(
+        "group relative min-w-[9.5rem] overflow-hidden p-4 transition-shadow hover:shadow-md",
+        updating && "opacity-70 ring-1 ring-primary/20",
+      )}
+    >
       <div
         className="absolute inset-x-0 top-0 h-1"
         style={{ background: accent }}

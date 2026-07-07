@@ -39,7 +39,7 @@ export function GlobalFilters({
     f.sentiment !== "All" ? f.sentiment : null,
     f.language,
     f.dateFrom || f.dateTo ? "date" : null,
-    f.search ? "search" : null,
+    f.searchInput || f.search ? "search" : null,
   ].filter(Boolean).length;
 
   return (

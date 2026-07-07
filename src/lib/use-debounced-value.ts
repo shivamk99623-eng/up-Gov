@@ -56,53 +56,6 @@ export function useDebouncedCallback<T extends (...args: never[]) => void>(
   ) as T;
 }
 
-/** Stable throttled wrapper — limits how often the callback can run. */
-export function useThrottledCallback<T extends (...args: never[]) => void>(
-  callback: T,
-  delay: number = DEBOUNCE.FILTER_MS,
-): T {
-  const callbackRef = React.useRef(callback);
-  const lastRanRef = React.useRef(0);
-  const trailingRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  React.useEffect(() => {
-    callbackRef.current = callback;
-  }, [callback]);
-
-  React.useEffect(
-    () => () => {
-      if (trailingRef.current) clearTimeout(trailingRef.current);
-    },
-    [],
-  );
-
-  return React.useCallback(
-    (...args: Parameters<T>) => {
-      const now = Date.now();
-      const remaining = delay - (now - lastRanRef.current);
-
-      if (remaining <= 0) {
-        if (trailingRef.current) {
-          clearTimeout(trailingRef.current);
-          trailingRef.current = null;
-        }
-        lastRanRef.current = now;
-        callbackRef.current(...args);
-        return;
-      }
-
-      if (!trailingRef.current) {
-        trailingRef.current = setTimeout(() => {
-          lastRanRef.current = Date.now();
-          trailingRef.current = null;
-          callbackRef.current(...args);
-        }, remaining);
-      }
-    },
-    [delay],
-  ) as T;
-}
-
 /** True while `value` has not yet settled to its debounced form. */
 export function useIsDebouncing(value: string, debounced: string): boolean {
   return value !== debounced;

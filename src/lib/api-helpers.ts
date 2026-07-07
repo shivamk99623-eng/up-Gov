@@ -1,6 +1,6 @@
 import "server-only";
 import type { ConstituencyScope, GlobalFilters, MediaType, Sentiment, SortDirection } from "./types";
-import { normalizePagination } from "./news-repository";
+import { normalizePagination, normalizeSearchFilter } from "./news-repository";
 
 /** Parses shared global filters from a request's URL search params. */
 export function parseFilters(searchParams: URLSearchParams): GlobalFilters {
@@ -15,7 +15,7 @@ export function parseFilters(searchParams: URLSearchParams): GlobalFilters {
     mediaType: (get("mediaType") as MediaType | null) ?? null,
     sentiment: (get("sentiment") as Sentiment | null) ?? null,
     language: get("language"),
-    search: get("search"),
+    search: normalizeSearchFilter(searchParams.get("search")),
     dateFrom: get("dateFrom"),
     dateTo: get("dateTo"),
     entity: get("entity"),

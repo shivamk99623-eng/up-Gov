@@ -21,7 +21,7 @@ import {
   type MediaTableQueryState,
 } from "@/lib/use-media-table-query-state";
 import { cn } from "@/lib/utils";
-import type { MediaRecord, MediaType } from "@/lib/types";
+import type { DigitalMediaType, MediaRecord } from "@/lib/types";
 
 function printEmptyDescription(
   entity: string | undefined,
@@ -92,7 +92,7 @@ function PrintTab({
     tableControls.serverPagination.onPageChange,
   );
 
-  if (isError) return <ErrorState />;
+  if (isError && !data) return <ErrorState />;
 
   const filtered = hasActiveTableFilters(
     apiQuery.search,
@@ -129,7 +129,7 @@ interface MediaScope {
 }
 
 function mediaEmptyDescription(
-  mediaType: MediaType,
+  mediaType: DigitalMediaType,
   scope: MediaScope,
   hasActiveFilters: boolean,
 ): string {
@@ -152,7 +152,7 @@ function MediaTab({
   mediaQuery,
 }: {
   scope: MediaScope;
-  mediaType: MediaType;
+  mediaType: DigitalMediaType;
   extraColumns?: DataTableColumn<MediaRecord>[];
   exportName?: string;
   tableMaxHeight?: number;
@@ -173,7 +173,7 @@ function MediaTab({
     tableControls.serverPagination.onPageChange,
   );
 
-  if (isError) return <ErrorState />;
+  if (isError && !data) return <ErrorState />;
 
   const filtered = hasActiveTableFilters(
     apiQuery.search,

@@ -1,16 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { DEBOUNCE, THROTTLE } from "@/lib/debounce-throttle";
-import {
-  useDebouncedValue,
-  useIsDebouncing,
-  useThrottledCallback,
-} from "@/lib/use-debounced-value";
+import { DEBOUNCE } from "@/lib/debounce-throttle";
+import { useDebouncedValue, useIsDebouncing } from "@/lib/use-debounced-value";
 import {
   createMediaTableQuery,
   type MediaTableQuery,
 } from "@/lib/media-table-query";
+import { normalizeSearchFilter } from "@/lib/search-filter";
 
 type SortState = { id: string; dir: "asc" | "desc" } | null;
 
@@ -43,7 +40,7 @@ export function useMediaTableQueryState(initialPageSize = 50) {
   const apiQuery = React.useMemo(
     (): MediaTableQuery => ({
       ...tableQuery,
-      search: debouncedSearch,
+      search: normalizeSearchFilter(debouncedSearch) ?? "",
     }),
     [tableQuery, debouncedSearch],
   );
@@ -64,16 +61,6 @@ export function useMediaTableQueryState(initialPageSize = 50) {
           : prev.page),
     }));
   }, []);
-
-  const throttledPageChange = useThrottledCallback(
-    (page: number) => patchQuery({ page }),
-    THROTTLE.ACTION_MS,
-  );
-
-  const throttledPageSizeChange = useThrottledCallback(
-    (pageSize: number) => patchQuery({ pageSize, page: 1 }),
-    THROTTLE.ACTION_MS,
-  );
 
   const sortValue: SortState =
     tableQuery.sortBy && tableQuery.sortDir
@@ -100,8 +87,8 @@ export function useMediaTableQueryState(initialPageSize = 50) {
       total: 0,
       page: tableQuery.page,
       pageSize: tableQuery.pageSize,
-      onPageChange: throttledPageChange,
-      onPageSizeChange: throttledPageSizeChange,
+      onPageChange: (page: number) => patchQuery({ page }),
+      onPageSizeChange: (pageSize: number) => patchQuery({ pageSize, page: 1 }),
     },
   };
 

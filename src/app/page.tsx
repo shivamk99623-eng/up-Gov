@@ -30,6 +30,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorState } from "@/components/common/states";
 import { CHART_COLORS } from "@/components/charts/echart";
 import { useDashboard } from "@/lib/api-client";
+import { useGlobalSearchStatus } from "@/lib/use-global-search-status";
 import { cn, formatNumber } from "@/lib/utils";
 
 /** Fixed slot height for map / district drill-down (prevents layout jump). */
@@ -37,8 +38,29 @@ const MAP_SLOT_HEIGHT = 820;
 
 export default function HomePage() {
   const { data, isLoading, isError, error } = useDashboard();
+  const { isActive, isWorking } = useGlobalSearchStatus();
+  const loading = isLoading && !data;
+  const updating = isActive && isWorking && !!data;
+  const [showMediaTabs, setShowMediaTabs] = React.useState(false);
   // District drilled into via the map (replaces the map with media tables).
   const [mapDistrict, setMapDistrict] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (!data) {
+      setShowMediaTabs(false);
+      return;
+    }
+    const schedule =
+      typeof requestIdleCallback === "function"
+        ? requestIdleCallback
+        : (cb: () => void) => window.setTimeout(cb, 150);
+    const cancel =
+      typeof cancelIdleCallback === "function"
+        ? cancelIdleCallback
+        : clearTimeout;
+    const id = schedule(() => setShowMediaTabs(true));
+    return () => cancel(id as number);
+  }, [data]);
 
   const drilled = data?.districtSummary.find(
     (d) => d.district === mapDistrict,
@@ -49,6 +71,9 @@ export default function HomePage() {
       <Header
         title="Media Monitoring Overview"
         subtitle="Statewide media intelligence across print, YouTube, Twitter/X and online news"
+        searchResultCount={
+          isActive && !isWorking ? data?.totalNews : undefined
+        }
       />
       <main className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
         {/* Summary cards */}
@@ -56,7 +81,8 @@ export default function HomePage() {
           <SummaryCard
             label="Total News"
             value={data?.totalNews ?? 0}
-            loading={isLoading}
+            loading={loading}
+            updating={updating}
             icon={<Newspaper className="h-5 w-5" />}
             accent={CHART_COLORS.primary}
           />
@@ -64,7 +90,8 @@ export default function HomePage() {
             label="Print"
             value={data?.printCount ?? 0}
             total={data?.totalNews}
-            loading={isLoading}
+            loading={loading}
+            updating={updating}
             icon={<Printer className="h-5 w-5" />}
             accent={CHART_COLORS.saffron}
           />
@@ -72,7 +99,8 @@ export default function HomePage() {
             label="YouTube"
             value={data?.youtubeCount ?? 0}
             total={data?.totalNews}
-            loading={isLoading}
+            loading={loading}
+            updating={updating}
             icon={<FaYoutube className="h-5 w-5" />}
             accent={CHART_COLORS.youtube}
           />
@@ -80,7 +108,8 @@ export default function HomePage() {
             label="Twitter / X"
             value={data?.xCount ?? 0}
             total={data?.totalNews}
-            loading={isLoading}
+            loading={loading}
+            updating={updating}
             icon={<FaXTwitter className="h-4 w-4" />}
             accent={CHART_COLORS.x}
           />
@@ -88,7 +117,8 @@ export default function HomePage() {
             label="Online News"
             value={data?.onlineCount ?? 0}
             total={data?.totalNews}
-            loading={isLoading}
+            loading={loading}
+            updating={updating}
             icon={<Globe className="h-5 w-5" />}
             accent={CHART_COLORS.online}
           />
@@ -96,7 +126,8 @@ export default function HomePage() {
             label="Positive"
             value={data?.positiveCount ?? 0}
             total={data?.totalNews}
-            loading={isLoading}
+            loading={loading}
+            updating={updating}
             icon={<ThumbsUp className="h-5 w-5" />}
             accent={CHART_COLORS.positive}
           />
@@ -104,7 +135,8 @@ export default function HomePage() {
             label="Negative"
             value={data?.negativeCount ?? 0}
             total={data?.totalNews}
-            loading={isLoading}
+            loading={loading}
+            updating={updating}
             icon={<ThumbsDown className="h-5 w-5" />}
             accent={CHART_COLORS.negative}
           />
@@ -112,13 +144,14 @@ export default function HomePage() {
             label="Neutral"
             value={data?.neutralCount ?? 0}
             total={data?.totalNews}
-            loading={isLoading}
+            loading={loading}
+            updating={updating}
             icon={<Minus className="h-5 w-5" />}
             accent={CHART_COLORS.neutral}
           />
         </section>
 
-        {isError ? (
+        {isError && !data ? (
           <ErrorState message={(error as Error)?.message} />
         ) : (
           <>
@@ -155,7 +188,7 @@ export default function HomePage() {
                   ) : undefined
                 }
               >
-                {isLoading ? (
+                {loading ? (
                   <Skeleton className="h-[720px] w-full rounded-lg" />
                 ) : (
                   <div
@@ -205,7 +238,7 @@ export default function HomePage() {
                 title="Media Source Distribution"
                 description="Share of mentions by platform"
               >
-                {isLoading ? (
+                {loading ? (
                   <Skeleton className="h-[320px] w-full" />
                 ) : (
                   <MediaDistributionChart data={data!.mediaDistribution} />
@@ -213,10 +246,14 @@ export default function HomePage() {
               </ChartCard>} */}
             </section>
 
-            {/* All media coverage */}
+            {/* All media coverage — deferred so dashboard SQL finishes first */}
             <Card>
               <CardContent className="p-4 lg:p-5">
-                <DistrictMediaTabs exportName="overview-media" />
+                {showMediaTabs ? (
+                  <DistrictMediaTabs exportName="overview-media" />
+                ) : (
+                  <Skeleton className="h-64 w-full" />
+                )}
               </CardContent>
             </Card>
 
@@ -226,7 +263,7 @@ export default function HomePage() {
                 title="Top 10 Positive News"
                 description="Most-engaging positive mentions · click a bar to open the source"
               >
-                {isLoading ? (
+                {loading ? (
                   <Skeleton className="h-[380px] w-full" />
                 ) : data!.topPositiveNews.length === 0 ? (
                   <div className="flex h-[380px] items-center justify-center text-sm text-muted-foreground">
@@ -240,7 +277,7 @@ export default function HomePage() {
                 title="Top 10 Negative News"
                 description="Most-engaging negative mentions · click a bar to open the source"
               >
-                {isLoading ? (
+                {loading ? (
                   <Skeleton className="h-[380px] w-full" />
                 ) : data!.topNegativeNews.length === 0 ? (
                   <div className="flex h-[380px] items-center justify-center text-sm text-muted-foreground">
@@ -257,7 +294,7 @@ export default function HomePage() {
               title="Daily News Trend"
               description="Volume of mentions over time by media source"
             >
-              {isLoading ? (
+              {loading ? (
                 <Skeleton className="h-[320px] w-full" />
               ) : (
                 <DailyTrendChart data={data!.dailyTrend} />
@@ -270,7 +307,7 @@ export default function HomePage() {
                 title="Top 10 Districts by News Count"
                 description="Districts with highest media coverage"
               >
-                {isLoading ? (
+                {loading ? (
                   <Skeleton className="h-[360px] w-full" />
                 ) : (
                   <TopDistrictsChart data={data!.topDistricts} />
@@ -280,7 +317,7 @@ export default function HomePage() {
                 title="Top Profiles"
                 description="Most active accounts & channels"
               >
-                {isLoading ? (
+                {loading ? (
                   <Skeleton className="h-[360px] w-full" />
                 ) : (
                   <HorizontalCountChart

@@ -29,8 +29,8 @@ import { buildFilterQuery, type FilterState } from "@/store/filters";
 export type { MediaTableQuery };
 export { createMediaTableQuery };
 
-async function fetchJson<T>(url: string): Promise<T> {
-  const res = await fetch(url);
+async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
+  const res = await fetch(url, { signal });
   if (!res.ok) {
     let message = `Request failed (${res.status})`;
     try {
@@ -91,6 +91,8 @@ function mediaEndpoint(mediaType: MediaType): string {
       return "/api/x";
     case "Online":
       return "/api/online";
+    case "Print":
+      return "/api/print";
   }
 }
 
@@ -103,7 +105,9 @@ export function useDashboard() {
   const qs = useGlobalFilterQuery();
   return useQuery({
     queryKey: ["dashboard", qs],
-    queryFn: () => fetchJson<DashboardResponse>(`/api/dashboard?${qs}`),
+    queryFn: ({ signal }) => fetchJson<DashboardResponse>(`/api/dashboard?${qs}`, signal),
+    placeholderData: keepPreviousData,
+    staleTime: 45_000,
   });
 }
 
@@ -111,11 +115,10 @@ export function useDistrictAnalytics(district: string | null) {
   const qs = useGlobalFilterQuery({ district });
   return useQuery({
     queryKey: ["district", district, qs],
-    queryFn: () =>
-      fetchJson<DistrictAnalyticsResponse>(
-        `/api/district?${qs}`,
-      ),
+    queryFn: ({ signal }) =>
+      fetchJson<DistrictAnalyticsResponse>(`/api/district?${qs}`, signal),
     enabled: !!district,
+    placeholderData: keepPreviousData,
   });
 }
 
@@ -146,7 +149,7 @@ export function usePrint(
       tableQuery,
       qs,
     ],
-    queryFn: () => fetchJson<PrintQueryResponse>(`/api/print?${qs}`),
+    queryFn: ({ signal }) => fetchJson<PrintQueryResponse>(`/api/print?${qs}`, signal),
     placeholderData: keepPreviousData,
   });
 }
@@ -190,10 +193,10 @@ export function useScopedMedia(
       tableQuery,
       url,
     ],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       fetchJson<
         MediaQueryResponse | YouTubeQueryResponse | XQueryResponse | OnlineQueryResponse
-      >(url),
+      >(url, signal),
     enabled: !!(entity || district || constituency !== undefined),
     placeholderData: keepPreviousData,
   });
@@ -209,10 +212,12 @@ export function useConstituencyAnalytics(
     : `constituencyScope=${constituencyScope}`;
   return useQuery({
     queryKey: ["constituency", constituency, constituencyScope, qs],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       fetchJson<ConstituencyAnalyticsResponse>(
         `/api/constituency?constituency=${encodeURIComponent(constituency)}&${scopeQs}`,
+        signal,
       ),
+    placeholderData: keepPreviousData,
   });
 }
 
@@ -230,8 +235,8 @@ export function useConstituencyPrint(
   const qs = params.toString();
   return useQuery({
     queryKey: ["constituency-print", constituency ?? "All", constituencyScope, tableQuery, qs],
-    queryFn: () =>
-      fetchJson<ConstituencyPrintResponse>(`/api/constituency/print?${qs}`),
+    queryFn: ({ signal }) =>
+      fetchJson<ConstituencyPrintResponse>(`/api/constituency/print?${qs}`, signal),
     placeholderData: keepPreviousData,
   });
 }
@@ -241,9 +246,10 @@ export function useConstituencyOptions(
 ) {
   return useQuery({
     queryKey: ["constituency-options", constituencyScope],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       fetchJson<{ constituencies: string[] }>(
         `/api/constituency/filters?constituencyScope=${constituencyScope}`,
+        signal,
       ),
     staleTime: 5 * 60 * 1000,
   });
@@ -252,9 +258,10 @@ export function useConstituencyOptions(
 export function useConstituencyDetail(name: string | null) {
   return useQuery({
     queryKey: ["constituency-detail", name],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       fetchJson<ConstituencyDetailResponse>(
         `/api/constituency/detail?name=${encodeURIComponent(name!)}`,
+        signal,
       ),
     enabled: !!name && name !== "All",
     staleTime: 10 * 60 * 1000,
@@ -264,8 +271,8 @@ export function useConstituencyDetail(name: string | null) {
 export function useFilterOptions() {
   return useQuery({
     queryKey: ["filter-options"],
-    queryFn: () =>
-      fetchJson<{ districts: string[]; languages: string[] }>(`/api/filters`),
+    queryFn: ({ signal }) =>
+      fetchJson<{ districts: string[]; languages: string[] }>(`/api/filters`, signal),
     staleTime: 5 * 60 * 1000,
   });
 }
@@ -273,7 +280,8 @@ export function useFilterOptions() {
 export function useMLAs() {
   return useQuery({
     queryKey: ["mlas"],
-    queryFn: () => fetchJson<{ total: number; mlas: MLAListItem[] }>(`/api/mla`),
+    queryFn: ({ signal }) =>
+      fetchJson<{ total: number; mlas: MLAListItem[] }>(`/api/mla`, signal),
     staleTime: 10 * 60 * 1000,
   });
 }
@@ -281,7 +289,8 @@ export function useMLAs() {
 export function useMLA(id: string | null) {
   return useQuery({
     queryKey: ["mla", id],
-    queryFn: () => fetchJson<MLA>(`/api/mla?id=${encodeURIComponent(id!)}`),
+    queryFn: ({ signal }) =>
+      fetchJson<MLA>(`/api/mla?id=${encodeURIComponent(id!)}`, signal),
     enabled: !!id,
   });
 }
@@ -289,7 +298,8 @@ export function useMLA(id: string | null) {
 export function useMPs() {
   return useQuery({
     queryKey: ["mps"],
-    queryFn: () => fetchJson<{ total: number; mps: MPListItem[] }>(`/api/mp`),
+    queryFn: ({ signal }) =>
+      fetchJson<{ total: number; mps: MPListItem[] }>(`/api/mp`, signal),
     staleTime: 10 * 60 * 1000,
   });
 }
@@ -301,7 +311,7 @@ export function useMP(id: string | null, house?: House | null) {
   const qs = params.toString();
   return useQuery({
     queryKey: ["mp", id, house ?? null],
-    queryFn: () => fetchJson<MP>(`/api/mp?${qs}`),
+    queryFn: ({ signal }) => fetchJson<MP>(`/api/mp?${qs}`, signal),
     enabled: !!id,
   });
 }

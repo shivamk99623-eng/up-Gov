@@ -27,11 +27,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EmptyState } from "@/components/common/states";
-import { DEBOUNCE, THROTTLE } from "@/lib/debounce-throttle";
-import {
-  useDebouncedValue,
-  useThrottledCallback,
-} from "@/lib/use-debounced-value";
+import { DEBOUNCE } from "@/lib/debounce-throttle";
+import { useDebouncedValue } from "@/lib/use-debounced-value";
 import { cn } from "@/lib/utils";
 
 export interface DataTableCellContext {
@@ -160,11 +157,6 @@ export function DataTable<T>({
   const activeSearch = serverMode ? (searchValue ?? "") : searchInput;
   const filterSearch = serverMode ? (searchValue ?? "") : debouncedSearch;
   const activeSort = serverMode ? (sortValue ?? null) : sort;
-
-  const throttledClientPageChange = useThrottledCallback(
-    (nextPage: number) => setPage(nextPage),
-    THROTTLE.ACTION_MS,
-  );
 
   const valueOf = React.useCallback(
     (row: T, col: DataTableColumn<T>) => {
@@ -606,7 +598,7 @@ export function DataTable<T>({
               if (serverPagination) serverPagination.onPageSizeChange(next);
               else {
                 setPageSize(next);
-                throttledClientPageChange(0);
+                setPage(0);
               }
             }}
             className="h-8 rounded-md border border-input bg-card px-2 text-sm"
@@ -627,7 +619,7 @@ export function DataTable<T>({
                 if (serverPagination) {
                   serverPagination.onPageChange(serverPagination.page - 1);
                 } else {
-                  throttledClientPageChange(Math.max(0, safePage - 1));
+                  setPage(Math.max(0, safePage - 1));
                 }
               }}
             >
@@ -645,7 +637,7 @@ export function DataTable<T>({
                 if (serverPagination) {
                   serverPagination.onPageChange(serverPagination.page + 1);
                 } else {
-                  throttledClientPageChange(Math.min(pageCount - 1, safePage + 1));
+                  setPage(Math.min(pageCount - 1, safePage + 1));
                 }
               }}
             >
