@@ -55,7 +55,7 @@ function buildMlaDetail(mlaBio: MLABioRecord, stats: EntityMediaStats): MLA {
     attendance: null,
     publicEngagement: null,
     mediaMentions: stats.digitalTotal + stats.printTotal,
-    totalEngagement: 0,
+    totalEngagement: stats.totalEngagement,
     media: stats.media,
     sentiment: stats.sentiment,
   };
@@ -87,7 +87,7 @@ function buildMpDetail(mpBio: MPBioRecord, stats: EntityMediaStats): MP {
     attendance: null,
     publicEngagement: null,
     mediaMentions: stats.digitalTotal + stats.printTotal,
-    totalEngagement: 0,
+    totalEngagement: stats.totalEngagement,
     media: stats.media,
     sentiment: stats.sentiment,
   };

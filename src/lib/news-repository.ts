@@ -5,7 +5,7 @@ import {
   parseDistrictNames,
   parseJsonStringArray,
 } from "./json-fields";
-import { MIN_SEARCH_TOKEN_LENGTH, normalizeSearchFilter } from "./search-filter";
+import { parseXEngagementsTotal } from "./engagement";
 import {
   buildConstituencySqlFilter,
   buildDistrictSqlFilter,
@@ -437,6 +437,7 @@ export interface EntityMediaStats {
   media: MediaBreakdown;
   sentiment: SentimentBreakdown;
   primaryDistrict: string | null;
+  totalEngagement: number;
 }
 
 function pickPrimaryDistrict(counts: Map<string, number>): string | null {
@@ -483,6 +484,34 @@ function queryPrimaryDistrictForEntity(
   return pickPrimaryDistrict(counts);
 }
 
+function queryEntityTotalEngagement(entity: string): number {
+  const filters = { entity };
+  const { clause: ytClause, params: ytParams } = buildSqlWhere("YouTube", filters);
+  const ytRow = getDb()
+    .prepare(
+      `SELECT
+         COALESCE(SUM(CAST(NULLIF(trim("Like_count"), '') AS INTEGER)), 0) AS likes,
+         COALESCE(SUM(CAST(NULLIF(trim("Comment_count"), '') AS INTEGER)), 0) AS comments
+       FROM "${tableForKind("YouTube")}" ${ytClause}`,
+    )
+    .get(...ytParams) as { likes: number; comments: number };
+
+  const { clause: xClause, params: xParams } = buildSqlWhere("X", filters);
+  const xRows = getDb()
+    .prepare(
+      `SELECT "Engagements" FROM "${tableForKind("X")}" ${xClause}
+       AND trim(coalesce("Engagements", '')) != ''`,
+    )
+    .all(...xParams) as { Engagements: string }[];
+
+  let xTotal = 0;
+  for (const { Engagements } of xRows) {
+    xTotal += parseXEngagementsTotal(Engagements);
+  }
+
+  return (ytRow.likes ?? 0) + (ytRow.comments ?? 0) + xTotal;
+}
+
 /** Aggregates linked print + digital coverage for an MLA/MP. */
 export function queryEntityMediaStats(
   entity: string,
@@ -512,6 +541,7 @@ export function queryEntityMediaStats(
     media,
     sentiment,
     primaryDistrict: queryPrimaryDistrictForEntity(filters),
+    totalEngagement: queryEntityTotalEngagement(entity),
   };
 }
 

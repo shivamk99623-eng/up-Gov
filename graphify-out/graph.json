@@ -63,7 +63,7 @@
       "source_file": "src/app/api/constituency/route.ts",
       "source_location": "L1",
       "id": "constituency_route",
-      "community": 13,
+      "community": 6,
       "norm_label": "route.ts"
     },
     {
@@ -72,7 +72,7 @@
       "source_file": "src/app/api/constituency/route.ts",
       "source_location": "L8",
       "id": "constituency_route_get",
-      "community": 13,
+      "community": 6,
       "norm_label": "get()"
     },
     {
@@ -270,7 +270,7 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L37",
       "id": "constituency_page_constituencyscopepanel",
-      "community": 3,
+      "community": 0,
       "norm_label": "constituencyscopepanel()"
     },
     {
@@ -279,7 +279,7 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L220",
       "id": "constituency_page_constituencypage",
-      "community": 3,
+      "community": 0,
       "norm_label": "constituencypage()"
     },
     {
@@ -306,7 +306,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L1",
       "id": "app_layout",
-      "community": 14,
+      "community": 5,
       "norm_label": "layout.tsx"
     },
     {
@@ -315,7 +315,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L8",
       "id": "app_layout_inter",
-      "community": 14,
+      "community": 5,
       "norm_label": "inter"
     },
     {
@@ -324,7 +324,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L14",
       "id": "app_layout_metadata",
-      "community": 14,
+      "community": 5,
       "norm_label": "metadata"
     },
     {
@@ -333,7 +333,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L20",
       "id": "app_layout_rootlayout",
-      "community": 14,
+      "community": 5,
       "norm_label": "rootlayout()"
     },
     {
@@ -351,7 +351,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L39",
       "id": "mla_page_stattile",
-      "community": 10,
+      "community": 17,
       "norm_label": "stattile()"
     },
     {
@@ -396,7 +396,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L178",
       "id": "mla_page_mladetails",
-      "community": 10,
+      "community": 17,
       "norm_label": "mladetails()"
     },
     {
@@ -423,7 +423,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L1",
       "id": "mp_page",
-      "community": 10,
+      "community": 7,
       "norm_label": "page.tsx"
     },
     {
@@ -432,7 +432,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L39",
       "id": "mp_page_housefilter",
-      "community": 10,
+      "community": 7,
       "norm_label": "housefilter"
     },
     {
@@ -441,7 +441,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L41",
       "id": "mp_page_stattile",
-      "community": 10,
+      "community": 17,
       "norm_label": "stattile()"
     },
     {
@@ -450,7 +450,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L75",
       "id": "mp_page_progressrow",
-      "community": 10,
+      "community": 7,
       "norm_label": "progressrow()"
     },
     {
@@ -459,7 +459,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L100",
       "id": "mp_page_sociallink",
-      "community": 10,
+      "community": 7,
       "norm_label": "sociallink()"
     },
     {
@@ -468,7 +468,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L122",
       "id": "mp_page_housebadge",
-      "community": 10,
+      "community": 7,
       "norm_label": "housebadge()"
     },
     {
@@ -477,7 +477,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L130",
       "id": "mp_page_repavatar",
-      "community": 10,
+      "community": 7,
       "norm_label": "repavatar()"
     },
     {
@@ -486,7 +486,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L146",
       "id": "mp_page_mpdetails",
-      "community": 10,
+      "community": 17,
       "norm_label": "mpdetails()"
     },
     {
@@ -495,7 +495,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L198",
       "id": "mp_page_relatedmediacoverage",
-      "community": 10,
+      "community": 7,
       "norm_label": "relatedmediacoverage()"
     },
     {
@@ -504,7 +504,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L240",
       "id": "mp_page_house_tabs",
-      "community": 10,
+      "community": 7,
       "norm_label": "house_tabs"
     },
     {
@@ -513,7 +513,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L246",
       "id": "mp_page_mppage",
-      "community": 10,
+      "community": 7,
       "norm_label": "mppage()"
     },
     {
@@ -522,7 +522,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L261",
       "id": "mp_page_resolveselectedmp",
-      "community": 10,
+      "community": 7,
       "norm_label": "resolveselectedmp()"
     },
     {
@@ -531,7 +531,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L275",
       "id": "mp_page_mppagecontent",
-      "community": 10,
+      "community": 7,
       "norm_label": "mppagecontent()"
     },
     {
@@ -549,7 +549,7 @@
       "source_file": "src/app/page.tsx",
       "source_location": "L39",
       "id": "app_page_homepage",
-      "community": 10,
+      "community": 17,
       "norm_label": "homepage()"
     },
     {
@@ -558,7 +558,7 @@
       "source_file": "src/app/providers.tsx",
       "source_location": "L1",
       "id": "app_providers",
-      "community": 14,
+      "community": 5,
       "norm_label": "providers.tsx"
     },
     {
@@ -567,7 +567,7 @@
       "source_file": "src/app/providers.tsx",
       "source_location": "L6",
       "id": "app_providers_providers",
-      "community": 14,
+      "community": 5,
       "norm_label": "providers()"
     },
     {
@@ -603,7 +603,7 @@
       "source_file": "src/components/cards/summary-card.tsx",
       "source_location": "L1",
       "id": "cards_summary_card",
-      "community": 0,
+      "community": 17,
       "norm_label": "summary-card.tsx"
     },
     {
@@ -612,7 +612,7 @@
       "source_file": "src/components/cards/summary-card.tsx",
       "source_location": "L6",
       "id": "cards_summary_card_summarycardprops",
-      "community": 0,
+      "community": 17,
       "norm_label": "summarycardprops"
     },
     {
@@ -621,7 +621,7 @@
       "source_file": "src/components/cards/summary-card.tsx",
       "source_location": "L17",
       "id": "cards_summary_card_summarycard",
-      "community": 0,
+      "community": 17,
       "norm_label": "summarycard()"
     },
     {
@@ -837,7 +837,7 @@
       "source_file": "src/components/charts/district-charts.tsx",
       "source_location": "L116",
       "id": "charts_district_charts_sentimentdonut",
-      "community": 10,
+      "community": 7,
       "norm_label": "sentimentdonut()"
     },
     {
@@ -855,7 +855,7 @@
       "source_file": "src/components/charts/echart.tsx",
       "source_location": "L1",
       "id": "charts_echart",
-      "community": 0,
+      "community": 15,
       "norm_label": "echart.tsx"
     },
     {
@@ -864,7 +864,7 @@
       "source_file": "src/components/charts/echart.tsx",
       "source_location": "L11",
       "id": "charts_echart_reactecharts",
-      "community": 0,
+      "community": 15,
       "norm_label": "reactecharts"
     },
     {
@@ -873,7 +873,7 @@
       "source_file": "src/components/charts/echart.tsx",
       "source_location": "L16",
       "id": "charts_echart_echartsinstance",
-      "community": 0,
+      "community": 15,
       "norm_label": "echartsinstance"
     },
     {
@@ -882,7 +882,7 @@
       "source_file": "src/components/charts/echart.tsx",
       "source_location": "L22",
       "id": "charts_echart_echartprops",
-      "community": 0,
+      "community": 15,
       "norm_label": "echartprops"
     },
     {
@@ -909,7 +909,7 @@
       "source_file": "src/components/charts/echart.tsx",
       "source_location": "L110",
       "id": "charts_echart_basetooltip",
-      "community": 0,
+      "community": 15,
       "norm_label": "basetooltip"
     },
     {
@@ -1008,7 +1008,7 @@
       "source_file": "src/components/common/states.tsx",
       "source_location": "L1",
       "id": "common_states",
-      "community": 17,
+      "community": 0,
       "norm_label": "states.tsx"
     },
     {
@@ -1017,7 +1017,7 @@
       "source_file": "src/components/common/states.tsx",
       "source_location": "L4",
       "id": "common_states_emptystate",
-      "community": 17,
+      "community": 3,
       "norm_label": "emptystate()"
     },
     {
@@ -1026,7 +1026,7 @@
       "source_file": "src/components/common/states.tsx",
       "source_location": "L35",
       "id": "common_states_errorstate",
-      "community": 17,
+      "community": 0,
       "norm_label": "errorstate()"
     },
     {
@@ -1035,7 +1035,7 @@
       "source_file": "src/components/common/states.tsx",
       "source_location": "L64",
       "id": "common_states_loadingstate",
-      "community": 17,
+      "community": 12,
       "norm_label": "loadingstate()"
     },
     {
@@ -1260,7 +1260,7 @@
       "source_file": "src/components/district/district-media-tabs.tsx",
       "source_location": "L210",
       "id": "district_district_media_tabs_districtmediatabs",
-      "community": 10,
+      "community": 3,
       "norm_label": "districtmediatabs()"
     },
     {
@@ -1323,7 +1323,7 @@
       "source_file": "src/components/filters/multi-select.tsx",
       "source_location": "L1",
       "id": "filters_multi_select",
-      "community": 4,
+      "community": 14,
       "norm_label": "multi-select.tsx"
     },
     {
@@ -1332,7 +1332,7 @@
       "source_file": "src/components/filters/multi-select.tsx",
       "source_location": "L22",
       "id": "filters_multi_select_multiselectprops",
-      "community": 4,
+      "community": 14,
       "norm_label": "multiselectprops"
     },
     {
@@ -1341,7 +1341,7 @@
       "source_file": "src/components/filters/multi-select.tsx",
       "source_location": "L30",
       "id": "filters_multi_select_multiselect",
-      "community": 4,
+      "community": 12,
       "norm_label": "multiselect()"
     },
     {
@@ -1350,7 +1350,7 @@
       "source_file": "src/components/filters/searchable-select.tsx",
       "source_location": "L1",
       "id": "filters_searchable_select",
-      "community": 4,
+      "community": 14,
       "norm_label": "searchable-select.tsx"
     },
     {
@@ -1359,7 +1359,7 @@
       "source_file": "src/components/filters/searchable-select.tsx",
       "source_location": "L21",
       "id": "filters_searchable_select_option",
-      "community": 4,
+      "community": 14,
       "norm_label": "option"
     },
     {
@@ -1368,7 +1368,7 @@
       "source_file": "src/components/filters/searchable-select.tsx",
       "source_location": "L28",
       "id": "filters_searchable_select_searchableselectprops",
-      "community": 4,
+      "community": 14,
       "norm_label": "searchableselectprops"
     },
     {
@@ -1377,7 +1377,7 @@
       "source_file": "src/components/filters/searchable-select.tsx",
       "source_location": "L42",
       "id": "filters_searchable_select_searchableselect",
-      "community": 0,
+      "community": 12,
       "norm_label": "searchableselect()"
     },
     {
@@ -1413,7 +1413,7 @@
       "source_file": "src/components/layout/app-shell.tsx",
       "source_location": "L1",
       "id": "layout_app_shell",
-      "community": 14,
+      "community": 5,
       "norm_label": "app-shell.tsx"
     },
     {
@@ -1422,7 +1422,7 @@
       "source_file": "src/components/layout/app-shell.tsx",
       "source_location": "L4",
       "id": "layout_app_shell_appshell",
-      "community": 14,
+      "community": 5,
       "norm_label": "appshell()"
     },
     {
@@ -1431,7 +1431,7 @@
       "source_file": "src/components/layout/global-search-field.tsx",
       "source_location": "L1",
       "id": "layout_global_search_field",
-      "community": 4,
+      "community": 20,
       "norm_label": "global-search-field.tsx"
     },
     {
@@ -1440,7 +1440,7 @@
       "source_file": "src/components/layout/global-search-field.tsx",
       "source_location": "L10",
       "id": "layout_global_search_field_globalsearchfieldprops",
-      "community": 4,
+      "community": 20,
       "norm_label": "globalsearchfieldprops"
     },
     {
@@ -1449,7 +1449,7 @@
       "source_file": "src/components/layout/global-search-field.tsx",
       "source_location": "L14",
       "id": "layout_global_search_field_globalsearchfield",
-      "community": 4,
+      "community": 20,
       "norm_label": "globalsearchfield()"
     },
     {
@@ -1458,7 +1458,7 @@
       "source_file": "src/components/layout/global-search-field.tsx",
       "source_location": "L55",
       "id": "layout_global_search_field_globalsearchstatusbar",
-      "community": 4,
+      "community": 20,
       "norm_label": "globalsearchstatusbar()"
     },
     {
@@ -1494,7 +1494,7 @@
       "source_file": "src/components/layout/sidebar-nav.tsx",
       "source_location": "L1",
       "id": "layout_sidebar_nav",
-      "community": 14,
+      "community": 5,
       "norm_label": "sidebar-nav.tsx"
     },
     {
@@ -1503,7 +1503,7 @@
       "source_file": "src/components/layout/sidebar-nav.tsx",
       "source_location": "L14",
       "id": "layout_sidebar_nav_links",
-      "community": 14,
+      "community": 5,
       "norm_label": "links"
     },
     {
@@ -1512,7 +1512,7 @@
       "source_file": "src/components/layout/sidebar-nav.tsx",
       "source_location": "L22",
       "id": "layout_sidebar_nav_sidebarnav",
-      "community": 14,
+      "community": 5,
       "norm_label": "sidebarnav()"
     },
     {
@@ -1521,7 +1521,7 @@
       "source_file": "src/components/layout/sidebar-nav.tsx",
       "source_location": "L51",
       "id": "layout_sidebar_nav_emblem",
-      "community": 14,
+      "community": 5,
       "norm_label": "emblem()"
     },
     {
@@ -1548,7 +1548,7 @@
       "source_file": "src/components/representatives/government-member-details.tsx",
       "source_location": "L33",
       "id": "representatives_government_member_details_governmentmemberdetails",
-      "community": 10,
+      "community": 9,
       "norm_label": "governmentmemberdetails()"
     },
     {
@@ -1593,7 +1593,7 @@
       "source_file": "src/components/representatives/representative-detail-skeleton.tsx",
       "source_location": "L1",
       "id": "representatives_representative_detail_skeleton",
-      "community": 0,
+      "community": 10,
       "norm_label": "representative-detail-skeleton.tsx"
     },
     {
@@ -1602,7 +1602,7 @@
       "source_file": "src/components/representatives/representative-detail-skeleton.tsx",
       "source_location": "L3",
       "id": "representatives_representative_detail_skeleton_representativedetailskeleton",
-      "community": 0,
+      "community": 10,
       "norm_label": "representativedetailskeleton()"
     },
     {
@@ -1611,7 +1611,7 @@
       "source_file": "src/components/tables/data-table.tsx",
       "source_location": "L1",
       "id": "tables_data_table",
-      "community": 4,
+      "community": 19,
       "norm_label": "data-table.tsx"
     },
     {
@@ -1620,7 +1620,7 @@
       "source_file": "src/components/tables/data-table.tsx",
       "source_location": "L34",
       "id": "tables_data_table_datatablecellcontext",
-      "community": 4,
+      "community": 19,
       "norm_label": "datatablecellcontext"
     },
     {
@@ -1647,7 +1647,7 @@
       "source_file": "src/components/tables/data-table.tsx",
       "source_location": "L72",
       "id": "tables_data_table_datatableprops",
-      "community": 4,
+      "community": 19,
       "norm_label": "datatableprops"
     },
     {
@@ -1656,7 +1656,7 @@
       "source_file": "src/components/tables/data-table.tsx",
       "source_location": "L115",
       "id": "tables_data_table_sortstate",
-      "community": 4,
+      "community": 19,
       "norm_label": "sortstate"
     },
     {
@@ -1665,7 +1665,7 @@
       "source_file": "src/components/tables/data-table.tsx",
       "source_location": "L119",
       "id": "tables_data_table_datatable",
-      "community": 3,
+      "community": 2,
       "norm_label": "datatable()"
     },
     {
@@ -1674,7 +1674,7 @@
       "source_file": "src/components/tables/data-table.tsx",
       "source_location": "L653",
       "id": "tables_data_table_viewactioncell",
-      "community": 4,
+      "community": 19,
       "norm_label": "viewactioncell()"
     },
     {
@@ -1683,7 +1683,7 @@
       "source_file": "src/components/tables/data-table.tsx",
       "source_location": "L681",
       "id": "tables_data_table_triggerdownload",
-      "community": 4,
+      "community": 19,
       "norm_label": "triggerdownload()"
     },
     {
@@ -1908,7 +1908,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L1",
       "id": "ui_badge",
-      "community": 17,
+      "community": 12,
       "norm_label": "badge.tsx"
     },
     {
@@ -1917,7 +1917,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L5",
       "id": "ui_badge_badgevariants",
-      "community": 17,
+      "community": 12,
       "norm_label": "badgevariants"
     },
     {
@@ -1926,7 +1926,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L26",
       "id": "ui_badge_badgeprops",
-      "community": 17,
+      "community": 12,
       "norm_label": "badgeprops"
     },
     {
@@ -1935,7 +1935,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L30",
       "id": "ui_badge_badge",
-      "community": 17,
+      "community": 12,
       "norm_label": "badge()"
     },
     {
@@ -2043,7 +2043,7 @@
       "source_file": "src/components/ui/checkbox.tsx",
       "source_location": "L1",
       "id": "ui_checkbox",
-      "community": 17,
+      "community": 5,
       "norm_label": "checkbox.tsx"
     },
     {
@@ -2052,7 +2052,7 @@
       "source_file": "src/components/ui/checkbox.tsx",
       "source_location": "L8",
       "id": "ui_checkbox_checkbox",
-      "community": 17,
+      "community": 5,
       "norm_label": "checkbox"
     },
     {
@@ -2061,7 +2061,7 @@
       "source_file": "src/components/ui/command.tsx",
       "source_location": "L1",
       "id": "ui_command",
-      "community": 4,
+      "community": 14,
       "norm_label": "command.tsx"
     },
     {
@@ -2070,7 +2070,7 @@
       "source_file": "src/components/ui/command.tsx",
       "source_location": "L8",
       "id": "ui_command_command",
-      "community": 4,
+      "community": 14,
       "norm_label": "command"
     },
     {
@@ -2079,7 +2079,7 @@
       "source_file": "src/components/ui/command.tsx",
       "source_location": "L23",
       "id": "ui_command_commandinput",
-      "community": 4,
+      "community": 14,
       "norm_label": "commandinput"
     },
     {
@@ -2088,7 +2088,7 @@
       "source_file": "src/components/ui/command.tsx",
       "source_location": "L41",
       "id": "ui_command_commandlist",
-      "community": 4,
+      "community": 14,
       "norm_label": "commandlist"
     },
     {
@@ -2097,7 +2097,7 @@
       "source_file": "src/components/ui/command.tsx",
       "source_location": "L53",
       "id": "ui_command_commandempty",
-      "community": 4,
+      "community": 14,
       "norm_label": "commandempty"
     },
     {
@@ -2106,7 +2106,7 @@
       "source_file": "src/components/ui/command.tsx",
       "source_location": "L65",
       "id": "ui_command_commandgroup",
-      "community": 4,
+      "community": 14,
       "norm_label": "commandgroup"
     },
     {
@@ -2115,7 +2115,7 @@
       "source_file": "src/components/ui/command.tsx",
       "source_location": "L80",
       "id": "ui_command_commanditem",
-      "community": 4,
+      "community": 14,
       "norm_label": "commanditem"
     },
     {
@@ -2178,7 +2178,7 @@
       "source_file": "src/components/ui/dropdown-menu.tsx",
       "source_location": "L1",
       "id": "ui_dropdown_menu",
-      "community": 4,
+      "community": 19,
       "norm_label": "dropdown-menu.tsx"
     },
     {
@@ -2187,7 +2187,7 @@
       "source_file": "src/components/ui/dropdown-menu.tsx",
       "source_location": "L11",
       "id": "ui_dropdown_menu_dropdownmenucontent",
-      "community": 4,
+      "community": 19,
       "norm_label": "dropdownmenucontent"
     },
     {
@@ -2196,7 +2196,7 @@
       "source_file": "src/components/ui/dropdown-menu.tsx",
       "source_location": "L29",
       "id": "ui_dropdown_menu_dropdownmenuitem",
-      "community": 4,
+      "community": 19,
       "norm_label": "dropdownmenuitem"
     },
     {
@@ -2205,7 +2205,7 @@
       "source_file": "src/components/ui/dropdown-menu.tsx",
       "source_location": "L44",
       "id": "ui_dropdown_menu_dropdownmenucheckboxitem",
-      "community": 4,
+      "community": 19,
       "norm_label": "dropdownmenucheckboxitem"
     },
     {
@@ -2214,7 +2214,7 @@
       "source_file": "src/components/ui/dropdown-menu.tsx",
       "source_location": "L68",
       "id": "ui_dropdown_menu_dropdownmenulabel",
-      "community": 4,
+      "community": 19,
       "norm_label": "dropdownmenulabel"
     },
     {
@@ -2223,7 +2223,7 @@
       "source_file": "src/components/ui/dropdown-menu.tsx",
       "source_location": "L80",
       "id": "ui_dropdown_menu_dropdownmenuseparator",
-      "community": 4,
+      "community": 19,
       "norm_label": "dropdownmenuseparator"
     },
     {
@@ -2232,7 +2232,7 @@
       "source_file": "src/components/ui/input.tsx",
       "source_location": "L1",
       "id": "ui_input",
-      "community": 4,
+      "community": 20,
       "norm_label": "input.tsx"
     },
     {
@@ -2241,7 +2241,7 @@
       "source_file": "src/components/ui/input.tsx",
       "source_location": "L4",
       "id": "ui_input_input",
-      "community": 4,
+      "community": 20,
       "norm_label": "input"
     },
     {
@@ -2268,7 +2268,7 @@
       "source_file": "src/components/ui/popover.tsx",
       "source_location": "L1",
       "id": "ui_popover",
-      "community": 4,
+      "community": 14,
       "norm_label": "popover.tsx"
     },
     {
@@ -2277,7 +2277,7 @@
       "source_file": "src/components/ui/popover.tsx",
       "source_location": "L11",
       "id": "ui_popover_popovercontent",
-      "community": 4,
+      "community": 14,
       "norm_label": "popovercontent"
     },
     {
@@ -2286,7 +2286,7 @@
       "source_file": "src/components/ui/select.tsx",
       "source_location": "L1",
       "id": "ui_select",
-      "community": 2,
+      "community": 4,
       "norm_label": "select.tsx"
     },
     {
@@ -2295,7 +2295,7 @@
       "source_file": "src/components/ui/select.tsx",
       "source_location": "L12",
       "id": "ui_select_selecttrigger",
-      "community": 2,
+      "community": 4,
       "norm_label": "selecttrigger"
     },
     {
@@ -2304,7 +2304,7 @@
       "source_file": "src/components/ui/select.tsx",
       "source_location": "L32",
       "id": "ui_select_selectcontent",
-      "community": 2,
+      "community": 4,
       "norm_label": "selectcontent"
     },
     {
@@ -2313,7 +2313,7 @@
       "source_file": "src/components/ui/select.tsx",
       "source_location": "L62",
       "id": "ui_select_selectitem",
-      "community": 2,
+      "community": 4,
       "norm_label": "selectitem"
     },
     {
@@ -2322,7 +2322,7 @@
       "source_file": "src/components/ui/separator.tsx",
       "source_location": "L1",
       "id": "ui_separator",
-      "community": 10,
+      "community": 5,
       "norm_label": "separator.tsx"
     },
     {
@@ -2331,7 +2331,7 @@
       "source_file": "src/components/ui/separator.tsx",
       "source_location": "L7",
       "id": "ui_separator_separator",
-      "community": 10,
+      "community": 5,
       "norm_label": "separator"
     },
     {
@@ -2412,7 +2412,7 @@
       "source_file": "src/components/ui/skeleton.tsx",
       "source_location": "L1",
       "id": "ui_skeleton",
-      "community": 0,
+      "community": 10,
       "norm_label": "skeleton.tsx"
     },
     {
@@ -2421,7 +2421,7 @@
       "source_file": "src/components/ui/skeleton.tsx",
       "source_location": "L3",
       "id": "ui_skeleton_skeleton",
-      "community": 0,
+      "community": 10,
       "norm_label": "skeleton()"
     },
     {
@@ -2493,7 +2493,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L1",
       "id": "ui_tabs",
-      "community": 8,
+      "community": 3,
       "norm_label": "tabs.tsx"
     },
     {
@@ -2502,7 +2502,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L9",
       "id": "ui_tabs_tabslist",
-      "community": 8,
+      "community": 3,
       "norm_label": "tabslist"
     },
     {
@@ -2511,7 +2511,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L24",
       "id": "ui_tabs_tabstrigger",
-      "community": 8,
+      "community": 3,
       "norm_label": "tabstrigger"
     },
     {
@@ -2520,7 +2520,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L39",
       "id": "ui_tabs_tabscontent",
-      "community": 8,
+      "community": 3,
       "norm_label": "tabscontent"
     },
     {
@@ -2529,7 +2529,7 @@
       "source_file": "src/components/ui/tooltip.tsx",
       "source_location": "L1",
       "id": "ui_tooltip",
-      "community": 17,
+      "community": 5,
       "norm_label": "tooltip.tsx"
     },
     {
@@ -2538,7 +2538,7 @@
       "source_file": "src/components/ui/tooltip.tsx",
       "source_location": "L11",
       "id": "ui_tooltip_tooltipcontent",
-      "community": 17,
+      "community": 5,
       "norm_label": "tooltipcontent"
     },
     {
@@ -2646,7 +2646,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L205",
       "id": "lib_api_client_useconstituencyanalytics",
-      "community": 3,
+      "community": 0,
       "norm_label": "useconstituencyanalytics()"
     },
     {
@@ -2664,7 +2664,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L244",
       "id": "lib_api_client_useconstituencyoptions",
-      "community": 3,
+      "community": 0,
       "norm_label": "useconstituencyoptions()"
     },
     {
@@ -2709,7 +2709,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L298",
       "id": "lib_api_client_usemps",
-      "community": 10,
+      "community": 7,
       "norm_label": "usemps()"
     },
     {
@@ -2718,7 +2718,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L307",
       "id": "lib_api_client_usemp",
-      "community": 10,
+      "community": 7,
       "norm_label": "usemp()"
     },
     {
@@ -2979,7 +2979,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L1",
       "id": "lib_constituency_lookup",
-      "community": 13,
+      "community": 11,
       "norm_label": "constituency-lookup.ts"
     },
     {
@@ -2988,7 +2988,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L10",
       "id": "lib_constituency_lookup_constituency_aliases",
-      "community": 13,
+      "community": 11,
       "norm_label": "constituency_aliases"
     },
     {
@@ -2997,7 +2997,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L25",
       "id": "lib_constituency_lookup_normalizekey",
-      "community": 13,
+      "community": 11,
       "norm_label": "normalizekey()"
     },
     {
@@ -3006,7 +3006,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L29",
       "id": "lib_constituency_lookup_buildconstituencylookup",
-      "community": 13,
+      "community": 11,
       "norm_label": "buildconstituencylookup()"
     },
     {
@@ -3015,7 +3015,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L93",
       "id": "lib_constituency_lookup_listconstituencies",
-      "community": 13,
+      "community": 11,
       "norm_label": "listconstituencies()"
     },
     {
@@ -3024,7 +3024,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L100",
       "id": "lib_constituency_lookup_resolveconstituencytoken",
-      "community": 13,
+      "community": 11,
       "norm_label": "resolveconstituencytoken()"
     },
     {
@@ -3033,7 +3033,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L119",
       "id": "lib_constituency_lookup_isknownconstituency",
-      "community": 13,
+      "community": 11,
       "norm_label": "isknownconstituency()"
     },
     {
@@ -3042,7 +3042,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L128",
       "id": "lib_constituency_lookup_resolveconstituencyfilter",
-      "community": 13,
+      "community": 11,
       "norm_label": "resolveconstituencyfilter()"
     },
     {
@@ -3069,7 +3069,7 @@
       "source_file": "src/lib/dates.ts",
       "source_location": "L18",
       "id": "lib_dates_startofcalendarday",
-      "community": 12,
+      "community": 2,
       "norm_label": "startofcalendarday()"
     },
     {
@@ -3078,7 +3078,7 @@
       "source_file": "src/lib/dates.ts",
       "source_location": "L23",
       "id": "lib_dates_endofcalendarday",
-      "community": 12,
+      "community": 2,
       "norm_label": "endofcalendarday()"
     },
     {
@@ -3087,7 +3087,7 @@
       "source_file": "src/lib/dates.ts",
       "source_location": "L30",
       "id": "lib_dates_formatcalendardate",
-      "community": 7,
+      "community": 6,
       "norm_label": "formatcalendardate()"
     },
     {
@@ -3123,7 +3123,7 @@
       "source_file": "src/lib/db.ts",
       "source_location": "L1",
       "id": "lib_db",
-      "community": 20,
+      "community": 6,
       "norm_label": "db.ts"
     },
     {
@@ -3132,7 +3132,7 @@
       "source_file": "src/lib/db.ts",
       "source_location": "L5",
       "id": "lib_db_db_path",
-      "community": 20,
+      "community": 6,
       "norm_label": "db_path"
     },
     {
@@ -3141,7 +3141,7 @@
       "source_file": "src/lib/db.ts",
       "source_location": "L9",
       "id": "lib_db_getdb",
-      "community": 19,
+      "community": 6,
       "norm_label": "getdb()"
     },
     {
@@ -3163,12 +3163,39 @@
       "norm_label": "debounce"
     },
     {
+      "label": "engagement.ts",
+      "file_type": "code",
+      "source_file": "src/lib/engagement.ts",
+      "source_location": "L1",
+      "id": "lib_engagement",
+      "community": 6,
+      "norm_label": "engagement.ts"
+    },
+    {
+      "label": "parseXEngagementsTotal()",
+      "file_type": "code",
+      "source_file": "src/lib/engagement.ts",
+      "source_location": "L2",
+      "id": "lib_engagement_parsexengagementstotal",
+      "community": 6,
+      "norm_label": "parsexengagementstotal()"
+    },
+    {
+      "label": "parseNumericCount()",
+      "file_type": "code",
+      "source_file": "src/lib/engagement.ts",
+      "source_location": "L21",
+      "id": "lib_engagement_parsenumericcount",
+      "community": 6,
+      "norm_label": "parsenumericcount()"
+    },
+    {
       "label": "geo.ts",
       "file_type": "code",
       "source_file": "src/lib/geo.ts",
       "source_location": "L1",
       "id": "lib_geo",
-      "community": 20,
+      "community": 6,
       "norm_label": "geo.ts"
     },
     {
@@ -3177,7 +3204,7 @@
       "source_file": "src/lib/geo.ts",
       "source_location": "L4",
       "id": "lib_geo_district_to_geo",
-      "community": 20,
+      "community": 6,
       "norm_label": "district_to_geo"
     },
     {
@@ -3186,7 +3213,7 @@
       "source_file": "src/lib/geo.ts",
       "source_location": "L8",
       "id": "lib_geo_district_aliases",
-      "community": 20,
+      "community": 6,
       "norm_label": "district_aliases"
     },
     {
@@ -3195,7 +3222,7 @@
       "source_file": "src/lib/geo.ts",
       "source_location": "L38",
       "id": "lib_geo_builddistrictlookup",
-      "community": 20,
+      "community": 6,
       "norm_label": "builddistrictlookup()"
     },
     {
@@ -3204,7 +3231,7 @@
       "source_file": "src/lib/geo.ts",
       "source_location": "L69",
       "id": "lib_geo_togeoname",
-      "community": 20,
+      "community": 6,
       "norm_label": "togeoname()"
     },
     {
@@ -3213,7 +3240,7 @@
       "source_file": "src/lib/geo.ts",
       "source_location": "L73",
       "id": "lib_geo_isknowndistrict",
-      "community": 19,
+      "community": 6,
       "norm_label": "isknowndistrict()"
     },
     {
@@ -3222,7 +3249,7 @@
       "source_file": "src/lib/geo.ts",
       "source_location": "L82",
       "id": "lib_geo_resolvedistrictname",
-      "community": 20,
+      "community": 6,
       "norm_label": "resolvedistrictname()"
     },
     {
@@ -3231,7 +3258,7 @@
       "source_file": "src/lib/geo.ts",
       "source_location": "L93",
       "id": "lib_geo_listknowndistricts",
-      "community": 20,
+      "community": 6,
       "norm_label": "listknowndistricts()"
     },
     {
@@ -3240,7 +3267,7 @@
       "source_file": "src/lib/json-fields.ts",
       "source_location": "L1",
       "id": "lib_json_fields",
-      "community": 12,
+      "community": 11,
       "norm_label": "json-fields.ts"
     },
     {
@@ -3249,7 +3276,7 @@
       "source_file": "src/lib/json-fields.ts",
       "source_location": "L3",
       "id": "lib_json_fields_districtref",
-      "community": 12,
+      "community": 11,
       "norm_label": "districtref"
     },
     {
@@ -3258,7 +3285,7 @@
       "source_file": "src/lib/json-fields.ts",
       "source_location": "L9",
       "id": "lib_json_fields_parsejsonstringarray",
-      "community": 12,
+      "community": 11,
       "norm_label": "parsejsonstringarray()"
     },
     {
@@ -3267,7 +3294,7 @@
       "source_file": "src/lib/json-fields.ts",
       "source_location": "L35",
       "id": "lib_json_fields_parsefirstlink",
-      "community": 12,
+      "community": 11,
       "norm_label": "parsefirstlink()"
     },
     {
@@ -3276,7 +3303,7 @@
       "source_file": "src/lib/json-fields.ts",
       "source_location": "L41",
       "id": "lib_json_fields_parsepersonnamearray",
-      "community": 12,
+      "community": 11,
       "norm_label": "parsepersonnamearray()"
     },
     {
@@ -3285,7 +3312,7 @@
       "source_file": "src/lib/json-fields.ts",
       "source_location": "L62",
       "id": "lib_json_fields_parsedistrictnames",
-      "community": 5,
+      "community": 6,
       "norm_label": "parsedistrictnames()"
     },
     {
@@ -3294,7 +3321,7 @@
       "source_file": "src/lib/json-fields.ts",
       "source_location": "L86",
       "id": "lib_json_fields_jsonarraycontains",
-      "community": 12,
+      "community": 11,
       "norm_label": "jsonarraycontains()"
     },
     {
@@ -3357,7 +3384,7 @@
       "source_file": "src/lib/legislative-lookup.ts",
       "source_location": "L90",
       "id": "lib_legislative_lookup_resolvelegislativeassemblyfilter",
-      "community": 11,
+      "community": 6,
       "norm_label": "resolvelegislativeassemblyfilter()"
     },
     {
@@ -3645,7 +3672,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L1",
       "id": "lib_name_search",
-      "community": 4,
+      "community": 6,
       "norm_label": "name-search.ts"
     },
     {
@@ -3654,7 +3681,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L6",
       "id": "lib_name_search_spelling_variants",
-      "community": 4,
+      "community": 6,
       "norm_label": "spelling_variants"
     },
     {
@@ -3690,7 +3717,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L38",
       "id": "lib_name_search_expandspellingvariants",
-      "community": 4,
+      "community": 6,
       "norm_label": "expandspellingvariants()"
     },
     {
@@ -3708,7 +3735,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L54",
       "id": "lib_name_search_searchblob",
-      "community": 4,
+      "community": 6,
       "norm_label": "searchblob()"
     },
     {
@@ -3717,7 +3744,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L65",
       "id": "lib_name_search_matchessemanticsearch",
-      "community": 4,
+      "community": 6,
       "norm_label": "matchessemanticsearch()"
     },
     {
@@ -3726,7 +3753,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L92",
       "id": "lib_name_search_buildpersonsearchkeywords",
-      "community": 4,
+      "community": 6,
       "norm_label": "buildpersonsearchkeywords()"
     },
     {
@@ -3744,7 +3771,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L116",
       "id": "lib_name_search_formatrepoptionlabel",
-      "community": 4,
+      "community": 6,
       "norm_label": "formatrepoptionlabel()"
     },
     {
@@ -3753,7 +3780,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L126",
       "id": "lib_name_search_repselectoption",
-      "community": 4,
+      "community": 6,
       "norm_label": "repselectoption"
     },
     {
@@ -3762,7 +3789,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L132",
       "id": "lib_name_search_buildrepselectoption",
-      "community": 4,
+      "community": 6,
       "norm_label": "buildrepselectoption()"
     },
     {
@@ -3771,7 +3798,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L1",
       "id": "lib_news_mapper",
-      "community": 5,
+      "community": 6,
       "norm_label": "news-mapper.ts"
     },
     {
@@ -3780,7 +3807,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L19",
       "id": "lib_news_mapper_digitalmediakind",
-      "community": 5,
+      "community": 6,
       "norm_label": "digitalmediakind"
     },
     {
@@ -3789,7 +3816,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L21",
       "id": "lib_news_mapper_rawnewsrow",
-      "community": 5,
+      "community": 6,
       "norm_label": "rawnewsrow"
     },
     {
@@ -3798,7 +3825,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L50",
       "id": "lib_news_mapper_normalizesentiment",
-      "community": 5,
+      "community": 6,
       "norm_label": "normalizesentiment()"
     },
     {
@@ -3807,7 +3834,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L57",
       "id": "lib_news_mapper_parsetimestamp",
-      "community": 5,
+      "community": 6,
       "norm_label": "parsetimestamp()"
     },
     {
@@ -3816,7 +3843,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L68",
       "id": "lib_news_mapper_extractnewsarrayfields",
-      "community": 5,
+      "community": 6,
       "norm_label": "extractnewsarrayfields()"
     },
     {
@@ -3825,7 +3852,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L88",
       "id": "lib_news_mapper_buildheadline",
-      "community": 5,
+      "community": 6,
       "norm_label": "buildheadline()"
     },
     {
@@ -3834,7 +3861,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L97",
       "id": "lib_news_mapper_basedigitalfields",
-      "community": 5,
+      "community": 6,
       "norm_label": "basedigitalfields()"
     },
     {
@@ -3843,7 +3870,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L119",
       "id": "lib_news_mapper_isknownlanguage",
-      "community": 12,
+      "community": 13,
       "norm_label": "isknownlanguage()"
     },
     {
@@ -3852,7 +3879,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L125",
       "id": "lib_news_mapper_rowtoyoutuberecord",
-      "community": 5,
+      "community": 6,
       "norm_label": "rowtoyoutuberecord()"
     },
     {
@@ -3861,7 +3888,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L135",
       "id": "lib_news_mapper_rowtoxrecord",
-      "community": 5,
+      "community": 6,
       "norm_label": "rowtoxrecord()"
     },
     {
@@ -3870,7 +3897,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L143",
       "id": "lib_news_mapper_rowtoonlinerecord",
-      "community": 5,
+      "community": 6,
       "norm_label": "rowtoonlinerecord()"
     },
     {
@@ -3879,7 +3906,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L150",
       "id": "lib_news_mapper_inferprintscope",
-      "community": 5,
+      "community": 6,
       "norm_label": "inferprintscope()"
     },
     {
@@ -3888,7 +3915,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L171",
       "id": "lib_news_mapper_rowtoprintrecord",
-      "community": 5,
+      "community": 6,
       "norm_label": "rowtoprintrecord()"
     },
     {
@@ -3897,7 +3924,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L196",
       "id": "lib_news_mapper_digital_tables",
-      "community": 5,
+      "community": 6,
       "norm_label": "digital_tables"
     },
     {
@@ -3906,7 +3933,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L234",
       "id": "lib_news_mapper_table_columns",
-      "community": 5,
+      "community": 6,
       "norm_label": "table_columns"
     },
     {
@@ -3915,7 +3942,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L241",
       "id": "lib_news_mapper_columnsforkind",
-      "community": 5,
+      "community": 6,
       "norm_label": "columnsforkind()"
     },
     {
@@ -3924,7 +3951,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L245",
       "id": "lib_news_mapper_tablekind",
-      "community": 5,
+      "community": 6,
       "norm_label": "tablekind"
     },
     {
@@ -3933,7 +3960,7 @@
       "source_file": "src/lib/news-mapper.ts",
       "source_location": "L247",
       "id": "lib_news_mapper_tableforkind",
-      "community": 19,
+      "community": 6,
       "norm_label": "tableforkind()"
     },
     {
@@ -3978,7 +4005,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L76",
       "id": "lib_news_repository_paginatemeta",
-      "community": 12,
+      "community": 13,
       "norm_label": "paginatemeta()"
     },
     {
@@ -3987,7 +4014,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L87",
       "id": "lib_news_repository_tableexists",
-      "community": 19,
+      "community": 6,
       "norm_label": "tableexists()"
     },
     {
@@ -3996,7 +4023,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L96",
       "id": "lib_news_repository_buildindexedwhere",
-      "community": 12,
+      "community": 6,
       "norm_label": "buildindexedwhere()"
     },
     {
@@ -4005,7 +4032,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L141",
       "id": "lib_news_repository_emptysentimentbreakdown",
-      "community": 7,
+      "community": 6,
       "norm_label": "emptysentimentbreakdown()"
     },
     {
@@ -4041,7 +4068,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L221",
       "id": "lib_news_repository_applyconstituencyscope",
-      "community": 7,
+      "community": 6,
       "norm_label": "applyconstituencyscope()"
     },
     {
@@ -4050,7 +4077,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L226",
       "id": "lib_news_repository_maprow",
-      "community": 5,
+      "community": 6,
       "norm_label": "maprow()"
     },
     {
@@ -4068,7 +4095,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L248",
       "id": "lib_news_repository_querytablerecordssql",
-      "community": 12,
+      "community": 6,
       "norm_label": "querytablerecordssql()"
     },
     {
@@ -4077,7 +4104,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L289",
       "id": "lib_news_repository_tablestatssql",
-      "community": 7,
+      "community": 6,
       "norm_label": "tablestatssql()"
     },
     {
@@ -4086,7 +4113,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L320",
       "id": "lib_news_repository_countandsentimentsql",
-      "community": 7,
+      "community": 6,
       "norm_label": "countandsentimentsql()"
     },
     {
@@ -4095,7 +4122,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L329",
       "id": "lib_news_repository_dailytrendcountssql",
-      "community": 7,
+      "community": 6,
       "norm_label": "dailytrendcountssql()"
     },
     {
@@ -4113,7 +4140,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L343",
       "id": "lib_news_repository_aggregatefilteredstats",
-      "community": 7,
+      "community": 6,
       "norm_label": "aggregatefilteredstats()"
     },
     {
@@ -4122,7 +4149,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L356",
       "id": "lib_news_repository_querytablerecords",
-      "community": 12,
+      "community": 13,
       "norm_label": "querytablerecords()"
     },
     {
@@ -4131,7 +4158,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L368",
       "id": "lib_news_repository_queryprintrecords",
-      "community": 12,
+      "community": 13,
       "norm_label": "queryprintrecords()"
     },
     {
@@ -4140,7 +4167,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L375",
       "id": "lib_news_repository_queryyoutuberecords",
-      "community": 12,
+      "community": 13,
       "norm_label": "queryyoutuberecords()"
     },
     {
@@ -4149,7 +4176,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L382",
       "id": "lib_news_repository_queryxrecords",
-      "community": 12,
+      "community": 13,
       "norm_label": "queryxrecords()"
     },
     {
@@ -4158,7 +4185,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L389",
       "id": "lib_news_repository_queryonlinerecords",
-      "community": 12,
+      "community": 13,
       "norm_label": "queryonlinerecords()"
     },
     {
@@ -4167,7 +4194,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L397",
       "id": "lib_news_repository_querydigitalmedia",
-      "community": 12,
+      "community": 13,
       "norm_label": "querydigitalmedia()"
     },
     {
@@ -4183,7 +4210,7 @@
       "label": "pickPrimaryDistrict()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L442",
+      "source_location": "L443",
       "id": "lib_news_repository_pickprimarydistrict",
       "community": 6,
       "norm_label": "pickprimarydistrict()"
@@ -4192,7 +4219,7 @@
       "label": "mergeSentimentBreakdown()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L454",
+      "source_location": "L455",
       "id": "lib_news_repository_mergesentimentbreakdown",
       "community": 6,
       "norm_label": "mergesentimentbreakdown()"
@@ -4201,16 +4228,25 @@
       "label": "queryPrimaryDistrictForEntity()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L463",
+      "source_location": "L464",
       "id": "lib_news_repository_queryprimarydistrictforentity",
       "community": 6,
       "norm_label": "queryprimarydistrictforentity()"
     },
     {
-      "label": "queryEntityMediaStats()",
+      "label": "queryEntityTotalEngagement()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L487",
+      "id": "lib_news_repository_queryentitytotalengagement",
+      "community": 6,
+      "norm_label": "queryentitytotalengagement()"
+    },
+    {
+      "label": "queryEntityMediaStats()",
+      "file_type": "code",
+      "source_file": "src/lib/news-repository.ts",
+      "source_location": "L516",
       "id": "lib_news_repository_queryentitymediastats",
       "community": 6,
       "norm_label": "queryentitymediastats()"
@@ -4219,25 +4255,25 @@
       "label": "printCountsByDistrict()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L518",
+      "source_location": "L548",
       "id": "lib_news_repository_printcountsbydistrict",
-      "community": 19,
+      "community": 6,
       "norm_label": "printcountsbydistrict()"
     },
     {
       "label": "listDistrictNamesFromNews()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L539",
+      "source_location": "L569",
       "id": "lib_news_repository_listdistrictnamesfromnews",
-      "community": 19,
+      "community": 6,
       "norm_label": "listdistrictnamesfromnews()"
     },
     {
       "label": "DashboardValueRollupMode",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L543",
+      "source_location": "L573",
       "id": "lib_news_repository_dashboardvaluerollupmode",
       "community": 6,
       "norm_label": "dashboardvaluerollupmode"
@@ -4246,7 +4282,7 @@
       "label": "valueColumnForKind()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L545",
+      "source_location": "L575",
       "id": "lib_news_repository_valuecolumnforkind",
       "community": 6,
       "norm_label": "valuecolumnforkind()"
@@ -4255,25 +4291,25 @@
       "label": "aggregateDashboardValueCounts()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L563",
+      "source_location": "L593",
       "id": "lib_news_repository_aggregatedashboardvaluecounts",
-      "community": 19,
+      "community": 6,
       "norm_label": "aggregatedashboardvaluecounts()"
     },
     {
       "label": "bumpDistrictSummary()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L605",
+      "source_location": "L635",
       "id": "lib_news_repository_bumpdistrictsummary",
-      "community": 19,
+      "community": 6,
       "norm_label": "bumpdistrictsummary()"
     },
     {
       "label": "districtSummaryCache",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L641",
+      "source_location": "L671",
       "id": "lib_news_repository_districtsummarycache",
       "community": 6,
       "norm_label": "districtsummarycache"
@@ -4282,54 +4318,54 @@
       "label": "buildDashboardDistrictSummary()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L647",
+      "source_location": "L677",
       "id": "lib_news_repository_builddashboarddistrictsummary",
-      "community": 19,
+      "community": 6,
       "norm_label": "builddashboarddistrictsummary()"
     },
     {
       "label": "queryDigitalTimestampBounds()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L692",
+      "source_location": "L722",
       "id": "lib_news_repository_querydigitaltimestampbounds",
-      "community": 19,
+      "community": 6,
       "norm_label": "querydigitaltimestampbounds()"
     },
     {
       "label": "queryTopDigitalRecords()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L723",
+      "source_location": "L753",
       "id": "lib_news_repository_querytopdigitalrecords",
-      "community": 7,
+      "community": 6,
       "norm_label": "querytopdigitalrecords()"
     },
     {
       "label": "buildPrintCountIndex()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L745",
+      "source_location": "L775",
       "id": "lib_news_repository_buildprintcountindex",
-      "community": 19,
+      "community": 6,
       "norm_label": "buildprintcountindex()"
     },
     {
       "label": "loadAllDigitalRecords()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L785",
+      "source_location": "L815",
       "id": "lib_news_repository_loadalldigitalrecords",
-      "community": 7,
+      "community": 13,
       "norm_label": "loadalldigitalrecords()"
     },
     {
       "label": "listLanguagesFromNews()",
       "file_type": "code",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L790",
+      "source_location": "L820",
       "id": "lib_news_repository_listlanguagesfromnews",
-      "community": 19,
+      "community": 6,
       "norm_label": "listlanguagesfromnews()"
     },
     {
@@ -4554,7 +4590,7 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L37",
       "id": "lib_sql_scope_filters_districtlikepatterns",
-      "community": 20,
+      "community": 6,
       "norm_label": "districtlikepatterns()"
     },
     {
@@ -4626,7 +4662,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L5",
       "id": "lib_types_mediatype",
-      "community": 3,
+      "community": 13,
       "norm_label": "mediatype"
     },
     {
@@ -4644,7 +4680,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L10",
       "id": "lib_types_printsourcetype",
-      "community": 5,
+      "community": 6,
       "norm_label": "printsourcetype"
     },
     {
@@ -4662,7 +4698,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L15",
       "id": "lib_types_reptype",
-      "community": 5,
+      "community": 6,
       "norm_label": "reptype"
     },
     {
@@ -4671,7 +4707,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L18",
       "id": "lib_types_newsarrayfields",
-      "community": 5,
+      "community": 6,
       "norm_label": "newsarrayfields"
     },
     {
@@ -4689,7 +4725,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L34",
       "id": "lib_types_digitalnewsrecordbase",
-      "community": 5,
+      "community": 6,
       "norm_label": "digitalnewsrecordbase"
     },
     {
@@ -4698,7 +4734,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L56",
       "id": "lib_types_mediarecord",
-      "community": 5,
+      "community": 6,
       "norm_label": "mediarecord"
     },
     {
@@ -4734,7 +4770,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L86",
       "id": "lib_types_trendpoint",
-      "community": 15,
+      "community": 13,
       "norm_label": "trendpoint"
     },
     {
@@ -4743,7 +4779,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L95",
       "id": "lib_types_namecount",
-      "community": 15,
+      "community": 13,
       "norm_label": "namecount"
     },
     {
@@ -4761,7 +4797,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L111",
       "id": "lib_types_dashboardresponse",
-      "community": 7,
+      "community": 13,
       "norm_label": "dashboardresponse"
     },
     {
@@ -4770,7 +4806,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L133",
       "id": "lib_types_districtanalyticsresponse",
-      "community": 7,
+      "community": 13,
       "norm_label": "districtanalyticsresponse"
     },
     {
@@ -4806,7 +4842,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L186",
       "id": "lib_types_youtuberecord",
-      "community": 5,
+      "community": 6,
       "norm_label": "youtuberecord"
     },
     {
@@ -4815,7 +4851,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L195",
       "id": "lib_types_xrecord",
-      "community": 5,
+      "community": 6,
       "norm_label": "xrecord"
     },
     {
@@ -4824,7 +4860,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L203",
       "id": "lib_types_onlinerecord",
-      "community": 5,
+      "community": 6,
       "norm_label": "onlinerecord"
     },
     {
@@ -4941,7 +4977,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L301",
       "id": "lib_types_governmentmemberprofile",
-      "community": 13,
+      "community": 9,
       "norm_label": "governmentmemberprofile"
     },
     {
@@ -4959,7 +4995,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L313",
       "id": "lib_types_mpbioprofile",
-      "community": 1,
+      "community": 9,
       "norm_label": "mpbioprofile"
     },
     {
@@ -4977,7 +5013,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L326",
       "id": "lib_types_mlalistitem",
-      "community": 1,
+      "community": 13,
       "norm_label": "mlalistitem"
     },
     {
@@ -4986,7 +5022,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L334",
       "id": "lib_types_mplistitem",
-      "community": 1,
+      "community": 7,
       "norm_label": "mplistitem"
     },
     {
@@ -4995,7 +5031,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L342",
       "id": "lib_types_mla",
-      "community": 1,
+      "community": 10,
       "norm_label": "mla"
     },
     {
@@ -5004,7 +5040,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L379",
       "id": "lib_types_mp",
-      "community": 1,
+      "community": 7,
       "norm_label": "mp"
     },
     {
@@ -5157,7 +5193,7 @@
       "source_file": "src/lib/use-global-search-status.ts",
       "source_location": "L19",
       "id": "lib_use_global_search_status_useglobalsearchstatus",
-      "community": 3,
+      "community": 20,
       "norm_label": "useglobalsearchstatus()"
     },
     {
@@ -5238,7 +5274,7 @@
       "source_file": "src/lib/utils.ts",
       "source_location": "L1",
       "id": "lib_utils",
-      "community": 17,
+      "community": 5,
       "norm_label": "utils.ts"
     },
     {
@@ -5247,7 +5283,7 @@
       "source_file": "src/lib/utils.ts",
       "source_location": "L4",
       "id": "lib_utils_cn",
-      "community": 17,
+      "community": 12,
       "norm_label": "cn()"
     },
     {
@@ -5256,7 +5292,7 @@
       "source_file": "src/lib/utils.ts",
       "source_location": "L8",
       "id": "lib_utils_formatnumber",
-      "community": 10,
+      "community": 17,
       "norm_label": "formatnumber()"
     },
     {
@@ -5265,7 +5301,7 @@
       "source_file": "src/lib/utils.ts",
       "source_location": "L13",
       "id": "lib_utils_formatcompact",
-      "community": 17,
+      "community": 15,
       "norm_label": "formatcompact()"
     },
     {
@@ -5310,7 +5346,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L1",
       "id": "services_analytics",
-      "community": 7,
+      "community": 13,
       "norm_label": "analytics.ts"
     },
     {
@@ -5319,7 +5355,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L23",
       "id": "services_analytics_emptysentiment",
-      "community": 7,
+      "community": 13,
       "norm_label": "emptysentiment()"
     },
     {
@@ -5328,7 +5364,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L27",
       "id": "services_analytics_mergesentiment",
-      "community": 7,
+      "community": 13,
       "norm_label": "mergesentiment()"
     },
     {
@@ -5337,7 +5373,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L36",
       "id": "services_analytics_mergekinddailytrends",
-      "community": 7,
+      "community": 6,
       "norm_label": "mergekinddailytrends()"
     },
     {
@@ -5346,7 +5382,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L65",
       "id": "services_analytics_topnewsbysentiment",
-      "community": 7,
+      "community": 6,
       "norm_label": "topnewsbysentiment()"
     },
     {
@@ -5355,7 +5391,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L86",
       "id": "services_analytics_dashboardcache",
-      "community": 7,
+      "community": 13,
       "norm_label": "dashboardcache"
     },
     {
@@ -5364,7 +5400,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L91",
       "id": "services_analytics_dashboardcachekey",
-      "community": 7,
+      "community": 6,
       "norm_label": "dashboardcachekey()"
     },
     {
@@ -5373,7 +5409,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L95",
       "id": "services_analytics_getdashboarduncached",
-      "community": 7,
+      "community": 6,
       "norm_label": "getdashboarduncached()"
     },
     {
@@ -5382,7 +5418,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L169",
       "id": "services_analytics_getdashboard",
-      "community": 7,
+      "community": 6,
       "norm_label": "getdashboard()"
     },
     {
@@ -5391,7 +5427,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L186",
       "id": "services_analytics_getdistrictanalytics",
-      "community": 7,
+      "community": 13,
       "norm_label": "getdistrictanalytics()"
     },
     {
@@ -5472,7 +5508,7 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L91",
       "id": "services_constituency_getconstituencyanalytics",
-      "community": 13,
+      "community": 6,
       "norm_label": "getconstituencyanalytics()"
     },
     {
@@ -5654,303 +5690,6 @@
       "id": "store_filters_buildfilterquery",
       "community": 3,
       "norm_label": "buildfilterquery()"
-    },
-    {
-      "label": "EntityPersonColumn",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L150",
-      "community": 6,
-      "norm_label": "entitypersoncolumn",
-      "id": "lib_news_repository_entitypersoncolumn"
-    },
-    {
-      "label": "entityColumnsForFilters()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L152",
-      "community": 6,
-      "norm_label": "entitycolumnsforfilters()",
-      "id": "lib_news_repository_entitycolumnsforfilters"
-    },
-    {
-      "label": "buildEntitySqlPrefilter()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L158",
-      "community": 6,
-      "norm_label": "buildentitysqlprefilter()",
-      "id": "lib_news_repository_buildentitysqlprefilter"
-    },
-    {
-      "label": "addSentimentCount()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L180",
-      "community": 6,
-      "norm_label": "addsentimentcount()",
-      "id": "lib_news_repository_addsentimentcount"
-    },
-    {
-      "label": "needsJsFiltering()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L196",
-      "community": 12,
-      "norm_label": "needsjsfiltering()",
-      "id": "lib_news_repository_needsjsfiltering"
-    },
-    {
-      "label": "SEARCH_TEXT_COLUMNS",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L377",
-      "community": 6,
-      "norm_label": "search_text_columns",
-      "id": "lib_news_repository_search_text_columns"
-    },
-    {
-      "label": "aggRowColumns()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L397",
-      "community": 7,
-      "norm_label": "aggrowcolumns()",
-      "id": "lib_news_repository_aggrowcolumns"
-    },
-    {
-      "label": "buildSearchSqlPrefilter()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L403",
-      "community": 6,
-      "norm_label": "buildsearchsqlprefilter()",
-      "id": "lib_news_repository_buildsearchsqlprefilter"
-    },
-    {
-      "label": "fetchRows()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L468",
-      "community": 19,
-      "norm_label": "fetchrows()",
-      "id": "lib_news_repository_fetchrows"
-    },
-    {
-      "label": "rowMatchesDistrict()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L492",
-      "community": 12,
-      "norm_label": "rowmatchesdistrict()",
-      "id": "lib_news_repository_rowmatchesdistrict"
-    },
-    {
-      "label": "constituencyScope()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L501",
-      "community": 12,
-      "norm_label": "constituencyscope()",
-      "id": "lib_news_repository_constituencyscope"
-    },
-    {
-      "label": "rowMatchesConstituency()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L505",
-      "community": 11,
-      "norm_label": "rowmatchesconstituency()",
-      "id": "lib_news_repository_rowmatchesconstituency"
-    },
-    {
-      "label": "rowMatchesEntity()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L533",
-      "community": 12,
-      "norm_label": "rowmatchesentity()",
-      "id": "lib_news_repository_rowmatchesentity"
-    },
-    {
-      "label": "rowMatchesFilters()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L545",
-      "community": 12,
-      "norm_label": "rowmatchesfilters()",
-      "id": "lib_news_repository_rowmatchesfilters"
-    },
-    {
-      "label": "rowMatchesPrintSource()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L615",
-      "community": 12,
-      "norm_label": "rowmatchesprintsource()",
-      "id": "lib_news_repository_rowmatchesprintsource"
-    },
-    {
-      "label": "SortValue",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L645",
-      "community": 6,
-      "norm_label": "sortvalue",
-      "id": "lib_news_repository_sortvalue"
-    },
-    {
-      "label": "PRINT_SORT",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L647",
-      "community": 6,
-      "norm_label": "print_sort",
-      "id": "lib_news_repository_print_sort"
-    },
-    {
-      "label": "DIGITAL_SORT",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L659",
-      "community": 6,
-      "norm_label": "digital_sort",
-      "id": "lib_news_repository_digital_sort"
-    },
-    {
-      "label": "compareSortValues()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L675",
-      "community": 6,
-      "norm_label": "comparesortvalues()",
-      "id": "lib_news_repository_comparesortvalues"
-    },
-    {
-      "label": "sortRecords()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L683",
-      "community": 12,
-      "norm_label": "sortrecords()",
-      "id": "lib_news_repository_sortrecords"
-    },
-    {
-      "label": "bumpEntityDistrictCounts()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L855",
-      "community": 20,
-      "norm_label": "bumpentitydistrictcounts()",
-      "id": "lib_news_repository_bumpentitydistrictcounts"
-    },
-    {
-      "label": "dashboardAggColumns()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1066",
-      "community": 19,
-      "norm_label": "dashboardaggcolumns()",
-      "id": "lib_news_repository_dashboardaggcolumns"
-    },
-    {
-      "label": "rowPassesScopedFilters()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1082",
-      "community": 12,
-      "norm_label": "rowpassesscopedfilters()",
-      "id": "lib_news_repository_rowpassesscopedfilters"
-    },
-    {
-      "label": "hasJsScopeFilters()",
-      "file_type": "code",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L38",
-      "community": 7,
-      "norm_label": "hasjsscopefilters()",
-      "id": "services_analytics_hasjsscopefilters"
-    },
-    {
-      "label": "digitalSourceName()",
-      "file_type": "code",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L96",
-      "community": 7,
-      "norm_label": "digitalsourcename()",
-      "id": "services_analytics_digitalsourcename"
-    },
-    {
-      "label": "normalizeSearchFilter()",
-      "file_type": "code",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L104",
-      "community": 13,
-      "norm_label": "normalizesearchfilter()",
-      "id": "lib_news_repository_normalizesearchfilter"
-    },
-    {
-      "label": "topCounts()",
-      "file_type": "code",
-      "source_file": "src/services/constituency.ts",
-      "source_location": "L40",
-      "community": 13,
-      "norm_label": "topcounts()",
-      "id": "services_constituency_topcounts"
-    },
-    {
-      "label": "mergeDailyTrendMaps()",
-      "file_type": "code",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L48",
-      "community": 7,
-      "norm_label": "mergedailytrendmaps()",
-      "id": "services_analytics_mergedailytrendmaps"
-    },
-    {
-      "label": "topCounts()",
-      "file_type": "code",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L69",
-      "community": 7,
-      "norm_label": "topcounts()",
-      "id": "services_analytics_topcounts"
-    },
-    {
-      "label": "bumpTrend()",
-      "file_type": "code",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L86",
-      "community": 7,
-      "norm_label": "bumptrend()",
-      "id": "services_analytics_bumptrend"
-    },
-    {
-      "label": "buildDistrictSummary()",
-      "file_type": "code",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L129",
-      "community": 20,
-      "norm_label": "builddistrictsummary()",
-      "id": "services_analytics_builddistrictsummary"
-    },
-    {
-      "label": "throttle",
-      "file_type": "code",
-      "source_file": "src/lib/debounce-throttle.ts",
-      "source_location": "L31",
-      "community": 3,
-      "norm_label": "throttle",
-      "id": "lib_debounce_throttle_throttle"
-    },
-    {
-      "label": "useThrottledCallback()",
-      "file_type": "code",
-      "source_file": "src/lib/use-debounced-value.ts",
-      "source_location": "L60",
-      "community": 3,
-      "norm_label": "usethrottledcallback()",
-      "id": "lib_use_debounced_value_usethrottledcallback"
     },
     {
       "label": "route.ts",
@@ -15099,17 +14838,6 @@
       "target": "lib_debounce_throttle_debounce"
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/tables/data-table.tsx",
-      "source_location": "L29",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tables_data_table",
-      "target": "lib_debounce_throttle_throttle"
-    },
-    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -15163,17 +14891,6 @@
       "confidence_score": 1.0,
       "source": "tables_data_table",
       "target": "lib_use_debounced_value_usedebouncedvalue"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/tables/data-table.tsx",
-      "source_location": "L30",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tables_data_table",
-      "target": "lib_use_debounced_value_usethrottledcallback"
     },
     {
       "relation": "imports_from",
@@ -15463,17 +15180,6 @@
       "weight": 1.0,
       "source": "tables_data_table_datatable",
       "target": "lib_use_debounced_value_usedebouncedvalue"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/tables/data-table.tsx",
-      "source_location": "L163",
-      "weight": 1.0,
-      "source": "tables_data_table_datatable",
-      "target": "lib_use_debounced_value_usethrottledcallback"
     },
     {
       "relation": "calls",
@@ -18093,17 +17799,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_api_helpers",
-      "target": "lib_news_repository_normalizesearchfilter"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/api-helpers.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_api_helpers",
       "target": "lib_search_filter_normalizesearchfilter"
     },
     {
@@ -18879,17 +18574,6 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L206",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesconstituency",
-      "target": "lib_constituency_detail_constituencydedupekey"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
       "source_file": "src/lib/constituency-detail.ts",
       "source_location": "L305",
       "weight": 1.0,
@@ -19474,17 +19158,6 @@
       "target": "lib_constituency_lookup_resolveconstituencytoken"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L87",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesconstituency",
-      "target": "lib_constituency_lookup_resolveconstituencytoken"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -19515,17 +19188,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_constituency_lookup_resolveconstituencyfilter"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L205",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesconstituency",
       "target": "lib_constituency_lookup_resolveconstituencyfilter"
     },
     {
@@ -19775,17 +19437,6 @@
       "target": "lib_dates_startofcalendarday"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L148",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesfilters",
-      "target": "lib_dates_startofcalendarday"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -19805,17 +19456,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository_buildindexedwhere",
-      "target": "lib_dates_endofcalendarday"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L149",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesfilters",
       "target": "lib_dates_endofcalendarday"
     },
     {
@@ -19869,9 +19509,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L162",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics_getdashboarduncached",
-      "target": "lib_dates_formatcalendardate",
-      "confidence_score": 1.0
+      "target": "lib_dates_formatcalendardate"
     },
     {
       "relation": "contains",
@@ -20073,17 +19713,6 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L86",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_fetchrows",
-      "target": "lib_db_getdb"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L314",
@@ -20123,6 +19752,17 @@
       "weight": 1.0,
       "source": "lib_news_repository_querydigitaltimestampbounds",
       "target": "lib_db_getdb"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/news-repository.ts",
+      "source_location": "L490",
+      "weight": 1.0,
+      "source": "lib_news_repository_queryentitytotalengagement",
+      "target": "lib_db_getdb",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -20245,102 +19885,145 @@
       "target": "lib_debounce_throttle_debounce"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/use-api-filter-state.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_use_api_filter_state",
+      "target": "lib_debounce_throttle"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/use-debounced-value.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_use_debounced_value",
+      "target": "lib_debounce_throttle"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/use-global-search-status.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_use_global_search_status",
+      "target": "lib_debounce_throttle"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/use-media-table-query-state.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_use_media_table_query_state",
+      "target": "lib_debounce_throttle"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/use-api-filter-state.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_use_api_filter_state",
+      "target": "lib_debounce_throttle_debounce"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/use-debounced-value.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_use_debounced_value",
+      "target": "lib_debounce_throttle_debounce"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/use-global-search-status.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_use_global_search_status",
+      "target": "lib_debounce_throttle_debounce"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/use-media-table-query-state.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_use_media_table_query_state",
+      "target": "lib_debounce_throttle_debounce"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/debounce-throttle.ts",
-      "source_location": "L32",
+      "source_file": "src/lib/engagement.ts",
+      "source_location": "L21",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_debounce_throttle",
-      "target": "lib_debounce_throttle_throttle"
+      "source": "lib_engagement",
+      "target": "lib_engagement_parsenumericcount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/engagement.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "lib_engagement",
+      "target": "lib_engagement_parsexengagementstotal",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-api-filter-state.ts",
-      "source_location": "L4",
+      "source_file": "src/lib/news-repository.ts",
+      "source_location": "L8",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_api_filter_state",
-      "target": "lib_debounce_throttle"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-debounced-value.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_debounced_value",
-      "target": "lib_debounce_throttle"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-global-search-status.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_global_search_status",
-      "target": "lib_debounce_throttle"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-media-table-query-state.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_media_table_query_state",
-      "target": "lib_debounce_throttle"
+      "source": "lib_news_repository",
+      "target": "lib_engagement",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-api-filter-state.ts",
-      "source_location": "L4",
+      "source_file": "src/lib/news-repository.ts",
+      "source_location": "L8",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_api_filter_state",
-      "target": "lib_debounce_throttle_debounce"
+      "source": "lib_news_repository",
+      "target": "lib_engagement_parsexengagementstotal",
+      "confidence_score": 1.0
     },
     {
-      "relation": "imports",
-      "context": "import",
+      "relation": "calls",
+      "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-debounced-value.ts",
-      "source_location": "L4",
+      "source_file": "src/lib/news-repository.ts",
+      "source_location": "L509",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_debounced_value",
-      "target": "lib_debounce_throttle_debounce"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-global-search-status.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_global_search_status",
-      "target": "lib_debounce_throttle_debounce"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-media-table-query-state.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_media_table_query_state",
-      "target": "lib_debounce_throttle_debounce"
+      "source": "lib_news_repository_queryentitytotalengagement",
+      "target": "lib_engagement_parsexengagementstotal",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -20512,17 +20195,6 @@
       "target": "lib_geo_togeoname"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L79",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesdistrict",
-      "target": "lib_geo_togeoname"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -20553,17 +20225,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "services_analytics",
-      "target": "lib_geo_togeoname"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L137",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics_builddistrictsummary",
       "target": "lib_geo_togeoname"
     },
     {
@@ -20644,17 +20305,6 @@
       "target": "lib_geo_isknowndistrict"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L131",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics_builddistrictsummary",
-      "target": "lib_geo_isknowndistrict"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -20674,28 +20324,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_geo_resolvedistrictname"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L560",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_bumpentitydistrictcounts",
-      "target": "lib_geo_resolvedistrictname"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L78",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesdistrict",
       "target": "lib_geo_resolvedistrictname"
     },
     {
@@ -20957,50 +20585,6 @@
       "target": "lib_json_fields_parsejsonstringarray"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L88",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesconstituency",
-      "target": "lib_json_fields_parsejsonstringarray"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L94",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesentity",
-      "target": "lib_json_fields_parsejsonstringarray"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L184",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesfilters",
-      "target": "lib_json_fields_parsejsonstringarray"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L179",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesprintsource",
-      "target": "lib_json_fields_parsejsonstringarray"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -21053,50 +20637,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository_querytablerecords",
-      "target": "lib_json_fields_parsepersonnamearray"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L116",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesentity",
-      "target": "lib_json_fields_parsepersonnamearray"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L185",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesfilters",
-      "target": "lib_json_fields_parsepersonnamearray"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L207",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesprintsource",
-      "target": "lib_json_fields_parsepersonnamearray"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1117",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowpassesscopedfilters",
       "target": "lib_json_fields_parsepersonnamearray"
     },
     {
@@ -21158,17 +20698,6 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L559",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_bumpentitydistrictcounts",
-      "target": "lib_json_fields_parsedistrictnames"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L318",
@@ -21196,39 +20725,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository_queryprimarydistrictforentity",
-      "target": "lib_json_fields_parsedistrictnames"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L80",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesdistrict",
-      "target": "lib_json_fields_parsedistrictnames"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L187",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesfilters",
-      "target": "lib_json_fields_parsedistrictnames"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L176",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesprintsource",
       "target": "lib_json_fields_parsedistrictnames"
     },
     {
@@ -21262,17 +20758,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository_querytablerecords",
-      "target": "lib_json_fields_jsonarraycontains"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L115",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesentity",
       "target": "lib_json_fields_jsonarraycontains"
     },
     {
@@ -21478,17 +20963,6 @@
       "target": "lib_legislative_lookup_resolvelegislativeassemblytoken"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L427",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesconstituency",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblytoken"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -21497,17 +20971,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L424",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesconstituency",
       "target": "lib_legislative_lookup_resolvelegislativeassemblyfilter"
     },
     {
@@ -21563,17 +21026,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_legislative_lookup_legislativeassemblydedupekey"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L425",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesconstituency",
       "target": "lib_legislative_lookup_legislativeassemblydedupekey"
     },
     {
@@ -22487,28 +21939,6 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L99",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesentity",
-      "target": "lib_mp_name_matching_mpnamesmatch"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L190",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesprintsource",
-      "target": "lib_mp_name_matching_mpnamesmatch"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
       "source_file": "src/lib/mp-name-matching.ts",
       "source_location": "L265",
       "weight": 1.0,
@@ -22542,28 +21972,6 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L209",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesprintsource",
-      "target": "lib_mp_name_matching_mlanamesmatch"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1118",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowpassesscopedfilters",
-      "target": "lib_mp_name_matching_mlanamesmatch"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/mp-name-matching.ts",
       "source_location": "L266",
@@ -22580,17 +21988,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_mp_name_matching_personnamesmatch"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L115",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesentity",
       "target": "lib_mp_name_matching_personnamesmatch"
     },
     {
@@ -22834,17 +22231,6 @@
       "target": "lib_name_search_tokenizesearch"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L389",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_buildsearchsqlprefilter",
-      "target": "lib_name_search_tokenizesearch"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -22903,17 +22289,6 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L190",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesfilters",
-      "target": "lib_name_search_matchessemanticsearch"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
       "source_file": "src/lib/name-search.ts",
       "source_location": "L123",
       "weight": 1.0,
@@ -22930,17 +22305,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_name_search_entitysearchlikepatterns"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L144",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_buildentitysqlprefilter",
       "target": "lib_name_search_entitysearchlikepatterns"
     },
     {
@@ -23663,17 +23027,6 @@
       "target": "lib_news_mapper_rowtoprintrecord"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1106",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowpassesscopedfilters",
-      "target": "lib_news_mapper_rowtoprintrecord"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -23693,17 +23046,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_news_mapper_columnsforkind"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L85",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_fetchrows",
       "target": "lib_news_mapper_columnsforkind"
     },
     {
@@ -23798,17 +23140,6 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L82",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_fetchrows",
-      "target": "lib_news_mapper_tableforkind"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L366",
@@ -23854,6 +23185,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
+      "source_location": "L495",
+      "weight": 1.0,
+      "source": "lib_news_repository_queryentitytotalengagement",
+      "target": "lib_news_mapper_tableforkind",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/news-repository.ts",
       "source_location": "L469",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -23886,16 +23228,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L545",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_addsentimentcount"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L1128",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -23911,16 +23243,6 @@
       "confidence_score": 1.0,
       "source": "lib_news_repository",
       "target": "lib_news_repository_aggregatefilteredstats"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L405",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_aggrowcolumns"
     },
     {
       "relation": "contains",
@@ -23946,16 +23268,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L140",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_buildentitysqlprefilter"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L82",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -23971,16 +23283,6 @@
       "confidence_score": 1.0,
       "source": "lib_news_repository",
       "target": "lib_news_repository_buildprintcountindex"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L385",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_buildsearchsqlprefilter"
     },
     {
       "relation": "contains",
@@ -24006,36 +23308,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L554",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_bumpentitydistrictcounts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L253",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_comparesortvalues"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L414",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_constituencyscope"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L248",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -24056,16 +23328,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1076",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_dashboardaggcolumns"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L542",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -24076,21 +23338,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L236",
+      "source_location": "L641",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_news_repository_digital_sort"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L641",
-      "weight": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_districtsummarycache",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_districtsummarycache"
     },
     {
       "relation": "contains",
@@ -24106,41 +23358,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L134",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_entitycolumnsforfilters"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L526",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository",
       "target": "lib_news_repository_entitymediastats"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L132",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_entitypersoncolumn"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L81",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_fetchrows"
     },
     {
       "relation": "contains",
@@ -24216,31 +23438,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L180",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_needsjsfiltering"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L41",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository",
       "target": "lib_news_repository_normalizepagination"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L102",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_normalizesearchfilter"
     },
     {
       "relation": "contains",
@@ -24271,16 +23473,6 @@
       "confidence_score": 1.0,
       "source": "lib_news_repository",
       "target": "lib_news_repository_pickprimarydistrict"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L224",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_print_sort"
     },
     {
       "relation": "contains",
@@ -24321,6 +23513,16 @@
       "confidence_score": 1.0,
       "source": "lib_news_repository",
       "target": "lib_news_repository_queryentitymediastats"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/news-repository.ts",
+      "source_location": "L487",
+      "weight": 1.0,
+      "source": "lib_news_repository",
+      "target": "lib_news_repository_queryentitytotalengagement",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -24416,76 +23618,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L86",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_rowmatchesconstituency"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L77",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_rowmatchesdistrict"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L93",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_rowmatchesentity"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L104",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_rowmatchesfilters"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L169",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_rowmatchesprintsource"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1092",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_rowpassesscopedfilters"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L371",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_search_text_columns"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L538",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -24506,26 +23638,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L212",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_sortrecords"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L222",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository",
-      "target": "lib_news_repository_sortvalue"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L64",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -24538,9 +23650,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L289",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository",
-      "target": "lib_news_repository_tablestatssql",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_tablestatssql"
     },
     {
       "relation": "contains",
@@ -25008,17 +24120,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L83",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_fetchrows",
-      "target": "lib_news_repository_tableexists"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L313",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -25065,9 +24166,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L294",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_tablestatssql",
-      "target": "lib_news_repository_tableexists",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_tableexists"
     },
     {
       "relation": "calls",
@@ -25100,17 +24201,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_repository_dailytrendcountssql",
-      "target": "lib_news_repository_buildindexedwhere"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L132",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_fetchrows",
       "target": "lib_news_repository_buildindexedwhere"
     },
     {
@@ -25164,9 +24254,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L295",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_tablestatssql",
-      "target": "lib_news_repository_emptysentimentbreakdown",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_emptysentimentbreakdown"
     },
     {
       "relation": "calls",
@@ -25244,39 +24334,6 @@
       "confidence_score": 1.0,
       "source": "lib_news_repository_buildprintcountindex",
       "target": "lib_news_repository_buildsqlwhere"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L425",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_buildsqlwhere",
-      "target": "lib_news_repository_buildentitysqlprefilter"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L439",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_buildsqlwhere",
-      "target": "lib_news_repository_buildsearchsqlprefilter"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L427",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_buildsqlwhere",
-      "target": "lib_news_repository_entitycolumnsforfilters"
     },
     {
       "relation": "calls",
@@ -25371,17 +24428,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L466",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_fetchrows",
-      "target": "lib_news_repository_buildsqlwhere"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L519",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -25398,6 +24444,17 @@
       "confidence_score": 1.0,
       "source": "lib_news_repository_querydigitaltimestampbounds",
       "target": "lib_news_repository_buildsqlwhere"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/news-repository.ts",
+      "source_location": "L489",
+      "weight": 1.0,
+      "source": "lib_news_repository_queryentitytotalengagement",
+      "target": "lib_news_repository_buildsqlwhere",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -25428,9 +24485,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L297",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_tablestatssql",
-      "target": "lib_news_repository_buildsqlwhere",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_buildsqlwhere"
     },
     {
       "relation": "calls",
@@ -25538,9 +24595,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L297",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_tablestatssql",
-      "target": "lib_news_repository_applyconstituencyscope",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_applyconstituencyscope"
     },
     {
       "relation": "imports",
@@ -25626,9 +24683,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L348",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_aggregatefilteredstats",
-      "target": "lib_news_repository_tablestatssql",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_tablestatssql"
     },
     {
       "relation": "calls",
@@ -25637,9 +24694,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L324",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_countandsentimentsql",
-      "target": "lib_news_repository_tablestatssql",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_tablestatssql"
     },
     {
       "relation": "calls",
@@ -25648,9 +24705,9 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L333",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_news_repository_dailytrendcountssql",
-      "target": "lib_news_repository_tablestatssql",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_tablestatssql"
     },
     {
       "relation": "imports",
@@ -25659,9 +24716,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics",
-      "target": "lib_news_repository_tablestatssql",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_tablestatssql"
     },
     {
       "relation": "calls",
@@ -25670,9 +24727,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L98",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics_getdashboarduncached",
-      "target": "lib_news_repository_tablestatssql",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_tablestatssql"
     },
     {
       "relation": "calls",
@@ -25692,9 +24749,9 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_constituency",
-      "target": "lib_news_repository_tablestatssql",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_tablestatssql"
     },
     {
       "relation": "calls",
@@ -25862,72 +24919,6 @@
       "target": "lib_types_sentimentbreakdown"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L352",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_aggregatefilteredstats",
-      "target": "lib_news_repository_addsentimentcount"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L339",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_aggregatefilteredstats",
-      "target": "lib_news_repository_aggrowcolumns"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L317",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_aggregatefilteredstats",
-      "target": "lib_news_repository_fetchrows"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L335",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_aggregatefilteredstats",
-      "target": "lib_news_repository_rowmatchesdistrict"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L318",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_aggregatefilteredstats",
-      "target": "lib_news_repository_rowmatchesfilters"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L322",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_aggregatefilteredstats",
-      "target": "lib_news_repository_rowmatchesprintsource"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -26020,72 +25011,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L235",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querytablerecords",
-      "target": "lib_news_repository_fetchrows"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L599",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querytablerecords",
-      "target": "lib_news_repository_needsjsfiltering"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L248",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querytablerecords",
-      "target": "lib_news_repository_rowmatchesdistrict"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L237",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querytablerecords",
-      "target": "lib_news_repository_rowmatchesfilters"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L240",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querytablerecords",
-      "target": "lib_news_repository_rowmatchesprintsource"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L261",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querytablerecords",
-      "target": "lib_news_repository_sortrecords"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
       "source_location": "L1247",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -26113,39 +25038,6 @@
       "confidence_score": 1.0,
       "source": "lib_news_repository_queryyoutuberecords",
       "target": "lib_news_repository_querytablerecords"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L260",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_queryprintrecords",
-      "target": "lib_news_repository_rowmatchesdistrict"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L254",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_queryprintrecords",
-      "target": "lib_news_repository_rowmatchesfilters"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L255",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_queryprintrecords",
-      "target": "lib_news_repository_rowmatchesprintsource"
     },
     {
       "relation": "imports",
@@ -26322,39 +25214,6 @@
       "confidence_score": 1.0,
       "source": "lib_news_repository_loadalldigitalrecords",
       "target": "lib_news_repository_querydigitalmedia"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L317",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querydigitalmedia",
-      "target": "lib_news_repository_fetchrows"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L225",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querydigitalmedia",
-      "target": "lib_news_repository_rowmatchesfilters"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L379",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querydigitalmedia",
-      "target": "lib_news_repository_sortrecords"
     },
     {
       "relation": "imports",
@@ -26537,55 +25396,11 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-repository.ts",
-      "source_location": "L595",
+      "source_location": "L544",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "lib_news_repository_queryentitymediastats",
-      "target": "lib_news_repository_addsentimentcount"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L596",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_queryentitymediastats",
-      "target": "lib_news_repository_bumpentitydistrictcounts"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L587",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_queryentitymediastats",
-      "target": "lib_news_repository_fetchrows"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L592",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_queryentitymediastats",
-      "target": "lib_news_repository_rowmatchesentity"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L593",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_queryentitymediastats",
-      "target": "lib_news_repository_rowmatchesprintsource"
+      "target": "lib_news_repository_queryentitytotalengagement",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -26619,17 +25434,6 @@
       "weight": 1.0,
       "source": "services_representatives_getmpbyid",
       "target": "lib_news_repository_queryentitymediastats"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L350",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_printcountsbydistrict",
-      "target": "lib_news_repository_fetchrows"
     },
     {
       "relation": "imports",
@@ -26687,39 +25491,6 @@
       "target": "lib_news_repository_valuecolumnforkind"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1138",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_aggregatedashboardvaluecounts",
-      "target": "lib_news_repository_dashboardaggcolumns"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1138",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_aggregatedashboardvaluecounts",
-      "target": "lib_news_repository_fetchrows"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1139",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_aggregatedashboardvaluecounts",
-      "target": "lib_news_repository_rowpassesscopedfilters"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -26748,9 +25519,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L158",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics_getdashboarduncached",
-      "target": "lib_news_repository_aggregatedashboardvaluecounts",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_aggregatedashboardvaluecounts"
     },
     {
       "relation": "calls",
@@ -26797,39 +25568,6 @@
       "target": "lib_news_repository_bumpdistrictsummary"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1197",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_builddashboarddistrictsummary",
-      "target": "lib_news_repository_dashboardaggcolumns"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1197",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_builddashboarddistrictsummary",
-      "target": "lib_news_repository_fetchrows"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1198",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_builddashboarddistrictsummary",
-      "target": "lib_news_repository_rowpassesscopedfilters"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -26858,31 +25596,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L126",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics_getdashboarduncached",
-      "target": "lib_news_repository_builddashboarddistrictsummary",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1224",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querydigitaltimestampbounds",
-      "target": "lib_news_repository_fetchrows"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1225",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_querydigitaltimestampbounds",
-      "target": "lib_news_repository_rowpassesscopedfilters"
+      "target": "lib_news_repository_builddashboarddistrictsummary"
     },
     {
       "relation": "imports",
@@ -26913,9 +25629,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L127",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics_getdashboarduncached",
-      "target": "lib_news_repository_querydigitaltimestampbounds",
-      "confidence_score": 1.0
+      "target": "lib_news_repository_querydigitaltimestampbounds"
     },
     {
       "relation": "imports",
@@ -26946,20 +25662,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L128",
       "weight": 1.0,
-      "source": "services_analytics_getdashboarduncached",
-      "target": "lib_news_repository_querytopdigitalrecords",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L409",
-      "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "lib_news_repository_buildprintcountindex",
-      "target": "lib_news_repository_fetchrows"
+      "source": "services_analytics_getdashboarduncached",
+      "target": "lib_news_repository_querytopdigitalrecords"
     },
     {
       "relation": "imports",
@@ -29212,16 +27917,6 @@
       "target": "lib_use_debounced_value_useisdebouncing"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-debounced-value.ts",
-      "source_location": "L60",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_debounced_value",
-      "target": "lib_use_debounced_value_usethrottledcallback"
-    },
-    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -29396,28 +28091,6 @@
       "target": "store_filters_usefilterstore"
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-media-table-query-state.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_media_table_query_state",
-      "target": "lib_debounce_throttle_throttle"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-media-table-query-state.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_media_table_query_state",
-      "target": "lib_use_debounced_value_usethrottledcallback"
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/use-media-table-query-state.ts",
@@ -29466,17 +28139,6 @@
       "confidence_score": 1.0,
       "source": "lib_use_media_table_query_state",
       "target": "lib_use_media_table_query_state_usemediatablequerystate"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/use-media-table-query-state.ts",
-      "source_location": "L52",
-      "weight": 1.0,
-      "source": "lib_use_media_table_query_state_usemediatablequerystate",
-      "target": "lib_use_debounced_value_usethrottledcallback"
     },
     {
       "relation": "contains",
@@ -29552,31 +28214,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/services/analytics.ts",
-      "source_location": "L125",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics",
-      "target": "services_analytics_builddistrictsummary"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L58",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics",
-      "target": "services_analytics_bumptrend"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
       "source_location": "L86",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics",
-      "target": "services_analytics_dashboardcache",
-      "confidence_score": 1.0
+      "target": "services_analytics_dashboardcache"
     },
     {
       "relation": "contains",
@@ -29584,19 +28226,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L91",
       "weight": 1.0,
-      "source": "services_analytics",
-      "target": "services_analytics_dashboardcachekey",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L108",
-      "weight": 1.0,
       "confidence_score": 1.0,
       "source": "services_analytics",
-      "target": "services_analytics_digitalsourcename"
+      "target": "services_analytics_dashboardcachekey"
     },
     {
       "relation": "contains",
@@ -29624,9 +28256,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L95",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics",
-      "target": "services_analytics_getdashboarduncached",
-      "confidence_score": 1.0
+      "target": "services_analytics_getdashboarduncached"
     },
     {
       "relation": "contains",
@@ -29652,26 +28284,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/services/analytics.ts",
-      "source_location": "L39",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics",
-      "target": "services_analytics_hasjsscopefilters"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L48",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics",
-      "target": "services_analytics_mergedailytrendmaps"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
       "source_location": "L48",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -29687,16 +28299,6 @@
       "confidence_score": 1.0,
       "source": "services_analytics",
       "target": "services_analytics_mergesentiment"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L41",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics",
-      "target": "services_analytics_topcounts"
     },
     {
       "relation": "contains",
@@ -29803,9 +28405,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L152",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics_getdashboarduncached",
-      "target": "services_analytics_mergekinddailytrends",
-      "confidence_score": 1.0
+      "target": "services_analytics_mergekinddailytrends"
     },
     {
       "relation": "calls",
@@ -29825,9 +28427,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L144",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics_getdashboarduncached",
-      "target": "services_analytics_topnewsbysentiment",
-      "confidence_score": 1.0
+      "target": "services_analytics_topnewsbysentiment"
     },
     {
       "relation": "calls",
@@ -29836,9 +28438,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L170",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_analytics_getdashboard",
-      "target": "services_analytics_dashboardcachekey",
-      "confidence_score": 1.0
+      "target": "services_analytics_dashboardcachekey"
     },
     {
       "relation": "calls",
@@ -29847,64 +28449,9 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L175",
       "weight": 1.0,
-      "source": "services_analytics_getdashboard",
-      "target": "services_analytics_getdashboarduncached",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L215",
-      "weight": 1.0,
       "confidence_score": 1.0,
       "source": "services_analytics_getdashboard",
-      "target": "services_analytics_builddistrictsummary"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L193",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics_getdashboard",
-      "target": "services_analytics_hasjsscopefilters"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L251",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics_getdashboard",
-      "target": "services_analytics_mergedailytrendmaps"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L239",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics_getdashboard",
-      "target": "services_analytics_topcounts"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L297",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics_getdistrictanalytics",
-      "target": "services_analytics_topcounts"
+      "target": "services_analytics_getdashboarduncached"
     },
     {
       "relation": "imports_from",
@@ -30007,16 +28554,6 @@
       "confidence_score": 1.0,
       "source": "services_constituency",
       "target": "services_constituency_resolvescopedconstituencyfilter"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/constituency.ts",
-      "source_location": "L33",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_constituency",
-      "target": "services_constituency_topcounts"
     },
     {
       "relation": "imports_from",
@@ -30193,17 +28730,6 @@
       "weight": 1.0,
       "source": "services_constituency_getconstituencyprint",
       "target": "services_media_getprintnews"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/constituency.ts",
-      "source_location": "L151",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_constituency_getconstituencyanalytics",
-      "target": "services_constituency_topcounts"
     },
     {
       "relation": "calls",
@@ -30476,127 +29002,6 @@
       "target": "store_filters_usefilterstore"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L175",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_fetchrows",
-      "target": "lib_news_repository_entitycolumnsforfilters"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L173",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_fetchrows",
-      "target": "lib_news_repository_buildentitysqlprefilter"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L435",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_fetchrows",
-      "target": "lib_news_repository_buildsearchsqlprefilter"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L125",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesfilters",
-      "target": "lib_news_repository_rowmatchesdistrict"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1110",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowpassesscopedfilters",
-      "target": "lib_news_repository_rowmatchesdistrict"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L481",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesfilters",
-      "target": "lib_news_repository_constituencyscope"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L129",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesfilters",
-      "target": "lib_news_repository_rowmatchesconstituency"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L121",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowmatchesfilters",
-      "target": "lib_news_repository_rowmatchesentity"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1098",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowpassesscopedfilters",
-      "target": "lib_news_repository_rowmatchesfilters"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-repository.ts",
-      "source_location": "L1101",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_repository_rowpassesscopedfilters",
-      "target": "lib_news_repository_rowmatchesprintsource"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/services/analytics.ts",
-      "source_location": "L55",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_analytics_mergedailytrendmaps",
-      "target": "services_analytics_bumptrend"
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/app/api/constituency/filters/route.ts",
@@ -30618,5 +29023,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1294fa0fce2fd3ab7d9d5c9840e6428728ad6246"
+  "built_at_commit": "bb4d807c955ab57d2b74f524252e5d01d37c9560"
 }

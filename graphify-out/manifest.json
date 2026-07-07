@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "src/services/representatives.ts": {
-    "mtime": 1782135224.9342272,
-    "ast_hash": "065d65e1edf43b59fb8dcb037fcc7999",
+    "mtime": 1783443089.1121542,
+    "ast_hash": "b8c1e330d21f8310b1bb8ebccddce476",
     "semantic_hash": ""
   },
   "src/store/filters.ts": {
@@ -375,8 +375,8 @@
     "semantic_hash": ""
   },
   "src/lib/news-repository.ts": {
-    "mtime": 1783441623.7314365,
-    "ast_hash": "b60043e40c17f62c4ba708c01db2522e",
+    "mtime": 1783443098.9238613,
+    "ast_hash": "ef2bfe992a3a97bb317eb5d410cf8872",
     "semantic_hash": ""
   },
   "src/lib/representatives-db.ts": {
@@ -492,6 +492,11 @@
   "src/lib/sql-scope-filters.ts": {
     "mtime": 1783441618.4625087,
     "ast_hash": "1d392db2763577291d10ffd5330e2c67",
+    "semantic_hash": ""
+  },
+  "src/lib/engagement.ts": {
+    "mtime": 1783443085.9727008,
+    "ast_hash": "cd26e269e965b4aac256db3e4e4bc87e",
     "semantic_hash": ""
   }
 }
