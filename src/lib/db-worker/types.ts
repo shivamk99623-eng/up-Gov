@@ -9,6 +9,8 @@ import type { PaginationParams } from "@/lib/news-repository";
 /** Operations executed inside the SQLite worker thread. */
 export type DbWorkerOp =
   | { op: "dashboard"; filters: GlobalFilters }
+  | { op: "dashboardStats"; filters: GlobalFilters }
+  | { op: "dashboardRollups"; filters: GlobalFilters }
   | { op: "district"; district: string; filters: GlobalFilters }
   | { op: "filterOptions" }
   | {

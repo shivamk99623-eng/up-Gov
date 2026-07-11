@@ -2,7 +2,7 @@
  * Sync handlers that run inside the SQLite worker thread.
  * Keep this module free of Next.js request APIs.
  */
-import { getDashboard, getDistrictAnalytics, getFilterOptions } from "@/services/analytics";
+import { getDashboard, getDashboardRollups, getDashboardStats, getDistrictAnalytics, getFilterOptions } from "@/services/analytics";
 import {
   getConstituencyAnalytics,
   getConstituencyOptions,
@@ -29,6 +29,10 @@ export function dispatchDbOp(payload: DbWorkerOp): unknown {
   switch (payload.op) {
     case "dashboard":
       return getDashboard(payload.filters);
+    case "dashboardStats":
+      return getDashboardStats(payload.filters);
+    case "dashboardRollups":
+      return getDashboardRollups(payload.filters);
     case "district":
       return getDistrictAnalytics(payload.district, payload.filters);
     case "filterOptions":

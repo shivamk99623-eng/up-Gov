@@ -35,3 +35,9 @@ docker-compose*.yml
 demo
 *.md
 !README.md
+
+# Huge SQLite DB — mount at runtime; never send in build context
+database/
+*.db
+*.db-wal
+*.db-shm

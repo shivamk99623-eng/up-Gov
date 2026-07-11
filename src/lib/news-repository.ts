@@ -8,6 +8,7 @@ import {
 import { parseXEngagementsTotal } from "./engagement";
 import {
   buildConstituencySqlFilter,
+  buildAnyConstituencySqlFilter,
   buildDistrictSqlFilter,
   buildEntitySqlPrefilter,
   buildPrintSourceSqlFilter,
@@ -104,15 +105,16 @@ function buildIndexedWhere(filters: GlobalFilters): {
 } {
   // Keep predicates index-friendly: avoid lower()/trim() on every row.
   // Language values in this DB are clean Title-Case names (no "unknown").
-  const parts: string[] = [
-    `"Language" IS NOT NULL`,
-    `"Language" != ''`,
-  ];
+  const parts: string[] = [];
   const params: unknown[] = [];
 
   if (filters.language && filters.language !== "All") {
     parts.push(`"Language" = ?`);
     params.push(filters.language);
+  } else {
+    // Prefer empty-string reject over IS NOT NULL so planners can still
+    // lead with CreatedAt/PostedTime range indexes.
+    parts.push(`"Language" != ''`);
   }
 
   if (filters.sentiment && filters.sentiment !== "All") {
@@ -129,7 +131,7 @@ function buildIndexedWhere(filters: GlobalFilters): {
   }
 
   return {
-    clause: `WHERE ${parts.join(" AND ")}`,
+    clause: parts.length ? `WHERE ${parts.join(" AND ")}` : "WHERE 1=1",
     params,
   };
 }
@@ -155,42 +157,57 @@ function buildSqlWhere(
   kind: TableKind,
   filters: GlobalFilters,
 ): { clause: string; params: unknown[] } {
-  const { clause, params } = buildIndexedWhere(filters);
-  const extras: string[] = [];
-  const extraParams: unknown[] = [];
+  const parts: string[] = [];
+  const params: unknown[] = [];
   const tsCol = timestampSqlColumn(kind);
 
+  // Date range first so the planner can use CreatedAt/PostedTime indexes.
   if (filters.dateFrom) {
-    extras.push(`${tsCol} >= ?`);
-    extraParams.push(new Date(startOfCalendarDay(filters.dateFrom)).toISOString());
+    parts.push(`${tsCol} >= ?`);
+    params.push(new Date(startOfCalendarDay(filters.dateFrom)).toISOString());
+  }
+  if (filters.dateTo) {
+    parts.push(`${tsCol} <= ?`);
+    params.push(new Date(endOfCalendarDay(filters.dateTo)).toISOString());
   }
 
-  if (filters.dateTo) {
-    extras.push(`${tsCol} <= ?`);
-    extraParams.push(new Date(endOfCalendarDay(filters.dateTo)).toISOString());
+  const indexed = buildIndexedWhere(filters);
+  // strip leading WHERE from indexed clause
+  const indexedSql = indexed.clause.replace(/^WHERE\s+/i, "");
+  if (indexedSql && indexedSql !== "1=1") {
+    parts.push(indexedSql);
+    params.push(...indexed.params);
   }
 
   if (filters.district && filters.district !== "All") {
     const dist = buildDistrictSqlFilter(filters.district);
-    extras.push(dist.sql);
-    extraParams.push(...dist.params);
+    parts.push(dist.sql);
+    params.push(...dist.params);
   }
 
   if (filters.constituency && filters.constituency !== "All") {
-    const con = buildConstituencySqlFilter(filters.constituency, filterScope(filters));
+    const con = buildConstituencySqlFilter(
+      filters.constituency,
+      filterScope(filters),
+    );
     if (con) {
-      extras.push(con.sql);
-      extraParams.push(...con.params);
+      parts.push(con.sql);
+      params.push(...con.params);
     } else {
-      extras.push("1 = 0");
+      parts.push("1 = 0");
     }
+  } else if (filters.constituencyScope) {
+    // Constituency page "All": only rows tagged with at least one constituency.
+    const any = buildAnyConstituencySqlFilter(filterScope(filters));
+    parts.push(any.sql);
+    params.push(...any.params);
   }
 
   if (kind === "Print") {
     const print = buildPrintSourceSqlFilter(filters);
     if (print) {
-      extras.push(print.sql);
-      extraParams.push(...print.params);
+      parts.push(print.sql);
+      params.push(...print.params);
     }
   }
 
@@ -201,27 +218,26 @@ function buildSqlWhere(
       kind,
     );
     if (pre) {
-      extras.push(pre.sql);
-      extraParams.push(...pre.params);
+      parts.push(pre.sql);
+      params.push(...pre.params);
     } else {
-      extras.push("1 = 0");
+      parts.push("1 = 0");
     }
   }
 
   if (filters.search?.trim()) {
     const pre = buildSearchSqlPrefilter(filters.search, kind);
     if (pre) {
-      extras.push(pre.sql);
-      extraParams.push(...pre.params);
+      parts.push(pre.sql);
+      params.push(...pre.params);
     } else {
-      extras.push("1 = 0");
+      parts.push("1 = 0");
     }
   }
 
-  if (!extras.length) return { clause, params };
   return {
-    clause: `${clause} AND ${extras.join(" AND ")}`,
-    params: [...params, ...extraParams],
+    clause: parts.length ? `WHERE ${parts.join(" AND ")}` : "WHERE 1=1",
+    params,
   };
 }
 
@@ -308,7 +324,8 @@ export function tableStatsSql(
   const tsCol = timestampSqlColumn(kind);
   const rows = getDb()
     .prepare(
-      `SELECT "Sentiment" AS s, date(${tsCol}) AS d, COUNT(*) AS c
+      // ISO timestamps are already YYYY-MM-DD… — substr is cheaper than date().
+      `SELECT "Sentiment" AS s, substr(${tsCol}, 1, 10) AS d, COUNT(*) AS c
        FROM "${table}" ${clause}
        GROUP BY s, d`,
     )
@@ -541,18 +558,20 @@ export function queryEntityMediaStats(
   const includeX = includeAll || mt === "X";
   const includeOnline = includeAll || mt === "Online";
 
-  const printStats = includePrint
-    ? countAndSentimentSql("Print", filters)
-    : { total: 0, sentiment: emptySentimentBreakdown() };
-  const youtubeStats = includeYouTube
-    ? countAndSentimentSql("YouTube", filters)
-    : { total: 0, sentiment: emptySentimentBreakdown() };
-  const xStats = includeX
-    ? countAndSentimentSql("X", filters)
-    : { total: 0, sentiment: emptySentimentBreakdown() };
-  const onlineStats = includeOnline
-    ? countAndSentimentSql("Online", filters)
-    : { total: 0, sentiment: emptySentimentBreakdown() };
+  const empty = () => ({ total: 0, sentiment: emptySentimentBreakdown() });
+  const safeCount = (kind: Parameters<typeof countAndSentimentSql>[0]) => {
+    try {
+      return countAndSentimentSql(kind, filters);
+    } catch (err) {
+      console.error(`[queryEntityMediaStats] ${kind} failed:`, err);
+      return empty();
+    }
+  };
+
+  const printStats = includePrint ? safeCount("Print") : empty();
+  const youtubeStats = includeYouTube ? safeCount("YouTube") : empty();
+  const xStats = includeX ? safeCount("X") : empty();
+  const onlineStats = includeOnline ? safeCount("Online") : empty();
 
   const media: MediaBreakdown = {
     print: printStats.total,
@@ -566,18 +585,32 @@ export function queryEntityMediaStats(
   mergeSentimentBreakdown(sentiment, xStats.sentiment);
   mergeSentimentBreakdown(sentiment, onlineStats.sentiment);
 
+  let primaryDistrict: string | null = null;
+  if (includePrint) {
+    try {
+      primaryDistrict = queryPrimaryDistrictForEntity(filters);
+    } catch (err) {
+      console.error("[queryEntityMediaStats] primaryDistrict failed:", err);
+    }
+  }
+
+  let totalEngagement = 0;
+  try {
+    totalEngagement = queryEntityTotalEngagement(entity, {
+      ...extra,
+      printSource,
+    });
+  } catch (err) {
+    console.error("[queryEntityMediaStats] engagement failed:", err);
+  }
+
   return {
     printTotal: media.print,
     digitalTotal: media.youtube + media.x + media.online,
     media,
     sentiment,
-    primaryDistrict: includePrint
-      ? queryPrimaryDistrictForEntity(filters)
-      : null,
-    totalEngagement: queryEntityTotalEngagement(entity, {
-      ...extra,
-      printSource,
-    }),
+    primaryDistrict,
+    totalEngagement,
   };
 }
 

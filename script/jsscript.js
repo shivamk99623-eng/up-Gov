@@ -148,6 +148,15 @@ function get(db, sql, params = []) {
   });
 }
 
+function all(db, sql, params = []) {
+  return new Promise((resolve, reject) => {
+    db.all(sql, params, (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows || []);
+    });
+  });
+}
+
 // =============================
 // Load Assembly Excel
 // =============================
@@ -184,6 +193,68 @@ function findCanonicalDistrict(placeName, DistrictJson) {
   ) || null;
 }
 
+/** Normalize text/names the same way so "S.P." and "S. P." both become "s p". */
+function normalizeForMatch(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * Expand MP/MLA name forms: initials, Urf/Alias halves, parenthetical aliases.
+ * Keeps multi-token aliases only when short single-token aliases would be noisy.
+ */
+function personNameVariants(name) {
+  const raw = String(name || "").trim();
+  if (!raw) return [];
+
+  const variants = new Set([raw]);
+  const withoutParens = raw.replace(/\([^)]*\)/g, " ").replace(/\s+/g, " ").trim();
+  if (withoutParens) variants.add(withoutParens);
+
+  const paren = raw.match(/\(([^)]+)\)/);
+  if (paren?.[1]?.trim()) variants.add(paren[1].trim());
+
+  for (const part of raw.split(/\s+(?:urf|alias)\s+/i)) {
+    const cleaned = part.replace(/\([^)]*\)/g, " ").replace(/\s+/g, " ").trim();
+    if (!cleaned) continue;
+    const tokens = cleaned.split(/\s+/);
+    if (tokens.length >= 2 || cleaned.length >= 8) {
+      variants.add(cleaned);
+    }
+  }
+
+  return [...variants]
+    .map(normalizeForMatch)
+    .filter((v) => v.length >= 2);
+}
+
+/** Nicknames / old list names that should tag the canonical JSON name. */
+const PERSON_NAME_ALIASES = {
+  "Yogi Adityanath": ["Adityanath", "CM Yogi", "Chief Minister Yogi"],
+};
+
+/** Rewrite stale tags left from older MLA/MP name lists. */
+function canonicalizePersonName(name) {
+  const normalized = normalizeForMatch(name);
+  if (normalized === "adityanath") return "Yogi Adityanath";
+  return name;
+}
+
+function mergePersonNames(existing = [], incoming = []) {
+  return [
+    ...new Set(
+      [...(existing || []), ...(incoming || [])].map(canonicalizePersonName)
+    ),
+  ];
+}
+
+function searchPatternsForPerson(canonicalName) {
+  return [canonicalName, ...(PERSON_NAME_ALIASES[canonicalName] || [])];
+}
+
 // =============================
 // Find Matches
 // =============================
@@ -196,14 +267,13 @@ function findAssemblyMatches(
   Loksabha_MPJson,
   Rajyasabha_MPJson
 ) {
-  const searchText = [
-    news.heading || "",
-    news.summary || "",
-    news.content || ""
-  ]
-    .join(" ")
-    .toLowerCase()
-    .replace(/[^\w\s]/g, " ");
+  const searchText = normalizeForMatch(
+    [
+      news.heading || "",
+      news.summary || "",
+      news.content || "",
+    ].join(" ")
+  );
 
   const matchedconstituency = new Set();
   const matchedDistricts = new Set();
@@ -213,12 +283,17 @@ function findAssemblyMatches(
   const matchedLKSabhaMP = new Set();
 
   function matchesInText(name) {
-    if (!name) return false;
-    const regex = new RegExp(
-      `\\b${escapeRegex(name.toLowerCase())}\\b`,
-      "i"
+    for (const variant of personNameVariants(name)) {
+      const regex = new RegExp(`\\b${escapeRegex(variant)}\\b`, "i");
+      if (regex.test(searchText)) return true;
+    }
+    return false;
+  }
+
+  function matchesPerson(canonicalName) {
+    return searchPatternsForPerson(canonicalName).some((pattern) =>
+      matchesInText(pattern)
     );
-    return regex.test(searchText);
   }
 
   function addDistrict(placeName) {
@@ -236,11 +311,11 @@ function findAssemblyMatches(
   }
 
   for (const name of MlaJson) {
-    if (matchesInText(name)) matchedMLA.add(name);
+    if (matchesPerson(name)) matchedMLA.add(name);
   }
 
   for (const name of Rajyasabha_MPJson) {
-    if (matchesInText(name)) matchedRajyasabhaMP.add(name);
+    if (matchesPerson(name)) matchedRajyasabhaMP.add(name);
   }
 
   for (const name of DistrictJson) {
@@ -252,7 +327,7 @@ function findAssemblyMatches(
     const mpName = Loksabha_MPJson[i];
     const lkConstituency = LK_ConstituencyJson[i];
 
-    if (matchesInText(mpName)) {
+    if (matchesPerson(mpName)) {
       matchedLKSabhaMP.add(mpName);
       if (lkConstituency) {
         matchedLKConstituency.add(lkConstituency);
@@ -276,6 +351,17 @@ function findAssemblyMatches(
     rajyasabhaMP: [...matchedRajyasabhaMP],
     loksabhaMP: [...matchedLKSabhaMP]
   };
+}
+
+function hasEntityMatch(matches) {
+  return (
+    matches.districts.length > 0 ||
+    matches.constituency.length > 0 ||
+    matches.lkConstituency.length > 0 ||
+    matches.mla.length > 0 ||
+    matches.loksabhaMP.length > 0 ||
+    matches.rajyasabhaMP.length > 0
+  );
 }
 
 // =============================
@@ -421,9 +507,9 @@ async function updateNews(
   const mergedDistricts = mergeUniqueArrays(existingDistricts, newDistricts);
   const mergedconstituency = mergeUniqueArrays(existingconstituency, newconstituency);
   const mergedLKConstituency = mergeUniqueArrays(existingLKConstituency, newLKConstituency);
-  const mergedMLA = mergeUniqueArrays(existingMLA, newMLA);
-  const mergedLoksabhaMP = mergeUniqueArrays(existingLoksabhaMP, newLoksabhaMP);
-  const mergedRajyasabhaMP = mergeUniqueArrays(existingRajyasabhaMP, newRajyasabhaMP);
+  const mergedMLA = mergePersonNames(existingMLA, newMLA);
+  const mergedLoksabhaMP = mergePersonNames(existingLoksabhaMP, newLoksabhaMP);
+  const mergedRajyasabhaMP = mergePersonNames(existingRajyasabhaMP, newRajyasabhaMP);
 
   await run(
     db,
@@ -464,14 +550,7 @@ async function processNewsStream(props = {}) {
   for await (const news of stream) {
     rowCount++;
 
-    const {
-      districts,
-      constituency,
-      lkConstituency,
-      mla,
-      rajyasabhaMP,
-      loksabhaMP,
-    } = findAssemblyMatches(
+    const matches = findAssemblyMatches(
       news,
       props.ConstituencyJson,
       props.LK_ConstituencyJson,
@@ -480,6 +559,20 @@ async function processNewsStream(props = {}) {
       props.Loksabha_MPJson,
       props.Rajyasabha_MPJson
     );
+
+    if (!hasEntityMatch(matches)) {
+      log(`Skipped newsId: ${news.newsId} (No entity match)`);
+      continue;
+    }
+
+    const {
+      districts,
+      constituency,
+      lkConstituency,
+      mla,
+      rajyasabhaMP,
+      loksabhaMP,
+    } = matches;
 
     const existingRow = await get(
       props.sqliteDb,
@@ -515,6 +608,72 @@ async function processNewsStream(props = {}) {
   log(`Fetched ${rowCount} news records`);
 }
 
+/**
+ * Re-tag rows already in SQLite using current name lists.
+ * Fixes stale tags like "Adityanath" after renaming to "Yogi Adityanath".
+ */
+async function retagLocalNews(props = {}) {
+  const rows = await all(
+    props.sqliteDb,
+    `
+    SELECT newsId, Heading, Summary, Content, MLA
+    FROM news_print
+    WHERE
+      MLA LIKE '%Adityanath%'
+      OR Heading LIKE '%Yogi Adityanath%'
+      OR Summary LIKE '%Yogi Adityanath%'
+      OR Content LIKE '%Yogi Adityanath%'
+      OR Heading LIKE '%CM Yogi%'
+      OR Summary LIKE '%CM Yogi%'
+      OR Content LIKE '%CM Yogi%'
+      OR Heading LIKE '%Chief Minister Yogi%'
+      OR Summary LIKE '%Chief Minister Yogi%'
+      OR Content LIKE '%Chief Minister Yogi%'
+    `
+  );
+
+  log(`Retagging ${rows.length} local news_print rows...`);
+  let updated = 0;
+
+  for (const row of rows) {
+    const matches = findAssemblyMatches(
+      {
+        heading: row.Heading,
+        summary: row.Summary,
+        content: row.Content,
+      },
+      props.ConstituencyJson,
+      props.LK_ConstituencyJson,
+      props.MlaJson,
+      props.DistrictJson,
+      props.Loksabha_MPJson,
+      props.Rajyasabha_MPJson
+    );
+
+    if (!hasEntityMatch(matches)) {
+      continue;
+    }
+
+    await updateNews(
+      props.sqliteDb,
+      row.newsId,
+      matches.districts,
+      matches.constituency,
+      matches.lkConstituency,
+      matches.mla,
+      matches.loksabhaMP,
+      matches.rajyasabhaMP
+    );
+    updated++;
+    if (updated % 500 === 0) log(`Retagged ${updated}/${rows.length}...`);
+  }
+
+  log(`✓ Retagged ${updated} news_print rows`);
+  log(
+    "If the dashboard still misses names, rebuild the lookup index: node create_entity_index.js --force"
+  );
+}
+
 
 function loadJsonData(filePath) {
   log(`Loading JSON file: ${filePath}`);
@@ -528,11 +687,10 @@ function loadJsonData(filePath) {
 // =============================
 // Main Sync
 // =============================
+const RETAG_ONLY = process.argv.includes("--retag");
+
 async function syncNews() {
-
-
-  const pgClient = new Client(PG_CONFIG);
-
+  const pgClient = RETAG_ONLY ? null : new Client(PG_CONFIG);
   const sqliteDb = new sqlite3.Database(SQLITE_DB_PATH);
 
   sqliteDb.configure("busyTimeout", 30000);
@@ -540,11 +698,6 @@ async function syncNews() {
   await ensureColumnExists(sqliteDb, "news_print", "Constituency");
 
   try {
-    log("Connecting to PostgreSQL...");
-    await pgClient.connect();
-    log("✓ PostgreSQL connected");
-
-
     const ConstituencyJson = loadConstituencyJson(EXCEL_FILE_PATH);
     const DistrictJson = loadJsonData(DISTRICT_NAME_FILE_PATH);
     const LK_ConstituencyJson = loadJsonData(CONSTITUENCY_NAME_FILE_PATH);
@@ -552,16 +705,38 @@ async function syncNews() {
     const Loksabha_MPJson = loadJsonData(LKSABHA_MP_FILE_PATH);
     const Rajyasabha_MPJson = loadJsonData(RAJYASABHA_MP_FILE_PATH);
 
+    const shared = {
+      sqliteDb,
+      ConstituencyJson,
+      DistrictJson,
+      LK_ConstituencyJson,
+      MlaJson,
+      Loksabha_MPJson,
+      Rajyasabha_MPJson,
+    };
 
+    if (RETAG_ONLY) {
+      log("Running local retag only (no PostgreSQL)...");
+      await retagLocalNews(shared);
+      log("Local retag completed.");
+      return;
+    }
+
+    log("Connecting to PostgreSQL...");
+    await pgClient.connect();
+    log("✓ PostgreSQL connected");
 
     log("Querying PostgreSQL (streaming)...");
-    await processNewsStream({pgClient, sqliteDb, ConstituencyJson, DistrictJson, LK_ConstituencyJson, MlaJson, Loksabha_MPJson, Rajyasabha_MPJson});
+    await processNewsStream({ pgClient, ...shared });
+
+    log("Repairing stale MLA/MP tags on local rows...");
+    await retagLocalNews(shared);
 
     log("News synchronization completed.");
   } catch (error) {
     logError("Synchronization failed:", error);
   } finally {
-    await pgClient.end();
+    if (pgClient) await pgClient.end();
     sqliteDb.close();
     await flushLogs();
   }

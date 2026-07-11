@@ -30,8 +30,10 @@ export function parseFilters(searchParams: URLSearchParams): GlobalFilters {
     })(),
     constituencyScope: (() => {
       const v = searchParams.get("constituencyScope");
-      return v === "legislative" ? "legislative" : "parliamentary";
-    })() as ConstituencyScope,
+      if (v === "legislative") return "legislative";
+      if (v === "parliamentary") return "parliamentary";
+      return null;
+    })(),
   };
 }
 

@@ -172,7 +172,7 @@ export function useScopedMedia(
     district = null,
     entity = null,
     constituency = null,
-    constituencyScope = "parliamentary",
+    constituencyScope,
     printSource = null,
   } = scope;
   const onConstituencyPage = "constituency" in scope;
@@ -180,7 +180,10 @@ export function useScopedMedia(
     district: entity || onConstituencyPage ? null : district,
     entity,
     constituency: constituency && constituency !== "All" ? constituency : null,
-    constituencyScope,
+    // Only send scope on the constituency page so "All" can require tagged rows.
+    constituencyScope: onConstituencyPage
+      ? (constituencyScope ?? "parliamentary")
+      : null,
     printSource,
   });
   const endpoint =

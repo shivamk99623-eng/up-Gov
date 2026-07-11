@@ -8,7 +8,7 @@
   "main": "jsscript.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node jsscript.js"
+    "start": "node jsscript.js & node jsscriptYt.js & node jsscriptOnline.js & node jsscriptX.js"
   },
   "dependencies": {
     "pg": "^8.22.0",

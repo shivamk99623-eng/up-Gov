@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # better-sqlite3 compiles a native addon at npm install — needs build tools only in install stages.
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 RUN apk add --no-cache python3 make g++
 WORKDIR /app
 
@@ -21,7 +21,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npx next build
 
 # Production runner (slim — no build tools; native modules copied from prod-deps)
-FROM node:20-alpine AS runner
+FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -29,23 +29,27 @@ ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 ENV UP_PROJECT_ROOT=/app
 
-RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
+# node:alpine already has uid/gid 1000 as user `node` — reuse it so bind-mounted
+# ./database (owned by ubuntu:1000 on EC2) is writable for SQLite -shm/-wal.
+RUN mkdir -p /app/database && chown -R node:node /app
 
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=prod-deps --chown=nextjs:nodejs /app/node_modules ./node_modules
-COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
-COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts ./next.config.ts
+COPY --from=builder --chown=node:node /app/public ./public
+COPY --from=builder --chown=node:node /app/.next ./.next
+COPY --from=prod-deps --chown=node:node /app/node_modules ./node_modules
+COPY --from=builder --chown=node:node /app/package.json ./package.json
+COPY --from=builder --chown=node:node /app/next.config.ts ./next.config.ts
 
 # SQLite worker loads TypeScript handlers via jiti — needs workers/ + src/ at runtime
-COPY --from=builder --chown=nextjs:nodejs /app/workers ./workers
-COPY --from=builder --chown=nextjs:nodejs /app/src ./src
-COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
-COPY --from=builder --chown=nextjs:nodejs /app/create_indexes.js ./create_indexes.js
-COPY --from=builder --chown=nextjs:nodejs /app/create_entity_index.js ./create_entity_index.js
-COPY --from=builder --chown=nextjs:nodejs /app/database ./database
+COPY --from=builder --chown=node:node /app/workers ./workers
+COPY --from=builder --chown=node:node /app/src ./src
+COPY --from=builder --chown=node:node /app/tsconfig.json ./tsconfig.json
+COPY --from=builder --chown=node:node /app/create_indexes.js ./create_indexes.js
+COPY --from=builder --chown=node:node /app/create_entity_index.js ./create_entity_index.js
 
-USER nextjs
+# Do NOT bake database/data.db into the image — OverlayFS makes ~2.5GB SQLite
+# very slow. Mount host DB via docker-compose (./database:/app/database).
+
+USER node
 EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \

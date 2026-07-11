@@ -20,15 +20,30 @@ let entityTokenIndexAvailable: boolean | null = null;
 export function hasEntityTokenIndex(): boolean {
   if (entityTokenIndexAvailable != null) return entityTokenIndexAvailable;
   try {
-    entityTokenIndexAvailable = !!getDb()
+    const row = getDb()
       .prepare(
-        `SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'news_entity_token'`,
+        `SELECT 1 AS ok FROM sqlite_master
+         WHERE type = 'table' AND name = 'news_entity_token'`,
       )
-      .get();
+      .get() as { ok: number } | undefined;
+    if (!row) {
+      entityTokenIndexAvailable = false;
+      return false;
+    }
+    // Empty/partial index must not force the token path (stale after MLA retags).
+    const count = getDb()
+      .prepare(`SELECT 1 AS ok FROM news_entity_token LIMIT 1`)
+      .get() as { ok: number } | undefined;
+    entityTokenIndexAvailable = !!count;
   } catch {
     entityTokenIndexAvailable = false;
   }
   return entityTokenIndexAvailable;
+}
+
+/** Clear cached index availability (e.g. after rebuild/drop). */
+export function resetEntityTokenIndexCache(): void {
+  entityTokenIndexAvailable = null;
 }
 
 export function entityColumnsForFilters(
@@ -135,6 +150,17 @@ export function buildConstituencySqlFilter(
   return {
     sql: `(${patterns.join(" OR ")})`,
     params,
+  };
+}
+
+/** Rows that have at least one tagged constituency for the given scope. */
+export function buildAnyConstituencySqlFilter(
+  scope: ConstituencyScope,
+): { sql: string; params: string[] } {
+  const column = scope === "legislative" ? "Constituency" : "LK_Constituency";
+  return {
+    sql: `(trim(coalesce("${column}", '')) NOT IN ('', '[]') AND "${column}" IS NOT NULL)`,
+    params: [],
   };
 }
 

@@ -3,12 +3,17 @@
  * Runs better-sqlite3 off the Next.js main thread so HTTP stays responsive.
  */
 import { parentPort } from "node:worker_threads";
+import { getDb } from "@/lib/db";
 import { dispatchDbOp } from "./handlers";
 import type { DbWorkerRequest, DbWorkerResponse } from "./types";
 
 if (!parentPort) {
   throw new Error("db-worker handlers must run inside a worker_thread");
 }
+
+// Open DB + signal ready so the first HTTP request does not pay jiti+open cost alone.
+getDb();
+parentPort.postMessage({ id: -2, ok: true, result: "ready" });
 
 parentPort.on("message", (msg: DbWorkerRequest) => {
   let response: DbWorkerResponse;

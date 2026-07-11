@@ -11,7 +11,9 @@ services:
       PORT: 3000
       HOSTNAME: 0.0.0.0
       UP_PROJECT_ROOT: /app
+      UP_DB_POOL_SIZE: "2"
+    # RW mount required: SQLite WAL needs to create -shm/-wal beside data.db.
+    # App still blocks writes with PRAGMA query_only=ON.
+    volumes:
+      - ./database:/app/database
     restart: unless-stopped
-    # Optional: persist or override the SQLite DB from the host
-    # volumes:
-    #   - ./database/data.db:/app/database/data.db:ro

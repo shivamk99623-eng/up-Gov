@@ -13,9 +13,13 @@ type Pending = {
 type PooledWorker = {
   worker: Worker;
   busy: boolean;
+  ready: boolean;
 };
 
-const POOL_SIZE = Math.min(2, Math.max(1, os.cpus().length - 1));
+const POOL_SIZE = Math.min(
+  4,
+  Math.max(2, Number(process.env.UP_DB_POOL_SIZE) || os.cpus().length),
+);
 
 let nextId = 1;
 const pending = new Map<number, Pending>();
@@ -90,13 +94,21 @@ function createWorker(): PooledWorker {
       UP_PROJECT_ROOT: projectRoot,
     },
   });
-  const slot: PooledWorker = { worker, busy: false };
+  const slot: PooledWorker = { worker, busy: false, ready: false };
 
   worker.on("message", (msg: DbWorkerResponse) => {
     // Bootstrap / crash diagnostics from worker (id: -1)
-    if (msg.id < 0 && !msg.ok) {
-      console.error("[db-worker]", msg.error);
-      failAllForWorker(new Error(msg.error));
+    if (msg.id < 0) {
+      if (!msg.ok) {
+        console.error("[db-worker]", msg.error);
+        failAllForWorker(new Error(msg.error));
+        return;
+      }
+      // id -2 = ready after jiti + getDb()
+      if (msg.id === -2) {
+        slot.ready = true;
+        pumpQueue();
+      }
       return;
     }
     slot.busy = false;
@@ -142,15 +154,13 @@ function failAllForWorker(err: Error) {
 function ensurePool() {
   if (started) return;
   started = true;
-  // Start with one worker; scale to POOL_SIZE on demand so first request
-  // does not pay for two jiti bootstraps.
-  pool.push(createWorker());
+  const initial = Math.min(2, POOL_SIZE);
+  for (let i = 0; i < initial; i++) pool.push(createWorker());
 }
 
 function pumpQueue() {
-  while (waitQueue.length) {
-    const free = pool.find((s) => !s.busy);
-    if (!free) return;
+  while (waitQueue.length > 0) {
+    if (!pool.some((s) => !s.busy && s.ready)) return;
     const next = waitQueue.shift();
     next?.();
   }
@@ -158,31 +168,31 @@ function pumpQueue() {
 
 function acquire(): Promise<PooledWorker> {
   ensurePool();
-  const free = pool.find((s) => !s.busy);
-  if (free) {
-    free.busy = true;
-    return Promise.resolve(free);
-  }
-  if (pool.length < POOL_SIZE) {
-    const slot = createWorker();
-    pool.push(slot);
-    slot.busy = true;
-    return Promise.resolve(slot);
-  }
   return new Promise((resolve) => {
-    waitQueue.push(() => {
-      const slot = pool.find((s) => !s.busy);
-      if (!slot) {
-        waitQueue.push(() => {
-          const again = pool.find((s) => !s.busy)!;
-          again.busy = true;
-          resolve(again);
-        });
+    const tryGet = () => {
+      const free = pool.find((s) => !s.busy && s.ready);
+      if (free) {
+        free.busy = true;
+        resolve(free);
         return;
       }
-      slot.busy = true;
-      resolve(slot);
-    });
+      if (pool.length < POOL_SIZE) {
+        pool.push(createWorker());
+      }
+      waitQueue.push(tryGet);
+    };
+    tryGet();
+  });
+}
+
+/** Warm the SQLite worker as soon as the server module loads (production). */
+if (process.env.NODE_ENV === "production") {
+  queueMicrotask(() => {
+    try {
+      ensurePool();
+    } catch (err) {
+      console.error("[db-worker] warm-up failed:", err);
+    }
   });
 }
 
