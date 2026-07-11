@@ -44,6 +44,23 @@ function expandSpellingVariants(value: string): string[] {
   return [...variants];
 }
 
+/** Expand spelling variants for person-name keys (exported for election-history joins). */
+export function expandPersonNameVariants(value: string): string[] {
+  return expandSpellingVariants(value);
+}
+
+/** Compact key that keeps a leading honorific (dr/shri/…) for disambiguation. */
+export function compactPersonKeyWithTitle(name: string): string {
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/\u00a0/g, " ")
+    .replace(/[\[\]]/g, "")
+    .replace(/,/g, " ")
+    .replace(/\./g, "")
+    .replace(/[^a-z0-9]/g, "");
+}
+
 /** Tokenizes free text for semantic search (titles stripped). */
 export function tokenizeSearch(text: string): string[] {
   const normalized = normalizePersonName(text);
@@ -97,20 +114,38 @@ export function buildPersonSearchKeywords(
 
 /** DISTINCT-friendly LIKE patterns for SQL pre-filtering person JSON columns. */
 export function entitySearchLikePatterns(entity: string): string[] {
+  const groups = entitySearchTokenGroups(entity);
+  if (!groups.length) return [];
+
+  const patterns = new Set<string>();
+  for (const group of groups) {
+    for (const token of group) {
+      patterns.add(`%${token}%`);
+    }
+  }
+  return [...patterns];
+}
+
+/**
+ * Flattened tokens (with spelling variants) — used when OR matching is enough.
+ * Prefer {@link entitySearchTokenGroups} for person identity (AND across tokens).
+ */
+export function entitySearchTokens(entity: string): string[] {
+  return [...new Set(entitySearchTokenGroups(entity).flat())];
+}
+
+/**
+ * Token groups for entity matching: each group is one name token plus spelling
+ * variants. A row must match at least one variant from every group.
+ */
+export function entitySearchTokenGroups(entity: string): string[][] {
   const tokens = tokenizeSearch(entity).filter((t) => t.length >= 3);
   if (!tokens.length) return [];
 
   const searchTokens =
     tokens.length >= 2 ? tokens.slice(-2) : [tokens[tokens.length - 1]!];
 
-  const patterns = new Set<string>();
-  for (const token of searchTokens) {
-    patterns.add(`%${token}%`);
-    for (const variant of expandSpellingVariants(token)) {
-      patterns.add(`%${variant}%`);
-    }
-  }
-  return [...patterns];
+  return searchTokens.map((token) => expandSpellingVariants(token));
 }
 
 export function formatRepOptionLabel(

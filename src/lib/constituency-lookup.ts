@@ -65,19 +65,34 @@ function buildConstituencyLookup(scope: ConstituencyScope = "parliamentary"): Ma
   }
 
   const lookup = new Map<string, string>();
+
+  const preferPlainName = (existing: string | undefined, name: string): string => {
+    if (!existing) return name;
+    const existingHasRes = /\((sc|st|general)\)/i.test(existing);
+    const nameHasRes = /\((sc|st|general)\)/i.test(name);
+    // Prefer news-style plain names ("Agra") over detail labels ("Agra (SC)")
+    if (existingHasRes && !nameHasRes) return name;
+    if (!existingHasRes && nameHasRes) return existing;
+    return existing;
+  };
+
+  const setAlias = (key: string, name: string) => {
+    lookup.set(key, preferPlainName(lookup.get(key), name));
+  };
+
   for (const name of canonical) {
     const lower = name.toLowerCase();
-    lookup.set(lower, name);
-    lookup.set(lower.replace(/\s+/g, ""), name);
-    lookup.set(normalizeKey(name), name);
+    setAlias(lower, name);
+    setAlias(lower.replace(/\s+/g, ""), name);
+    setAlias(normalizeKey(name), name);
     const stripped = name.replace(/\s*\((sc|st|general)\)\s*/gi, "").trim();
-    lookup.set(stripped.toLowerCase(), name);
-    lookup.set(normalizeKey(stripped), name);
+    setAlias(stripped.toLowerCase(), name);
+    setAlias(normalizeKey(stripped), name);
   }
 
   for (const [alias, resolved] of Object.entries(CONSTITUENCY_ALIASES)) {
-    lookup.set(alias, resolved);
-    lookup.set(alias.replace(/\s+/g, ""), resolved);
+    setAlias(alias, resolved);
+    setAlias(alias.replace(/\s+/g, ""), resolved);
   }
 
   if (scope === "parliamentary") {

@@ -31,6 +31,7 @@ import { RepresentativeDetailSkeleton } from "@/components/representatives/repre
 import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
 import { GovernmentMemberDetails } from "@/components/representatives/government-member-details";
 import { MPBioDetails } from "@/components/representatives/mp-bio-details";
+import { PersonElectionHistoryCard } from "@/components/representatives/person-election-history";
 import { useMLAs, useMLA } from "@/lib/api-client";
 import { useRepresentativeSelection } from "@/lib/use-representative-selection";
 import { cn, formatNumber } from "@/lib/utils";
@@ -193,6 +194,11 @@ function MLADetails({ mla }: { mla: MLA }) {
         />
       )}
 
+      <PersonElectionHistoryCard
+        history={mla.electionHistory}
+        title="MLA Election Results"
+      />
+
       <div className="grid grid-cols-2 gap-3 sm:max-w-md">
         <StatTile
           label="Total Engagement"
@@ -272,7 +278,6 @@ function MLAPageContent() {
       <Header
         title="MLA Directory"
         subtitle="Members of the Legislative Assembly from Uttar Pradesh — Vidhan Sabha"
-        showGlobalFilters={false}
       />
       <main className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
         <Card>

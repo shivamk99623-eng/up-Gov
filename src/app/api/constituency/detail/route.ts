@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import { getConstituencyDetail } from "@/lib/constituency-detail";
 import { jsonError } from "@/lib/api-helpers";
+import { runDbOp } from "@/lib/db-worker/pool";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     if (!name?.trim()) {
       return jsonError("Constituency name is required", 400);
     }
-    const data = getConstituencyDetail(name);
+    const data = await runDbOp({ op: "constituencyDetail", name });
     if (!data) {
       return jsonError(`Constituency not found: ${name}`, 404);
     }

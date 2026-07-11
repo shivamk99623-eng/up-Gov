@@ -40,7 +40,6 @@ export default function HomePage() {
   const { data, isLoading, isError, error } = useDashboard();
   const { isActive, isWorking } = useGlobalSearchStatus();
   const loading = isLoading && !data;
-  const updating = isActive && isWorking && !!data;
   const [showMediaTabs, setShowMediaTabs] = React.useState(false);
   // District drilled into via the map (replaces the map with media tables).
   const [mapDistrict, setMapDistrict] = React.useState<string | null>(null);
@@ -82,7 +81,6 @@ export default function HomePage() {
             label="Total News"
             value={data?.totalNews ?? 0}
             loading={loading}
-            updating={updating}
             icon={<Newspaper className="h-5 w-5" />}
             accent={CHART_COLORS.primary}
           />
@@ -91,7 +89,6 @@ export default function HomePage() {
             value={data?.printCount ?? 0}
             total={data?.totalNews}
             loading={loading}
-            updating={updating}
             icon={<Printer className="h-5 w-5" />}
             accent={CHART_COLORS.saffron}
           />
@@ -100,7 +97,6 @@ export default function HomePage() {
             value={data?.youtubeCount ?? 0}
             total={data?.totalNews}
             loading={loading}
-            updating={updating}
             icon={<FaYoutube className="h-5 w-5" />}
             accent={CHART_COLORS.youtube}
           />
@@ -109,7 +105,6 @@ export default function HomePage() {
             value={data?.xCount ?? 0}
             total={data?.totalNews}
             loading={loading}
-            updating={updating}
             icon={<FaXTwitter className="h-4 w-4" />}
             accent={CHART_COLORS.x}
           />
@@ -118,7 +113,6 @@ export default function HomePage() {
             value={data?.onlineCount ?? 0}
             total={data?.totalNews}
             loading={loading}
-            updating={updating}
             icon={<Globe className="h-5 w-5" />}
             accent={CHART_COLORS.online}
           />
@@ -127,7 +121,6 @@ export default function HomePage() {
             value={data?.positiveCount ?? 0}
             total={data?.totalNews}
             loading={loading}
-            updating={updating}
             icon={<ThumbsUp className="h-5 w-5" />}
             accent={CHART_COLORS.positive}
           />
@@ -136,7 +129,6 @@ export default function HomePage() {
             value={data?.negativeCount ?? 0}
             total={data?.totalNews}
             loading={loading}
-            updating={updating}
             icon={<ThumbsDown className="h-5 w-5" />}
             accent={CHART_COLORS.negative}
           />
@@ -145,7 +137,6 @@ export default function HomePage() {
             value={data?.neutralCount ?? 0}
             total={data?.totalNews}
             loading={loading}
-            updating={updating}
             icon={<Minus className="h-5 w-5" />}
             accent={CHART_COLORS.neutral}
           />

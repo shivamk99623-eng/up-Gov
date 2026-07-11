@@ -255,6 +255,12 @@ export interface ConstituencyElectionResult {
   totalCandidates: number | null;
   totalVotesPolled: number | null;
   exitPollResult: string | null;
+  winningCandidateCaste?: string | null;
+  winningCandidateVotes?: number | null;
+  runnerUpName?: string | null;
+  runnerUpParty?: string | null;
+  runnerUpVotes?: number | null;
+  winningMargin?: number | null;
 }
 
 export interface ConstituencyPartyOrg {
@@ -295,6 +301,49 @@ export interface ConstituencyDetailResponse {
     bsp: ConstituencyPartyOrg;
     inc: ConstituencyPartyOrg;
   };
+}
+
+/** Assembly constituency profile from `Up_legislative` (rich exercise sheet). */
+export interface LegislativeAssemblyDetailResponse {
+  srNo: number | null;
+  assemblyName: string;
+  personAllottedTo: string | null;
+  reservationStatus: string | null;
+  district: string | null;
+  assemblyCode: number | null;
+  totalPopulation: number | null;
+  religion: {
+    mostPopulated: ConstituencyCasteSegment | null;
+    secondMajority: ConstituencyCasteSegment | null;
+    rest: ConstituencyCasteSegment[];
+  };
+  caste: {
+    mostPopulated: ConstituencyCasteSegment | null;
+    secondMajority: ConstituencyCasteSegment | null;
+    rest: ConstituencyCasteSegment[];
+  };
+  elections: ConstituencyElectionResult[];
+  insights: ConstituencyInsight[];
+  partyOrganization: {
+    bjp: ConstituencyPartyOrg;
+    sp: ConstituencyPartyOrg;
+    bsp: ConstituencyPartyOrg;
+    inc: ConstituencyPartyOrg;
+  };
+}
+
+/** Per-election result for an MLA / MP from exercise sheets. */
+export interface PersonElectionResult {
+  year: number;
+  party: string | null;
+  winLose: string | null;
+  margin: number | null;
+}
+
+export interface PersonElectionHistory {
+  name: string;
+  caste: string | null;
+  elections: PersonElectionResult[];
 }
 
 /** Profile fields from `UP Government Member Data.xlsx`. */
@@ -373,6 +422,8 @@ export interface MLA {
   /** Media-wise count (YouTube / X / Online) of linked mentions. */
   media: MediaBreakdown;
   sentiment: SentimentBreakdown;
+  /** Election win/lose history from `mla_data` when matched. */
+  electionHistory: PersonElectionHistory | null;
 }
 
 /** Member of Parliament — same shape as an MLA plus the house of Parliament. */
@@ -411,6 +462,8 @@ export interface MP {
   /** Media-wise count (YouTube / X / Online) of linked mentions. */
   media: MediaBreakdown;
   sentiment: SentimentBreakdown;
+  /** Election win/lose history from `mp_lok_sabha_data` when matched (Lok Sabha). */
+  electionHistory: PersonElectionHistory | null;
 }
 
 export type SortDirection = "asc" | "desc";

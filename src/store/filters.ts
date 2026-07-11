@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { startTransition } from "react";
 import type { MediaType, Sentiment } from "@/lib/types";
 import { normalizeSearchFilter } from "@/lib/search-filter";
 
@@ -23,9 +24,11 @@ export interface FilterState {
   reset: () => void;
 }
 
+// from here to defeula one week
+
 const initial = {
-  dateFrom: null,
-  dateTo: null,
+  dateFrom: new Date("2026-07-03").toISOString(),
+  dateTo: new Date("2026-07-10").toISOString(),
   district: null,
   mediaType: "All" as const,
   sentiment: "All" as const,
@@ -36,14 +39,15 @@ const initial = {
 
 export const useFilterStore = create<FilterState>((set) => ({
   ...initial,
-  setDateRange: (dateFrom, dateTo) => set({ dateFrom, dateTo }),
-  setDistrict: (district) => set({ district }),
-  setMediaType: (mediaType) => set({ mediaType }),
-  setSentiment: (sentiment) => set({ sentiment }),
-  setLanguage: (language) => set({ language }),
+  setDateRange: (dateFrom, dateTo) =>
+    startTransition(() => set({ dateFrom, dateTo })),
+  setDistrict: (district) => startTransition(() => set({ district })),
+  setMediaType: (mediaType) => startTransition(() => set({ mediaType })),
+  setSentiment: (sentiment) => startTransition(() => set({ sentiment })),
+  setLanguage: (language) => startTransition(() => set({ language })),
   setSearchInput: (searchInput) => set({ searchInput }),
   setSearch: (search) => set({ search }),
-  reset: () => set({ ...initial }),
+  reset: () => startTransition(() => set({ ...initial })),
 }));
 
 /** Builds a query-string from the current global filters. */

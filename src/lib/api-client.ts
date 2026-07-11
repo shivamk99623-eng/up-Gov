@@ -7,6 +7,7 @@ import type {
   DashboardResponse,
   PrintQueryResponse,
   DistrictAnalyticsResponse,
+  LegislativeAssemblyDetailResponse,
   MediaQueryResponse,
   MediaType,
   MLA,
@@ -160,6 +161,8 @@ export function useScopedMedia(
     entity?: string | null;
     constituency?: string | null;
     constituencyScope?: ConstituencyScope;
+    /** When set with entity, limits person-column matching (MLA vs MP). */
+    printSource?: "district" | "mla" | "mp" | null;
   },
   mediaType: MediaType | "All",
   tableQuery?: MediaTableQuery,
@@ -170,6 +173,7 @@ export function useScopedMedia(
     entity = null,
     constituency = null,
     constituencyScope = "parliamentary",
+    printSource = null,
   } = scope;
   const onConstituencyPage = "constituency" in scope;
   const params = buildMediaParams(state, tableQuery, {
@@ -177,6 +181,7 @@ export function useScopedMedia(
     entity,
     constituency: constituency && constituency !== "All" ? constituency : null,
     constituencyScope,
+    printSource,
   });
   const endpoint =
     mediaType === "All" ? "/api/media" : mediaEndpoint(mediaType);
@@ -189,6 +194,7 @@ export function useScopedMedia(
       entity,
       constituency,
       constituencyScope,
+      printSource,
       mediaType,
       tableQuery,
       url,
@@ -268,6 +274,19 @@ export function useConstituencyDetail(name: string | null) {
   });
 }
 
+export function useLegislativeAssemblyDetail(name: string | null) {
+  return useQuery({
+    queryKey: ["legislative-assembly-detail", name],
+    queryFn: ({ signal }) =>
+      fetchJson<LegislativeAssemblyDetailResponse>(
+        `/api/legislative/detail?name=${encodeURIComponent(name!)}`,
+        signal,
+      ),
+    enabled: !!name && name !== "All",
+    staleTime: 10 * 60 * 1000,
+  });
+}
+
 export function useFilterOptions() {
   return useQuery({
     queryKey: ["filter-options"],
@@ -287,11 +306,14 @@ export function useMLAs() {
 }
 
 export function useMLA(id: string | null) {
+  const qs = useGlobalFilterQuery();
+  const params = new URLSearchParams(qs);
+  if (id) params.set("id", id);
   return useQuery({
-    queryKey: ["mla", id],
-    queryFn: ({ signal }) =>
-      fetchJson<MLA>(`/api/mla?id=${encodeURIComponent(id!)}`, signal),
+    queryKey: ["mla", id, qs],
+    queryFn: ({ signal }) => fetchJson<MLA>(`/api/mla?${params}`, signal),
     enabled: !!id,
+    placeholderData: keepPreviousData,
   });
 }
 
@@ -305,13 +327,15 @@ export function useMPs() {
 }
 
 export function useMP(id: string | null, house?: House | null) {
-  const params = new URLSearchParams();
+  const filterQs = useGlobalFilterQuery();
+  const params = new URLSearchParams(filterQs);
   if (id) params.set("id", id);
   if (house) params.set("house", house);
   const qs = params.toString();
   return useQuery({
-    queryKey: ["mp", id, house ?? null],
+    queryKey: ["mp", id, house ?? null, filterQs],
     queryFn: ({ signal }) => fetchJson<MP>(`/api/mp?${qs}`, signal),
     enabled: !!id,
+    placeholderData: keepPreviousData,
   });
 }

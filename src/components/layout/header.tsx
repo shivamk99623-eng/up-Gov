@@ -11,12 +11,10 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { GlobalFilters } from "@/components/filters/global-filters";
+import { GlobalFilterStatusBar } from "@/components/filters/global-filter-loading";
 import { DateRangePicker } from "@/components/filters/date-range-picker";
 import { SidebarNav, Emblem } from "./sidebar-nav";
-import {
-  GlobalSearchField,
-  GlobalSearchStatusBar,
-} from "./global-search-field";
+import { GlobalSearchField } from "./global-search-field";
 import { DEBOUNCE } from "@/lib/debounce-throttle";
 import { normalizeSearchFilter } from "@/lib/search-filter";
 import { useDebouncedValue } from "@/lib/use-debounced-value";
@@ -103,7 +101,7 @@ export function Header({
       )}
 
       {showGlobalFilters && (
-        <GlobalSearchStatusBar resultCount={searchResultCount} />
+        <GlobalFilterStatusBar resultCount={searchResultCount} />
       )}
     </header>
   );

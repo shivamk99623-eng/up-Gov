@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "UP_PROJECT_ROOT=\"$PWD\" next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "UP_PROJECT_ROOT=\"$PWD\" next start",
     "lint": "eslint",
     "build:db": "node create_db.js",
-    "build:indexes": "node create_indexes.js"
+    "build:indexes": "node create_indexes.js",
+    "build:entity-index": "node create_entity_index.js --force"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",

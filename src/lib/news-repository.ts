@@ -93,14 +93,20 @@ function tableExists(name: string): boolean {
 /** Minimum token length for SQL text search (avoids full-table scans). */
 export { MIN_SEARCH_TOKEN_LENGTH, normalizeSearchFilter } from "./search-filter";
 
+/** YouTube stores real post timestamps in PostedTime; CreatedAt is often time-only. */
+function timestampSqlColumn(kind: TableKind): string {
+  return kind === "YouTube" ? '"PostedTime"' : '"CreatedAt"';
+}
+
 function buildIndexedWhere(filters: GlobalFilters): {
   clause: string;
   params: unknown[];
 } {
+  // Keep predicates index-friendly: avoid lower()/trim() on every row.
+  // Language values in this DB are clean Title-Case names (no "unknown").
   const parts: string[] = [
     `"Language" IS NOT NULL`,
-    `trim("Language") != ''`,
-    `lower(trim("Language")) != 'unknown'`,
+    `"Language" != ''`,
   ];
   const params: unknown[] = [];
 
@@ -112,24 +118,14 @@ function buildIndexedWhere(filters: GlobalFilters): {
   if (filters.sentiment && filters.sentiment !== "All") {
     const want = filters.sentiment.toLowerCase();
     if (want.startsWith("pos")) {
-      parts.push(`lower("Sentiment") LIKE 'pos%'`);
+      parts.push(`"Sentiment" LIKE 'pos%' COLLATE NOCASE`);
     } else if (want.startsWith("neg")) {
-      parts.push(`lower("Sentiment") LIKE 'neg%'`);
+      parts.push(`"Sentiment" LIKE 'neg%' COLLATE NOCASE`);
     } else {
       parts.push(
-        `lower("Sentiment") NOT LIKE 'pos%' AND lower("Sentiment") NOT LIKE 'neg%'`,
+        `"Sentiment" NOT LIKE 'pos%' COLLATE NOCASE AND "Sentiment" NOT LIKE 'neg%' COLLATE NOCASE`,
       );
     }
-  }
-
-  if (filters.dateFrom) {
-    parts.push(`"CreatedAt" >= ?`);
-    params.push(new Date(startOfCalendarDay(filters.dateFrom)).toISOString());
-  }
-
-  if (filters.dateTo) {
-    parts.push(`"CreatedAt" <= ?`);
-    params.push(new Date(endOfCalendarDay(filters.dateTo)).toISOString());
   }
 
   return {
@@ -162,6 +158,17 @@ function buildSqlWhere(
   const { clause, params } = buildIndexedWhere(filters);
   const extras: string[] = [];
   const extraParams: unknown[] = [];
+  const tsCol = timestampSqlColumn(kind);
+
+  if (filters.dateFrom) {
+    extras.push(`${tsCol} >= ?`);
+    extraParams.push(new Date(startOfCalendarDay(filters.dateFrom)).toISOString());
+  }
+
+  if (filters.dateTo) {
+    extras.push(`${tsCol} <= ?`);
+    extraParams.push(new Date(endOfCalendarDay(filters.dateTo)).toISOString());
+  }
 
   if (filters.district && filters.district !== "All") {
     const dist = buildDistrictSqlFilter(filters.district);
@@ -191,6 +198,7 @@ function buildSqlWhere(
     const pre = buildEntitySqlPrefilter(
       filters.entity,
       entityColumnsForFilters(filters),
+      kind,
     );
     if (pre) {
       extras.push(pre.sql);
@@ -263,9 +271,11 @@ function queryTableRecordsSql<T extends { date?: string | null; timestamp?: numb
   ).c;
 
   const sortCol =
-    filters.sortBy && SORT_SQL_COLUMNS[filters.sortBy]
-      ? SORT_SQL_COLUMNS[filters.sortBy]
-      : '"CreatedAt"';
+    filters.sortBy === "date"
+      ? timestampSqlColumn(kind)
+      : filters.sortBy && SORT_SQL_COLUMNS[filters.sortBy]
+        ? SORT_SQL_COLUMNS[filters.sortBy]
+        : timestampSqlColumn(kind);
   const sortDir = filters.sortDir === "asc" ? "ASC" : "DESC";
   const columns =
     kind === "Print" ? PRINT_ROW_COLUMNS : columnsForKind(kind as DigitalMediaKind);
@@ -295,9 +305,10 @@ export function tableStatsSql(
     return { total: 0, sentiment: emptySentimentBreakdown(), dailyTrend: new Map() };
   }
   const { clause, params } = buildSqlWhere(kind, applyConstituencyScope(filters));
+  const tsCol = timestampSqlColumn(kind);
   const rows = getDb()
     .prepare(
-      `SELECT lower(trim("Sentiment")) AS s, date("CreatedAt") AS d, COUNT(*) AS c
+      `SELECT "Sentiment" AS s, date(${tsCol}) AS d, COUNT(*) AS c
        FROM "${table}" ${clause}
        GROUP BY s, d`,
     )
@@ -308,8 +319,9 @@ export function tableStatsSql(
   let total = 0;
   for (const { s, d, c } of rows) {
     total += c;
-    if (s.startsWith("pos")) sentiment.positive += c;
-    else if (s.startsWith("neg")) sentiment.negative += c;
+    const bucket = sentimentFromRow(s);
+    if (bucket === "Positive") sentiment.positive += c;
+    else if (bucket === "Negative") sentiment.negative += c;
     else sentiment.neutral += c;
     if (d) dailyTrend.set(d, (dailyTrend.get(d) ?? 0) + c);
   }
@@ -484,8 +496,11 @@ function queryPrimaryDistrictForEntity(
   return pickPrimaryDistrict(counts);
 }
 
-function queryEntityTotalEngagement(entity: string): number {
-  const filters = { entity };
+function queryEntityTotalEngagement(
+  entity: string,
+  extra: GlobalFilters = {},
+): number {
+  const filters = { ...extra, entity };
   const { clause: ytClause, params: ytParams } = buildSqlWhere("YouTube", filters);
   const ytRow = getDb()
     .prepare(
@@ -516,12 +531,28 @@ function queryEntityTotalEngagement(entity: string): number {
 export function queryEntityMediaStats(
   entity: string,
   printSource: "mla" | "mp",
+  extra: GlobalFilters = {},
 ): EntityMediaStats {
-  const filters = { entity, printSource };
-  const printStats = countAndSentimentSql("Print", filters);
-  const youtubeStats = countAndSentimentSql("YouTube", { entity });
-  const xStats = countAndSentimentSql("X", { entity });
-  const onlineStats = countAndSentimentSql("Online", { entity });
+  const filters = { ...extra, entity, printSource };
+  const mt = extra.mediaType;
+  const includeAll = !mt || mt === "All";
+  const includePrint = includeAll || mt === "Print";
+  const includeYouTube = includeAll || mt === "YouTube";
+  const includeX = includeAll || mt === "X";
+  const includeOnline = includeAll || mt === "Online";
+
+  const printStats = includePrint
+    ? countAndSentimentSql("Print", filters)
+    : { total: 0, sentiment: emptySentimentBreakdown() };
+  const youtubeStats = includeYouTube
+    ? countAndSentimentSql("YouTube", filters)
+    : { total: 0, sentiment: emptySentimentBreakdown() };
+  const xStats = includeX
+    ? countAndSentimentSql("X", filters)
+    : { total: 0, sentiment: emptySentimentBreakdown() };
+  const onlineStats = includeOnline
+    ? countAndSentimentSql("Online", filters)
+    : { total: 0, sentiment: emptySentimentBreakdown() };
 
   const media: MediaBreakdown = {
     print: printStats.total,
@@ -540,8 +571,13 @@ export function queryEntityMediaStats(
     digitalTotal: media.youtube + media.x + media.online,
     media,
     sentiment,
-    primaryDistrict: queryPrimaryDistrictForEntity(filters),
-    totalEngagement: queryEntityTotalEngagement(entity),
+    primaryDistrict: includePrint
+      ? queryPrimaryDistrictForEntity(filters)
+      : null,
+    totalEngagement: queryEntityTotalEngagement(entity, {
+      ...extra,
+      printSource,
+    }),
   };
 }
 
@@ -692,9 +728,9 @@ export function buildDashboardDistrictSummary(
     const { clause, params } = buildSqlWhere(kind, scoped);
     const rows = getDb()
       .prepare(
-        `SELECT "District" AS raw, lower(trim("Sentiment")) AS s, COUNT(*) AS c
+        `SELECT "District" AS raw, "Sentiment" AS s, COUNT(*) AS c
          FROM "${table}" ${clause}
-         AND trim(coalesce("District", '')) NOT IN ('', '[]')
+         AND coalesce("District", '') NOT IN ('', '[]')
          GROUP BY raw, s`,
       )
       .all(...params) as { raw: string; s: string; c: number }[];
@@ -730,10 +766,11 @@ export function queryDigitalTimestampBounds(
     const table = tableForKind(kind);
     if (!tableExists(table)) continue;
     const { clause, params } = buildSqlWhere(kind, scoped);
+    const tsCol = timestampSqlColumn(kind);
     const row = getDb()
       .prepare(
-        `SELECT MIN("CreatedAt") AS mn, MAX("CreatedAt") AS mx
-         FROM "${table}" ${clause} AND "CreatedAt" IS NOT NULL`,
+        `SELECT MIN(${tsCol}) AS mn, MAX(${tsCol}) AS mx
+         FROM "${table}" ${clause} AND ${tsCol} IS NOT NULL`,
       )
       .get(...params) as { mn: string | null; mx: string | null };
 

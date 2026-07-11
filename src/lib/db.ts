@@ -2,7 +2,11 @@ import "server-only";
 import path from "node:path";
 import Database from "better-sqlite3";
 
-const DB_PATH = path.join(process.cwd(), "database", "data.db");
+const DB_PATH = path.join(
+  process.env.UP_PROJECT_ROOT || process.cwd(),
+  "database",
+  "data.db",
+);
 
 let db: Database.Database | null = null;
 

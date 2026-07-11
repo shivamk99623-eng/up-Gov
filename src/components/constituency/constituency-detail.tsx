@@ -3,11 +3,8 @@
 import * as React from "react";
 import {
   Landmark,
-  Users,
   Shield,
   TrendingUp,
-  Vote,
-  Building2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,6 +16,7 @@ import {
   VoteComparisonChart,
   type CommunityBarItem,
 } from "@/components/charts/constituency-charts";
+import { ElectionHistoryCard } from "@/components/constituency/election-history-table";
 import { ErrorState } from "@/components/common/states";
 import { useConstituencyDetail } from "@/lib/api-client";
 import { formatNumber } from "@/lib/utils";
@@ -110,7 +108,7 @@ function OrgField({ label, value }: { label: string; value: string | null }) {
   );
 }
 
-function PartyOrgPanel({ org, color }: { org: ConstituencyPartyOrg; color: string }) {
+function PartyOrgPanel({ org }: { org: ConstituencyPartyOrg; color: string }) {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       <OrgField label="Jiladhyaksha" value={org.jiladhyaksha} />
@@ -118,15 +116,6 @@ function PartyOrgPanel({ org, color }: { org: ConstituencyPartyOrg; color: strin
       <OrgField label="Mandal Structure" value={org.mandal} />
       <OrgField label="District Representative (Jilapratinidhi)" value={org.jilapratinidhi} />
       <OrgField label="Booth Organization Status" value={org.boothadhyaksha} />
-      {/* <div
-        className="flex items-center rounded-md px-3 py-2.5 sm:col-span-2"
-        style={{ background: `color-mix(in srgb, ${color} 8%, white)` }}
-      >
-        <Building2 className="mr-2 h-4 w-4" style={{ color }} />
-        <span className="text-xs text-muted-foreground">
-          Organizational data as recorded in the constituency dataset
-        </span>
-      </div> */}
     </div>
   );
 }
@@ -154,63 +143,67 @@ export function ConstituencyDetail({ constituency }: { constituency: string }) {
 
   const communityBars = buildCommunityBarItems(data.caste, data.totalPopulation);
   const reservation = reservationLabel(data.reservationStatus);
+  const latest = data.elections[0];
 
   return (
     <div className="space-y-6">
-      {/* 1. Header */}
-      <Card className="overflow-hidden border-primary/20">
-        <div className="h-1.5 bg-gradient-to-r from-primary via-[#ff7722] to-primary/60" />
-        <CardContent className="p-5 lg:p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div className="space-y-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <Landmark className="h-6 w-6 text-primary" />
-                <h2 className="text-2xl font-bold text-foreground lg:text-3xl">
-                  {data.constituencyName}
-                </h2>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Badge
-                  variant="outline"
-                  className="border-primary/30 bg-primary/5 text-primary"
-                >
-                  <Shield className="mr-1 h-3 w-3" />
-                  {reservation}
-                </Badge>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-4 lg:gap-6">
-              <div className="rounded-xl border border-border bg-secondary/40 px-5 py-3 text-center">
-                <div className="flex items-center justify-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  <Users className="h-3.5 w-3.5" />
-                  Total Population
-                </div>
-                <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">
-                  {data.totalPopulation ? formatNumber(data.totalPopulation) : "—"}
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <Landmark className="h-5 w-5 text-primary" />
+          <h2 className="text-2xl font-bold tracking-tight text-foreground lg:text-3xl">
+            {data.constituencyName}
+          </h2>
+          <Badge
+            variant="outline"
+            className="border-primary/30 bg-primary/5 text-primary"
+          >
+            <Shield className="mr-1 h-3 w-3" />
+            {reservation}
+          </Badge>
+        </div>
+
+        {/* <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:max-w-3xl">
+          <div className="border-l-2 border-primary/40 pl-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Population
+            </p>
+            <p className="mt-1 text-xl font-bold tabular-nums text-foreground">
+              {data.totalPopulation ? formatNumber(data.totalPopulation) : "—"}
+            </p>
+          </div>
+          {latest?.winnerParty && (
+            <div className="border-l-2 border-[#ff7722]/50 pl-3">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                {latest.year} Winner
+              </p>
+              <p className="mt-1 text-xl font-bold text-foreground">{latest.winnerParty}</p>
+              {latest.winnerName && (
+                <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                  {latest.winnerName}
                 </p>
-              </div>
-              {data.elections[0]?.winnerParty && (
-                <div className="rounded-xl border border-border bg-secondary/40 px-5 py-3 text-center">
-                  <div className="flex items-center justify-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    <Vote className="h-3.5 w-3.5" />
-                    2024 Winner
-                  </div>
-                  <p className="mt-1 text-lg font-bold text-foreground">
-                    {data.elections[0].winnerParty}
-                  </p>
-                  {data.elections[0].winnerName && (
-                    <p className="text-xs text-muted-foreground">
-                      {data.elections[0].winnerName}
-                    </p>
-                  )}
-                </div>
               )}
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          )}
+          {latest?.winningMargin != null && (
+            <div className="border-l-2 border-border pl-3">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Winning Margin
+              </p>
+              <p className="mt-1 text-xl font-bold tabular-nums text-foreground">
+                {formatNumber(latest.winningMargin)}
+              </p>
+            </div>
+          )}
+        </div> */}
 
-      {/* 4. Political Insights */}
+        {/* {data.assemblySegments.length > 0 && (
+          <p className="max-w-4xl text-sm leading-relaxed text-muted-foreground">
+            <span className="font-medium text-foreground">Assembly segments · </span>
+            {data.assemblySegments.join(" · ")}
+          </p>
+        )} */}
+      </section>
+
       <section>
         <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-foreground">
           <TrendingUp className="h-5 w-5 text-primary" />
@@ -228,7 +221,36 @@ export function ConstituencyDetail({ constituency }: { constituency: string }) {
         </div>
       </section>
 
-      {/* Charts */}
+  
+
+      <ElectionHistoryCard elections={data.elections} />
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Party Organization Structure</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="bjp">
+            <TabsList className="flex h-auto flex-wrap gap-1">
+              {PARTY_TABS.map((p) => (
+                <TabsTrigger key={p.key} value={p.key}>
+                  <span
+                    className="mr-1.5 inline-block h-2 w-2 rounded-full"
+                    style={{ background: p.color }}
+                  />
+                  {p.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            {PARTY_TABS.map((p) => (
+              <TabsContent key={p.key} value={p.key}>
+                <PartyOrgPanel org={data.partyOrganization[p.key]} color={p.color} />
+              </TabsContent>
+            ))}
+          </Tabs>
+        </CardContent>
+      </Card>
+
       <section className="grid gap-6 lg:grid-cols-2">
         <ChartCard
           title="Community Composition"
@@ -249,83 +271,6 @@ export function ConstituencyDetail({ constituency }: { constituency: string }) {
           <VoteComparisonChart elections={data.elections} />
         </ChartCard>
       </section>
-
-      {/* Election History */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Election History</CardTitle>
-        </CardHeader>
-        <CardContent className="overflow-x-auto">
-          <table className="w-full min-w-[520px] text-sm">
-            <thead>
-              <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
-                <th className="pb-3 pr-4 font-medium">Year</th>
-                <th className="pb-3 pr-4 font-medium">Winner</th>
-                <th className="pb-3 pr-4 font-medium">Party</th>
-                <th className="pb-3 pr-4 font-medium text-right">Total Votes</th>
-                <th className="pb-3 font-medium text-right">Candidates</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.elections.map((e) => (
-                <tr key={e.year} className="border-b border-border/60 last:border-0">
-                  <td className="py-3 pr-4 font-bold text-primary">{e.year}</td>
-                  <td className="py-3 pr-4 font-medium">{e.winnerName ?? "—"}</td>
-                  <td className="py-3 pr-4">
-                    {e.winnerParty ? (
-                      <Badge variant="outline">{e.winnerParty}</Badge>
-                    ) : (
-                      "—"
-                    )}
-                  </td>
-                  <td className="py-3 pr-4 text-right tabular-nums">
-                    {e.totalVotesPolled ? formatNumber(e.totalVotesPolled) : "—"}
-                  </td>
-                  <td className="py-3 text-right tabular-nums">
-                    {e.totalCandidates ?? "—"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </CardContent>
-      </Card>
-
-      {/* Party Organization */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Party Organization Structure</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="bjp">
-            <TabsList className="flex h-auto flex-wrap gap-1">
-              {PARTY_TABS.map((p) => (
-                <TabsTrigger
-                  key={p.key}
-                  value={p.key}
-                  className="data-[state=active]:border-b-2"
-                  style={
-                    {
-                      "--tw-ring-color": p.color,
-                    } as React.CSSProperties
-                  }
-                >
-                  <span
-                    className="mr-1.5 inline-block h-2 w-2 rounded-full"
-                    style={{ background: p.color }}
-                  />
-                  {p.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            {PARTY_TABS.map((p) => (
-              <TabsContent key={p.key} value={p.key}>
-                <PartyOrgPanel org={data.partyOrganization[p.key]} color={p.color} />
-              </TabsContent>
-            ))}
-          </Tabs>
-        </CardContent>
-      </Card>
     </div>
   );
 }

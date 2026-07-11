@@ -24,6 +24,7 @@ import {
 } from "@/components/charts/district-charts";
 import { DistrictMediaTabs } from "@/components/district/district-media-tabs";
 import { MPBioDetails } from "@/components/representatives/mp-bio-details";
+import { PersonElectionHistoryCard } from "@/components/representatives/person-election-history";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -160,6 +161,11 @@ function MPDetails({ mp }: { mp: MP }) {
         fallbackName={mp.name}
         house={mp.house}
         reverseTimeline
+      />
+
+      <PersonElectionHistoryCard
+        history={mp.electionHistory}
+        title="Lok Sabha Election Results"
       />
 
       <div className="grid grid-cols-2 gap-3 sm:max-w-md">
@@ -327,7 +333,6 @@ function MPPageContent() {
       <Header
         title="MP Directory"
         subtitle="Members of Parliament from Uttar Pradesh — Lok Sabha & Rajya Sabha"
-        showGlobalFilters={false}
       />
       <main className="mx-auto w-full max-w-[1500px] flex-1 space-y-6 p-4 lg:p-6">
         <Card>

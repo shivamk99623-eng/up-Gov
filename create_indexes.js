@@ -17,6 +17,7 @@ const EXCLUDED_NEWS_TABLES = new Set(['news_articles', 'news_articles_online']);
 const NEWS_INDEX_SPECS = [
   { suffix: 'newsId', columns: ['newsId'] },
   { suffix: 'createdAt', columns: ['CreatedAt'] },
+  { suffix: 'postedTime', columns: ['PostedTime'] },
   { suffix: 'language', columns: ['Language'] },
   { suffix: 'sentiment', columns: ['Sentiment'] },
   { suffix: 'lang_sentiment_created', columns: ['Language', 'Sentiment', 'CreatedAt'] },
@@ -102,6 +103,13 @@ function createIndexes(db, options = {}) {
     console.log('ANALYZE complete — query planner statistics updated');
   }
 
+  try {
+    const { createEntityTokenIndex } = require('./create_entity_index');
+    createEntityTokenIndex(db);
+  } catch (err) {
+    console.warn('Entity token index skipped:', err instanceof Error ? err.message : err);
+  }
+
   return created;
 }
 
@@ -126,3 +134,4 @@ module.exports = { createIndexes };
 if (require.main === module) {
   main();
 }
+

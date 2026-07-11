@@ -10,6 +10,22 @@ if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 const dbPath = path.join(outDir, 'data.db');
 const db = new Database(dbPath);
 
+/** Primary multi-sheet workbook (Constituency / Legislative / MLA / MP). */
+const EXERCISE_XLSX = 'UP Constituency Data Exercise.xlsx';
+/** Legacy assembly list — supplies district + assembly_code for merge. */
+const LEGISLATIVE_LOOKUP_XLSX = 'UP_Legislative Assembly.xlsx';
+/** Legacy single-sheet constituency file — skipped once EXERCISE_XLSX is present. */
+const LEGACY_CONSTITUENCY_XLS = 'UP Constituency Data Exercise(Sheet1).xls';
+
+const ASSEMBLY_NAME_ALIASES = {
+  sikandepur: 'Sikanderpur',
+  chhanvey: 'Chhanbey',
+  kunderki: 'Kundarki',
+  bishwavnathganj: 'Vishwanath Ganj',
+  karchana: 'Karachhana',
+  'bareilly cantt': 'Bareilly Cantt.',
+};
+
 function sanitizeName(name) {
   return name.replace(/[^a-zA-Z0-9_]/g, '_').replace(/^\d+/, 't');
 }
@@ -37,7 +53,6 @@ function inferType(values) {
 
 function createTableFromRows(tableName, rows) {
   if (!rows || rows.length === 0) return;
-  // stop if table exists
   const exists = db.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?").get(tableName);
   if (exists) {
     console.log(`Table ${tableName} already exists`);
@@ -70,6 +85,11 @@ function createTableFromRows(tableName, rows) {
   insertMany(rows);
 }
 
+function replaceTableFromRows(tableName, rows) {
+  db.prepare(`DROP TABLE IF EXISTS "${tableName}"`).run();
+  createTableFromRows(tableName, rows);
+}
+
 function processJsonFile(filePath) {
   const name = path.basename(filePath, path.extname(filePath));
   const raw = fs.readFileSync(filePath, 'utf8');
@@ -94,125 +114,315 @@ function processXlsxFile(filePath) {
   });
 }
 
-const CONSTITUENCY_XLS = 'UP Constituency Data Exercise(Sheet1).xls';
-const LEGISLATIVE_XLSX = 'UP_Legislative Assembly.xlsx';
-
 function cellValue(row, idx) {
   let val = row[idx];
   if (val === undefined || val === null || val === '') return null;
   if (typeof val === 'string') {
-    val = val.trim();
+    val = val.replace(/\r\n/g, ' ').replace(/\n/g, ' ').trim();
     return val || null;
   }
   return val;
 }
 
-function rowToConstituencyRecord(row) {
-  const assemblySegments = [];
-  for (let i = 4; i <= 15; i++) {
-    const seg = cellValue(row, i);
-    if (seg) assemblySegments.push(seg);
-  }
+function isNaCell(val) {
+  if (val === null || val === undefined) return true;
+  const s = String(val).trim().toUpperCase();
+  return !s || s === 'NA' || s === '-' || s === 'N/A';
+}
 
-  function electionBlock(startCol) {
+function normalizeMatchKey(name) {
+  return String(name || '')
+    .toLowerCase()
+    .replace(/\s*\((sc|st|general)\)\s*/gi, '')
+    .replace(/[^a-z0-9]/g, '');
+}
+
+function partyBlock(row, startCol) {
+  return {
+    jiladhyaksha: cellValue(row, startCol),
+    mahanagar: cellValue(row, startCol + 1),
+    mandal: cellValue(row, startCol + 2),
+    jilapratinidhi: cellValue(row, startCol + 3),
+    boothadhyaksha: cellValue(row, startCol + 4),
+  };
+}
+
+/**
+ * Normalized election block shared by constituency + legislative sheets.
+ * layout:
+ *  - 'pc' / 'ac_default': name, party, candidates, caste, winVotes, runnerName, runnerParty, runnerVotes, margin, totalVotes, exitPoll
+ *  - 'ac_2022': name, party, candidates, totalVotes, caste, winVotes, runnerName, runnerParty, runnerVotes, margin, exitPoll
+ */
+function electionBlock(row, startCol, layout = 'pc') {
+  if (layout === 'ac_2022') {
     return {
       winner_name: cellValue(row, startCol),
       winner_party: cellValue(row, startCol + 1),
       total_candidates: cellValue(row, startCol + 2),
       total_votes_polled: cellValue(row, startCol + 3),
-      exit_poll_results: cellValue(row, startCol + 4),
+      winning_candidate_caste: cellValue(row, startCol + 4),
+      winning_candidate_votes: cellValue(row, startCol + 5),
+      runner_up_name: cellValue(row, startCol + 6),
+      runner_up_party: cellValue(row, startCol + 7),
+      runner_up_votes: cellValue(row, startCol + 8),
+      winning_margin: cellValue(row, startCol + 9),
+      exit_poll_results: cellValue(row, startCol + 10),
     };
   }
 
-  function partyBlock(startCol) {
-    return {
-      jiladhyaksha: cellValue(row, startCol),
-      mahanagar: cellValue(row, startCol + 1),
-      mandal: cellValue(row, startCol + 2),
-      jilapratinidhi: cellValue(row, startCol + 3),
-      boothadhyaksha: cellValue(row, startCol + 4),
-    };
+  return {
+    winner_name: cellValue(row, startCol),
+    winner_party: cellValue(row, startCol + 1),
+    total_candidates: cellValue(row, startCol + 2),
+    winning_candidate_caste: cellValue(row, startCol + 3),
+    winning_candidate_votes: cellValue(row, startCol + 4),
+    runner_up_name: cellValue(row, startCol + 5),
+    runner_up_party: cellValue(row, startCol + 6),
+    runner_up_votes: cellValue(row, startCol + 7),
+    winning_margin: cellValue(row, startCol + 8),
+    total_votes_polled: cellValue(row, startCol + 9),
+    exit_poll_results: cellValue(row, startCol + 10),
+  };
+}
+
+function personElectionResult(row, startCol) {
+  const party = cellValue(row, startCol);
+  const winLose = cellValue(row, startCol + 1);
+  const margin = cellValue(row, startCol + 2);
+  if (isNaCell(party) && isNaCell(winLose) && isNaCell(margin)) {
+    return null;
+  }
+  return {
+    party: isNaCell(party) ? null : party,
+    win_lose: isNaCell(winLose) ? null : winLose,
+    margin: isNaCell(margin) ? null : margin,
+  };
+}
+
+function demographicsTriple(row, startCol) {
+  return {
+    most_populated: cellValue(row, startCol),
+    second_majority: cellValue(row, startCol + 1),
+    rest: cellValue(row, startCol + 2),
+  };
+}
+
+function collectSegments(row, startCol, endCol) {
+  const segments = [];
+  for (let i = startCol; i <= endCol; i++) {
+    const seg = cellValue(row, i);
+    if (seg && !isNaCell(seg)) segments.push(seg);
+  }
+  return segments;
+}
+
+function loadExerciseWorkbook() {
+  const filePath = path.join(dataDir, EXERCISE_XLSX);
+  if (!fs.existsSync(filePath)) {
+    console.warn('Exercise XLSX not found:', filePath);
+    return null;
+  }
+  return XLSX.readFile(filePath);
+}
+
+function sheetRows(workbook, sheetName) {
+  const sheet = workbook.Sheets[sheetName];
+  if (!sheet) {
+    console.warn('Sheet not found:', sheetName);
+    return [];
+  }
+  return XLSX.utils.sheet_to_json(sheet, { defval: null, header: 1 });
+}
+
+function loadLegacyLegislativeLookup() {
+  const filePath = path.join(dataDir, LEGISLATIVE_LOOKUP_XLSX);
+  const byExact = new Map();
+  const byNorm = new Map();
+  if (!fs.existsSync(filePath)) {
+    console.warn('Legacy legislative XLSX not found (district/code merge skipped):', filePath);
+    return { byExact, byNorm };
   }
 
+  const workbook = XLSX.readFile(filePath);
+  const rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { defval: null });
+  for (const row of rawRows) {
+    if (row.Assembly == null || String(row.Assembly).trim() === '') continue;
+    const assembly = String(row.Assembly).trim();
+    const meta = {
+      district: row.Distrit ?? null,
+      assembly_code: row.__EMPTY ?? null,
+      reservation: row.Reservation ?? null,
+    };
+    byExact.set(assembly.toLowerCase(), meta);
+    byNorm.set(normalizeMatchKey(assembly), meta);
+  }
+  return { byExact, byNorm };
+}
+
+function resolveLegacyAssemblyMeta(assemblyName, lookup) {
+  if (!assemblyName) return null;
+  const lower = assemblyName.toLowerCase();
+  if (lookup.byExact.has(lower)) return lookup.byExact.get(lower);
+
+  const alias = ASSEMBLY_NAME_ALIASES[lower] || ASSEMBLY_NAME_ALIASES[normalizeMatchKey(assemblyName)];
+  if (alias) {
+    const aliasLower = alias.toLowerCase();
+    if (lookup.byExact.has(aliasLower)) return lookup.byExact.get(aliasLower);
+    const aliasNorm = normalizeMatchKey(alias);
+    if (lookup.byNorm.has(aliasNorm)) return lookup.byNorm.get(aliasNorm);
+  }
+
+  const norm = normalizeMatchKey(assemblyName);
+  if (lookup.byNorm.has(norm)) return lookup.byNorm.get(norm);
+  return null;
+}
+
+function rowToConstituencyRecord(row) {
   return {
     sr_no: cellValue(row, 0),
     person_allotted_to: cellValue(row, 1),
     constituency_name: cellValue(row, 2),
     reservation_status: cellValue(row, 3),
-    assembly_segments: JSON.stringify(assemblySegments),
-    total_population: cellValue(row, 16),
-    caste: JSON.stringify({
-      most_populated: cellValue(row, 17),
-      second_majority: cellValue(row, 18),
-      rest: cellValue(row, 19),
-    }),
-    election_2024: JSON.stringify(electionBlock(20)),
-    election_2019: JSON.stringify(electionBlock(25)),
-    election_2014: JSON.stringify(electionBlock(30)),
-    election_2009: JSON.stringify(electionBlock(35)),
-    election_2004: JSON.stringify(electionBlock(40)),
+    assembly_segments: JSON.stringify(collectSegments(row, 4, 13)),
+    total_population: cellValue(row, 14),
+    caste: JSON.stringify(demographicsTriple(row, 15)),
+    election_2024: JSON.stringify(electionBlock(row, 18, 'pc')),
+    election_2019: JSON.stringify(electionBlock(row, 29, 'pc')),
+    election_2014: JSON.stringify(electionBlock(row, 40, 'pc')),
+    election_2009: JSON.stringify(electionBlock(row, 51, 'pc')),
+    election_2004: JSON.stringify(electionBlock(row, 62, 'pc')),
     party_organization: JSON.stringify({
-      bjp: partyBlock(45),
-      sp: partyBlock(50),
-      bsp: partyBlock(55),
-      inc: partyBlock(60),
+      bjp: partyBlock(row, 73),
+      sp: partyBlock(row, 78),
+      bsp: partyBlock(row, 83),
+      inc: partyBlock(row, 88),
     }),
   };
 }
 
-function createUpLegislativeTable() {
-  const filePath = path.join(dataDir, LEGISLATIVE_XLSX);
-  if (!fs.existsSync(filePath)) {
-    console.warn('Legislative Assembly XLSX not found:', filePath);
-    return;
-  }
-
-  const workbook = XLSX.readFile(filePath);
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const rawRows = XLSX.utils.sheet_to_json(sheet, { defval: null });
-  const rows = rawRows
-    .filter((row) => row.Assembly != null && String(row.Assembly).trim() !== '')
-    .map((row) => ({
-      sr_no: row['Sr. No.'] ?? null,
-      district: row.Distrit ?? null,
-      assembly: String(row.Assembly).trim(),
-      assembly_code: row.__EMPTY ?? null,
-      reservation: row.Reservation ?? null,
-    }));
-
-  db.prepare('DROP TABLE IF EXISTS Up_legislative').run();
-  createTableFromRows('Up_legislative', rows);
-  console.log(`Imported Up_legislative table (${rows.length} rows) from ${LEGISLATIVE_XLSX}`);
+function rowToLegislativeRecord(row, legacyLookup) {
+  const assembly = cellValue(row, 2);
+  const legacy = resolveLegacyAssemblyMeta(assembly, legacyLookup);
+  return {
+    sr_no: cellValue(row, 0),
+    person_allotted_to: cellValue(row, 1),
+    assembly,
+    reservation: cellValue(row, 3) ?? legacy?.reservation ?? null,
+    district: legacy?.district ?? null,
+    assembly_code: legacy?.assembly_code ?? null,
+    total_population: cellValue(row, 4),
+    religion: JSON.stringify(demographicsTriple(row, 5)),
+    caste: JSON.stringify(demographicsTriple(row, 8)),
+    election_2022: JSON.stringify(electionBlock(row, 11, 'ac_2022')),
+    election_2017: JSON.stringify(electionBlock(row, 22, 'ac_default')),
+    election_2012: JSON.stringify(electionBlock(row, 33, 'ac_default')),
+    election_2007: JSON.stringify(electionBlock(row, 44, 'ac_default')),
+    election_2002: JSON.stringify(electionBlock(row, 55, 'ac_default')),
+    party_organization: JSON.stringify({
+      bjp: partyBlock(row, 66),
+      sp: partyBlock(row, 71),
+      bsp: partyBlock(row, 76),
+      inc: partyBlock(row, 81),
+    }),
+  };
 }
 
-function createConstituencyTable() {
-  const filePath = path.join(dataDir, CONSTITUENCY_XLS);
-  if (!fs.existsSync(filePath)) {
-    console.warn('Constituency XLS not found:', filePath);
-    return;
-  }
+function rowToMlaRecord(row) {
+  return {
+    sr_no: cellValue(row, 0),
+    person_allotted_to: cellValue(row, 1),
+    mla_name: cellValue(row, 2),
+    caste: cellValue(row, 3),
+    election_2022: JSON.stringify(personElectionResult(row, 4)),
+    election_2017: JSON.stringify(personElectionResult(row, 7)),
+    election_2012: JSON.stringify(personElectionResult(row, 10)),
+    election_2007: JSON.stringify(personElectionResult(row, 13)),
+    election_2002: JSON.stringify(personElectionResult(row, 16)),
+  };
+}
 
-  const workbook = XLSX.readFile(filePath);
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const rawRows = XLSX.utils.sheet_to_json(sheet, { defval: null, header: 1 });
+function rowToMpRecord(row) {
+  return {
+    sr_no: cellValue(row, 0),
+    person_allotted_to: cellValue(row, 1),
+    mp_name: cellValue(row, 2),
+    caste: cellValue(row, 3),
+    election_2024: JSON.stringify(personElectionResult(row, 4)),
+    election_2019: JSON.stringify(personElectionResult(row, 7)),
+    election_2014: JSON.stringify(personElectionResult(row, 10)),
+    election_2009: JSON.stringify(personElectionResult(row, 13)),
+    election_2004: JSON.stringify(personElectionResult(row, 16)),
+  };
+}
+
+function createConstituencyTable(workbook) {
+  const rawRows = sheetRows(workbook, 'Constituency Data');
   const rows = rawRows
     .slice(3)
     .filter((row) => row[2] != null && String(row[2]).trim() !== '')
     .map(rowToConstituencyRecord);
 
-  db.prepare('DROP TABLE IF EXISTS constituency').run();
-  createTableFromRows('constituency', rows);
-  console.log(`Imported constituency table (${rows.length} rows) from ${CONSTITUENCY_XLS}`);
+  replaceTableFromRows('constituency', rows);
+  console.log(`Imported constituency table (${rows.length} rows) from ${EXERCISE_XLSX} / Constituency Data`);
+}
+
+function createUpLegislativeTable(workbook) {
+  const legacyLookup = loadLegacyLegislativeLookup();
+  const rawRows = sheetRows(workbook, 'Legislative Assembly Data');
+  const rows = rawRows
+    .slice(3)
+    .filter((row) => {
+      const name = row[2];
+      if (name == null || String(name).trim() === '') return false;
+      // Skip corrupted rows where a number landed in the Assembly Name column
+      if (/^\d+(\.\d+)?$/.test(String(name).trim())) return false;
+      return true;
+    })
+    .map((row) => rowToLegislativeRecord(row, legacyLookup));
+
+  const withDistrict = rows.filter((r) => r.district).length;
+  replaceTableFromRows('Up_legislative', rows);
+  console.log(
+    `Imported Up_legislative table (${rows.length} rows, ${withDistrict} with district/code merge) from ${EXERCISE_XLSX} + ${LEGISLATIVE_LOOKUP_XLSX}`,
+  );
+}
+
+function createMlaDataTable(workbook) {
+  const rawRows = sheetRows(workbook, 'MLA Data');
+  const rows = rawRows
+    .slice(2)
+    .filter((row) => row[2] != null && String(row[2]).trim() !== '')
+    .map(rowToMlaRecord);
+
+  replaceTableFromRows('mla_data', rows);
+  console.log(`Imported mla_data table (${rows.length} rows) from ${EXERCISE_XLSX} / MLA Data`);
+}
+
+function createMpLokSabhaDataTable(workbook) {
+  const rawRows = sheetRows(workbook, 'MP(Lok Sabha) Data');
+  const rows = rawRows
+    .slice(2)
+    .filter((row) => row[2] != null && String(row[2]).trim() !== '')
+    .map(rowToMpRecord);
+
+  replaceTableFromRows('mp_lok_sabha_data', rows);
+  console.log(`Imported mp_lok_sabha_data table (${rows.length} rows) from ${EXERCISE_XLSX} / MP(Lok Sabha) Data`);
 }
 
 function main() {
+  const SKIP_FILES = new Set([
+    EXERCISE_XLSX,
+    LEGISLATIVE_LOOKUP_XLSX,
+    LEGACY_CONSTITUENCY_XLS,
+  ]);
+
   function createMP_MLA_ConstituencyTable() {
     const files = fs.readdirSync(dataDir);
     for (const f of files) {
       const full = path.join(dataDir, f);
       const stat = fs.statSync(full);
       if (!stat.isFile()) continue;
-      if (f === CONSTITUENCY_XLS || f === LEGISLATIVE_XLSX) continue;
+      if (SKIP_FILES.has(f)) continue;
       const ext = path.extname(f).toLowerCase();
       try {
         if (ext === '.json') processJsonFile(full);
@@ -224,9 +434,6 @@ function main() {
     }
   }
 
-
-
-  // // create four news tables with dummy data
   function createDummyNewsTables() {
     const commonCols = [
       '"Heading" TEXT',
@@ -245,7 +452,6 @@ function main() {
       '"Rajyasabha_MP" TEXT'
     ];
 
-    // helper to create table and insert rows
     function createTable(name, extraCols, rows) {
       const cols = commonCols.concat(extraCols || []);
       const createSQL = `CREATE TABLE IF NOT EXISTS "${name}" (${cols.join(', ')})`;
@@ -270,126 +476,13 @@ function main() {
       tx(rows);
     }
 
-    //   // sample rows
-    //   const sampleDistricts = ['District A', 'District B'];
-    //   const sampleConstituencies = ['Constituency 1'];
-
-    // createTable('news_print', ['"Publication" TEXT', '"Edition" TEXT'], [
-    //   {
-    //     Heading: 'Print: Sample headline 1',
-    //     newsId: 'print-1',
-    //     Summary: 'Summary for print 1',
-    //     CreatedAt: new Date().toISOString(),
-    //     CCM: 'ccm1',
-    //     Content: 'Full content of print 1',
-    //     Language: 'Hindi',
-    //     Sentiment: 'Neutral',
-    //     Authors: 'Reporter A',
-    //     District: sampleDistricts,
-    //     Constituency: sampleConstituencies,
-    //     MLA: ['MLA A'],
-    //     Loksabha_MP: ['MP A'],
-    //     Rajyasabha_MP: ['RS A'],
-    //     Publication: 'Daily Times',
-    //     Edition: 'Morning'
-    //   },
-    //   {
-    //     Heading: 'Print: Sample headline 2',
-    //     newsId: 'print-2',
-    //     Summary: 'Summary for print 2',
-    //     CreatedAt: new Date().toISOString(),
-    //     CCM: 'ccm2',
-    //     Content: 'Full content of print 2',
-    //     Language: 'English',
-    //     Sentiment: 'Positive',
-    //     Authors: 'Reporter B',
-    //     District: ['District C'],
-    //     Constituency: ['Constituency 2'],
-    //     MLA: ['MLA B'],
-    //     Loksabha_MP: ['MP B'],
-    //     Rajyasabha_MP: ['RS B'],
-    //     Publication: 'Evening News',
-    //     Edition: 'Evening'
-    //   }
-    // ]);
-
-    // createTable('news_online', ['"website" TEXT', '"link" TEXT'], [
-    //   {
-    //     Heading: 'Online: Sample headline 1',
-    //     newsId: 'online-1',
-    //     Summary: 'Online summary 1',
-    //     CreatedAt: new Date().toISOString(),
-    //     CCM: 'ccm-o1',
-    //     Content: 'Online content 1',
-    //     Language: 'Hindi',
-    //     Sentiment: 'Negative',
-    //     Authors: 'Author O',
-    //     District: sampleDistricts,
-    //     Constituency: sampleConstituencies,
-    //     MLA: ['MLA X'],
-    //     Loksabha_MP: ['MP X'],
-    //     Rajyasabha_MP: ['RS X'],
-    //     website: 'Aaj Tak',
-    //     link: 'https://example.com'
-    //   }
-    // ]);
-
-    // createTable('news_x', ['"handles" TEXT', '"link" TEXT'], [
-    //   {
-    //     Heading: 'X: Sample headline',
-    //     newsId: 'x-1',
-    //     Summary: 'X summary',
-    //     CreatedAt: new Date().toISOString(),
-    //     CCM: 'ccm-x',
-    //     Content: 'X post content',
-    //     Language: 'English',
-    //     Sentiment: 'Neutral',
-    //     Authors: 'UserX',
-    //     District: ["District X"],
-    //     Constituency: ["Constituency X"],
-    //     MLA: ['MLA X'],
-    //     Loksabha_MP: ['MP X'],
-    //     Rajyasabha_MP: ['RS X'],
-    //     handles: '@example',
-    //     link: 'https://example.com'
-    //   }
-    // ]);
-
-    // createTable('news_youtube', ['"channel" TEXT', '"duration" TEXT', '"link" TEXT'], [
-    //   {
-    //     Heading: 'YouTube: Sample video',
-    //     newsId: 'yt-1',
-    //     Summary: 'Video summary',
-    //     CreatedAt: new Date().toISOString(),
-    //     Content: 'Video description',
-    //     Language: 'Hindi',
-    //     Sentiment: 'Positive',
-    //     District: ["District X"],
-    //     Constituency: ["Constituency X"],
-    //     MLA: ['MLA X'],
-    //     Loksabha_MP: ['MP X'],
-    //     Rajyasabha_MP: ['RS X'],
-    //     channel: 'NewsChannel',
-    //     duration: '12:34',
-    //     link: 'https://example.com'
-    //   }
-    // ]);
-
-
-    // try {
-    //   createDummyNewsTables();
-    //   console.log('Inserted dummy news tables.');
-    // } catch (e) {
-    //   console.error('Failed creating dummy tables:', e.message);
-    // }
+    void createTable;
   }
 
-  // create districts table from GeoJSON and update news rows' District column
   function createDistrictsTable() {
     const geoPath = path.join(__dirname, 'public', 'geo', 'up-districts.geojson');
     if (!fs.existsSync(geoPath)) { console.warn('GeoJSON not found:', geoPath); return; }
     let gdata;
-    // stop if table exists
     const exists = db.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?").get('districts');
     if (exists) {
       console.log('Districts table already exists');
@@ -418,36 +511,6 @@ function main() {
     console.log('Inserted', gdata.features.length, 'districts');
   }
 
-  // function updateNewsDistricts() {
-  //   const tables = ['news_print','news_online','news_x','news_youtube'];
-  //   const findStmt = db.prepare('SELECT dt_code,district FROM districts WHERE lower(district)=lower(?) LIMIT 1');
-  //   for (const t of tables) {
-  //     const exists = db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").get(t);
-  //     if (!exists) continue;
-  //     const rows = db.prepare(`SELECT rowid, District FROM "${t}"`).all();
-  //     const update = db.prepare(`UPDATE "${t}" SET "District" = ? WHERE rowid = ?`);
-  //     const tx = db.transaction((items) => {
-  //       for (const r of items) {
-  //         let d = r.District;
-  //         if (!d) continue;
-  //         try { d = JSON.parse(d); } catch (e) { /* keep as-is */ }
-  //         if (!Array.isArray(d)) d = [d];
-  //         const out = [];
-  //         for (const name of d) {
-  //           if (!name) continue;
-  //           const m = findStmt.get(String(name));
-  //           if (m) out.push({ dt_code: m.dt_code, district: m.district });
-  //           else out.push({ district: name });
-  //         }
-  //         update.run(JSON.stringify(out), r.rowid);
-  //       }
-  //     });
-  //     tx(rows);
-  //     console.log('Updated Districts for', t);
-  //   }
-  // }
-
-  // merge Loksabha, Rajya and MLA members into `representatives` table
   function createRepresentativesTable() {
     const files = fs.readdirSync(dataDir).filter(f => f.toLowerCase().endsWith('.json'));
     db.prepare(`CREATE TABLE IF NOT EXISTS representatives (
@@ -477,7 +540,6 @@ function main() {
       else if (lf.includes('mla')) chamber = 'mla';
 
       for (const rec of arr) {
-        // best-effort name/constituency/party extraction
         const name = rec.name || rec.Name || rec.member_name || rec.full_name || rec['Member Name'] || rec['memberName'] || null;
         const constituency = rec.constituency || rec.constituency_name || rec['Constituency'] || rec['constituencyName'] || null;
         const party = rec.party || rec.Party || rec['Political Party'] || null;
@@ -489,14 +551,22 @@ function main() {
   }
 
   try {
-    createConstituencyTable();
-    createUpLegislativeTable();
+    const workbook = loadExerciseWorkbook();
+    if (workbook) {
+      createConstituencyTable(workbook);
+      createUpLegislativeTable(workbook);
+      createMlaDataTable(workbook);
+      createMpLokSabhaDataTable(workbook);
+    } else {
+      console.warn('Skipping exercise workbook imports — file missing');
+    }
     createDistrictsTable();
-    // createDummyNewsTables();
+    // Media tables (news_*) are intentionally not touched.
     createMP_MLA_ConstituencyTable();
-    console.log('Constituency, districts and representatives created/updated.');
+    console.log('Constituency, legislative, MLA/MP, districts and bio tables created/updated (media tables untouched).');
   } catch (e) {
     console.error('Failed constituency/district/rep processing:', e.message);
+    console.error(e.stack);
   }
 
   try {

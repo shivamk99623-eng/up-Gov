@@ -1,12 +1,35 @@
 import "server-only";
+import { getDb } from "./db";
 import { resolveConstituencyFilter } from "./constituency-lookup";
 import { resolveLegislativeAssemblyFilter } from "./legislative-lookup";
 import { resolveDistrictName, toGeoName } from "./geo";
-import { entitySearchLikePatterns, tokenizeSearch } from "./name-search";
+import {
+  entitySearchLikePatterns,
+  entitySearchTokenGroups,
+  tokenizeSearch,
+} from "./name-search";
 import { MIN_SEARCH_TOKEN_LENGTH } from "./search-filter";
 import type { ConstituencyScope, GlobalFilters } from "./types";
+import type { TableKind } from "./news-mapper";
 
 type EntityPersonColumn = "MLA" | "Loksabha_MP" | "Rajyasabha_MP";
+
+let entityTokenIndexAvailable: boolean | null = null;
+
+/** True when news_entity_token has been built (see create_entity_index.js). */
+export function hasEntityTokenIndex(): boolean {
+  if (entityTokenIndexAvailable != null) return entityTokenIndexAvailable;
+  try {
+    entityTokenIndexAvailable = !!getDb()
+      .prepare(
+        `SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'news_entity_token'`,
+      )
+      .get();
+  } catch {
+    entityTokenIndexAvailable = false;
+  }
+  return entityTokenIndexAvailable;
+}
 
 export function entityColumnsForFilters(
   filters: GlobalFilters,
@@ -16,22 +39,51 @@ export function entityColumnsForFilters(
   return ["MLA", "Loksabha_MP", "Rajyasabha_MP"];
 }
 
+/**
+ * Person-entity prefilter. Prefers the news_entity_token index (exact token
+ * match) when available; falls back to LIKE on JSON columns.
+ * Multi-token names require every token group to match (AND), so chart and
+ * table counts stay aligned and avoid loose single-token hits.
+ */
 export function buildEntitySqlPrefilter(
   entity: string,
   columns: EntityPersonColumn[],
+  kind: TableKind,
 ): { sql: string; params: string[] } | null {
-  const patterns = entitySearchLikePatterns(entity);
-  if (!patterns.length || !columns.length) return null;
+  if (!columns.length) return null;
 
-  const parts: string[] = [];
-  const params: string[] = [];
-  for (const col of columns) {
-    for (const pat of patterns) {
-      parts.push(`"${col}" LIKE ?`);
-      params.push(pat);
-    }
+  const groups = entitySearchTokenGroups(entity);
+  if (!groups.length) return null;
+
+  if (hasEntityTokenIndex()) {
+    const rolePlaceholders = columns.map(() => "?").join(", ");
+    const params: string[] = [];
+    const groupSql = groups.map((group) => {
+      const tokenPlaceholders = group.map(() => "?").join(", ");
+      params.push(kind, ...columns, ...group);
+      return `"id" IN (
+        SELECT "row_id" FROM "news_entity_token"
+        WHERE "kind" = ?
+          AND "role" IN (${rolePlaceholders})
+          AND "token" IN (${tokenPlaceholders})
+      )`;
+    });
+    return { sql: `(${groupSql.join(" AND ")})`, params };
   }
-  return { sql: `(${parts.join(" OR ")})`, params };
+
+  // LIKE fallback: each token group must hit at least one person column.
+  const params: string[] = [];
+  const groupSql = groups.map((group) => {
+    const parts: string[] = [];
+    for (const col of columns) {
+      for (const token of group) {
+        parts.push(`"${col}" LIKE ?`);
+        params.push(`%${token}%`);
+      }
+    }
+    return `(${parts.join(" OR ")})`;
+  });
+  return { sql: `(${groupSql.join(" AND ")})`, params };
 }
 
 function districtLikePatterns(district: string): string[] {
@@ -70,13 +122,19 @@ export function buildConstituencySqlFilter(
   if (!resolved?.trim()) return null;
 
   const column = scope === "legislative" ? "Constituency" : "LK_Constituency";
-  const patterns = [
-    `%"${resolved.replace(/"/g, "")}"%`,
-    `%${resolved}%`,
-  ];
+  const stripped = resolved.replace(/\s*\((sc|st|general)\)\s*/gi, "").trim();
+  const names = [...new Set([resolved, stripped].filter(Boolean))];
+  const patterns: string[] = [];
+  const params: string[] = [];
+  for (const name of names) {
+    patterns.push(`"${column}" LIKE ?`);
+    params.push(`%"${name.replace(/"/g, "")}"%`);
+    patterns.push(`"${column}" LIKE ?`);
+    params.push(`%${name}%`);
+  }
   return {
-    sql: `(${patterns.map(() => `"${column}" LIKE ?`).join(" OR ")})`,
-    params: patterns,
+    sql: `(${patterns.join(" OR ")})`,
+    params,
   };
 }
 

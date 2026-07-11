@@ -1,19 +1,14 @@
 "use client";
 
-import { useIsFetching } from "@tanstack/react-query";
 import { useFilterStore } from "@/store/filters";
 import { DEBOUNCE } from "./debounce-throttle";
 import { normalizeSearchFilter } from "./search-filter";
 import { useDebouncedValue } from "./use-debounced-value";
-
-const FILTERED_QUERY_ROOTS = new Set([
-  "dashboard",
-  "print",
-  "scoped-media",
-  "district",
-  "constituency",
-  "constituency-print",
-]);
+import {
+  GLOBAL_FILTER_QUERY_ROOTS,
+  useGlobalFiltersLoading,
+} from "./use-global-filters-loading";
+import { useIsFetching } from "@tanstack/react-query";
 
 /** Tracks global header search: debounce pending + API refetch in flight. */
 export function useGlobalSearchStatus() {
@@ -28,7 +23,7 @@ export function useGlobalSearchStatus() {
   const fetchingCount = useIsFetching({
     predicate: (query) =>
       typeof query.queryKey[0] === "string" &&
-      FILTERED_QUERY_ROOTS.has(query.queryKey[0]),
+      GLOBAL_FILTER_QUERY_ROOTS.has(query.queryKey[0]),
   });
   const isFetching = fetchingCount > 0;
 
@@ -44,3 +39,5 @@ export function useGlobalSearchStatus() {
     isWorking,
   };
 }
+
+export { useGlobalFiltersLoading };

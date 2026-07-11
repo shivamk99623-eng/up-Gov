@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import { getMPById, getMPList } from "@/services/representatives";
-import { jsonError } from "@/lib/api-helpers";
+import { jsonError, parseFilters } from "@/lib/api-helpers";
+import { runDbOp } from "@/lib/db-worker/pool";
 import type { House } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -13,16 +13,20 @@ export async function GET(req: NextRequest) {
       houseParam === "Lok Sabha" || houseParam === "Rajya Sabha"
         ? (houseParam as House)
         : undefined;
+    const filters = parseFilters(req.nextUrl.searchParams);
 
     if (id) {
-      const mp = getMPById(id, house);
+      const mp = await runDbOp({
+        op: "mpById",
+        id,
+        house,
+        filters,
+      });
       if (!mp) return Response.json({ error: "MP not found" }, { status: 404 });
       return Response.json(mp);
     }
 
-    const all = getMPList();
-    const mps = house ? all.filter((m) => m.house === house) : all;
-    return Response.json({ total: mps.length, mps });
+    return Response.json(await runDbOp({ op: "mpList", house }));
   } catch (err) {
     return jsonError(err instanceof Error ? err.message : "Unknown error");
   }

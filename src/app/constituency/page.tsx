@@ -21,6 +21,7 @@ import {
 } from "@/components/charts/district-charts";
 import { ConstituencyMediaTabs } from "@/components/constituency/constituency-media-tabs";
 import { ConstituencyDetail } from "@/components/constituency/constituency-detail";
+import { LegislativeAssemblyDetail } from "@/components/constituency/legislative-assembly-detail";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -106,19 +107,14 @@ function ConstituencyScopePanel({
         <>
           <section className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
             <SummaryCard
-              label="Print Articles"
-              value={a?.printTotal ?? 0}
-              loading={analytics.isLoading}
-              icon={<Printer className="h-5 w-5" />}
-              accent={CHART_COLORS.saffron}
-            />
-            <SummaryCard
               label="Total News"
               value={a?.total ?? 0}
               loading={analytics.isLoading}
               icon={<Newspaper className="h-5 w-5" />}
               accent={CHART_COLORS.primary}
             />
+
+
             <SummaryCard
               label="Positive"
               value={a?.sentiment.positive ?? 0}
@@ -142,6 +138,13 @@ function ConstituencyScopePanel({
               loading={analytics.isLoading}
               icon={<Minus className="h-5 w-5" />}
               accent={CHART_COLORS.neutral}
+            />
+            <SummaryCard
+              label="Print Articles"
+              value={a?.printTotal ?? 0}
+              loading={analytics.isLoading}
+              icon={<Printer className="h-5 w-5" />}
+              accent={CHART_COLORS.saffron}
             />
             <SummaryCard
               label="YouTube"
@@ -169,8 +172,11 @@ function ConstituencyScopePanel({
             />
           </section>
 
-          {showDetail && constituency && (
+          {showDetail && constituency && scope === "parliamentary" && (
             <ConstituencyDetail constituency={constituency} />
+          )}
+          {showDetail && constituency && scope === "legislative" && (
+            <LegislativeAssemblyDetail assembly={constituency} />
           )}
 
           <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -251,6 +257,7 @@ export default function ConstituencyPage() {
                 scope="legislative"
                 label="Assembly Constituencies"
                 placeholder="All Assembly Constituencies"
+                showDetail
               />
             )}
           </TabsContent>

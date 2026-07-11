@@ -11,7 +11,12 @@ import {
   queryEntityMediaStats,
   type EntityMediaStats,
 } from "@/lib/news-repository";
+import {
+  getMlaElectionHistory,
+  getMpElectionHistory,
+} from "@/lib/person-election-data";
 import type {
+  GlobalFilters,
   MLAListItem,
   MLA,
   MP,
@@ -58,11 +63,14 @@ function buildMlaDetail(mlaBio: MLABioRecord, stats: EntityMediaStats): MLA {
     totalEngagement: stats.totalEngagement,
     media: stats.media,
     sentiment: stats.sentiment,
+    electionHistory: getMlaElectionHistory(name),
   };
 }
 
 function buildMpDetail(mpBio: MPBioRecord, stats: EntityMediaStats): MP {
   const name = mpBio.fullName;
+  const electionHistory =
+    mpBio.house === "Lok Sabha" ? getMpElectionHistory(name) : null;
 
   return {
     id: mpBio.id,
@@ -90,6 +98,7 @@ function buildMpDetail(mpBio: MPBioRecord, stats: EntityMediaStats): MP {
     totalEngagement: stats.totalEngagement,
     media: stats.media,
     sentiment: stats.sentiment,
+    electionHistory,
   };
 }
 
@@ -102,10 +111,13 @@ export function getMLAList(): MLAListItem[] {
   }));
 }
 
-export function getMLAById(id: string): MLA | null {
+export function getMLAById(
+  id: string,
+  filters: GlobalFilters = {},
+): MLA | null {
   const bio = getMlaBioById(id);
   if (!bio) return null;
-  const stats = queryEntityMediaStats(bio.fullName, "mla");
+  const stats = queryEntityMediaStats(bio.fullName, "mla", filters);
   return buildMlaDetail(bio, stats);
 }
 
@@ -119,9 +131,13 @@ export function getMPList(): MPListItem[] {
   }));
 }
 
-export function getMPById(id: string, house?: MP["house"]): MP | null {
+export function getMPById(
+  id: string,
+  house?: MP["house"],
+  filters: GlobalFilters = {},
+): MP | null {
   const bio = getMpBioById(id, house);
   if (!bio) return null;
-  const stats = queryEntityMediaStats(bio.fullName, "mp");
+  const stats = queryEntityMediaStats(bio.fullName, "mp", filters);
   return buildMpDetail(bio, stats);
 }

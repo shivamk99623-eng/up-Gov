@@ -126,6 +126,8 @@ function PrintTab({
 interface MediaScope {
   district?: string;
   entity?: string;
+  /** Aligns digital entity matching with Media-wise Coverage (MLA vs MP columns). */
+  printSource?: "district" | "mla" | "mp";
 }
 
 function mediaEmptyDescription(
@@ -226,7 +228,9 @@ export function DistrictMediaTabs({
 }) {
   const mediaQuery = useMediaTableQueryState();
   const [activeTab, setActiveTab] = React.useState("Print");
-  const scope: MediaScope = entity ? { entity } : { district };
+  const scope: MediaScope = entity
+    ? { entity, printSource }
+    : { district };
   const constrained = tableMaxHeight != null;
   const tabContentClass = cn("mt-3", constrained && "min-h-0 flex-1");
   return (

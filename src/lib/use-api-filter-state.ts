@@ -51,12 +51,7 @@ export function useApiFilterState(): ApiFilterValues {
   );
 }
 
-/** True when global date filters are waiting to settle. */
-export function useGlobalFiltersPending(): boolean {
-  const rawDateFrom = useFilterStore((s) => s.dateFrom);
-  const rawDateTo = useFilterStore((s) => s.dateTo);
-  const debouncedDateFrom = useDebouncedValue(rawDateFrom, DEBOUNCE.DATE_MS);
-  const debouncedDateTo = useDebouncedValue(rawDateTo, DEBOUNCE.DATE_MS);
-
-  return rawDateFrom !== debouncedDateFrom || rawDateTo !== debouncedDateTo;
-}
+export {
+  useGlobalFiltersPending,
+  useGlobalFiltersLoading,
+} from "@/lib/use-global-filters-loading";
