@@ -279,7 +279,7 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L1",
       "id": "constituency_page",
-      "community": 15,
+      "community": 3,
       "norm_label": "page.tsx"
     },
     {
@@ -288,7 +288,7 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L38",
       "id": "constituency_page_constituencyscopepanel",
-      "community": 15,
+      "community": 21,
       "norm_label": "constituencyscopepanel()"
     },
     {
@@ -297,7 +297,7 @@
       "source_file": "src/app/constituency/page.tsx",
       "source_location": "L226",
       "id": "constituency_page_constituencypage",
-      "community": 15,
+      "community": 21,
       "norm_label": "constituencypage()"
     },
     {
@@ -315,7 +315,7 @@
       "source_file": "src/app/district/page.tsx",
       "source_location": "L30",
       "id": "district_page_districtpage",
-      "community": 4,
+      "community": 17,
       "norm_label": "districtpage()"
     },
     {
@@ -360,7 +360,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L1",
       "id": "mla_page",
-      "community": 9,
+      "community": 0,
       "norm_label": "page.tsx"
     },
     {
@@ -369,7 +369,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L40",
       "id": "mla_page_stattile",
-      "community": 22,
+      "community": 0,
       "norm_label": "stattile()"
     },
     {
@@ -378,7 +378,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L74",
       "id": "mla_page_progressrow",
-      "community": 9,
+      "community": 0,
       "norm_label": "progressrow()"
     },
     {
@@ -387,7 +387,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L99",
       "id": "mla_page_sociallink",
-      "community": 9,
+      "community": 0,
       "norm_label": "sociallink()"
     },
     {
@@ -396,7 +396,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L121",
       "id": "mla_page_repavatar",
-      "community": 9,
+      "community": 0,
       "norm_label": "repavatar()"
     },
     {
@@ -405,7 +405,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L137",
       "id": "mla_page_relatedmediacoverage",
-      "community": 9,
+      "community": 0,
       "norm_label": "relatedmediacoverage()"
     },
     {
@@ -414,7 +414,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L179",
       "id": "mla_page_mladetails",
-      "community": 22,
+      "community": 0,
       "norm_label": "mladetails()"
     },
     {
@@ -423,7 +423,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L235",
       "id": "mla_page_mlapage",
-      "community": 9,
+      "community": 0,
       "norm_label": "mlapage()"
     },
     {
@@ -432,7 +432,7 @@
       "source_file": "src/app/mla/page.tsx",
       "source_location": "L250",
       "id": "mla_page_mlapagecontent",
-      "community": 9,
+      "community": 0,
       "norm_label": "mlapagecontent()"
     },
     {
@@ -459,7 +459,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L42",
       "id": "mp_page_stattile",
-      "community": 22,
+      "community": 0,
       "norm_label": "stattile()"
     },
     {
@@ -504,7 +504,7 @@
       "source_file": "src/app/mp/page.tsx",
       "source_location": "L147",
       "id": "mp_page_mpdetails",
-      "community": 22,
+      "community": 0,
       "norm_label": "mpdetails()"
     },
     {
@@ -567,7 +567,7 @@
       "source_file": "src/app/page.tsx",
       "source_location": "L39",
       "id": "app_page_homepage",
-      "community": 20,
+      "community": 17,
       "norm_label": "homepage()"
     },
     {
@@ -612,7 +612,7 @@
       "source_file": "src/components/cards/chart-card.tsx",
       "source_location": "L20",
       "id": "cards_chart_card_chartcard",
-      "community": 15,
+      "community": 0,
       "norm_label": "chartcard()"
     },
     {
@@ -621,7 +621,7 @@
       "source_file": "src/components/cards/summary-card.tsx",
       "source_location": "L1",
       "id": "cards_summary_card",
-      "community": 22,
+      "community": 20,
       "norm_label": "summary-card.tsx"
     },
     {
@@ -630,7 +630,7 @@
       "source_file": "src/components/cards/summary-card.tsx",
       "source_location": "L6",
       "id": "cards_summary_card_summarycardprops",
-      "community": 22,
+      "community": 20,
       "norm_label": "summarycardprops"
     },
     {
@@ -639,7 +639,7 @@
       "source_file": "src/components/cards/summary-card.tsx",
       "source_location": "L17",
       "id": "cards_summary_card_summarycard",
-      "community": 22,
+      "community": 20,
       "norm_label": "summarycard()"
     },
     {
@@ -855,7 +855,7 @@
       "source_file": "src/components/charts/district-charts.tsx",
       "source_location": "L116",
       "id": "charts_district_charts_sentimentdonut",
-      "community": 20,
+      "community": 0,
       "norm_label": "sentimentdonut()"
     },
     {
@@ -1044,7 +1044,7 @@
       "source_file": "src/components/common/states.tsx",
       "source_location": "L35",
       "id": "common_states_errorstate",
-      "community": 0,
+      "community": 3,
       "norm_label": "errorstate()"
     },
     {
@@ -1197,7 +1197,7 @@
       "source_file": "src/components/constituency/election-history-table.tsx",
       "source_location": "L89",
       "id": "constituency_election_history_table_electionhistorycard",
-      "community": 15,
+      "community": 10,
       "norm_label": "electionhistorycard()"
     },
     {
@@ -1206,7 +1206,7 @@
       "source_file": "src/components/constituency/legislative-assembly-detail.tsx",
       "source_location": "L1",
       "id": "constituency_legislative_assembly_detail",
-      "community": 15,
+      "community": 10,
       "norm_label": "legislative-assembly-detail.tsx"
     },
     {
@@ -1215,7 +1215,7 @@
       "source_file": "src/components/constituency/legislative-assembly-detail.tsx",
       "source_location": "L28",
       "id": "constituency_legislative_assembly_detail_party_tabs",
-      "community": 15,
+      "community": 10,
       "norm_label": "party_tabs"
     },
     {
@@ -1224,7 +1224,7 @@
       "source_file": "src/components/constituency/legislative-assembly-detail.tsx",
       "source_location": "L35",
       "id": "constituency_legislative_assembly_detail_buildcommunitybaritems",
-      "community": 15,
+      "community": 10,
       "norm_label": "buildcommunitybaritems()"
     },
     {
@@ -1233,7 +1233,7 @@
       "source_file": "src/components/constituency/legislative-assembly-detail.tsx",
       "source_location": "L71",
       "id": "constituency_legislative_assembly_detail_reservationlabel",
-      "community": 15,
+      "community": 10,
       "norm_label": "reservationlabel()"
     },
     {
@@ -1242,7 +1242,7 @@
       "source_file": "src/components/constituency/legislative-assembly-detail.tsx",
       "source_location": "L79",
       "id": "constituency_legislative_assembly_detail_insightcard",
-      "community": 15,
+      "community": 10,
       "norm_label": "insightcard()"
     },
     {
@@ -1251,7 +1251,7 @@
       "source_file": "src/components/constituency/legislative-assembly-detail.tsx",
       "source_location": "L103",
       "id": "constituency_legislative_assembly_detail_orgfield",
-      "community": 15,
+      "community": 10,
       "norm_label": "orgfield()"
     },
     {
@@ -1260,7 +1260,7 @@
       "source_file": "src/components/constituency/legislative-assembly-detail.tsx",
       "source_location": "L114",
       "id": "constituency_legislative_assembly_detail_partyorgpanel",
-      "community": 15,
+      "community": 10,
       "norm_label": "partyorgpanel()"
     },
     {
@@ -1269,7 +1269,7 @@
       "source_file": "src/components/constituency/legislative-assembly-detail.tsx",
       "source_location": "L126",
       "id": "constituency_legislative_assembly_detail_legislativeassemblydetail",
-      "community": 15,
+      "community": 10,
       "norm_label": "legislativeassemblydetail()"
     },
     {
@@ -1357,7 +1357,7 @@
       "label": "mediaEmptyDescription()",
       "file_type": "code",
       "source_file": "src/components/district/district-media-tabs.tsx",
-      "source_location": "L131",
+      "source_location": "L133",
       "id": "district_district_media_tabs_mediaemptydescription",
       "community": 3,
       "norm_label": "mediaemptydescription()"
@@ -1366,7 +1366,7 @@
       "label": "MediaTab()",
       "file_type": "code",
       "source_file": "src/components/district/district-media-tabs.tsx",
-      "source_location": "L146",
+      "source_location": "L148",
       "id": "district_district_media_tabs_mediatab",
       "community": 3,
       "norm_label": "mediatab()"
@@ -1375,9 +1375,9 @@
       "label": "DistrictMediaTabs()",
       "file_type": "code",
       "source_file": "src/components/district/district-media-tabs.tsx",
-      "source_location": "L210",
+      "source_location": "L212",
       "id": "district_district_media_tabs_districtmediatabs",
-      "community": 20,
+      "community": 0,
       "norm_label": "districtmediatabs()"
     },
     {
@@ -1431,7 +1431,7 @@
       "source_file": "src/components/filters/global-filter-loading.tsx",
       "source_location": "L12",
       "id": "filters_global_filter_loading_globalfilterstatusbar",
-      "community": 19,
+      "community": 0,
       "norm_label": "globalfilterstatusbar()"
     },
     {
@@ -1476,7 +1476,7 @@
       "source_file": "src/components/filters/multi-select.tsx",
       "source_location": "L30",
       "id": "filters_multi_select_multiselect",
-      "community": 5,
+      "community": 0,
       "norm_label": "multiselect()"
     },
     {
@@ -1530,7 +1530,7 @@
       "source_file": "src/components/home/up-map.tsx",
       "source_location": "L12",
       "id": "home_up_map_upmapprops",
-      "community": 6,
+      "community": 20,
       "norm_label": "upmapprops"
     },
     {
@@ -1548,7 +1548,7 @@
       "source_file": "src/components/layout/app-shell.tsx",
       "source_location": "L1",
       "id": "layout_app_shell",
-      "community": 10,
+      "community": 14,
       "norm_label": "app-shell.tsx"
     },
     {
@@ -1620,7 +1620,7 @@
       "source_file": "src/components/layout/header.tsx",
       "source_location": "L34",
       "id": "layout_header_header",
-      "community": 15,
+      "community": 17,
       "norm_label": "header()"
     },
     {
@@ -1629,7 +1629,7 @@
       "source_file": "src/components/layout/sidebar-nav.tsx",
       "source_location": "L1",
       "id": "layout_sidebar_nav",
-      "community": 10,
+      "community": 14,
       "norm_label": "sidebar-nav.tsx"
     },
     {
@@ -1638,7 +1638,7 @@
       "source_file": "src/components/layout/sidebar-nav.tsx",
       "source_location": "L14",
       "id": "layout_sidebar_nav_links",
-      "community": 10,
+      "community": 14,
       "norm_label": "links"
     },
     {
@@ -1647,7 +1647,7 @@
       "source_file": "src/components/layout/sidebar-nav.tsx",
       "source_location": "L22",
       "id": "layout_sidebar_nav_sidebarnav",
-      "community": 10,
+      "community": 14,
       "norm_label": "sidebarnav()"
     },
     {
@@ -1656,7 +1656,7 @@
       "source_file": "src/components/layout/sidebar-nav.tsx",
       "source_location": "L51",
       "id": "layout_sidebar_nav_emblem",
-      "community": 10,
+      "community": 14,
       "norm_label": "emblem()"
     },
     {
@@ -1683,7 +1683,7 @@
       "source_file": "src/components/representatives/government-member-details.tsx",
       "source_location": "L33",
       "id": "representatives_government_member_details_governmentmemberdetails",
-      "community": 9,
+      "community": 0,
       "norm_label": "governmentmemberdetails()"
     },
     {
@@ -1746,7 +1746,7 @@
       "source_file": "src/components/representatives/person-election-history.tsx",
       "source_location": "L15",
       "id": "representatives_person_election_history_personelectionhistorycard",
-      "community": 9,
+      "community": 0,
       "norm_label": "personelectionhistorycard()"
     },
     {
@@ -1827,7 +1827,7 @@
       "source_file": "src/components/tables/data-table.tsx",
       "source_location": "L119",
       "id": "tables_data_table_datatable",
-      "community": 7,
+      "community": 17,
       "norm_label": "datatable()"
     },
     {
@@ -2070,7 +2070,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L1",
       "id": "ui_badge",
-      "community": 9,
+      "community": 0,
       "norm_label": "badge.tsx"
     },
     {
@@ -2079,7 +2079,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L5",
       "id": "ui_badge_badgevariants",
-      "community": 9,
+      "community": 0,
       "norm_label": "badgevariants"
     },
     {
@@ -2088,7 +2088,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L26",
       "id": "ui_badge_badgeprops",
-      "community": 9,
+      "community": 0,
       "norm_label": "badgeprops"
     },
     {
@@ -2097,7 +2097,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L30",
       "id": "ui_badge_badge",
-      "community": 9,
+      "community": 0,
       "norm_label": "badge()"
     },
     {
@@ -2205,7 +2205,7 @@
       "source_file": "src/components/ui/checkbox.tsx",
       "source_location": "L1",
       "id": "ui_checkbox",
-      "community": 22,
+      "community": 5,
       "norm_label": "checkbox.tsx"
     },
     {
@@ -2214,7 +2214,7 @@
       "source_file": "src/components/ui/checkbox.tsx",
       "source_location": "L8",
       "id": "ui_checkbox_checkbox",
-      "community": 22,
+      "community": 5,
       "norm_label": "checkbox"
     },
     {
@@ -2655,7 +2655,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L1",
       "id": "ui_tabs",
-      "community": 15,
+      "community": 3,
       "norm_label": "tabs.tsx"
     },
     {
@@ -2664,7 +2664,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L9",
       "id": "ui_tabs_tabslist",
-      "community": 15,
+      "community": 3,
       "norm_label": "tabslist"
     },
     {
@@ -2673,7 +2673,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L24",
       "id": "ui_tabs_tabstrigger",
-      "community": 15,
+      "community": 3,
       "norm_label": "tabstrigger"
     },
     {
@@ -2682,7 +2682,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L39",
       "id": "ui_tabs_tabscontent",
-      "community": 15,
+      "community": 3,
       "norm_label": "tabscontent"
     },
     {
@@ -2691,7 +2691,7 @@
       "source_file": "src/components/ui/tooltip.tsx",
       "source_location": "L1",
       "id": "ui_tooltip",
-      "community": 22,
+      "community": 5,
       "norm_label": "tooltip.tsx"
     },
     {
@@ -2700,7 +2700,7 @@
       "source_file": "src/components/ui/tooltip.tsx",
       "source_location": "L11",
       "id": "ui_tooltip_tooltipcontent",
-      "community": 22,
+      "community": 5,
       "norm_label": "tooltipcontent"
     },
     {
@@ -2727,7 +2727,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L49",
       "id": "lib_api_client_listpagination",
-      "community": 3,
+      "community": 12,
       "norm_label": "listpagination"
     },
     {
@@ -2736,7 +2736,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L54",
       "id": "lib_api_client_mergetablefilters",
-      "community": 4,
+      "community": 12,
       "norm_label": "mergetablefilters()"
     },
     {
@@ -2745,7 +2745,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L68",
       "id": "lib_api_client_buildmediaparams",
-      "community": 4,
+      "community": 12,
       "norm_label": "buildmediaparams()"
     },
     {
@@ -2754,7 +2754,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L87",
       "id": "lib_api_client_mediaendpoint",
-      "community": 3,
+      "community": 12,
       "norm_label": "mediaendpoint()"
     },
     {
@@ -2763,7 +2763,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L100",
       "id": "lib_api_client_useglobalfilterquery",
-      "community": 4,
+      "community": 17,
       "norm_label": "useglobalfilterquery()"
     },
     {
@@ -2772,7 +2772,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L105",
       "id": "lib_api_client_usedashboard",
-      "community": 20,
+      "community": 17,
       "norm_label": "usedashboard()"
     },
     {
@@ -2781,7 +2781,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L115",
       "id": "lib_api_client_usedistrictanalytics",
-      "community": 4,
+      "community": 17,
       "norm_label": "usedistrictanalytics()"
     },
     {
@@ -2790,7 +2790,7 @@
       "source_file": "src/lib/api-client.ts",
       "source_location": "L126",
       "id": "lib_api_client_useprint",
-      "community": 4,
+      "community": 12,
       "norm_label": "useprint()"
     },
     {
@@ -2806,34 +2806,34 @@
       "label": "useConstituencyAnalytics()",
       "file_type": "code",
       "source_file": "src/lib/api-client.ts",
-      "source_location": "L206",
+      "source_location": "L211",
       "id": "lib_api_client_useconstituencyanalytics",
-      "community": 15,
+      "community": 21,
       "norm_label": "useconstituencyanalytics()"
     },
     {
       "label": "useConstituencyPrint()",
       "file_type": "code",
       "source_file": "src/lib/api-client.ts",
-      "source_location": "L225",
+      "source_location": "L230",
       "id": "lib_api_client_useconstituencyprint",
-      "community": 4,
+      "community": 3,
       "norm_label": "useconstituencyprint()"
     },
     {
       "label": "useConstituencyOptions()",
       "file_type": "code",
       "source_file": "src/lib/api-client.ts",
-      "source_location": "L245",
+      "source_location": "L250",
       "id": "lib_api_client_useconstituencyoptions",
-      "community": 15,
+      "community": 21,
       "norm_label": "useconstituencyoptions()"
     },
     {
       "label": "useConstituencyDetail()",
       "file_type": "code",
       "source_file": "src/lib/api-client.ts",
-      "source_location": "L259",
+      "source_location": "L264",
       "id": "lib_api_client_useconstituencydetail",
       "community": 15,
       "norm_label": "useconstituencydetail()"
@@ -2842,16 +2842,16 @@
       "label": "useLegislativeAssemblyDetail()",
       "file_type": "code",
       "source_file": "src/lib/api-client.ts",
-      "source_location": "L272",
+      "source_location": "L277",
       "id": "lib_api_client_uselegislativeassemblydetail",
-      "community": 15,
+      "community": 10,
       "norm_label": "uselegislativeassemblydetail()"
     },
     {
       "label": "useFilterOptions()",
       "file_type": "code",
       "source_file": "src/lib/api-client.ts",
-      "source_location": "L285",
+      "source_location": "L290",
       "id": "lib_api_client_usefilteroptions",
       "community": 3,
       "norm_label": "usefilteroptions()"
@@ -2860,25 +2860,25 @@
       "label": "useMLAs()",
       "file_type": "code",
       "source_file": "src/lib/api-client.ts",
-      "source_location": "L294",
+      "source_location": "L299",
       "id": "lib_api_client_usemlas",
-      "community": 9,
+      "community": 0,
       "norm_label": "usemlas()"
     },
     {
       "label": "useMLA()",
       "file_type": "code",
       "source_file": "src/lib/api-client.ts",
-      "source_location": "L303",
+      "source_location": "L308",
       "id": "lib_api_client_usemla",
-      "community": 9,
+      "community": 0,
       "norm_label": "usemla()"
     },
     {
       "label": "useMPs()",
       "file_type": "code",
       "source_file": "src/lib/api-client.ts",
-      "source_location": "L315",
+      "source_location": "L320",
       "id": "lib_api_client_usemps",
       "community": 0,
       "norm_label": "usemps()"
@@ -2887,7 +2887,7 @@
       "label": "useMP()",
       "file_type": "code",
       "source_file": "src/lib/api-client.ts",
-      "source_location": "L324",
+      "source_location": "L329",
       "id": "lib_api_client_usemp",
       "community": 0,
       "norm_label": "usemp()"
@@ -2988,7 +2988,7 @@
       "source_file": "src/lib/constituency-detail.ts",
       "source_location": "L51",
       "id": "lib_constituency_detail_dedupeconstituencynames",
-      "community": 11,
+      "community": 13,
       "norm_label": "dedupeconstituencynames()"
     },
     {
@@ -3024,7 +3024,7 @@
       "source_file": "src/lib/constituency-detail.ts",
       "source_location": "L199",
       "id": "lib_constituency_detail_listconstituencydetailnames",
-      "community": 11,
+      "community": 13,
       "norm_label": "listconstituencydetailnames()"
     },
     {
@@ -3042,7 +3042,7 @@
       "source_file": "src/lib/constituency-detail.ts",
       "source_location": "L216",
       "id": "lib_constituency_detail_getconstituencydetail",
-      "community": 13,
+      "community": 11,
       "norm_label": "getconstituencydetail()"
     },
     {
@@ -3051,7 +3051,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L1",
       "id": "lib_constituency_lookup",
-      "community": 12,
+      "community": 11,
       "norm_label": "constituency-lookup.ts"
     },
     {
@@ -3060,7 +3060,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L10",
       "id": "lib_constituency_lookup_constituency_aliases",
-      "community": 12,
+      "community": 11,
       "norm_label": "constituency_aliases"
     },
     {
@@ -3069,7 +3069,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L25",
       "id": "lib_constituency_lookup_normalizekey",
-      "community": 12,
+      "community": 11,
       "norm_label": "normalizekey()"
     },
     {
@@ -3078,7 +3078,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L29",
       "id": "lib_constituency_lookup_buildconstituencylookup",
-      "community": 12,
+      "community": 11,
       "norm_label": "buildconstituencylookup()"
     },
     {
@@ -3087,7 +3087,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L108",
       "id": "lib_constituency_lookup_listconstituencies",
-      "community": 12,
+      "community": 11,
       "norm_label": "listconstituencies()"
     },
     {
@@ -3096,7 +3096,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L115",
       "id": "lib_constituency_lookup_resolveconstituencytoken",
-      "community": 12,
+      "community": 11,
       "norm_label": "resolveconstituencytoken()"
     },
     {
@@ -3105,7 +3105,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L134",
       "id": "lib_constituency_lookup_isknownconstituency",
-      "community": 12,
+      "community": 11,
       "norm_label": "isknownconstituency()"
     },
     {
@@ -3114,7 +3114,7 @@
       "source_file": "src/lib/constituency-lookup.ts",
       "source_location": "L143",
       "id": "lib_constituency_lookup_resolveconstituencyfilter",
-      "community": 12,
+      "community": 11,
       "norm_label": "resolveconstituencyfilter()"
     },
     {
@@ -3141,7 +3141,7 @@
       "source_file": "src/lib/dates.ts",
       "source_location": "L18",
       "id": "lib_dates_startofcalendarday",
-      "community": 6,
+      "community": 2,
       "norm_label": "startofcalendarday()"
     },
     {
@@ -3150,7 +3150,7 @@
       "source_file": "src/lib/dates.ts",
       "source_location": "L23",
       "id": "lib_dates_endofcalendarday",
-      "community": 6,
+      "community": 2,
       "norm_label": "endofcalendarday()"
     },
     {
@@ -3301,7 +3301,7 @@
       "label": "failAllForWorker()",
       "file_type": "code",
       "source_file": "src/lib/db-worker/pool.ts",
-      "source_location": "L121",
+      "source_location": "L133",
       "id": "db_worker_pool_failallforworker",
       "community": 13,
       "norm_label": "failallforworker()"
@@ -3310,7 +3310,7 @@
       "label": "ensurePool()",
       "file_type": "code",
       "source_file": "src/lib/db-worker/pool.ts",
-      "source_location": "L130",
+      "source_location": "L142",
       "id": "db_worker_pool_ensurepool",
       "community": 13,
       "norm_label": "ensurepool()"
@@ -3319,7 +3319,7 @@
       "label": "pumpQueue()",
       "file_type": "code",
       "source_file": "src/lib/db-worker/pool.ts",
-      "source_location": "L138",
+      "source_location": "L150",
       "id": "db_worker_pool_pumpqueue",
       "community": 13,
       "norm_label": "pumpqueue()"
@@ -3328,7 +3328,7 @@
       "label": "acquire()",
       "file_type": "code",
       "source_file": "src/lib/db-worker/pool.ts",
-      "source_location": "L147",
+      "source_location": "L159",
       "id": "db_worker_pool_acquire",
       "community": 13,
       "norm_label": "acquire()"
@@ -3337,7 +3337,7 @@
       "label": "runDbOp()",
       "file_type": "code",
       "source_file": "src/lib/db-worker/pool.ts",
-      "source_location": "L178",
+      "source_location": "L190",
       "id": "db_worker_pool_rundbop",
       "community": 13,
       "norm_label": "rundbop()"
@@ -3348,7 +3348,7 @@
       "source_file": "src/lib/db-worker/types.ts",
       "source_location": "L1",
       "id": "db_worker_types",
-      "community": 12,
+      "community": 13,
       "norm_label": "types.ts"
     },
     {
@@ -3384,7 +3384,7 @@
       "source_file": "src/lib/db.ts",
       "source_location": "L1",
       "id": "lib_db",
-      "community": 6,
+      "community": 11,
       "norm_label": "db.ts"
     },
     {
@@ -3393,7 +3393,7 @@
       "source_file": "src/lib/db.ts",
       "source_location": "L5",
       "id": "lib_db_db_path",
-      "community": 6,
+      "community": 11,
       "norm_label": "db_path"
     },
     {
@@ -4023,7 +4023,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L1",
       "id": "lib_name_search",
-      "community": 1,
+      "community": 4,
       "norm_label": "name-search.ts"
     },
     {
@@ -4032,7 +4032,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L6",
       "id": "lib_name_search_spelling_variants",
-      "community": 1,
+      "community": 4,
       "norm_label": "spelling_variants"
     },
     {
@@ -4068,7 +4068,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L38",
       "id": "lib_name_search_expandspellingvariants",
-      "community": 1,
+      "community": 4,
       "norm_label": "expandspellingvariants()"
     },
     {
@@ -4077,7 +4077,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L48",
       "id": "lib_name_search_expandpersonnamevariants",
-      "community": 1,
+      "community": 4,
       "norm_label": "expandpersonnamevariants()"
     },
     {
@@ -4086,7 +4086,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L53",
       "id": "lib_name_search_compactpersonkeywithtitle",
-      "community": 1,
+      "community": 4,
       "norm_label": "compactpersonkeywithtitle()"
     },
     {
@@ -4095,7 +4095,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L65",
       "id": "lib_name_search_tokenizesearch",
-      "community": 1,
+      "community": 4,
       "norm_label": "tokenizesearch()"
     },
     {
@@ -4104,7 +4104,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L71",
       "id": "lib_name_search_searchblob",
-      "community": 1,
+      "community": 4,
       "norm_label": "searchblob()"
     },
     {
@@ -4113,7 +4113,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L82",
       "id": "lib_name_search_matchessemanticsearch",
-      "community": 1,
+      "community": 4,
       "norm_label": "matchessemanticsearch()"
     },
     {
@@ -4122,7 +4122,7 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L109",
       "id": "lib_name_search_buildpersonsearchkeywords",
-      "community": 1,
+      "community": 4,
       "norm_label": "buildpersonsearchkeywords()"
     },
     {
@@ -4131,43 +4131,52 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L116",
       "id": "lib_name_search_entitysearchlikepatterns",
-      "community": 1,
+      "community": 4,
       "norm_label": "entitysearchlikepatterns()"
     },
     {
       "label": "entitySearchTokens()",
       "file_type": "code",
       "source_file": "src/lib/name-search.ts",
-      "source_location": "L131",
+      "source_location": "L133",
       "id": "lib_name_search_entitysearchtokens",
-      "community": 1,
+      "community": 4,
       "norm_label": "entitysearchtokens()"
+    },
+    {
+      "label": "entitySearchTokenGroups()",
+      "file_type": "code",
+      "source_file": "src/lib/name-search.ts",
+      "source_location": "L141",
+      "id": "lib_name_search_entitysearchtokengroups",
+      "community": 4,
+      "norm_label": "entitysearchtokengroups()"
     },
     {
       "label": "formatRepOptionLabel()",
       "file_type": "code",
       "source_file": "src/lib/name-search.ts",
-      "source_location": "L147",
+      "source_location": "L151",
       "id": "lib_name_search_formatrepoptionlabel",
-      "community": 1,
+      "community": 4,
       "norm_label": "formatrepoptionlabel()"
     },
     {
       "label": "RepSelectOption",
       "file_type": "code",
       "source_file": "src/lib/name-search.ts",
-      "source_location": "L157",
+      "source_location": "L161",
       "id": "lib_name_search_repselectoption",
-      "community": 1,
+      "community": 4,
       "norm_label": "repselectoption"
     },
     {
       "label": "buildRepSelectOption()",
       "file_type": "code",
       "source_file": "src/lib/name-search.ts",
-      "source_location": "L163",
+      "source_location": "L167",
       "id": "lib_name_search_buildrepselectoption",
-      "community": 1,
+      "community": 4,
       "norm_label": "buildrepselectoption()"
     },
     {
@@ -4356,7 +4365,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L48",
       "id": "lib_news_repository_paginationparams",
-      "community": 12,
+      "community": 13,
       "norm_label": "paginationparams"
     },
     {
@@ -4581,7 +4590,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L409",
       "id": "lib_news_repository_querydigitalmedia",
-      "community": 6,
+      "community": 13,
       "norm_label": "querydigitalmedia()"
     },
     {
@@ -4743,7 +4752,7 @@
       "source_file": "src/lib/news-repository.ts",
       "source_location": "L852",
       "id": "lib_news_repository_loadalldigitalrecords",
-      "community": 6,
+      "community": 13,
       "norm_label": "loadalldigitalrecords()"
     },
     {
@@ -4788,7 +4797,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L1",
       "id": "lib_person_election_data",
-      "community": 1,
+      "community": 11,
       "norm_label": "person-election-data.ts"
     },
     {
@@ -4797,7 +4806,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L12",
       "id": "lib_person_election_data_rawpersonelection",
-      "community": 1,
+      "community": 11,
       "norm_label": "rawpersonelection"
     },
     {
@@ -4806,7 +4815,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L18",
       "id": "lib_person_election_data_mladatarow",
-      "community": 1,
+      "community": 11,
       "norm_label": "mladatarow"
     },
     {
@@ -4815,7 +4824,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L28",
       "id": "lib_person_election_data_mpdatarow",
-      "community": 1,
+      "community": 11,
       "norm_label": "mpdatarow"
     },
     {
@@ -4824,7 +4833,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L38",
       "id": "lib_person_election_data_tableexists",
-      "community": 1,
+      "community": 11,
       "norm_label": "tableexists()"
     },
     {
@@ -4842,7 +4851,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L57",
       "id": "lib_person_election_data_keyset",
-      "community": 1,
+      "community": 4,
       "norm_label": "keyset()"
     },
     {
@@ -4851,7 +4860,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L78",
       "id": "lib_person_election_data_setsintersect",
-      "community": 1,
+      "community": 11,
       "norm_label": "setsintersect()"
     },
     {
@@ -4860,7 +4869,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L90",
       "id": "lib_person_election_data_scorenamematch",
-      "community": 1,
+      "community": 11,
       "norm_label": "scorenamematch()"
     },
     {
@@ -4869,7 +4878,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L123",
       "id": "lib_person_election_data_findbestname",
-      "community": 1,
+      "community": 11,
       "norm_label": "findbestname()"
     },
     {
@@ -4878,7 +4887,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L147",
       "id": "lib_person_election_data_mlarowtohistory",
-      "community": 1,
+      "community": 11,
       "norm_label": "mlarowtohistory()"
     },
     {
@@ -4887,7 +4896,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L165",
       "id": "lib_person_election_data_mprowtohistory",
-      "community": 1,
+      "community": 11,
       "norm_label": "mprowtohistory()"
     },
     {
@@ -4896,7 +4905,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L186",
       "id": "lib_person_election_data_loadmlaindex",
-      "community": 1,
+      "community": 11,
       "norm_label": "loadmlaindex()"
     },
     {
@@ -4905,7 +4914,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L197",
       "id": "lib_person_election_data_loadmpindex",
-      "community": 1,
+      "community": 11,
       "norm_label": "loadmpindex()"
     },
     {
@@ -4914,7 +4923,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L210",
       "id": "lib_person_election_data_getmlaelectionhistory",
-      "community": 1,
+      "community": 11,
       "norm_label": "getmlaelectionhistory()"
     },
     {
@@ -4923,7 +4932,7 @@
       "source_file": "src/lib/person-election-data.ts",
       "source_location": "L215",
       "id": "lib_person_election_data_getmpelectionhistory",
-      "community": 1,
+      "community": 11,
       "norm_label": "getmpelectionhistory()"
     },
     {
@@ -5211,7 +5220,7 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L1",
       "id": "lib_sql_scope_filters",
-      "community": 1,
+      "community": 4,
       "norm_label": "sql-scope-filters.ts"
     },
     {
@@ -5220,7 +5229,7 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L15",
       "id": "lib_sql_scope_filters_entitypersoncolumn",
-      "community": 1,
+      "community": 4,
       "norm_label": "entitypersoncolumn"
     },
     {
@@ -5229,7 +5238,7 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L20",
       "id": "lib_sql_scope_filters_hasentitytokenindex",
-      "community": 1,
+      "community": 4,
       "norm_label": "hasentitytokenindex()"
     },
     {
@@ -5238,23 +5247,23 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L34",
       "id": "lib_sql_scope_filters_entitycolumnsforfilters",
-      "community": 6,
+      "community": 4,
       "norm_label": "entitycolumnsforfilters()"
     },
     {
       "label": "buildEntitySqlPrefilter()",
       "file_type": "code",
       "source_file": "src/lib/sql-scope-filters.ts",
-      "source_location": "L46",
+      "source_location": "L48",
       "id": "lib_sql_scope_filters_buildentitysqlprefilter",
-      "community": 1,
+      "community": 4,
       "norm_label": "buildentitysqlprefilter()"
     },
     {
       "label": "districtLikePatterns()",
       "file_type": "code",
       "source_file": "src/lib/sql-scope-filters.ts",
-      "source_location": "L84",
+      "source_location": "L89",
       "id": "lib_sql_scope_filters_districtlikepatterns",
       "community": 6,
       "norm_label": "districtlikepatterns()"
@@ -5263,7 +5272,7 @@
       "label": "buildDistrictSqlFilter()",
       "file_type": "code",
       "source_file": "src/lib/sql-scope-filters.ts",
-      "source_location": "L99",
+      "source_location": "L104",
       "id": "lib_sql_scope_filters_builddistrictsqlfilter",
       "community": 6,
       "norm_label": "builddistrictsqlfilter()"
@@ -5272,7 +5281,7 @@
       "label": "buildConstituencySqlFilter()",
       "file_type": "code",
       "source_file": "src/lib/sql-scope-filters.ts",
-      "source_location": "L109",
+      "source_location": "L114",
       "id": "lib_sql_scope_filters_buildconstituencysqlfilter",
       "community": 6,
       "norm_label": "buildconstituencysqlfilter()"
@@ -5281,7 +5290,7 @@
       "label": "buildPrintSourceSqlFilter()",
       "file_type": "code",
       "source_file": "src/lib/sql-scope-filters.ts",
-      "source_location": "L136",
+      "source_location": "L141",
       "id": "lib_sql_scope_filters_buildprintsourcesqlfilter",
       "community": 6,
       "norm_label": "buildprintsourcesqlfilter()"
@@ -5290,27 +5299,27 @@
       "label": "SEARCH_TEXT_COLUMNS",
       "file_type": "code",
       "source_file": "src/lib/sql-scope-filters.ts",
-      "source_location": "L187",
+      "source_location": "L192",
       "id": "lib_sql_scope_filters_search_text_columns",
-      "community": 1,
+      "community": 4,
       "norm_label": "search_text_columns"
     },
     {
       "label": "SEARCH_SCOPE_COLUMNS",
       "file_type": "code",
       "source_file": "src/lib/sql-scope-filters.ts",
-      "source_location": "L209",
+      "source_location": "L214",
       "id": "lib_sql_scope_filters_search_scope_columns",
-      "community": 1,
+      "community": 4,
       "norm_label": "search_scope_columns"
     },
     {
       "label": "buildSearchSqlPrefilter()",
       "file_type": "code",
       "source_file": "src/lib/sql-scope-filters.ts",
-      "source_location": "L218",
+      "source_location": "L223",
       "id": "lib_sql_scope_filters_buildsearchsqlprefilter",
-      "community": 1,
+      "community": 4,
       "norm_label": "buildsearchsqlprefilter()"
     },
     {
@@ -5328,7 +5337,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L5",
       "id": "lib_types_mediatype",
-      "community": 12,
+      "community": 13,
       "norm_label": "mediatype"
     },
     {
@@ -5337,7 +5346,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L8",
       "id": "lib_types_digitalmediatype",
-      "community": 3,
+      "community": 12,
       "norm_label": "digitalmediatype"
     },
     {
@@ -5427,7 +5436,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L71",
       "id": "lib_types_districtsummary",
-      "community": 6,
+      "community": 20,
       "norm_label": "districtsummary"
     },
     {
@@ -5436,7 +5445,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L86",
       "id": "lib_types_trendpoint",
-      "community": 12,
+      "community": 13,
       "norm_label": "trendpoint"
     },
     {
@@ -5445,7 +5454,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L95",
       "id": "lib_types_namecount",
-      "community": 12,
+      "community": 13,
       "norm_label": "namecount"
     },
     {
@@ -5490,7 +5499,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L155",
       "id": "lib_types_mediaqueryresponse",
-      "community": 12,
+      "community": 13,
       "norm_label": "mediaqueryresponse"
     },
     {
@@ -5607,7 +5616,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L266",
       "id": "lib_types_constituencypartyorg",
-      "community": 15,
+      "community": 11,
       "norm_label": "constituencypartyorg"
     },
     {
@@ -5634,7 +5643,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L284",
       "id": "lib_types_constituencydetailresponse",
-      "community": 12,
+      "community": 15,
       "norm_label": "constituencydetailresponse"
     },
     {
@@ -5643,7 +5652,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L307",
       "id": "lib_types_legislativeassemblydetailresponse",
-      "community": 12,
+      "community": 10,
       "norm_label": "legislativeassemblydetailresponse"
     },
     {
@@ -5652,7 +5661,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L336",
       "id": "lib_types_personelectionresult",
-      "community": 1,
+      "community": 12,
       "norm_label": "personelectionresult"
     },
     {
@@ -5661,7 +5670,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L343",
       "id": "lib_types_personelectionhistory",
-      "community": 1,
+      "community": 12,
       "norm_label": "personelectionhistory"
     },
     {
@@ -5688,7 +5697,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L362",
       "id": "lib_types_mpbioprofile",
-      "community": 1,
+      "community": 9,
       "norm_label": "mpbioprofile"
     },
     {
@@ -5697,7 +5706,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L372",
       "id": "lib_types_house",
-      "community": 12,
+      "community": 1,
       "norm_label": "house"
     },
     {
@@ -5751,7 +5760,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L471",
       "id": "lib_types_constituencyscope",
-      "community": 12,
+      "community": 13,
       "norm_label": "constituencyscope"
     },
     {
@@ -5760,7 +5769,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L474",
       "id": "lib_types_globalfilters",
-      "community": 12,
+      "community": 13,
       "norm_label": "globalfilters"
     },
     {
@@ -5769,7 +5778,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L494",
       "id": "lib_types_media_types",
-      "community": 19,
+      "community": 12,
       "norm_label": "media_types"
     },
     {
@@ -5778,7 +5787,7 @@
       "source_file": "src/lib/types.ts",
       "source_location": "L495",
       "id": "lib_types_sentiments",
-      "community": 19,
+      "community": 12,
       "norm_label": "sentiments"
     },
     {
@@ -5796,7 +5805,7 @@
       "source_file": "src/lib/use-api-filter-state.ts",
       "source_location": "L8",
       "id": "lib_use_api_filter_state_apifiltervalues",
-      "community": 17,
+      "community": 12,
       "norm_label": "apifiltervalues"
     },
     {
@@ -5805,7 +5814,7 @@
       "source_file": "src/lib/use-api-filter-state.ts",
       "source_location": "L20",
       "id": "lib_use_api_filter_state_useapifilterstate",
-      "community": 4,
+      "community": 17,
       "norm_label": "useapifilterstate()"
     },
     {
@@ -5841,7 +5850,7 @@
       "source_file": "src/lib/use-debounced-value.ts",
       "source_location": "L29",
       "id": "lib_use_debounced_value_usedebouncedcallback",
-      "community": 7,
+      "community": 17,
       "norm_label": "usedebouncedcallback()"
     },
     {
@@ -5850,7 +5859,7 @@
       "source_file": "src/lib/use-debounced-value.ts",
       "source_location": "L60",
       "id": "lib_use_debounced_value_useisdebouncing",
-      "community": 3,
+      "community": 17,
       "norm_label": "useisdebouncing()"
     },
     {
@@ -5922,7 +5931,7 @@
       "source_file": "src/lib/use-media-table-query-state.ts",
       "source_location": "L1",
       "id": "lib_use_media_table_query_state",
-      "community": 3,
+      "community": 17,
       "norm_label": "use-media-table-query-state.ts"
     },
     {
@@ -5931,7 +5940,7 @@
       "source_file": "src/lib/use-media-table-query-state.ts",
       "source_location": "L12",
       "id": "lib_use_media_table_query_state_sortstate",
-      "community": 3,
+      "community": 17,
       "norm_label": "sortstate"
     },
     {
@@ -5994,7 +6003,7 @@
       "source_file": "src/lib/utils.ts",
       "source_location": "L1",
       "id": "lib_utils",
-      "community": 22,
+      "community": 5,
       "norm_label": "utils.ts"
     },
     {
@@ -6012,7 +6021,7 @@
       "source_file": "src/lib/utils.ts",
       "source_location": "L8",
       "id": "lib_utils_formatnumber",
-      "community": 22,
+      "community": 0,
       "norm_label": "formatnumber()"
     },
     {
@@ -6021,7 +6030,7 @@
       "source_file": "src/lib/utils.ts",
       "source_location": "L13",
       "id": "lib_utils_formatcompact",
-      "community": 22,
+      "community": 20,
       "norm_label": "formatcompact()"
     },
     {
@@ -6030,7 +6039,7 @@
       "source_file": "src/lib/utils.ts",
       "source_location": "L21",
       "id": "lib_utils_percent",
-      "community": 22,
+      "community": 20,
       "norm_label": "percent()"
     },
     {
@@ -6066,7 +6075,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L1",
       "id": "services_analytics",
-      "community": 6,
+      "community": 13,
       "norm_label": "analytics.ts"
     },
     {
@@ -6075,7 +6084,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L23",
       "id": "services_analytics_emptysentiment",
-      "community": 6,
+      "community": 13,
       "norm_label": "emptysentiment()"
     },
     {
@@ -6084,7 +6093,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L27",
       "id": "services_analytics_mergesentiment",
-      "community": 6,
+      "community": 13,
       "norm_label": "mergesentiment()"
     },
     {
@@ -6111,7 +6120,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L86",
       "id": "services_analytics_dashboardcache",
-      "community": 6,
+      "community": 13,
       "norm_label": "dashboardcache"
     },
     {
@@ -6147,7 +6156,7 @@
       "source_file": "src/services/analytics.ts",
       "source_location": "L186",
       "id": "services_analytics_getdistrictanalytics",
-      "community": 6,
+      "community": 13,
       "norm_label": "getdistrictanalytics()"
     },
     {
@@ -6165,7 +6174,7 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L1",
       "id": "services_constituency",
-      "community": 12,
+      "community": 13,
       "norm_label": "constituency.ts"
     },
     {
@@ -6174,7 +6183,7 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L27",
       "id": "services_constituency_mergesentiment",
-      "community": 12,
+      "community": 13,
       "norm_label": "mergesentiment()"
     },
     {
@@ -6183,7 +6192,7 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L36",
       "id": "services_constituency_emptysentiment",
-      "community": 12,
+      "community": 13,
       "norm_label": "emptysentiment()"
     },
     {
@@ -6192,7 +6201,7 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L40",
       "id": "services_constituency_resolvescopedconstituencyfilter",
-      "community": 12,
+      "community": 13,
       "norm_label": "resolvescopedconstituencyfilter()"
     },
     {
@@ -6201,7 +6210,7 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L50",
       "id": "services_constituency_resolveconstituencyfilterforanalytics",
-      "community": 12,
+      "community": 13,
       "norm_label": "resolveconstituencyfilterforanalytics()"
     },
     {
@@ -6228,7 +6237,7 @@
       "source_file": "src/services/constituency.ts",
       "source_location": "L91",
       "id": "services_constituency_getconstituencyanalytics",
-      "community": 6,
+      "community": 13,
       "norm_label": "getconstituencyanalytics()"
     },
     {
@@ -6246,7 +6255,7 @@
       "source_file": "src/services/media.ts",
       "source_location": "L1",
       "id": "services_media",
-      "community": 12,
+      "community": 13,
       "norm_label": "media.ts"
     },
     {
@@ -6345,7 +6354,7 @@
       "source_file": "src/services/representatives.ts",
       "source_location": "L114",
       "id": "services_representatives_getmlabyid",
-      "community": 1,
+      "community": 13,
       "norm_label": "getmlabyid()"
     },
     {
@@ -6363,7 +6372,7 @@
       "source_file": "src/services/representatives.ts",
       "source_location": "L134",
       "id": "services_representatives_getmpbyid",
-      "community": 1,
+      "community": 13,
       "norm_label": "getmpbyid()"
     },
     {
@@ -6399,7 +6408,7 @@
       "source_file": "src/store/filters.ts",
       "source_location": "L40",
       "id": "store_filters_usefilterstore",
-      "community": 4,
+      "community": 17,
       "norm_label": "usefilterstore"
     },
     {
@@ -6408,215 +6417,8 @@
       "source_file": "src/store/filters.ts",
       "source_location": "L54",
       "id": "store_filters_buildfilterquery",
-      "community": 4,
+      "community": 12,
       "norm_label": "buildfilterquery()"
-    },
-    {
-      "label": "GlobalFilterLoadingBar()",
-      "file_type": "code",
-      "source_file": "src/components/filters/global-filter-loading.tsx",
-      "source_location": "L10",
-      "community": 17,
-      "norm_label": "globalfilterloadingbar()",
-      "id": "filters_global_filter_loading_globalfilterloadingbar"
-    },
-    {
-      "label": "GlobalFilterUpdatingMain()",
-      "file_type": "code",
-      "source_file": "src/components/filters/global-filter-loading.tsx",
-      "source_location": "L83",
-      "community": 0,
-      "norm_label": "globalfilterupdatingmain()",
-      "id": "filters_global_filter_loading_globalfilterupdatingmain"
-    },
-    {
-      "label": "useGlobalFiltersPending()",
-      "file_type": "code",
-      "source_file": "src/lib/use-api-filter-state.ts",
-      "source_location": "L55",
-      "community": 4,
-      "norm_label": "useglobalfilterspending()",
-      "id": "lib_use_api_filter_state_useglobalfilterspending"
-    },
-    {
-      "label": "FILTERED_QUERY_ROOTS",
-      "file_type": "code",
-      "source_file": "src/lib/use-global-search-status.ts",
-      "source_location": "L9",
-      "community": 17,
-      "norm_label": "filtered_query_roots",
-      "id": "lib_use_global_search_status_filtered_query_roots"
-    },
-    {
-      "label": "NewsHandler",
-      "file_type": "code",
-      "source_file": "src/lib/news-route-handler.ts",
-      "source_location": "L5",
-      "community": 13,
-      "norm_label": "newshandler",
-      "id": "lib_news_route_handler_newshandler"
-    },
-    {
-      "label": "aliasKeys()",
-      "file_type": "code",
-      "source_file": "src/lib/person-election-data.ts",
-      "source_location": "L52",
-      "community": 1,
-      "norm_label": "aliaskeys()",
-      "id": "lib_person_election_data_aliaskeys"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "src/app/api/constituency/detail/route.ts",
-      "source_location": "L1",
-      "community": 13,
-      "norm_label": "route.ts",
-      "id": "detail_route"
-    },
-    {
-      "label": "GET()",
-      "file_type": "code",
-      "source_file": "src/app/api/constituency/detail/route.ts",
-      "source_location": "L7",
-      "community": 13,
-      "norm_label": "get()",
-      "id": "detail_route_get"
-    },
-    {
-      "label": "RawElection",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L12",
-      "community": 11,
-      "norm_label": "rawelection",
-      "id": "lib_constituency_detail_rawelection"
-    },
-    {
-      "label": "RawCaste",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L26",
-      "community": 11,
-      "norm_label": "rawcaste",
-      "id": "lib_constituency_detail_rawcaste"
-    },
-    {
-      "label": "RawPartyOrg",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L32",
-      "community": 11,
-      "norm_label": "rawpartyorg",
-      "id": "lib_constituency_detail_rawpartyorg"
-    },
-    {
-      "label": "parseJson()",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L89",
-      "community": 11,
-      "norm_label": "parsejson()",
-      "id": "lib_constituency_detail_parsejson"
-    },
-    {
-      "label": "toNumber()",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L98",
-      "community": 11,
-      "norm_label": "tonumber()",
-      "id": "lib_constituency_detail_tonumber"
-    },
-    {
-      "label": "cleanText()",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L107",
-      "community": 11,
-      "norm_label": "cleantext()",
-      "id": "lib_constituency_detail_cleantext"
-    },
-    {
-      "label": "parsePercentageValue()",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L114",
-      "community": 11,
-      "norm_label": "parsepercentagevalue()",
-      "id": "lib_constituency_detail_parsepercentagevalue"
-    },
-    {
-      "label": "parseCasteSegment()",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L131",
-      "community": 11,
-      "norm_label": "parsecastesegment()",
-      "id": "lib_constituency_detail_parsecastesegment"
-    },
-    {
-      "label": "parseRestCommunities()",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L168",
-      "community": 11,
-      "norm_label": "parserestcommunities()",
-      "id": "lib_constituency_detail_parserestcommunities"
-    },
-    {
-      "label": "parsePartyOrg()",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L193",
-      "community": 11,
-      "norm_label": "parsepartyorg()",
-      "id": "lib_constituency_detail_parsepartyorg"
-    },
-    {
-      "label": "parseElection()",
-      "file_type": "code",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L203",
-      "community": 11,
-      "norm_label": "parseelection()",
-      "id": "lib_constituency_detail_parseelection"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L1",
-      "community": 13,
-      "norm_label": "route.ts",
-      "id": "filters_route"
-    },
-    {
-      "label": "GET()",
-      "file_type": "code",
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L7",
-      "community": 13,
-      "norm_label": "get()",
-      "id": "filters_route_get"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L1",
-      "community": 13,
-      "norm_label": "route.ts",
-      "id": "print_route"
-    },
-    {
-      "label": "GET()",
-      "file_type": "code",
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L8",
-      "community": 13,
-      "norm_label": "get()",
-      "id": "print_route_get"
     }
   ],
   "links": [
@@ -8793,17 +8595,6 @@
       "target": "filters_global_filter_loading"
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/constituency/page.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "constituency_page",
-      "target": "filters_global_filter_loading_globalfilterupdatingmain"
-    },
-    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -9219,17 +9010,6 @@
       "confidence_score": 1.0,
       "source": "district_page",
       "target": "filters_global_filter_loading"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/district/page.tsx",
-      "source_location": "L30",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "district_page",
-      "target": "filters_global_filter_loading_globalfilterupdatingmain"
     },
     {
       "relation": "imports_from",
@@ -9656,17 +9436,6 @@
       "confidence_score": 1.0,
       "source": "mla_page",
       "target": "filters_global_filter_loading"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/mla/page.tsx",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "mla_page",
-      "target": "filters_global_filter_loading_globalfilterupdatingmain"
     },
     {
       "relation": "imports_from",
@@ -10297,17 +10066,6 @@
       "confidence_score": 1.0,
       "source": "mp_page",
       "target": "filters_global_filter_loading"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/mp/page.tsx",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "mp_page",
-      "target": "filters_global_filter_loading_globalfilterupdatingmain"
     },
     {
       "relation": "imports_from",
@@ -11076,17 +10834,6 @@
       "confidence_score": 1.0,
       "source": "app_page",
       "target": "filters_global_filter_loading"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/page.tsx",
-      "source_location": "L35",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_page",
-      "target": "filters_global_filter_loading_globalfilterupdatingmain"
     },
     {
       "relation": "imports_from",
@@ -15404,31 +15151,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/filters/global-filter-loading.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "filters_global_filter_loading",
-      "target": "filters_global_filter_loading_globalfilterloadingbar"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/filters/global-filter-loading.tsx",
       "source_location": "L27",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "filters_global_filter_loading",
       "target": "filters_global_filter_loading_globalfilterstatusbar"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/filters/global-filter-loading.tsx",
-      "source_location": "L83",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "filters_global_filter_loading",
-      "target": "filters_global_filter_loading_globalfilterupdatingmain"
     },
     {
       "relation": "imports_from",
@@ -16693,17 +16420,6 @@
       "confidence_score": 1.0,
       "source": "layout_header",
       "target": "layout_global_search_field_globalsearchstatusbar"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/layout/header.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "layout_header",
-      "target": "filters_global_filter_loading_globalfilterloadingbar"
     },
     {
       "relation": "contains",
@@ -20363,28 +20079,6 @@
       "target": "store_filters_usefilterstore"
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/detail/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_route",
-      "target": "lib_api_helpers"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "filters_route",
-      "target": "lib_api_helpers"
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/api-helpers.ts",
@@ -20580,17 +20274,6 @@
       "target": "lib_api_helpers_parsefilters"
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "print_route",
-      "target": "lib_api_helpers_parsefilters"
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -20627,61 +20310,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "print_route",
-      "target": "lib_api_helpers_parsepagination"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/detail/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_route",
-      "target": "lib_api_helpers_jsonerror"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/api/constituency/detail/route.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "source": "detail_route_get",
-      "target": "lib_api_helpers_jsonerror"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "filters_route",
-      "target": "lib_api_helpers_jsonerror"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L15",
-      "weight": 1.0,
-      "source": "filters_route_get",
-      "target": "lib_api_helpers_jsonerror"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/lib/news-route-handler.ts",
       "source_location": "L2",
       "weight": 1.0,
@@ -20701,17 +20329,6 @@
       "target": "lib_api_helpers_jsonerror"
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "print_route",
-      "target": "lib_api_helpers_jsonerror"
-    },
-    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -20720,17 +20337,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "db_worker_handlers",
-      "target": "lib_constituency_detail"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/detail/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_route",
       "target": "lib_constituency_detail"
     },
     {
@@ -20752,16 +20358,6 @@
       "confidence_score": 1.0,
       "source": "lib_constituency_detail",
       "target": "lib_constituency_detail_buildnameindex"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L78",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_cleantext"
     },
     {
       "relation": "contains",
@@ -20837,96 +20433,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L85",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_parsecastesegment"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L131",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_parseelection"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L60",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_parsejson"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L121",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_parsepartyorg"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L108",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_parsepercentagevalue"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L112",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_parserestcommunities"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_rawcaste"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_rawelection"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L26",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_rawpartyorg"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
       "source_location": "L285",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -20952,16 +20458,6 @@
       "confidence_score": 1.0,
       "source": "lib_constituency_detail",
       "target": "lib_constituency_detail_stripreservationsuffix"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L69",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail",
-      "target": "lib_constituency_detail_tonumber"
     },
     {
       "relation": "imports_from",
@@ -21463,17 +20959,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L176",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_buildinsights",
-      "target": "lib_constituency_detail_tonumber"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
       "source_location": "L103",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -21501,72 +20986,6 @@
       "confidence_score": 1.0,
       "source": "lib_constituency_detail_getconstituencydetail",
       "target": "lib_constituency_detail_rowtodetail"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L235",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_rowtodetail",
-      "target": "lib_constituency_detail_cleantext"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L208",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_rowtodetail",
-      "target": "lib_constituency_detail_parsecastesegment"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L206",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_rowtodetail",
-      "target": "lib_constituency_detail_parsejson"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L243",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_rowtodetail",
-      "target": "lib_constituency_detail_parsepartyorg"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L210",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_rowtodetail",
-      "target": "lib_constituency_detail_parserestcommunities"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L233",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_rowtodetail",
-      "target": "lib_constituency_detail_tonumber"
     },
     {
       "relation": "calls",
@@ -21753,28 +21172,6 @@
       "source_location": "L47",
       "weight": 1.0,
       "source": "db_worker_handlers_dispatchdbop",
-      "target": "lib_constituency_detail_getconstituencydetail"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/detail/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_route",
-      "target": "lib_constituency_detail_getconstituencydetail"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/api/constituency/detail/route.ts",
-      "source_location": "L13",
-      "weight": 1.0,
-      "source": "detail_route_get",
       "target": "lib_constituency_detail_getconstituencydetail"
     },
     {
@@ -23456,9 +22853,9 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_sql_scope_filters",
-      "target": "lib_db",
-      "confidence_score": 1.0
+      "target": "lib_db"
     },
     {
       "relation": "imports",
@@ -23852,9 +23249,9 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_sql_scope_filters",
-      "target": "lib_db_getdb",
-      "confidence_score": 1.0
+      "target": "lib_db_getdb"
     },
     {
       "relation": "calls",
@@ -26468,11 +25865,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/name-search.ts",
+      "source_location": "L141",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_name_search",
+      "target": "lib_name_search_entitysearchtokengroups"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/name-search.ts",
       "source_location": "L131",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_name_search",
-      "target": "lib_name_search_entitysearchtokens",
-      "confidence_score": 1.0
+      "target": "lib_name_search_entitysearchtokens"
     },
     {
       "relation": "contains",
@@ -26656,17 +26063,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/person-election-data.ts",
-      "source_location": "L57",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_person_election_data_aliaskeys",
-      "target": "lib_name_search_normalizepersonname"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/person-election-data.ts",
       "source_location": "L67",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -26700,17 +26096,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/person-election-data.ts",
-      "source_location": "L54",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_person_election_data_aliaskeys",
-      "target": "lib_name_search_compactpersonkey"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/person-election-data.ts",
       "source_location": "L61",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -26735,9 +26120,9 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L140",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_name_search_entitysearchtokens",
-      "target": "lib_name_search_expandspellingvariants",
-      "confidence_score": 1.0
+      "target": "lib_name_search_expandspellingvariants"
     },
     {
       "relation": "calls",
@@ -26832,11 +26217,22 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/name-search.ts",
+      "source_location": "L142",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_name_search_entitysearchtokengroups",
+      "target": "lib_name_search_tokenizesearch"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/name-search.ts",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_name_search_entitysearchtokens",
-      "target": "lib_name_search_tokenizesearch",
-      "confidence_score": 1.0
+      "target": "lib_name_search_tokenizesearch"
     },
     {
       "relation": "calls",
@@ -26933,9 +26329,20 @@
       "source_file": "src/lib/name-search.ts",
       "source_location": "L117",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_name_search_entitysearchlikepatterns",
-      "target": "lib_name_search_entitysearchtokens",
-      "confidence_score": 1.0
+      "target": "lib_name_search_entitysearchtokengroups"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/name-search.ts",
+      "source_location": "L117",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_name_search_entitysearchlikepatterns",
+      "target": "lib_name_search_entitysearchtokens"
     },
     {
       "relation": "imports",
@@ -26971,15 +26378,26 @@
       "target": "lib_name_search_entitysearchlikepatterns"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/name-search.ts",
+      "source_location": "L134",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_name_search_entitysearchtokens",
+      "target": "lib_name_search_entitysearchtokengroups"
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_sql_scope_filters",
-      "target": "lib_name_search_entitysearchtokens",
-      "confidence_score": 1.0
+      "target": "lib_name_search_entitysearchtokens"
     },
     {
       "relation": "calls",
@@ -26991,6 +26409,28 @@
       "weight": 1.0,
       "source": "lib_sql_scope_filters_buildentitysqlprefilter",
       "target": "lib_name_search_entitysearchtokens"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/sql-scope-filters.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_sql_scope_filters",
+      "target": "lib_name_search_entitysearchtokengroups"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/sql-scope-filters.ts",
+      "source_location": "L55",
+      "weight": 1.0,
+      "source": "lib_sql_scope_filters_buildentitysqlprefilter",
+      "target": "lib_name_search_entitysearchtokengroups"
     },
     {
       "relation": "calls",
@@ -27322,9 +26762,9 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_sql_scope_filters",
-      "target": "lib_news_mapper",
-      "confidence_score": 1.0
+      "target": "lib_news_mapper"
     },
     {
       "relation": "imports",
@@ -27751,9 +27191,9 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_sql_scope_filters",
-      "target": "lib_news_mapper_tablekind",
-      "confidence_score": 1.0
+      "target": "lib_news_mapper_tablekind"
     },
     {
       "relation": "imports",
@@ -28638,17 +28078,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "print_route",
-      "target": "lib_news_repository"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/services/analytics.ts",
       "source_location": "L4",
       "weight": 1.0,
@@ -29369,28 +28798,6 @@
       "source_location": "L13",
       "weight": 1.0,
       "source": "lib_news_route_handler_createnewsroute",
-      "target": "lib_news_repository_applyconstituencyscope"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "print_route",
-      "target": "lib_news_repository_applyconstituencyscope"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "source": "print_route_get",
       "target": "lib_news_repository_applyconstituencyscope"
     },
     {
@@ -30507,31 +29914,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/news-route-handler.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_news_route_handler",
-      "target": "lib_news_route_handler_newshandler"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/news-route-handler.ts",
       "source_location": "L7",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "lib_news_route_handler",
       "target": "lib_news_route_handler_newsopbuilder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/person-election-data.ts",
-      "source_location": "L52",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_person_election_data",
-      "target": "lib_person_election_data_aliaskeys"
     },
     {
       "relation": "contains",
@@ -30858,17 +30245,6 @@
       "confidence_score": 1.0,
       "source": "lib_person_election_data_findbestname",
       "target": "lib_person_election_data_scorenamematch"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/person-election-data.ts",
-      "source_location": "L67",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_person_election_data_scorenamematch",
-      "target": "lib_person_election_data_aliaskeys"
     },
     {
       "relation": "calls",
@@ -32083,9 +31459,9 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_sql_scope_filters",
-      "target": "lib_sql_scope_filters_hasentitytokenindex",
-      "confidence_score": 1.0
+      "target": "lib_sql_scope_filters_hasentitytokenindex"
     },
     {
       "relation": "contains",
@@ -32147,9 +31523,9 @@
       "source_file": "src/lib/sql-scope-filters.ts",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_sql_scope_filters_buildentitysqlprefilter",
-      "target": "lib_sql_scope_filters_hasentitytokenindex",
-      "confidence_score": 1.0
+      "target": "lib_sql_scope_filters_hasentitytokenindex"
     },
     {
       "relation": "calls",
@@ -32172,17 +31548,6 @@
       "confidence_score": 1.0,
       "source": "lib_sql_scope_filters_buildprintsourcesqlfilter",
       "target": "lib_sql_scope_filters_builddistrictsqlfilter"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "filters_route",
-      "target": "lib_types"
     },
     {
       "relation": "contains",
@@ -33292,17 +32657,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "filters_route",
-      "target": "lib_types_constituencyscope"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/services/constituency.ts",
       "source_location": "L16",
       "weight": 1.0,
@@ -33373,16 +32727,6 @@
       "confidence_score": 1.0,
       "source": "lib_use_api_filter_state",
       "target": "lib_use_api_filter_state_useapifilterstate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-api-filter-state.ts",
-      "source_location": "L56",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_api_filter_state",
-      "target": "lib_use_api_filter_state_useglobalfilterspending"
     },
     {
       "relation": "imports_from",
@@ -33566,17 +32910,6 @@
       "confidence_score": 1.0,
       "source": "lib_use_media_table_query_state",
       "target": "lib_use_debounced_value"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/use-api-filter-state.ts",
-      "source_location": "L60",
-      "weight": 1.0,
-      "source": "lib_use_api_filter_state_useglobalfilterspending",
-      "target": "lib_use_debounced_value_usedebouncedvalue"
     },
     {
       "relation": "calls",
@@ -33832,28 +33165,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "src/components/filters/global-filter-loading.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "source": "filters_global_filter_loading_globalfilterloadingbar",
-      "target": "lib_use_global_filters_loading_useglobalfiltersloading"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/filters/global-filter-loading.tsx",
-      "source_location": "L90",
-      "weight": 1.0,
-      "source": "filters_global_filter_loading_globalfilterupdatingmain",
-      "target": "lib_use_global_filters_loading_useglobalfiltersloading"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
       "source_file": "src/lib/use-global-filters-loading.ts",
       "source_location": "L49",
       "weight": 1.0,
@@ -33870,16 +33181,6 @@
       "confidence_score": 1.0,
       "source": "lib_use_global_search_status",
       "target": "lib_use_global_filters_loading_useglobalfiltersloading"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/use-global-search-status.ts",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_use_global_search_status",
-      "target": "lib_use_global_search_status_filtered_query_roots"
     },
     {
       "relation": "contains",
@@ -34023,17 +33324,6 @@
       "confidence_score": 1.0,
       "source": "lib_utils",
       "target": "lib_utils_percent"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/filters/global-filter-loading.tsx",
-      "source_location": "L93",
-      "weight": 1.0,
-      "source": "filters_global_filter_loading_globalfilterupdatingmain",
-      "target": "lib_utils_cn"
     },
     {
       "relation": "contains",
@@ -34299,28 +33589,6 @@
       "target": "services_analytics_getdashboarduncached"
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "filters_route",
-      "target": "services_constituency"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "print_route",
-      "target": "services_constituency"
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/services/constituency.ts",
@@ -34520,50 +33788,6 @@
       "confidence_score": 1.0,
       "source": "services_constituency_getconstituencyanalytics",
       "target": "services_constituency_resolveconstituencyfilterforanalytics"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "filters_route",
-      "target": "services_constituency_getconstituencyoptions"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L13",
-      "weight": 1.0,
-      "source": "filters_route_get",
-      "target": "services_constituency_getconstituencyoptions"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "print_route",
-      "target": "services_constituency_getconstituencyprint"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L13",
-      "weight": 1.0,
-      "source": "print_route_get",
-      "target": "services_constituency_getconstituencyprint"
     },
     {
       "relation": "calls",
@@ -34845,104 +34069,8 @@
       "confidence_score": 1.0,
       "source": "store_filters",
       "target": "store_filters_usefilterstore"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/use-api-filter-state.ts",
-      "source_location": "L57",
-      "weight": 1.0,
-      "source": "lib_use_api_filter_state_useglobalfilterspending",
-      "target": "store_filters_usefilterstore"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/detail/route.ts",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_route",
-      "target": "detail_route_get"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L136",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_parseelection",
-      "target": "lib_constituency_detail_tonumber"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L134",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_parseelection",
-      "target": "lib_constituency_detail_cleantext"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L123",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_parsepartyorg",
-      "target": "lib_constituency_detail_cleantext"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L131",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_parsecastesegment",
-      "target": "lib_constituency_detail_parsepercentagevalue"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/constituency-detail.ts",
-      "source_location": "L166",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_constituency_detail_parserestcommunities",
-      "target": "lib_constituency_detail_parsecastesegment"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/filters/route.ts",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "filters_route",
-      "target": "filters_route_get"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/constituency/print/route.ts",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "print_route",
-      "target": "print_route_get"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "55d56861ebe81c624c9bb92d77c1ba100979710b"
+  "built_at_commit": "3ad73c8961fc7bbfadb7e27aa40f5049d478803e"
 }

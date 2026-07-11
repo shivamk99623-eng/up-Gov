@@ -135,8 +135,8 @@
     "semantic_hash": ""
   },
   "src/components/district/district-media-tabs.tsx": {
-    "mtime": 1783437463.535683,
-    "ast_hash": "2d41a450371bce90987290a070088d11",
+    "mtime": 1783775664.6658,
+    "ast_hash": "35d33f4e486fb9c9508e3c2b5f0de977",
     "semantic_hash": ""
   },
   "src/components/filters/date-range-picker.tsx": {
@@ -295,8 +295,8 @@
     "semantic_hash": ""
   },
   "src/lib/api-client.ts": {
-    "mtime": 1783773762.3902872,
-    "ast_hash": "7ce0b80d522877d593cafee2c6ed46a3",
+    "mtime": 1783775663.2634916,
+    "ast_hash": "08204cd9f558005d90ebb7552d02cb6e",
     "semantic_hash": ""
   },
   "src/lib/api-helpers.ts": {
@@ -460,8 +460,8 @@
     "semantic_hash": ""
   },
   "src/lib/name-search.ts": {
-    "mtime": 1783775347.1934896,
-    "ast_hash": "f6e0fbe42f856c77b3d0688c3b65cd15",
+    "mtime": 1783775698.7157323,
+    "ast_hash": "2f10f8a4b8e4e19a2c64b1ed93d7ab31",
     "semantic_hash": ""
   },
   "src/lib/legislative-lookup.ts": {
@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "src/lib/sql-scope-filters.ts": {
-    "mtime": 1783775347.6708362,
-    "ast_hash": "38a06584fa2737e715f62821da03a2b3",
+    "mtime": 1783775700.474498,
+    "ast_hash": "3cbcc0140c3712cb609da4ed54ce14d2",
     "semantic_hash": ""
   },
   "src/lib/engagement.ts": {
@@ -545,8 +545,8 @@
     "semantic_hash": ""
   },
   "src/lib/db-worker/pool.ts": {
-    "mtime": 1783774670.458518,
-    "ast_hash": "4995708eaffe2604723b613d8639cf4c",
+    "mtime": 1783776989.9414184,
+    "ast_hash": "fbf3c3196a52f70e81ed45cfdc3a25a3",
     "semantic_hash": ""
   },
   "src/lib/db-worker/types.ts": {

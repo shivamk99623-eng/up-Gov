@@ -24,10 +24,9 @@ export interface FilterState {
   reset: () => void;
 }
 
-// from here to defeula one week
-
+// Default to the latest week present in database/data.db (news ends ~2026-06-22).
 const initial = {
-  dateFrom: new Date("2026-07-03").toISOString(),
+  dateFrom: new Date("2026-06-29").toISOString(),
   dateTo: new Date("2026-07-10").toISOString(),
   district: null,
   mediaType: "All" as const,

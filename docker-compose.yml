@@ -10,6 +10,7 @@ services:
       NODE_ENV: production
       PORT: 3000
       HOSTNAME: 0.0.0.0
+      UP_PROJECT_ROOT: /app
     restart: unless-stopped
     # Optional: persist or override the SQLite DB from the host
     # volumes:

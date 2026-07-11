@@ -13,6 +13,7 @@ const Database = require("better-sqlite3");
 
 const DEFAULT_DB = path.join(__dirname, "database", "data.db");
 
+
 const NEWS_KIND_TABLES = [
   { kind: "Print", table: "news_print" },
   { kind: "YouTube", table: "news_youtube" },
@@ -117,17 +118,18 @@ function createEntityTokenIndex(db, options = {}) {
 
   let inserted = 0;
 
-  const build = db.transaction(() => {
-    for (const { kind, table } of NEWS_KIND_TABLES) {
-      if (!tableExists(db, table)) continue;
-      const cols = tableColumns(db, table);
-      const roles = ENTITY_ROLES.filter((r) => cols.has(r));
-      if (!roles.length || !cols.has("id")) continue;
+  // One transaction per media table — shorter exclusive locks than one giant txn.
+  for (const { kind, table } of NEWS_KIND_TABLES) {
+    if (!tableExists(db, table)) continue;
+    const cols = tableColumns(db, table);
+    const roles = ENTITY_ROLES.filter((r) => cols.has(r));
+    if (!roles.length || !cols.has("id")) continue;
 
-      const selectCols = ["id", ...roles.map((r) => `"${r}"`)].join(", ");
-      const rows = db.prepare(`SELECT ${selectCols} FROM "${table}"`).all();
-      console.log(`  ${kind}: scanning ${rows.length.toLocaleString()} rows…`);
+    const selectCols = ["id", ...roles.map((r) => `"${r}"`)].join(", ");
+    const rows = db.prepare(`SELECT ${selectCols} FROM "${table}"`).all();
+    console.log(`  ${kind}: scanning ${rows.length.toLocaleString()} rows…`);
 
+    const buildKind = db.transaction(() => {
       for (const row of rows) {
         for (const role of roles) {
           const names = parsePersonNames(row[role]);
@@ -142,11 +144,10 @@ function createEntityTokenIndex(db, options = {}) {
           }
         }
       }
-    }
-  });
+    });
 
-  build();
-
+    buildKind();
+  }
   db.exec(`
     CREATE INDEX IF NOT EXISTS idx_news_entity_token_lookup
       ON news_entity_token (token, kind, role, row_id);
@@ -177,7 +178,16 @@ function main() {
     db.pragma("journal_mode = WAL");
     db.pragma("synchronous = NORMAL");
     db.pragma("temp_store = MEMORY");
+    // Long rebuilds need time if another reader (DBeaver / next) briefly holds a lock.
+    db.pragma("busy_timeout = 60000");
     createEntityTokenIndex(db, { force });
+  } catch (err) {
+    if (err && err.code === "SQLITE_BUSY") {
+      console.error(
+        "Database is locked. Close DBeaver and stop other writers (scrapers / next) using database/data.db, then retry.",
+      );
+    }
+    throw err;
   } finally {
     db.close();
   }

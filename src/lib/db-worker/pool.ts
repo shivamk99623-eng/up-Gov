@@ -93,6 +93,12 @@ function createWorker(): PooledWorker {
   const slot: PooledWorker = { worker, busy: false };
 
   worker.on("message", (msg: DbWorkerResponse) => {
+    // Bootstrap / crash diagnostics from worker (id: -1)
+    if (msg.id < 0 && !msg.ok) {
+      console.error("[db-worker]", msg.error);
+      failAllForWorker(new Error(msg.error));
+      return;
+    }
     slot.busy = false;
     pumpQueue();
     const p = pending.get(msg.id);
@@ -103,6 +109,7 @@ function createWorker(): PooledWorker {
   });
 
   worker.on("error", (err) => {
+    console.error("[db-worker] worker error:", err);
     failAllForWorker(err);
   });
 
@@ -112,7 +119,12 @@ function createWorker(): PooledWorker {
     if (code !== 0) {
       failAllForWorker(new Error(`SQLite worker exited with code ${code}`));
     }
-    if (started) pool.push(createWorker());
+    // Avoid tight crash loops — delay respawn slightly
+    if (started) {
+      setTimeout(() => {
+        if (pool.length < POOL_SIZE) pool.push(createWorker());
+      }, 500);
+    }
   });
 
   return slot;

@@ -27,6 +27,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
+ENV UP_PROJECT_ROOT=/app
 
 RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
 
@@ -36,11 +37,13 @@ COPY --from=prod-deps --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts ./next.config.ts
 
-# App scripts and SQLite database (node_modules are NOT copied from host)
-# COPY --from=builder --chown=nextjs:nodejs /app/create_db.js ./create_db.js
+# SQLite worker loads TypeScript handlers via jiti — needs workers/ + src/ at runtime
+COPY --from=builder --chown=nextjs:nodejs /app/workers ./workers
+COPY --from=builder --chown=nextjs:nodejs /app/src ./src
+COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
 COPY --from=builder --chown=nextjs:nodejs /app/create_indexes.js ./create_indexes.js
+COPY --from=builder --chown=nextjs:nodejs /app/create_entity_index.js ./create_entity_index.js
 COPY --from=builder --chown=nextjs:nodejs /app/database ./database
-# COPY --from=builder --chown=nextjs:nodejs /app/data ./data
 
 USER nextjs
 EXPOSE 3000
